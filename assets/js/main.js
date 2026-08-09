@@ -15,6 +15,21 @@
     docEl.classList.add("reveal-fallback");
   });
 
+  /* ============ Media protection ============
+     Blocks right-click, drag and long-press save on all media.
+     A deterrent for casual copying, not real DRM: anyone can still
+     reach the files through browser devtools or the network tab. */
+  var MEDIA = "img, svg, picture, video, canvas";
+  function isMedia(el) {
+    return el && el.closest && el.closest(MEDIA);
+  }
+  document.addEventListener("contextmenu", function (e) {
+    if (isMedia(e.target)) e.preventDefault();
+  });
+  document.addEventListener("dragstart", function (e) {
+    if (isMedia(e.target)) e.preventDefault();
+  });
+
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(pointer: fine)").matches;
   var isAr = (docEl.lang || "en").indexOf("ar") === 0;
