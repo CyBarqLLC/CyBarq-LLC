@@ -16,19 +16,21 @@
   });
 
   /* ============ Media protection ============
-     Blocks right-click, drag and long-press save on all media.
-     A deterrent for casual copying, not real DRM: anyone can still
-     reach the files through browser devtools or the network tab. */
-  var MEDIA = "img, svg, picture, video, canvas";
-  function isMedia(el) {
-    return el && el.closest && el.closest(MEDIA);
+     Blocks the context menu, dragging and long-press saving across the
+     site (form fields stay usable so people can paste).
+     This deters casual copying only: it is not real protection, since
+     any browser must download media in order to display it. */
+  function allowsMenu(el) {
+    return el && el.closest && el.closest("input, textarea, select, [contenteditable='true']");
   }
   document.addEventListener("contextmenu", function (e) {
-    if (isMedia(e.target)) e.preventDefault();
-  });
+    if (!allowsMenu(e.target)) e.preventDefault();
+  }, true);
   document.addEventListener("dragstart", function (e) {
-    if (isMedia(e.target)) e.preventDefault();
-  });
+    e.preventDefault();
+  }, true);
+  /* iOS/Safari long-press callout */
+  document.addEventListener("touchstart", function () {}, { passive: true });
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var finePointer = window.matchMedia("(pointer: fine)").matches;
