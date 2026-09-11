@@ -15,6 +15,19 @@ insert into auth.users (id, email, raw_user_meta_data, raw_app_meta_data) values
   ('00000000-0000-0000-0000-0000000000f2', 'provisioned@test.local', '{"full_name":"Prov","locale":"ar"}', '{"kind":"employee"}');
 select tests.expect_rows('select 1 from public.profiles where id = ''00000000-0000-0000-0000-0000000000f2'' and kind = ''employee'' and is_active and locale = ''ar''', 1,
   'provisioning: app metadata decides the account kind');
+-- Supabase Auth writes app metadata after the insert: the placeholder profile is completed then.
+insert into auth.users (id, email, raw_user_meta_data) values
+  ('00000000-0000-0000-0000-0000000000f3', 'late-kind@test.local', '{"full_name":"Late"}');
+update auth.users set raw_app_meta_data = '{"kind":"employee","provider":"email"}' where id = '00000000-0000-0000-0000-0000000000f3';
+select tests.expect_rows('select 1 from public.profiles where id = ''00000000-0000-0000-0000-0000000000f3'' and kind = ''employee'' and is_active', 1,
+  'provisioning: a kind set after the insert completes the placeholder profile');
+select tests.expect_ok('insert into public.user_roles (user_id, role_key) values (''00000000-0000-0000-0000-0000000000f3'', ''employee'')',
+  'provisioning: the completed account can receive employee roles');
+-- A deactivated client that later gets metadata is left alone once it has a membership.
+update public.profiles set is_active = false where id = '00000000-0000-0000-0000-00000000c001';
+update auth.users set raw_app_meta_data = raw_app_meta_data || '{"kind":"employee"}' where id = '00000000-0000-0000-0000-00000000c001';
+select tests.expect_rows('select 1 from public.profiles where id = ''00000000-0000-0000-0000-00000000c001'' and kind = ''client'' and not is_active', 1,
+  'provisioning: an existing client account is never turned into an employee by metadata');
 rollback;
 
 -- =============================================================================

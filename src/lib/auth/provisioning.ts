@@ -44,7 +44,23 @@ export async function provisionAccount(input: ProvisionInput): Promise<Provision
   if (error || !data.user) {
     throw new ProvisioningError(error?.code === "email_exists" ? "exists" : "failed", error?.message);
   }
+  await ensureProfileKind(data.user.id, input.kind);
   return { status: "created", userId: data.user.id };
+}
+
+/**
+ * Supabase Auth writes app metadata in a second statement after the insert,
+ * so the profile trigger may have created the placeholder (an inactive client
+ * profile) before the kind was known. A database trigger completes the
+ * profile when the metadata lands; this is the belt to that braces, so the
+ * account is right even if that trigger is ever missing.
+ */
+async function ensureProfileKind(userId: string, kind: AccountKind): Promise<void> {
+  const admin = createAdminClient();
+  const { data: profile } = await admin.from("profiles").select("kind, is_active").eq("id", userId).maybeSingle();
+  if (!profile || (profile.kind === kind && profile.is_active)) return;
+  const { error } = await admin.from("profiles").update({ kind, is_active: true }).eq("id", userId);
+  if (error) throw new ProvisioningError("failed", error.message);
 }
 
 export class ProvisioningError extends Error {
