@@ -20,7 +20,7 @@ export function PracticeGrid({ locale, linkLabel, exclude, className }: Practice
     <ul className={cn("grid gap-px border border-fog bg-fog sm:grid-cols-2", items.length === 4 && "lg:grid-cols-4", items.length === 3 && "lg:grid-cols-3", className)}>
       {items.map((p) => (
         <li key={p.slug} className="bg-white">
-          <Link href={`/services/${p.slug}`} className="group flex h-full flex-col gap-5 p-6 transition-colors duration-(--duration-state) hover:bg-ice focus-visible:bg-ice sm:p-8">
+          <Link href={`/services/${p.slug}`} className="group flex h-full flex-col gap-5 p-6 transition-colors duration-(--duration-state) hover:bg-ice/60 focus-visible:bg-ice/60 focus-visible:-outline-offset-2 sm:p-8">
             <Pictogram name={p.pictogram} className="size-12 text-graphite" />
             <div className="flex flex-1 flex-col gap-2">
               <h3 className="text-h3">{p.title[locale]}</h3>

@@ -4,7 +4,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { Pictogram } from "@/components/brand/pictogram";
-import { Blade } from "@/components/brand/elements";
 import { Button } from "@/components/ui/button";
 import { Breadcrumbs } from "@/components/site/breadcrumbs";
 import { NarrativeSection } from "@/components/site/service-narrative";
@@ -84,9 +83,10 @@ export default async function ServicePage({ params }: Props) {
         />
         <div className="grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] lg:gap-16">
           <div>
-            <p className="mb-4 flex items-center gap-2 text-small text-slate">
-              <Blade className="size-3.5 text-blue" />
-              <Link href={`/services/${practice.slug}`} className="hover:text-azure">{practice.title[locale]}</Link>
+            <p className="mb-5 text-small text-slate">
+              <Link href={`/services/${practice.slug}`} className="transition-colors duration-(--duration-state) hover:text-azure">
+                {practice.title[locale]}
+              </Link>
             </p>
             <h1 className="text-display">{service.title[locale]}</h1>
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-graphite">{service.hero[locale]}</p>
@@ -111,7 +111,7 @@ export default async function ServicePage({ params }: Props) {
       </div>
 
       <section className="border-t border-fog" aria-labelledby="related-heading">
-        <div className="container-page py-14 sm:py-20">
+        <div className="container-page section">
           <h2 id="related-heading" className="text-h2 mb-8">{t("sections.related")}</h2>
           <ServiceGrid columns={3}>
             {related.map((r) => (

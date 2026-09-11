@@ -17,7 +17,8 @@ type VerifyFormProps = {
 
 /**
  * Plain GET form. Submits to /[locale]/verify?code=... which redirects to
- * /[locale]/verify/[code]. Works without JavaScript.
+ * /[locale]/verify/[code]. Works without JavaScript. Codes are Latin letters,
+ * digits and hyphens, so the field is always left to right.
  */
 export function VerifyForm({ action, label, hint, submit, defaultValue }: VerifyFormProps) {
   return (
@@ -33,6 +34,7 @@ export function VerifyForm({ action, label, hint, submit, defaultValue }: Verify
             autoComplete="off"
             autoCapitalize="off"
             spellCheck={false}
+            dir="ltr"
             required
             minLength={4}
             maxLength={64}

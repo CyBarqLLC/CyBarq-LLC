@@ -295,3 +295,288 @@
     column-gap: env(viewport-segment-left 1 0);
   }
 }
+
+/* ---- public site ---- */
+/*
+ * Public website only (src/components/site). Every rule below is scoped by a
+ * `site-` class so the platform and the client portal are unaffected. Nothing
+ * above this section is modified.
+ */
+
+:root {
+  /* Floating glass header */
+  --site-float-gap: clamp(0.5rem, 1vw, 0.75rem);
+  --site-glass-x: clamp(0.5rem, 1.25vw, 1rem);
+  /* The brand is square; the floating bar alone takes a modest radius. */
+  --site-radius: 0.375rem;
+  --site-duration: 320ms;
+  --site-header-offset: calc(var(--nav-height) + var(--site-float-gap) + var(--safe-top));
+  --site-glass-bg: rgb(255 255 255 / 0.76);
+  --site-glass-solid: rgb(255 255 255 / 0.97);
+  --site-glass-border: rgb(13 14 19 / 0.08);
+  --site-glass-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.6),
+    0 1px 2px rgb(13 14 19 / 0.04),
+    0 8px 24px -8px rgb(13 14 19 / 0.12),
+    0 24px 48px -24px rgb(13 14 19 / 0.14);
+}
+
+/* In-page anchors and the skip link land below the fixed header. */
+html:has(.site-header) {
+  scroll-padding-top: calc(var(--site-header-offset) + 1rem);
+}
+
+@layer components {
+  /* Header: fixed, with a spacer of constant height so the page flow never changes. */
+  .site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 40;
+    padding-top: var(--safe-top);
+    pointer-events: none;
+  }
+  .site-header-spacer {
+    position: relative;
+    flex-shrink: 0;
+    height: calc(var(--nav-height) + var(--safe-top));
+  }
+  /* 1px probe 24px down the page: once it leaves the viewport the bar floats. */
+  .site-header-sentinel {
+    position: absolute;
+    top: 24px;
+    inset-inline-start: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+  .site-header__bar {
+    position: relative;
+    height: var(--nav-height);
+    pointer-events: auto;
+    transition: transform var(--site-duration) var(--ease-brand);
+  }
+  .site-header[data-floating] .site-header__bar {
+    transform: translate3d(0, var(--site-float-gap), 0);
+  }
+  /* The glass surface extends slightly past the content so the content never moves sideways. */
+  .site-header__glass {
+    position: absolute;
+    inset-block: 0;
+    inset-inline: calc(-1 * var(--site-glass-x));
+    border-radius: var(--site-radius);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--site-duration) var(--ease-brand);
+  }
+  .site-header[data-floating] .site-header__glass {
+    opacity: 1;
+  }
+  .site-header__row {
+    position: relative;
+    display: flex;
+    height: 100%;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  /* Translucent surface: strong blur and saturation so text behind is never readable. */
+  .site-glass {
+    background-color: var(--site-glass-bg);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid var(--site-glass-border);
+    box-shadow: var(--site-glass-shadow);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-glass {
+      background-color: var(--site-glass-solid);
+    }
+  }
+  .site-rounded {
+    border-radius: var(--site-radius);
+  }
+
+  .site-skip-link {
+    position: fixed;
+    top: calc(var(--safe-top) + 0.75rem);
+    inset-inline-start: 1rem;
+    z-index: 60;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-graphite);
+    color: var(--color-white);
+    font-size: var(--text-small);
+    transform: translateY(calc(-100% - 2rem - var(--safe-top)));
+  }
+  .site-skip-link:focus {
+    transform: none;
+  }
+
+  /* Mobile menu: two thin lines that turn into a cross. */
+  .site-menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-inline-end: -0.75rem;
+    color: var(--color-graphite);
+  }
+  .site-menu-toggle__lines {
+    position: relative;
+    display: block;
+    width: 1.25rem;
+    height: 0.5rem;
+  }
+  .site-menu-toggle__lines::before,
+  .site-menu-toggle__lines::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform var(--site-duration) var(--ease-brand);
+  }
+  .site-menu-toggle__lines::before {
+    top: 0;
+  }
+  .site-menu-toggle__lines::after {
+    bottom: 0;
+  }
+  .site-menu-toggle[aria-expanded="true"] .site-menu-toggle__lines::before {
+    transform: translateY(calc(0.25rem - 0.75px)) rotate(45deg);
+  }
+  .site-menu-toggle[aria-expanded="true"] .site-menu-toggle__lines::after {
+    transform: translateY(calc(-0.25rem + 0.75px)) rotate(-45deg);
+  }
+
+  .site-menu {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    inset-inline: calc(-1 * var(--site-glass-x));
+    max-height: calc(100dvh - var(--safe-top) - var(--nav-height) - var(--site-float-gap) - 1.5rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-radius: var(--site-radius);
+    padding: 0.5rem max(var(--site-glass-x), 1.25rem) 1.25rem;
+    pointer-events: auto;
+    transition:
+      opacity 220ms var(--ease-brand),
+      transform 220ms var(--ease-brand);
+  }
+  @starting-style {
+    .site-menu {
+      opacity: 0;
+      transform: translateY(-0.5rem);
+    }
+  }
+  .site-scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 39;
+    background: rgb(13 14 19 / 0.18);
+    transition: opacity 220ms var(--ease-brand);
+  }
+  @starting-style {
+    .site-scrim {
+      opacity: 0;
+    }
+  }
+
+  /* Partner logos: a slow, continuous marquee (pure CSS transform). */
+  .site-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+  .site-marquee__track {
+    display: flex;
+    width: max-content;
+  }
+  /* Motion only when the user has not asked for less; mirrored for right to left. */
+  @media (prefers-reduced-motion: no-preference) {
+    .site-marquee__track {
+      animation: site-marquee 48s linear infinite;
+    }
+    [dir="rtl"] .site-marquee__track {
+      animation-name: site-marquee-rtl;
+    }
+  }
+  .site-marquee__group {
+    display: flex;
+    flex-shrink: 0;
+  }
+  .site-marquee__item {
+    display: flex;
+    flex-shrink: 0;
+    width: 11rem;
+    height: 5rem;
+    align-items: center;
+    justify-content: center;
+  }
+  .site-marquee-root[data-paused] .site-marquee__track,
+  .site-marquee-root:focus-within .site-marquee__track,
+  .site-marquee:hover .site-marquee__track {
+    animation-play-state: paused;
+  }
+
+  /* Logos rest in grey and lift to full colour on hover. Box sizes are fixed. */
+  .site-logo {
+    opacity: 0.6;
+    filter: grayscale(1);
+    transition:
+      opacity var(--duration-state) var(--ease-brand),
+      filter var(--duration-state) var(--ease-brand);
+  }
+  .site-marquee__item:hover .site-logo,
+  .site-logo-cell:hover .site-logo {
+    opacity: 1;
+    filter: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header__bar,
+    .site-header__glass,
+    .site-menu,
+    .site-scrim,
+    .site-menu-toggle__lines::before,
+    .site-menu-toggle__lines::after,
+    .site-logo {
+      transition: none;
+    }
+    /* No motion: the marquee becomes a static, wrapped row of logos. */
+    .site-marquee {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .site-marquee__track {
+      width: auto;
+    }
+    .site-marquee__group {
+      flex-shrink: 1;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+    }
+    .site-marquee__group[aria-hidden="true"],
+    .site-marquee__repeat,
+    .site-marquee__control {
+      display: none;
+    }
+  }
+}
+
+@keyframes site-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes site-marquee-rtl {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(50%, 0, 0);
+  }
+}

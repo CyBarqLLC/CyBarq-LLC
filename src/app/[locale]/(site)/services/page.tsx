@@ -47,8 +47,8 @@ export default async function ServicesPage({ params }: Props) {
       {practices.map((p) => {
         const list = servicesByPractice(p.slug);
         return (
-          <section key={p.slug} id={p.slug} className="scroll-mt-(--nav-height) border-t border-fog" aria-labelledby={`${p.slug}-title`}>
-            <div className="container-page py-14 sm:py-20">
+          <section key={p.slug} id={p.slug} className="border-t border-fog" aria-labelledby={`${p.slug}-title`}>
+            <div className="container-page section">
               <div className="mb-10 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-end">
                 <div className="flex gap-5">
                   <Pictogram name={p.pictogram} className="size-12 shrink-0 text-graphite" />

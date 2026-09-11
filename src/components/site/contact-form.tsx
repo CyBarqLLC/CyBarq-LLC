@@ -12,7 +12,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { Button } from "@/components/ui/button";
-import { Blade } from "@/components/brand/elements";
 
 export type ServiceOptionGroup = { label: string; options: { value: string; label: string }[] };
 
@@ -45,7 +44,6 @@ function ContactFormInner({ serviceGroups, defaultService, onReset }: ContactFor
   if (result?.ok) {
     return (
       <div role="status" aria-live="polite" className="flex flex-col gap-4 border border-fog bg-ice p-6 sm:p-8">
-        <Blade className="size-5 text-graphite" />
         <h3 className="text-h2">{t("successTitle")}</h3>
         <p className="text-slate">{t("successBody")}</p>
         <div>
@@ -105,7 +103,13 @@ function ContactFormInner({ serviceGroups, defaultService, onReset }: ContactFor
         <p className="text-small text-slate">{t("promise")}</p>
       </div>
       <p className="text-small text-slate">
-        {t("privacy")} <Link href="/privacy" className="text-azure underline underline-offset-4">{tc("footer.privacy")}</Link>
+        {t.rich("privacy", {
+          link: (chunks) => (
+            <Link href="/privacy" className="text-azure underline underline-offset-4">
+              {chunks}
+            </Link>
+          ),
+        })}
       </p>
     </form>
   );

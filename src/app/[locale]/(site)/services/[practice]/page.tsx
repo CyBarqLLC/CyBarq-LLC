@@ -60,7 +60,7 @@ export default async function PracticePage({ params }: Props) {
       />
 
       <section className="border-t border-fog">
-        <div className="container-page py-14 sm:py-20">
+        <div className="container-page section">
           <SectionHeader as="h2" title={t("inPractice")} description={t("count", { count: list.length })} className="mb-8" />
           <ServiceGrid columns={3}>
             {list.map((s) => (
@@ -71,7 +71,7 @@ export default async function PracticePage({ params }: Props) {
       </section>
 
       <section className="border-t border-fog">
-        <div className="container-page py-14 sm:py-20">
+        <div className="container-page section">
           <SectionHeader as="h2" title={t("morePractices")} className="mb-8" />
           <PracticeGrid locale={locale} linkLabel={t("explore")} exclude={practice.slug} />
         </div>

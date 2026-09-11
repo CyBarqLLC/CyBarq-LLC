@@ -6,7 +6,6 @@ import { pick } from "@/i18n/bilingual";
 import { label, PRACTICE_LABELS } from "@/lib/labels";
 import { getCaseStudy, parseImpact, coverImage } from "@/lib/data/public-content";
 import { practiceByEnum } from "@/content/services";
-import { Blade } from "@/components/brand/elements";
 import { PostHeader } from "@/components/site/post-header";
 import { ContentBody } from "@/components/site/content-body";
 import { CtaPanel } from "@/components/site/cta-panel";
@@ -66,7 +65,7 @@ export default async function CaseStudyPage({ params }: Props) {
       <div className="container-page pt-6 sm:pt-10">
         {sections.map((s) => (
           <section key={s.key} className="grid gap-4 border-t border-fog py-10 sm:py-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
-            <h2 className="text-h2 lg:sticky lg:top-[calc(var(--nav-height)+1.5rem)] lg:self-start">{s.title}</h2>
+            <h2 className="text-h2 lg:sticky lg:top-[calc(var(--site-header-offset)+1.5rem)] lg:self-start">{s.title}</h2>
             <ContentBody html={s.html} />
           </section>
         ))}
@@ -79,12 +78,7 @@ export default async function CaseStudyPage({ params }: Props) {
                 <div key={idx} className="flex flex-col gap-2 bg-white p-5">
                   <dt className="order-2 text-small text-slate">{locale === "ar" ? i.label_ar || i.label_en : i.label_en || i.label_ar}</dt>
                   <dd className="order-1 text-h2 tabular-nums">{i.value}</dd>
-                  {i.verified === true ? (
-                    <dd className="order-3 mt-1 inline-flex items-center gap-1.5 text-label text-success">
-                      <Blade className="size-3" />
-                      {t("caseStudies.verified")}
-                    </dd>
-                  ) : null}
+                  {i.verified === true ? <dd className="order-3 mt-1 text-label text-success">{t("caseStudies.verified")}</dd> : null}
                 </div>
               ))}
             </dl>

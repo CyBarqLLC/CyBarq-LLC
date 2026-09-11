@@ -1,6 +1,5 @@
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
-import { Blade } from "@/components/brand/elements";
 import { cn } from "@/lib/utils/cn";
 
 type CtaPanelProps = {
@@ -15,13 +14,12 @@ type CtaPanelProps = {
 export function CtaPanel({ title, body, primary, secondary, className }: CtaPanelProps) {
   return (
     <section className={cn("border-t border-fog", className)}>
-      <div className="container-page section flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div className="container-page section flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
         <div className="max-w-2xl">
-          <Blade className="mb-6 size-5 text-blue" />
           <h2 className="text-h1">{title}</h2>
-          {body ? <p className="mt-4 text-lg text-slate">{body}</p> : null}
+          {body ? <p className="mt-5 text-lg text-slate">{body}</p> : null}
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex shrink-0 flex-wrap gap-3">
           <Button asChild size="lg">
             <Link href={primary.href}>{primary.label}</Link>
           </Button>
