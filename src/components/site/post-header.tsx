@@ -4,7 +4,6 @@ import { Breadcrumbs, type Crumb } from "./breadcrumbs";
 
 type PostHeaderProps = {
   crumbs: Crumb[];
-  eyebrow?: string | null;
   title: string;
   lead?: string | null;
   /** Meta line items (author, date, reading time). Rendered separated by a middle dot. */
@@ -13,14 +12,13 @@ type PostHeaderProps = {
   children?: React.ReactNode;
 };
 
-/** Opening of a news post, article, project or case study. */
-export function PostHeader({ crumbs, eyebrow, title, lead, meta, cover, children }: PostHeaderProps) {
+/** Opening of a news post, article, project or case study. Nothing above the title; category, author and date share the meta line. */
+export function PostHeader({ crumbs, title, lead, meta, cover, children }: PostHeaderProps) {
   const metaItems = (meta ?? []).filter((m): m is string => typeof m === "string" && m.trim() !== "");
   return (
     <header className="container-page pt-10 sm:pt-14">
       <Breadcrumbs items={crumbs} className="mb-8" />
-      <div className="max-w-3xl">
-        {eyebrow ? <p className="mb-3 text-small text-slate">{eyebrow}</p> : null}
+      <div className="site-enter max-w-3xl">
         <h1 className="text-display">{title}</h1>
         {lead ? <p className="mt-5 text-lg text-slate">{lead}</p> : null}
         {metaItems.length > 0 ? (

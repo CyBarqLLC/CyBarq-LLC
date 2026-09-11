@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Pictogram } from "@/components/brand/pictogram";
-import { SectionHeader } from "@/components/ui/page-header";
 import { PageIntro } from "@/components/site/page-intro";
+import { SectionHeading } from "@/components/site/section-heading";
+import { Reveal } from "@/components/site/reveal";
 import { PracticeGrid } from "@/components/site/practice-grid";
 import { Stats } from "@/components/site/stats";
 import { StatementPanel } from "@/components/site/statement-panel";
@@ -33,35 +34,40 @@ export default async function AboutPage({ params }: Props) {
 
   return (
     <>
-      <PageIntro eyebrow={t("title")} title={about.title[locale]} lead={about.lead[locale]} crumbs={[{ href: "/", label: tn("home") }, { label: tn("about") }]} />
+      <PageIntro title={about.title[locale]} lead={about.lead[locale]} crumbs={[{ href: "/", label: tn("home") }, { label: tn("about") }]} />
 
       <section className="border-t border-fog">
-        <div className="container-page section grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
-          <h2 className="text-h2">{t("storyEyebrow")}</h2>
+        <Reveal className="container-page section grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
+          <h2 className="text-h2">{t("storyTitle")}</h2>
           <div className="flex max-w-prose flex-col gap-6 text-lg leading-relaxed">
             {about.story.map((p, i) => (
               <p key={i}>{p[locale]}</p>
             ))}
           </div>
+        </Reveal>
+      </section>
+
+      <section className="border-t border-fog">
+        <div className="container-page section">
+          <SectionHeading title={company.legalName[locale]} className="mb-8 sm:mb-10" />
+          <Reveal>
+            <Stats locale={locale} />
+          </Reveal>
         </div>
       </section>
 
       <section className="border-t border-fog">
         <div className="container-page section">
-          <SectionHeader eyebrow={t("statsEyebrow")} title={company.legalName[locale]} className="mb-8 sm:mb-10" />
-          <Stats locale={locale} />
-        </div>
-      </section>
-
-      <section className="border-t border-fog">
-        <div className="container-page section">
-          <SectionHeader eyebrow={th("practicesEyebrow")} title={about.practicesTitle[locale]} description={about.practicesLead[locale]} />
+          <SectionHeading
+            title={about.practicesTitle[locale]}
+            lead={about.practicesLead[locale]}
+            aside={
+              <Link href="/services" className="site-link text-azure">
+                {t("practicesLink")}
+              </Link>
+            }
+          />
           <PracticeGrid locale={locale} linkLabel={ts("explore")} />
-          <div className="mt-8">
-            <Link href="/services" className="text-azure underline-offset-4 hover:underline">
-              {t("practicesLink")}
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -69,8 +75,8 @@ export default async function AboutPage({ params }: Props) {
 
       <section>
         <div className="container-page section">
-          <SectionHeader eyebrow={th("howEyebrow")} title={about.howTitle[locale]} />
-          <div className="grid gap-px border border-fog bg-fog sm:grid-cols-2">
+          <SectionHeading title={about.howTitle[locale]} />
+          <Reveal stagger className="grid gap-px border border-fog bg-fog sm:grid-cols-2">
             {principles.map((p) => (
               <article key={p.key} className="flex flex-col gap-4 bg-white p-6 sm:p-10">
                 <Pictogram name={p.pictogram} className="size-10 text-graphite" />
@@ -78,12 +84,12 @@ export default async function AboutPage({ params }: Props) {
                 <p className="text-slate">{p.body[locale]}</p>
               </article>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
       <div className="border-t border-fog">
-        <div className="section flex flex-col gap-16 sm:gap-20">
+        <div className="section flex flex-col gap-20 sm:gap-24 lg:gap-28">
           <LogoMarquee id="partners" title={th("partnersTitle")} items={company.partners} labels={{ pause: th("logosPause"), play: th("logosPlay"), subject: th("logosSubject") }} />
           <LogoGrid id="certifications" title={th("certificationsTitle")} items={company.certifications} />
           <RegistrationPanel locale={locale} title={about.registrationTitle[locale]} />

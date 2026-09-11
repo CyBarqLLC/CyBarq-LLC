@@ -3,8 +3,8 @@ import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { Pictogram } from "@/components/brand/pictogram";
-import { SectionHeader } from "@/components/ui/page-header";
 import { PageIntro } from "@/components/site/page-intro";
+import { SectionHeading } from "@/components/site/section-heading";
 import { PracticeGrid } from "@/components/site/practice-grid";
 import { ServiceCard, ServiceGrid } from "@/components/site/service-card";
 import { CtaPanel } from "@/components/site/cta-panel";
@@ -52,7 +52,6 @@ export default async function PracticePage({ params }: Props) {
     <>
       <JsonLd data={breadcrumbs} />
       <PageIntro
-        eyebrow={t("practiceEyebrow")}
         title={practice.title[locale]}
         lead={practice.intro[locale]}
         crumbs={[{ href: "/", label: tn("home") }, { href: "/services", label: tn("services") }, { label: practice.title[locale] }]}
@@ -61,7 +60,9 @@ export default async function PracticePage({ params }: Props) {
 
       <section className="border-t border-fog">
         <div className="container-page section">
-          <SectionHeader as="h2" title={t("inPractice")} description={t("count", { count: list.length })} className="mb-8" />
+          <SectionHeading title={t("inPractice")} className="mb-8">
+            <p className="text-small tabular-nums text-slate">{t("count", { count: list.length })}</p>
+          </SectionHeading>
           <ServiceGrid columns={3}>
             {list.map((s) => (
               <ServiceCard key={s.slug} service={s} locale={locale} />
@@ -72,7 +73,7 @@ export default async function PracticePage({ params }: Props) {
 
       <section className="border-t border-fog">
         <div className="container-page section">
-          <SectionHeader as="h2" title={t("morePractices")} className="mb-8" />
+          <SectionHeading title={t("morePractices")} className="mb-8" />
           <PracticeGrid locale={locale} linkLabel={t("explore")} exclude={practice.slug} />
         </div>
       </section>

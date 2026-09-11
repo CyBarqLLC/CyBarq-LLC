@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils/cn";
 import { MarqueeFrame } from "./marquee-frame";
+import { Reveal } from "./reveal";
 
 /** A logo with the name used as its alternative text and the artwork's width to height ratio. */
 export type LogoItem = { name: string; logo: string; ratio: number };
@@ -60,7 +61,7 @@ export function LogoMarquee({ id, title, items, labels, className }: LogoMarquee
   };
 
   return (
-    <section aria-labelledby={headingId} className={cn("container-page", className)}>
+    <Reveal as="section" aria-labelledby={headingId} className={cn("container-page", className)}>
       <MarqueeFrame headingId={headingId} title={title} labels={labels}>
         <div className="site-marquee">
           <div className="site-marquee__track" style={{ animationDuration: duration }}>
@@ -71,7 +72,7 @@ export function LogoMarquee({ id, title, items, labels, className }: LogoMarquee
           </div>
         </div>
       </MarqueeFrame>
-    </section>
+    </Reveal>
   );
 }
 
@@ -88,10 +89,12 @@ export function LogoGrid({ id, title, items, className }: LogoGridProps) {
   const headingId = `${id}-title`;
   return (
     <section aria-labelledby={headingId} className={cn("container-page", className)}>
-      <h2 id={headingId} className="mb-6 flex min-h-11 items-center text-label text-slate">
-        {title}
-      </h2>
-      <ul className="grid grid-cols-3 gap-x-4 gap-y-6 sm:grid-cols-5 sm:gap-x-6 lg:grid-cols-7">
+      <Reveal>
+        <h2 id={headingId} className="mb-6 flex min-h-11 items-center text-label text-slate">
+          {title}
+        </h2>
+      </Reveal>
+      <Reveal as="ul" stagger className="grid grid-cols-3 gap-x-4 gap-y-6 sm:grid-cols-5 sm:gap-x-6 lg:grid-cols-7">
         {items.map((item) => {
           const size = logoSize(item.ratio, 4200, 112, 64);
           return (
@@ -100,7 +103,7 @@ export function LogoGrid({ id, title, items, className }: LogoGridProps) {
             </li>
           );
         })}
-      </ul>
+      </Reveal>
     </section>
   );
 }

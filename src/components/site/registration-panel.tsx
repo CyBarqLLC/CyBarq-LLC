@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/routing";
 import { company } from "@/content/site/company";
 import { cn } from "@/lib/utils/cn";
 import { JordanLegalName, RegistrationMark, RegistrationNumber } from "./registration";
+import { Reveal } from "./reveal";
 
 type RegistrationPanelProps = { locale: Locale; title: string; className?: string };
 
@@ -15,7 +16,7 @@ export async function RegistrationPanel({ locale, title, className }: Registrati
   const t = await getTranslations("site.registration");
   return (
     <section aria-labelledby="registration-title" className={cn("container-page", className)}>
-      <div className="grid gap-8 border border-fog p-6 sm:p-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-16">
+      <Reveal className="grid gap-8 border border-fog p-6 sm:p-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-16">
         <div className="max-w-2xl">
           <h2 id="registration-title" className="text-h2">
             {title}
@@ -29,7 +30,7 @@ export async function RegistrationPanel({ locale, title, className }: Registrati
           <RegistrationNumber format={(number) => t("number", { number })} className="mt-1 text-small text-slate" />
         </div>
         <RegistrationMark alt={t("alt")} sizes="(min-width: 1024px) 256px, 60vw" className="w-full max-w-64 justify-self-center lg:justify-self-end" />
-      </div>
+      </Reveal>
     </section>
   );
 }
