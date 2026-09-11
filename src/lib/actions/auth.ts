@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { redirect } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { createClient } from "@/lib/supabase/server";
 import { rateLimit, requestIp } from "@/lib/rate-limit";
 import { type ActionResult, ok, fail, runAction } from "./result";
@@ -22,10 +22,11 @@ function safeNext(next: string | undefined, locale: string): string {
 
 export async function signIn(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
   let destination: string | null = null;
+  const t = await getTranslations("auth.errors");
   const result = await runAction<undefined>(async () => {
     const ip = await requestIp();
     if (!rateLimit({ key: `signin:${ip}`, limit: 10, windowMs: 10 * 60 * 1000 }).allowed) {
-      return fail("Too many attempts. Please wait a few minutes and try again.");
+      return fail(t("tooMany"));
     }
     const parsed = signInSchema.parse({
       email: formData.get("email"),
@@ -34,13 +35,13 @@ export async function signIn(_prev: ActionResult | null, formData: FormData): Pr
     });
     const supabase = await createClient();
     const { data, error } = await supabase.auth.signInWithPassword({ email: parsed.email, password: parsed.password });
-    if (error || !data.user) return fail("The email or password is not correct.", "VALIDATION");
+    if (error || !data.user) return fail(t("invalid"), "VALIDATION");
     const locale = await getLocale();
     // Send each account kind to its home. Clients cannot reach /app (layout enforces).
     const { data: profile } = await supabase.from("profiles").select("kind, is_active").eq("id", data.user.id).maybeSingle();
     if (!profile || !profile.is_active) {
       await supabase.auth.signOut();
-      return fail("This account is not active. Contact your administrator.", "FORBIDDEN");
+      return fail(t("inactive"), "FORBIDDEN");
     }
     const home = profile.kind === "client" ? `/${locale}/portal` : `/${locale}/app`;
     const target = parsed.next ? safeNext(parsed.next, locale) : home;
@@ -62,10 +63,11 @@ export async function signOut(): Promise<void> {
 const forgotSchema = z.object({ email: z.string().trim().email().max(200) });
 
 export async function requestPasswordReset(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
+  const t = await getTranslations("auth.errors");
   return runAction(async () => {
     const ip = await requestIp();
     if (!rateLimit({ key: `reset:${ip}`, limit: 5, windowMs: 15 * 60 * 1000 }).allowed) {
-      return fail("Too many attempts. Please wait a few minutes and try again.");
+      return fail(t("tooMany"));
     }
     const { email } = forgotSchema.parse({ email: formData.get("email") });
     const supabase = await createClient();
