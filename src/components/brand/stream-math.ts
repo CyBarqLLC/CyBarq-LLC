@@ -29,6 +29,8 @@ export type StreamParams = {
   /** Vertical centre of the band (fraction of height). */
   cy0?: number;
   seed?: number;
+  /** Motion speed multiplier (1 = the brand tempo; 0 freezes the field). */
+  flow?: number;
 };
 
 export const STREAM_PRESETS = {
@@ -70,22 +72,27 @@ export type PointerInfluence = { x: number; y: number; radius: number; strength:
  */
 export function computeStream(w: number, h: number, step: number, params: StreamParams = {}, t = 0, pointer: PointerInfluence = null): Blade[] {
   const {
-    spread = 0.16, amp = 0.22, freq = 3.4, alpha = 0.92, share = 0.05, fadeIn = 1.8, fadeRight = false, fadeOut = 3, opening, floor = 0.14, cy0 = 0.5, seed = 0,
+    spread = 0.16, amp = 0.22, freq = 3.4, alpha = 0.92, share = 0.05, fadeIn = 1.8, fadeRight = false, fadeOut = 3, opening, floor = 0.14, cy0 = 0.5, seed = 0, flow = 1,
   } = params;
   const out: Blade[] = [];
   const s = step;
+  // Time runs at the brand tempo: the field turns, the band travels and a
+  // current of brightness runs along it, so the pattern is visibly alive
+  // without any input. t = 0 gives the static print form.
+  const ft = t * flow;
   let j = 0;
   for (let y = s / 2; y < h + s; y += s, j++) {
     let i = 0;
     for (let x = s / 2; x < w + s; x += s, i++) {
       const u = x / w;
       const v = y / h;
-      let a = -0.36 + 0.28 * Math.sin(u * 5.2 + v * 2.4 + t * 0.35) + 0.16 * Math.sin(u * 11 - v * 4 + t * 0.12);
+      let a = -0.36 + 0.28 * Math.sin(u * 5.2 + v * 2.4 + ft * 0.8) + 0.16 * Math.sin(u * 11 - v * 4 - ft * 0.45);
       const sp = opening ? opening[0] + (opening[1] - opening[0]) * Math.min(1, Math.max(0, u)) : spread;
-      const centre = cy0 + amp * Math.sin(u * freq + 0.6 + t * 0.15);
+      const centre = cy0 + amp * Math.sin(u * freq + 0.6 - ft * 0.4);
       const band = Math.exp(-(((v - centre) / sp) ** 2));
       const fade = Math.min(1, u * fadeIn) * (fadeRight ? Math.min(1, (1 - u) * fadeOut) : 1);
-      let k = Math.max(0.05, band * fade);
+      const current = 0.82 + 0.18 * Math.sin(u * 7.5 - ft * 1.5);
+      let k = Math.max(0.05, band * fade * current);
       if (pointer) {
         const dx = x - pointer.x;
         const dy = y - pointer.y;
