@@ -1,5 +1,6 @@
 import * as React from "react";
 import { AlertTriangle, Inbox, Lock, SearchX } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 
 type StateProps = { title: string; description?: string; action?: React.ReactNode; className?: string; icon?: React.ReactNode };
@@ -34,12 +35,13 @@ export function Skeleton({ className }: { className?: string }) {
 
 /** Generic list loading state (rows of skeleton bars). */
 export function LoadingState({ rows = 5, className }: { rows?: number; className?: string }) {
+  const t = useTranslations("common");
   return (
-    <div className={cn("flex flex-col gap-3", className)} role="status" aria-live="polite" aria-label="Loading">
+    <div className={cn("flex flex-col gap-3", className)} role="status" aria-live="polite" aria-label={t("loading")}>
       {Array.from({ length: rows }).map((_, i) => (
         <Skeleton key={i} className="h-12 w-full" />
       ))}
-      <span className="sr-only">Loading</span>
+      <span className="sr-only">{t("loading")}</span>
     </div>
   );
 }

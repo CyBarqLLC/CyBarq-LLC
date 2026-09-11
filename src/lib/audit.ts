@@ -14,16 +14,22 @@ import type { Json } from "@/lib/supabase/database.types";
  * Never pass secrets in metadata.
  */
 export async function audit(action: string, entityType: string, entityId: string | null, metadata: Record<string, Json> = {}, clientId?: string | null) {
-  const [viewer, ip, ua] = await Promise.all([getViewer(), requestIp(), requestUserAgent()]);
-  const { error } = await createAdminClient().rpc("record_audit_event", {
-    _actor_id: viewer?.userId,
-    _action: action,
-    _entity_type: entityType,
-    _entity_id: entityId ?? "",
-    _metadata: metadata,
-    _client_id: clientId ?? undefined,
-    _ip: ip,
-    _user_agent: ua,
-  });
-  if (error) console.error("[audit] failed", action, error.message);
+  // Never let a logging problem undo or hide an action that already succeeded:
+  // failures are reported loudly in the server logs instead.
+  try {
+    const [viewer, ip, ua] = await Promise.all([getViewer(), requestIp(), requestUserAgent()]);
+    const { error } = await createAdminClient().rpc("record_audit_event", {
+      _actor_id: viewer?.userId,
+      _action: action,
+      _entity_type: entityType,
+      _entity_id: entityId ?? "",
+      _metadata: metadata,
+      _client_id: clientId ?? undefined,
+      _ip: ip,
+      _user_agent: ua,
+    });
+    if (error) console.error("[audit] failed", action, error.message);
+  } catch (error) {
+    console.error("[audit] failed", action, error instanceof Error ? error.message : error);
+  }
 }
