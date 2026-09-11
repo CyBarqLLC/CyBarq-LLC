@@ -81,16 +81,7 @@ export default async function HomePage({ params }: Props) {
 
       {/* One system: the four practices */}
       <section className="container-page section" aria-labelledby="practices-title">
-        <SectionHeading
-          id="practices-title"
-          title={t("practicesTitle")}
-          lead={t("practicesLead")}
-          aside={
-            <Link href="/services" className="site-link text-azure">
-              {t("allServices")}
-            </Link>
-          }
-        />
+        <SectionHeading id="practices-title" title={t("practicesTitle")} lead={t("practicesLead")} />
         <PracticePanels panels={panels} linkLabel={ts("explore")} />
       </section>
 

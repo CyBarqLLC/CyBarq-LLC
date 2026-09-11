@@ -608,6 +608,15 @@ html:has(.site-header) {
     position: absolute;
     inset: 0;
   }
+  /* First paint file on small screens: show its faint start, which the canvas then continues from. */
+  @media (max-width: 63.99rem) {
+    .site-hero__field img {
+      object-position: 0% 0%;
+    }
+    [dir="rtl"] .site-hero__field img {
+      object-position: 100% 0%;
+    }
+  }
   .site-hero__scrim {
     position: absolute;
     inset: 0;

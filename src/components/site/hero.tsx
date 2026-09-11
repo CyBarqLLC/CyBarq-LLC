@@ -1,6 +1,5 @@
 import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/routing";
-import { dirOf } from "@/i18n/routing";
+import { dirOf, type Locale } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { HeroStream } from "./hero-stream";
 import { ScrollCue } from "./scroll-cue";
