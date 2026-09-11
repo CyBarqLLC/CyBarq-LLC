@@ -2,6 +2,7 @@ import createIntlMiddleware from "next-intl/middleware";
 import { NextResponse, type NextRequest } from "next/server";
 import { routing, isLocale } from "@/i18n/routing";
 import { updateSession } from "@/lib/supabase/middleware";
+import { hasSupabaseEnv } from "@/lib/env";
 
 const intlMiddleware = createIntlMiddleware(routing);
 
@@ -12,7 +13,8 @@ export async function middleware(request: NextRequest) {
   const response = intlMiddleware(request);
 
   // Refresh the auth session on every page request so server components see a valid user.
-  const { user } = await updateSession(request, response);
+  // Without Supabase configured, the public site still renders and private areas stay closed.
+  const { user } = hasSupabaseEnv() ? await updateSession(request, response) : { user: null };
 
   const { pathname } = request.nextUrl;
   const [, maybeLocale, ...rest] = pathname.split("/");

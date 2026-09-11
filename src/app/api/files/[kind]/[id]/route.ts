@@ -3,6 +3,8 @@ import { createClient } from "@/lib/supabase/server";
 import { signedDownloadUrl, type PrivateBucket } from "@/lib/storage";
 import { audit } from "@/lib/audit";
 
+export const dynamic = "force-dynamic";
+
 /**
  * Private file access. The owning record is loaded through the caller's RLS
  * scoped client (so visibility rules decide), then a 2 minute signed URL is

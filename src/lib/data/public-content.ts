@@ -1,5 +1,6 @@
 import "server-only";
 import { createPublicClient } from "@/lib/supabase/server";
+import { hasSupabaseEnv } from "@/lib/env";
 import type { Json, Tables } from "@/lib/supabase/database.types";
 import { publicUrl } from "@/lib/storage";
 import type { Locale } from "@/i18n/routing";
@@ -105,6 +106,7 @@ async function attachRelations<T extends PostListRow>(rows: T[]): Promise<Array<
 // ---------------------------------------------------------------------------
 
 export async function listProjects(limit?: number): Promise<ProjectListItem[]> {
+  if (!hasSupabaseEnv()) return [];
   const supabase = createPublicClient();
   return safeList<ProjectListItem>("projects", () => {
     let q = supabase.from("public_projects").select(PROJECT_LIST).eq("status", "published").order("position", { ascending: true }).order("published_at", { ascending: false });
@@ -114,6 +116,7 @@ export async function listProjects(limit?: number): Promise<ProjectListItem[]> {
 }
 
 export async function getProject(slug: string): Promise<ProjectDetail | null> {
+  if (!hasSupabaseEnv()) return null;
   const supabase = createPublicClient();
   return safeOne<ProjectDetail>("project", () => supabase.from("public_projects").select(PROJECT_DETAIL).eq("status", "published").eq("slug", slug).maybeSingle());
 }
@@ -123,6 +126,7 @@ export async function getProject(slug: string): Promise<ProjectDetail | null> {
 // ---------------------------------------------------------------------------
 
 export async function listCaseStudies(limit?: number): Promise<CaseStudyListItem[]> {
+  if (!hasSupabaseEnv()) return [];
   const supabase = createPublicClient();
   return safeList<CaseStudyListItem>("case_studies", () => {
     let q = supabase.from("case_studies").select(CASE_LIST).eq("status", "published").order("position", { ascending: true }).order("published_at", { ascending: false });
@@ -132,6 +136,7 @@ export async function listCaseStudies(limit?: number): Promise<CaseStudyListItem
 }
 
 export async function getCaseStudy(slug: string): Promise<CaseStudyDetail | null> {
+  if (!hasSupabaseEnv()) return null;
   const supabase = createPublicClient();
   return safeOne<CaseStudyDetail>("case_study", () => supabase.from("case_studies").select(CASE_DETAIL).eq("status", "published").eq("slug", slug).maybeSingle());
 }
@@ -158,6 +163,7 @@ export function parseImpact(value: Json): ImpactItem[] {
 // ---------------------------------------------------------------------------
 
 export async function listNews(limit?: number): Promise<PostListItem[]> {
+  if (!hasSupabaseEnv()) return [];
   const supabase = createPublicClient();
   const rows = await safeList<PostListRow>("news", () => {
     let q = supabase.from("news_posts").select(POST_LIST).eq("status", "published").lte("published_at", now()).order("published_at", { ascending: false });
@@ -168,6 +174,7 @@ export async function listNews(limit?: number): Promise<PostListItem[]> {
 }
 
 export async function getNewsPost(slug: string): Promise<NewsDetail | null> {
+  if (!hasSupabaseEnv()) return null;
   const supabase = createPublicClient();
   const row = await safeOne<Omit<NewsDetail, "author" | "category">>("news_post", () =>
     supabase.from("news_posts").select(POST_DETAIL).eq("status", "published").lte("published_at", now()).eq("slug", slug).maybeSingle(),
@@ -182,6 +189,7 @@ export async function getNewsPost(slug: string): Promise<NewsDetail | null> {
 // ---------------------------------------------------------------------------
 
 export async function listArticles(limit?: number): Promise<ArticleListItem[]> {
+  if (!hasSupabaseEnv()) return [];
   const supabase = createPublicClient();
   const rows = await safeList<PostListRow & Pick<ArticleRow, "reading_minutes">>("articles", () => {
     let q = supabase.from("articles").select(ARTICLE_LIST).eq("status", "published").lte("published_at", now()).order("published_at", { ascending: false });
@@ -192,6 +200,7 @@ export async function listArticles(limit?: number): Promise<ArticleListItem[]> {
 }
 
 export async function getArticle(slug: string): Promise<ArticleDetail | null> {
+  if (!hasSupabaseEnv()) return null;
   const supabase = createPublicClient();
   const row = await safeOne<Omit<ArticleDetail, "author" | "category">>("article", () =>
     supabase.from("articles").select(ARTICLE_DETAIL).eq("status", "published").lte("published_at", now()).eq("slug", slug).maybeSingle(),
@@ -209,6 +218,7 @@ export type PublishedSlug = { slug: string; updated_at: string };
 
 /** Slugs of every published item per content type, for the sitemap. Never throws. */
 export async function listPublishedSlugs(): Promise<{ projects: PublishedSlug[]; caseStudies: PublishedSlug[]; news: PublishedSlug[]; articles: PublishedSlug[] }> {
+  if (!hasSupabaseEnv()) return { projects: [], caseStudies: [], news: [], articles: [] };
   const supabase = createPublicClient();
   const cols = "slug, updated_at" as const;
   const [projects, caseStudies, news, articles] = await Promise.all([
