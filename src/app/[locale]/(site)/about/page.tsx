@@ -30,7 +30,6 @@ export default async function AboutPage({ params }: Props) {
   const tn = await getTranslations("site.nav");
   const th = await getTranslations("site.home");
   const ts = await getTranslations("site.services");
-  const tr = await getTranslations("site.registration");
 
   return (
     <>
@@ -49,7 +48,7 @@ export default async function AboutPage({ params }: Props) {
 
       <section className="border-t border-fog">
         <div className="container-page section">
-          <SectionHeader eyebrow={t("statsEyebrow")} title={company.legalName[locale]} description={tr("short")} className="mb-8 sm:mb-10" />
+          <SectionHeader eyebrow={t("statsEyebrow")} title={company.legalName[locale]} className="mb-8 sm:mb-10" />
           <Stats locale={locale} />
         </div>
       </section>

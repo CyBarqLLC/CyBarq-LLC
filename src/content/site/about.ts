@@ -18,8 +18,8 @@ export const about = {
       ar: "بدأت سايبرق رسمياً عام 2024، مستندةً إلى فريق تتجاوز خبرته المجمّعة 10 سنوات في الأمن السيبراني وتطوير البرمجيات والبنية التقنية. ومنذ اليوم الأول كان هدفنا واضحاً: بناء حلول تقنية آمنة وعملية تساعد المؤسسات على حماية أعمالها وتعزيز جاهزيتها الرقمية.",
     },
     {
-      en: "We are registered in Jordan and the United States. Our team is local and our way of working is hybrid: we collaborate remotely, and we are on site whenever the work is better done in the room. Some projects stay close to home. Others cross borders.",
-      ar: "نحن مسجلون في الأردن والولايات المتحدة. فريقنا محلي، ونموذج عملنا هجين: نتعاون عن بُعد، ونحضر إلى الموقع كلما كان العمل أجدى بالحضور المباشر. بعض مشاريعنا قريب منا، وبعضها يعبر الحدود.",
+      en: "Our team is local and our way of working is hybrid: we collaborate remotely, and we are on site whenever the work is better done in the room. Some projects stay close to home. Others cross borders.",
+      ar: "فريقنا محلي، ونموذج عملنا هجين: نتعاون عن بُعد، ونحضر إلى الموقع كلما كان العمل أجدى بالحضور المباشر. بعض مشاريعنا قريب منا، وبعضها يعبر الحدود.",
     },
     {
       en: "Today we operate as a security first technology company across four practices: Cybersecurity, Digital Engineering, Artificial Intelligence, and Technology & Infrastructure. We deliver services, consulting and solutions tailored to each client, with a commitment to precision, quality and reliability in every project.",
@@ -36,5 +36,5 @@ export const about = {
     ar: "لكل مجال قيمته بذاته، والمجالات الأربعة معاً أقوى. المنصة التي نبنيها يختبرها فريقنا الأمني، والبنية التحتية التي نصممها تُبنى للبرمجيات التي ستعمل عليها، والذكاء الاصطناعي الذي ندمجه يعمل داخل أنظمة نفهمها جيداً.",
   } satisfies Bilingual,
   howTitle: { en: "How we work", ar: "كيف نعمل" } satisfies Bilingual,
-  registrationTitle: { en: "Registered in Jordan and the United States", ar: "مسجلة في الأردن والولايات المتحدة" } satisfies Bilingual,
+  registrationTitle: { en: "Where we are registered", ar: "أين نحن مسجلون" } satisfies Bilingual,
 } as const;

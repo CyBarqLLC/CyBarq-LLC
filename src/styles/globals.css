@@ -512,8 +512,9 @@ html:has(.site-header) {
     align-items: center;
     justify-content: center;
   }
+  /* Paused by choice, on hover, or while keyboard focus is inside (unless the visitor pressed Play). */
   .site-marquee-root[data-paused] .site-marquee__track,
-  .site-marquee-root:focus-within .site-marquee__track,
+  .site-marquee-root:not([data-playing]):focus-within .site-marquee__track,
   .site-marquee:hover .site-marquee__track {
     animation-play-state: paused;
   }

@@ -10,23 +10,28 @@ type MarqueeFrameProps = {
   children: React.ReactNode;
 };
 
+/** "auto": moves, but pauses on hover and while focus is inside. "paused" and "playing" are the visitor's explicit choice. */
+type Mode = "auto" | "paused" | "playing";
+
 /**
- * Heading row and pause control for a logo marquee. Motion pauses on hover and
- * while focus is inside; the button pauses it for good (WCAG 2.2.2). The
- * animation itself is pure CSS; this only toggles `data-paused`. Hidden when
- * the user prefers reduced motion, since nothing moves then.
+ * Heading row and pause control for a logo marquee (WCAG 2.2.2). The motion
+ * pauses on hover and while keyboard focus is inside; the button pauses it
+ * for good, and pressing Play resumes it even while the button keeps focus.
+ * The animation itself is pure CSS; this only sets data attributes. Hidden
+ * when the visitor prefers reduced motion, since nothing moves then.
  */
 export function MarqueeFrame({ headingId, title, labels, children }: MarqueeFrameProps) {
-  const [paused, setPaused] = React.useState(false);
+  const [mode, setMode] = React.useState<Mode>("auto");
+  const paused = mode === "paused";
   return (
-    <div className="site-marquee-root" data-paused={paused ? "" : undefined}>
+    <div className="site-marquee-root" data-paused={paused ? "" : undefined} data-playing={mode === "playing" ? "" : undefined}>
       <div className="mb-6 flex min-h-11 items-center justify-between gap-4">
         <h2 id={headingId} className="text-label text-slate">
           {title}
         </h2>
         <button
           type="button"
-          onClick={() => setPaused((value) => !value)}
+          onClick={() => setMode(paused ? "playing" : "paused")}
           className="site-marquee__control touch -me-2 inline-flex items-center px-2 text-small text-slate transition-colors duration-(--duration-state) hover:text-graphite motion-reduce:hidden"
         >
           {paused ? labels.play : labels.pause}
