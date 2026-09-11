@@ -31,7 +31,8 @@ export function ServiceStrip({ labelledBy, controls, children, className }: Serv
     const update = () => {
       const max = element.scrollWidth - element.clientWidth;
       const position = Math.abs(element.scrollLeft);
-      setEdges({ start: position <= 1, end: position >= max - 1 });
+      const next = { start: position <= 1, end: position >= max - 1 };
+      setEdges((current) => (current.start === next.start && current.end === next.end ? current : next));
     };
     const resize = new ResizeObserver(update);
     resize.observe(element);
