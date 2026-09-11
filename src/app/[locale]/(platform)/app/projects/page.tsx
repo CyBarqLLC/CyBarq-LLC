@@ -118,7 +118,7 @@ export default async function ProjectsPage({ searchParams }: { searchParams: Pro
         rows={projects}
         columns={columns}
         rowKey={(r) => r.id}
-        rowHref={(r) => `/${locale}/app/projects/${r.id}`}
+        rowHref={(r) => `/app/projects/${r.id}`}
         emptyTitle={t("empty.title")}
         emptyDescription={t("empty.description")}
         caption={t("title")}

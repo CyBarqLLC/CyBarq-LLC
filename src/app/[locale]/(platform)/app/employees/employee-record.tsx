@@ -4,9 +4,9 @@ import type { Locale } from "@/i18n/routing";
 import { pick } from "@/i18n/bilingual";
 import type { Viewer } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { label, EMPLOYMENT_STATUS_LABELS } from "@/lib/labels";
+import { label, DOCUMENT_KIND_LABELS, EMPLOYMENT_STATUS_LABELS } from "@/lib/labels";
 import { formatDate } from "@/lib/utils/format";
-import { DOCUMENT_KINDS, DOCUMENT_KIND_LABELS } from "@/lib/validation/employees";
+import { DOCUMENT_KINDS } from "@/lib/validation/employees";
 import { deleteEmployeeDocument } from "@/lib/actions/employees";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
@@ -60,10 +60,9 @@ export async function EmployeeRecord({ userId, viewer, self }: { userId: string;
 
   const canWrite = viewer.can("hr.write");
   type Doc = NonNullable<typeof documents>[number];
-  const kindLabel = (kind: Doc["kind"]) => (DOCUMENT_KINDS.includes(kind) ? DOCUMENT_KIND_LABELS[kind][locale] : kind);
   const docColumns: Column<Doc>[] = [
     { key: "title", header: t("columns.title"), primary: true, cell: (d) => <a href={`/api/files/employee-documents/${d.id}`} className="font-medium text-graphite hover:text-azure">{d.title}</a> },
-    { key: "kind", header: t("columns.kind"), cell: (d) => kindLabel(d.kind) },
+    { key: "kind", header: t("columns.kind"), cell: (d) => label(DOCUMENT_KIND_LABELS, d.kind, locale) },
     { key: "size", header: t("columns.size"), cell: (d) => formatBytes(d.size_bytes, locale) },
     { key: "date", header: t("columns.date"), cell: (d) => formatDate(d.created_at, locale) },
     { key: "actions", header: "", align: "end", cell: (d) => (

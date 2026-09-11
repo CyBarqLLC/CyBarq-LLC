@@ -63,7 +63,7 @@ export default async function PortalFinancePage() {
     { key: "status", header: tc("status"), cell: (r) => <Status value={r.status} label={label(QUOTE_STATUS_LABELS, r.status, locale)} /> },
     { key: "issued", header: t("finance.columns.issued"), cell: (r) => formatDate(r.issue_date, locale) },
     { key: "valid", header: t("finance.columns.validUntil"), cell: (r) => formatDate(r.valid_until, locale) },
-    { key: "total", header: t("finance.columns.total"), align: "end", cell: (r) => <span dir="ltr">{formatMoney(r.total, r.currency, locale)}</span> },
+    { key: "total", header: t("finance.columns.total"), numeric: true, cell: (r) => <span dir="ltr">{formatMoney(r.total, r.currency, locale)}</span> },
     { key: "pdf", header: t("finance.pdf"), cell: (r) => pdfLink(`/api/documents/quotes/${r.id}`) },
   ];
 
@@ -73,8 +73,8 @@ export default async function PortalFinancePage() {
     { key: "status", header: tc("status"), cell: (r) => <Status value={r.status} label={label(INVOICE_STATUS_LABELS, r.status, locale)} /> },
     { key: "issued", header: t("finance.columns.issued"), cell: (r) => formatDate(r.issue_date, locale) },
     { key: "due", header: t("finance.columns.due"), cell: (r) => formatDate(r.due_date, locale) },
-    { key: "total", header: t("finance.columns.total"), align: "end", cell: (r) => <span dir="ltr">{formatMoney(r.total, r.currency, locale)}</span> },
-    { key: "balance", header: t("finance.columns.balance"), align: "end", cell: (r) => <span dir="ltr" className={r.total - r.amount_paid > 0 ? "font-medium" : "text-slate"}>{formatMoney(Math.max(0, r.total - r.amount_paid), r.currency, locale)}</span> },
+    { key: "total", header: t("finance.columns.total"), numeric: true, cell: (r) => <span dir="ltr">{formatMoney(r.total, r.currency, locale)}</span> },
+    { key: "balance", header: t("finance.columns.balance"), numeric: true, cell: (r) => <span dir="ltr" className={r.total - r.amount_paid > 0 ? "font-medium" : "text-slate"}>{formatMoney(Math.max(0, r.total - r.amount_paid), r.currency, locale)}</span> },
     { key: "pdf", header: t("finance.pdf"), cell: (r) => pdfLink(`/api/documents/invoices/${r.id}`) },
   ];
 

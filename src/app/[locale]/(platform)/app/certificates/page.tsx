@@ -72,7 +72,7 @@ export default async function CertificatesPage({ searchParams }: { searchParams:
           allStatuses: t("filters.allStatuses"),
         }}
       />
-      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `${basePath}/${r.id}`} emptyTitle={t("empty")} emptyDescription={t("emptyDescription")} caption={t("title")} />
+      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/app/certificates/${r.id}`} emptyTitle={t("empty")} emptyDescription={t("emptyDescription")} caption={t("title")} />
       <Pagination
         page={page}
         pageSize={pageSize}

@@ -6,9 +6,9 @@ import type { Locale } from "@/i18n/routing";
 import { pick } from "@/i18n/bilingual";
 import { requireEmployee } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { label, PRACTICE_LABELS, PROJECT_STATUS_LABELS } from "@/lib/labels";
+import { CLIENT_STATUS_LABELS, label, labelOf, PRACTICE_LABELS, PROJECT_STATUS_LABELS } from "@/lib/labels";
 import { formatDate, formatDateTime } from "@/lib/utils/format";
-import { createContact, updateContact, deleteContact, inviteClientUser, setClientUserActive } from "@/lib/actions/clients";
+import { createContact, updateContact, deleteContact, inviteClientUser, resendClientInvitation, setClientUserActive } from "@/lib/actions/clients";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { Status } from "@/components/ui/status";
@@ -70,30 +70,38 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
       <Person person={u.profile} locale={locale} fallback={t("portal.user")} secondary={u.profile?.email ?? null} />
     ) },
     { key: "status", header: t("portal.columns.status"), cell: (u) => <Badge variant={u.is_active ? "success" : "outline"}>{u.is_active ? t("portal.active") : t("portal.inactive")}</Badge> },
-    { key: "since", header: t("portal.columns.since"), cell: (u) => formatDate(u.created_at, locale) },
+    { key: "since", header: t("portal.columns.since"), cell: (u) => <span className="text-slate">{formatDate(u.created_at, locale)}</span> },
   ];
   if (canWrite) {
     portalColumns.push({
       key: "actions",
       header: "",
       align: "end",
-      cell: (u) =>
-        u.is_active ? (
-          <ConfirmAction
-            action={setClientUserActive.bind(null, client.id, u.user_id, false)}
-            title={t("portal.deactivateTitle")}
-            description={t("portal.deactivateDescription")}
-            confirmLabel={t("portal.deactivate")}
-            triggerLabel={t("portal.deactivate")}
-            triggerVariant="ghost"
-            destructive
-            successMessage={t("portal.updated")}
-          />
-        ) : (
-          <ActionButton action={setClientUserActive.bind(null, client.id, u.user_id, true)} variant="ghost" size="sm" successMessage={t("portal.updated")}>
-            {t("portal.reactivate")}
-          </ActionButton>
-        ),
+      cell: (u) => (
+        <span className="inline-flex flex-wrap justify-end gap-1">
+          {u.is_active ? (
+            <>
+              <ActionButton action={resendClientInvitation.bind(null, client.id, u.user_id)} variant="ghost" size="sm" successMessage={t("portal.invited")}>
+                {t("portal.resend")}
+              </ActionButton>
+              <ConfirmAction
+                action={setClientUserActive.bind(null, client.id, u.user_id, false)}
+                title={t("portal.deactivateTitle")}
+                description={t("portal.deactivateDescription")}
+                confirmLabel={t("portal.deactivate")}
+                triggerLabel={t("portal.deactivate")}
+                triggerVariant="ghost"
+                destructive
+                successMessage={t("portal.updated")}
+              />
+            </>
+          ) : (
+            <ActionButton action={setClientUserActive.bind(null, client.id, u.user_id, true)} variant="ghost" size="sm" successMessage={t("portal.updated")}>
+              {t("portal.reactivate")}
+            </ActionButton>
+          )}
+        </span>
+      ),
     });
   }
 
@@ -104,7 +112,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
           <span className="flex flex-wrap items-center gap-2">
             <Link href="/app/clients" className="hover:text-azure">{t("title")}</Link>
             <span aria-hidden>/</span>
-            <Status value={client.status} label={t(`statuses.${client.status}`)} />
+            <Status value={client.status} label={labelOf(CLIENT_STATUS_LABELS, client.status, locale)} />
           </span>
         }
         title={pick(client, "name", locale)}
@@ -150,7 +158,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
               rows={projects ?? []}
               columns={projectColumns}
               rowKey={(p) => p.id}
-              rowHref={(p) => `/${locale}/app/projects/${p.id}`}
+              rowHref={(p) => `/app/projects/${p.id}`}
               emptyTitle={t("detail.projectsEmpty")}
               caption={t("detail.projects")}
               className="[&>ul]:p-4 [&>div]:border-0"

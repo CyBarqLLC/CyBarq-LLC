@@ -6,8 +6,9 @@ import type { Locale } from "@/i18n/routing";
 import { pick } from "@/i18n/bilingual";
 import { requirePermission } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
-import { formatDateTime } from "@/lib/utils/format";
-import { setUserRoles, setUserActive } from "@/lib/actions/users";
+import { formatDateTime, formatRelative } from "@/lib/utils/format";
+import { LOCALE_LABELS, USER_KIND_LABELS, label } from "@/lib/labels";
+import { setUserRoles, setUserActive, resendInvitation } from "@/lib/actions/users";
 import { PageHeader } from "@/components/ui/page-header";
 import { Badge } from "@/components/ui/badge";
 import { SectionCard } from "@/components/platform/section-card";
@@ -43,6 +44,7 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
 
   const selected = new Set<string>((userRoles ?? []).map((r) => r.role_key));
   const isSelf = user.id === viewer.userId;
+  const stateLabel = user.is_active ? t("states.active") : t("states.inactive");
 
   return (
     <>
@@ -51,31 +53,38 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
           <span className="flex flex-wrap items-center gap-2">
             <Link href="/app/users" className="hover:text-azure">{t("title")}</Link>
             <span aria-hidden>/</span>
-            <Badge variant={user.is_active ? "success" : "danger"}>{user.is_active ? t("states.active") : t("states.inactive")}</Badge>
-            <Badge variant="outline">{t(`kinds.${user.kind}`)}</Badge>
+            <Badge variant={user.is_active ? "success" : "outline"}>{stateLabel}</Badge>
+            <Badge variant="outline">{label(USER_KIND_LABELS, user.kind, locale)}</Badge>
           </span>
         }
         title={personName(user, locale, user.email)}
         description={user.email}
         actions={
-          user.is_active ? (
-            <ConfirmAction
-              action={setUserActive.bind(null, user.id, false)}
-              title={t("detail.deactivateTitle")}
-              description={t("detail.deactivateDescription")}
-              confirmLabel={t("detail.deactivate")}
-              triggerLabel={t("detail.deactivate")}
-              triggerVariant="danger"
-              triggerSize="md"
-              destructive
-              disabled={isSelf}
-              successMessage={t("detail.stateSaved")}
-            />
-          ) : (
-            <ActionButton action={setUserActive.bind(null, user.id, true)} variant="primary" successMessage={t("detail.stateSaved")}>
-              {t("detail.reactivate")}
-            </ActionButton>
-          )
+          <>
+            {user.is_active && user.kind === "employee" ? (
+              <ActionButton action={resendInvitation.bind(null, user.id)} variant="outline" successMessage={t("detail.invitationSent")}>
+                {t("detail.resendInvitation")}
+              </ActionButton>
+            ) : null}
+            {user.is_active ? (
+              <ConfirmAction
+                action={setUserActive.bind(null, user.id, false)}
+                title={t("detail.deactivateTitle")}
+                description={t("detail.deactivateDescription")}
+                confirmLabel={t("detail.deactivate")}
+                triggerLabel={t("detail.deactivate")}
+                triggerVariant="danger"
+                triggerSize="md"
+                destructive
+                disabled={isSelf}
+                successMessage={t("detail.stateSaved")}
+              />
+            ) : (
+              <ActionButton action={setUserActive.bind(null, user.id, true)} variant="primary" successMessage={t("detail.stateSaved")}>
+                {t("detail.reactivate")}
+              </ActionButton>
+            )}
+          </>
         }
       />
       <div className="grid gap-6 lg:grid-cols-[2fr_3fr]">
@@ -87,12 +96,21 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
             columns={1}
             items={[
               { label: t("detail.email"), value: <span dir="ltr">{user.email}</span> },
-              { label: t("detail.kind"), value: t(`kinds.${user.kind}`) },
-              { label: t("detail.locale"), value: user.locale === "ar" ? "العربية" : "English" },
-              { label: t("detail.state"), value: user.is_active ? t("states.active") : t("states.inactive") },
-              { label: t("detail.created"), value: formatDateTime(user.created_at, locale) },
+              { label: t("detail.kind"), value: label(USER_KIND_LABELS, user.kind, locale) },
+              { label: t("detail.locale"), value: label(LOCALE_LABELS, user.locale, locale) },
+              { label: t("detail.state"), value: <Badge variant={user.is_active ? "success" : "outline"}>{stateLabel}</Badge> },
+              {
+                label: t("detail.invitedOn"),
+                value: (
+                  <span className="flex flex-col">
+                    <time dateTime={user.created_at}>{formatDateTime(user.created_at, locale)}</time>
+                    <span className="text-small text-slate">{t("detail.invitedRelative", { when: formatRelative(user.created_at, locale) })}</span>
+                  </span>
+                ),
+              },
             ]}
           />
+          {user.kind === "employee" ? <p className="mt-4 text-small text-slate">{t("detail.signInNote")}</p> : null}
           {user.kind === "client" && (memberships ?? []).length > 0 ? (
             <div className="mt-5 border-t border-fog pt-4">
               <h3 className="text-label text-slate">{t("detail.clientOf")}</h3>
@@ -102,7 +120,7 @@ export default async function UserDetailPage({ params }: { params: Promise<{ id:
                     {m.client ? (
                       <Link href={`/app/clients/${m.client.id}`} className="text-azure hover:underline">{pick(m.client, "name", locale)}</Link>
                     ) : (
-                      <span className="font-mono text-small">{m.client_id}</span>
+                      <span className="text-slate" title={m.client_id}>{t("detail.clientUnavailable")}</span>
                     )}
                     {!m.is_active ? <Badge variant="outline">{t("states.inactive")}</Badge> : null}
                   </li>

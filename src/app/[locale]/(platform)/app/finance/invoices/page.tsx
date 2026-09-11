@@ -36,8 +36,8 @@ export default async function InvoicesPage({ searchParams }: { searchParams: Pro
     { key: "client", header: t("columns.client"), cell: (r) => clientLabel(names, r.client_id, locale) },
     { key: "title", header: t("columns.title"), cell: (r) => pick(r, "title", locale) },
     { key: "status", header: t("columns.status"), cell: (r) => <Status value={r.status} label={label(INVOICE_STATUS_LABELS, r.status, locale)} /> },
-    { key: "total", header: t("columns.total"), align: "end", cell: (r) => <span className="tabular-nums">{formatMoney(r.total, r.currency, locale)}</span> },
-    { key: "balance", header: t("columns.balance"), align: "end", cell: (r) => <span className="tabular-nums">{r.status === "void" ? "" : formatMoney(Math.max(0, Number(r.total) - Number(r.amount_paid)), r.currency, locale)}</span> },
+    { key: "total", header: t("columns.total"), numeric: true, cell: (r) => <span className="tabular-nums">{formatMoney(r.total, r.currency, locale)}</span> },
+    { key: "balance", header: t("columns.balance"), numeric: true, cell: (r) => <span className="tabular-nums">{r.status === "void" ? "" : formatMoney(Math.max(0, Number(r.total) - Number(r.amount_paid)), r.currency, locale)}</span> },
     { key: "due", header: t("columns.dueDate"), cell: (r) => formatDate(r.due_date, locale) },
   ];
 
@@ -79,7 +79,7 @@ export default async function InvoicesPage({ searchParams }: { searchParams: Pro
         rows={rows}
         columns={columns}
         rowKey={(r) => r.id}
-        rowHref={(r) => `${basePath}/${r.id}`}
+        rowHref={(r) => `/app/finance/invoices/${r.id}`}
         emptyTitle={t("invoices.empty")}
         emptyDescription={t("invoices.emptyDescription")}
         caption={t("invoices.title")}

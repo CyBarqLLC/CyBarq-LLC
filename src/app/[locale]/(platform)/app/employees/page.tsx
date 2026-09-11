@@ -97,7 +97,7 @@ export default async function EmployeesDirectoryPage({ searchParams }: { searchP
         rows={people}
         columns={columns}
         rowKey={(r) => r.user_id ?? r.email ?? ""}
-        rowHref={(r) => (r.user_id && (canHr || r.user_id === viewer.userId) ? `/${locale}/app/employees/${r.user_id}` : undefined)}
+        rowHref={(r) => (r.user_id && (canHr || r.user_id === viewer.userId) ? `/app/employees/${r.user_id}` : undefined)}
         emptyTitle={t("empty.title")}
         emptyDescription={t("empty.description")}
         caption={t("title")}

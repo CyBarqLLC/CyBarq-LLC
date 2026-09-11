@@ -97,7 +97,7 @@ export default async function EngagementPage({ params, searchParams }: { params:
   const canWrite = viewer.can("security.write");
   const canReport = viewer.can("security.report");
   const canDelete = canWrite && viewer.can("security.read_all") && engagement.status === "scoping";
-  const base = `/${locale}/app/security/${id}`;
+  const base = `/app/security/${id}`;
 
   const findingColumns: Column<FindingListRow>[] = [
     { key: "ref", header: t("findings.columns.ref"), primary: true, cell: (f) => <span className="font-medium">{f.ref_code} · {f.title}</span> },

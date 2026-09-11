@@ -59,12 +59,3 @@ export const hrUploadRequestSchema = z.object({
   size: z.number().int().nonnegative().max(25 * 1024 * 1024),
   type: z.string().max(200),
 });
-
-export const DOCUMENT_KIND_LABELS: Record<(typeof DOCUMENT_KINDS)[number], { en: string; ar: string }> = {
-  contract: { en: "Contract", ar: "عقد" },
-  id: { en: "Identification", ar: "وثيقة هوية" },
-  certificate: { en: "Certificate", ar: "شهادة" },
-  experience_certificate: { en: "Experience certificate", ar: "شهادة خبرة" },
-  training_certificate: { en: "Training certificate", ar: "شهادة تدريب" },
-  other: { en: "Other", ar: "أخرى" },
-};

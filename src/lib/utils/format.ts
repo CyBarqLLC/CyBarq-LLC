@@ -1,5 +1,6 @@
 import type { Locale } from "@/i18n/routing";
 import { BUSINESS_TIME_ZONE, isDateOnly } from "@/lib/time";
+import { currencyLabel } from "@/lib/labels";
 
 /** Western numerals in both languages, per the brand rules. */
 const NUMERAL_LOCALE: Record<Locale, string> = { en: "en-GB", ar: "ar-JO-u-nu-latn" };
@@ -97,17 +98,9 @@ export function formatRelative(value: string | Date | null | undefined, locale: 
   return formatDate(d, locale);
 }
 
-const CURRENCY_NAMES: Record<string, { en: string; ar: string }> = {
-  JOD: { en: "Jordanian dinar", ar: "دينار أردني" },
-  USD: { en: "US dollar", ar: "دولار أمريكي" },
-  EUR: { en: "Euro", ar: "يورو" },
-  SAR: { en: "Saudi riyal", ar: "ريال سعودي" },
-  AED: { en: "UAE dirham", ar: "درهم إماراتي" },
-};
-
-/** Human name of a currency (for selects and document headers). */
+/** Human name of a currency (for selects and document headers). Source of truth: `CURRENCY_LABELS`. */
 export function currencyName(code: string, locale: Locale): string {
-  return CURRENCY_NAMES[code]?.[locale] ?? code;
+  return currencyLabel(code, locale);
 }
 
 export function formatMoney(amount: number | string | null | undefined, currency: string, locale: Locale): string {

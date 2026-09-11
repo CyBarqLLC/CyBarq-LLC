@@ -94,7 +94,11 @@
     "employee": "Employee",
     "choose": "Choose an employee",
     "role": "Role",
-    "roles": { "manager": "Manager", "member": "Member", "viewer": "Viewer" },
+    "roles": {
+      "manager": "Manager",
+      "member": "Member",
+      "viewer": "Viewer"
+    },
     "added": "Member added",
     "remove": "Remove",
     "removeTitle": "Remove this member?",
@@ -104,7 +108,11 @@
     "emptyHint": "Add the people who work on this project.",
     "projectManager": "Project manager",
     "since": "Since",
-    "columns": { "person": "Person", "role": "Role", "since": "Since" }
+    "columns": {
+      "person": "Person",
+      "role": "Role",
+      "since": "Since"
+    }
   },
   "milestones": {
     "title": "Milestones",
@@ -115,7 +123,11 @@
     "description": "Description",
     "dueDate": "Due date",
     "status": "Status",
-    "statuses": { "planned": "Planned", "in_progress": "In progress", "completed": "Completed" },
+    "statuses": {
+      "planned": "Planned",
+      "in_progress": "In progress",
+      "completed": "Completed"
+    },
     "clientVisible": "Visible to the client",
     "saved": "Milestone saved",
     "delete": "Delete",
@@ -143,7 +155,13 @@
       "noMilestone": "No milestone",
       "dueDate": "Due date"
     },
-    "columns": { "title": "Task", "status": "Status", "priority": "Priority", "assignee": "Assignee", "dueDate": "Due" },
+    "columns": {
+      "title": "Task",
+      "status": "Status",
+      "priority": "Priority",
+      "assignee": "Assignee",
+      "dueDate": "Due"
+    },
     "filter": "Show",
     "all": "All tasks",
     "open": "Open tasks",
@@ -218,7 +236,14 @@
     "upload": "Upload a document",
     "titleField": "Title",
     "category": "Category",
-    "categories": { "general": "General", "proposal": "Proposal", "contract": "Contract", "report": "Report", "deliverable": "Deliverable", "other": "Other" },
+    "categories": {
+      "general": "General",
+      "proposal": "Proposal",
+      "contract": "Contract",
+      "report": "Report",
+      "deliverable": "Deliverable",
+      "other": "Other"
+    },
     "clientVisible": "Visible to the client",
     "uploaded": "Document uploaded",
     "download": "Download",
@@ -228,7 +253,14 @@
     "deleted": "Document deleted",
     "empty": "No documents yet",
     "emptyHint": "Upload proposals, contracts, reports and deliverables.",
-    "columns": { "title": "Document", "category": "Category", "size": "Size", "uploadedBy": "Uploaded by", "date": "Date", "visibility": "Visibility" },
+    "columns": {
+      "title": "Document",
+      "category": "Category",
+      "size": "Size",
+      "uploadedBy": "Uploaded by",
+      "date": "Date",
+      "visibility": "Visibility"
+    },
     "clientBadge": "Client visible",
     "internalBadge": "Internal"
   },
@@ -243,13 +275,25 @@
       "delete": "deleted"
     },
     "entities": {
-      "projects": "the project",
+      "projects": "project",
       "tasks": "task",
       "milestones": "milestone",
       "project_documents": "document",
       "project_updates": "update"
     },
     "system": "System",
-    "fromTo": "from {from} to {to}"
+    "fromTo": "from {from} to {to}",
+    "sentences": {
+      "insert": "<strong>{actor}</strong> created the {entity} <em>“{title}”</em>",
+      "insertNoTitle": "<strong>{actor}</strong> created the {entity}",
+      "update": "<strong>{actor}</strong> updated the {entity} <em>“{title}”</em>",
+      "updateNoTitle": "<strong>{actor}</strong> updated the {entity}",
+      "status_changed": "<strong>{actor}</strong> moved the {entity} <em>“{title}”</em> from {from} to {to}",
+      "status_changedNoTitle": "<strong>{actor}</strong> moved the {entity} from {from} to {to}",
+      "delete": "<strong>{actor}</strong> deleted the {entity} <em>“{title}”</em>",
+      "deleteNoTitle": "<strong>{actor}</strong> deleted the {entity}",
+      "unknown": "<strong>{actor}</strong>: {action} · {entity} <em>“{title}”</em>",
+      "unknownNoTitle": "<strong>{actor}</strong>: {action} · {entity}"
+    }
   }
 }

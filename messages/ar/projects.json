@@ -65,7 +65,7 @@
     "noDescription": "لا يوجد وصف بعد.",
     "status": "الحالة",
     "changeStatus": "تغيير الحالة",
-    "statusHint": "تُسجَّل تغييرات الحالة في سجل النشاط وسجل التدقيق.",
+    "statusHint": "تُسجَّل تغييرات الحالة في سجل النشاط وفي سجل التدقيق.",
     "update": "تحديث",
     "statusSaved": "تم تحديث الحالة",
     "clientVisibility": "بوابة العميل",
@@ -89,12 +89,16 @@
   },
   "members": {
     "title": "الأعضاء",
-    "description": "يرى الأعضاء المشروع ومهامه ومستنداته. ويمكن للمديرين تعديله.",
+    "description": "يرى الأعضاء المشروع ومهامه ومستنداته، ويمكن للمديرين تعديله.",
     "add": "إضافة عضو",
     "employee": "الموظف",
     "choose": "اختر موظفاً",
     "role": "الدور",
-    "roles": { "manager": "مدير", "member": "عضو", "viewer": "مطّلع" },
+    "roles": {
+      "manager": "مدير",
+      "member": "عضو",
+      "viewer": "مطّلع"
+    },
     "added": "تمت إضافة العضو",
     "remove": "إزالة",
     "removeTitle": "هل تريد إزالة هذا العضو؟",
@@ -104,7 +108,11 @@
     "emptyHint": "أضف الأشخاص الذين يعملون على هذا المشروع.",
     "projectManager": "مدير المشروع",
     "since": "منذ",
-    "columns": { "person": "الشخص", "role": "الدور", "since": "منذ" }
+    "columns": {
+      "person": "الشخص",
+      "role": "الدور",
+      "since": "منذ"
+    }
   },
   "milestones": {
     "title": "المراحل",
@@ -115,7 +123,11 @@
     "description": "الوصف",
     "dueDate": "تاريخ الاستحقاق",
     "status": "الحالة",
-    "statuses": { "planned": "مخطط", "in_progress": "قيد التنفيذ", "completed": "مكتمل" },
+    "statuses": {
+      "planned": "مخطط",
+      "in_progress": "قيد التنفيذ",
+      "completed": "مكتمل"
+    },
     "clientVisible": "ظاهر للعميل",
     "saved": "تم حفظ المرحلة",
     "delete": "حذف",
@@ -143,7 +155,13 @@
       "noMilestone": "بلا مرحلة",
       "dueDate": "تاريخ الاستحقاق"
     },
-    "columns": { "title": "المهمة", "status": "الحالة", "priority": "الأولوية", "assignee": "المسؤول", "dueDate": "الاستحقاق" },
+    "columns": {
+      "title": "المهمة",
+      "status": "الحالة",
+      "priority": "الأولوية",
+      "assignee": "المسؤول",
+      "dueDate": "الاستحقاق"
+    },
     "filter": "عرض",
     "all": "كل المهام",
     "open": "المهام المفتوحة",
@@ -214,11 +232,18 @@
   },
   "documents": {
     "title": "المستندات",
-    "description": "ملفات محفوظة بشكل خاص. تستخدم روابط التنزيل صلاحية قصيرة.",
+    "description": "ملفات محفوظة بشكل خاص، وروابط التنزيل صالحة لوقت قصير.",
     "upload": "رفع مستند",
     "titleField": "العنوان",
     "category": "الفئة",
-    "categories": { "general": "عام", "proposal": "عرض", "contract": "عقد", "report": "تقرير", "deliverable": "مخرج", "other": "أخرى" },
+    "categories": {
+      "general": "عام",
+      "proposal": "عرض",
+      "contract": "عقد",
+      "report": "تقرير",
+      "deliverable": "مخرج",
+      "other": "أخرى"
+    },
     "clientVisible": "ظاهر للعميل",
     "uploaded": "تم رفع المستند",
     "download": "تنزيل",
@@ -228,7 +253,14 @@
     "deleted": "تم حذف المستند",
     "empty": "لا توجد مستندات بعد",
     "emptyHint": "ارفع العروض والعقود والتقارير والمخرجات.",
-    "columns": { "title": "المستند", "category": "الفئة", "size": "الحجم", "uploadedBy": "رفعه", "date": "التاريخ", "visibility": "الظهور" },
+    "columns": {
+      "title": "المستند",
+      "category": "الفئة",
+      "size": "الحجم",
+      "uploadedBy": "رفعه",
+      "date": "التاريخ",
+      "visibility": "الظهور"
+    },
     "clientBadge": "ظاهر للعميل",
     "internalBadge": "داخلي"
   },
@@ -250,6 +282,18 @@
       "project_updates": "التحديث"
     },
     "system": "النظام",
-    "fromTo": "من {from} إلى {to}"
+    "fromTo": "من {from} إلى {to}",
+    "sentences": {
+      "insert": "أنشأ <strong>{actor}</strong> {entity} <em>«{title}»</em>",
+      "insertNoTitle": "أنشأ <strong>{actor}</strong> {entity}",
+      "update": "حدّث <strong>{actor}</strong> {entity} <em>«{title}»</em>",
+      "updateNoTitle": "حدّث <strong>{actor}</strong> {entity}",
+      "status_changed": "غيّر <strong>{actor}</strong> حالة {entity} <em>«{title}»</em> من {from} إلى {to}",
+      "status_changedNoTitle": "غيّر <strong>{actor}</strong> حالة {entity} من {from} إلى {to}",
+      "delete": "حذف <strong>{actor}</strong> {entity} <em>«{title}»</em>",
+      "deleteNoTitle": "حذف <strong>{actor}</strong> {entity}",
+      "unknown": "<strong>{actor}</strong>: {action} · {entity} <em>«{title}»</em>",
+      "unknownNoTitle": "<strong>{actor}</strong>: {action} · {entity}"
+    }
   }
 }

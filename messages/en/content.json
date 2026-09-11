@@ -138,7 +138,7 @@
       "archive": "Archive",
       "restore": "Restore to draft"
     },
-    "publishNeedsPermission": "Publishing and scheduling need the content.publish permission.",
+    "publishNeedsPermission": "Publishing and scheduling need the Publish content permission.",
     "viewPublic": "View on the website",
     "delete": "Delete",
     "deleteTitle": "Delete this entry?",

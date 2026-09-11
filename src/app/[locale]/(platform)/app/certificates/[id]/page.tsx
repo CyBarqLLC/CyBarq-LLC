@@ -102,7 +102,7 @@ export default async function CertificateDetailPage({ params }: { params: Promis
 
           {viewer.can("audit.read") ? (
             <Section title={t("history.title")}>
-              <HistoryList rows={history} locale={locale} emptyLabel={t("history.empty")} actorLabel={t("history.actor")} statusLabel={(s) => (s in CERTIFICATE_STATUS_LABELS ? label(CERTIFICATE_STATUS_LABELS, s as keyof typeof CERTIFICATE_STATUS_LABELS, locale) : s)} />
+              <HistoryList rows={history} locale={locale} emptyLabel={t("history.empty")} actorLabel={t("history.actor")} entityType="certificate" transitionLabel={(from, to) => t("history.transition", { from, to })} />
             </Section>
           ) : null}
         </div>

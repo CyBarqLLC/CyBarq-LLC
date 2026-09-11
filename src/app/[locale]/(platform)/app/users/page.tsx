@@ -7,6 +7,7 @@ import { requirePermission } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { pagination, param, withPage, type SearchParams } from "@/lib/data/paginate";
 import { formatDate } from "@/lib/utils/format";
+import { USER_KIND_LABELS, label, roleLabel } from "@/lib/labels";
 import { searchTerm } from "@/lib/validation/projects";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
@@ -52,16 +53,16 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
 
   const columns: Column<Row>[] = [
     { key: "person", header: t("columns.person"), primary: true, cell: (u) => <Person person={u} locale={locale} secondary={u.email} /> },
-    { key: "kind", header: t("columns.kind"), cell: (u) => t(`kinds.${u.kind}`) },
+    { key: "kind", header: t("columns.kind"), cell: (u) => label(USER_KIND_LABELS, u.kind, locale) },
     { key: "roles", header: t("columns.roles"), cell: (u) => (
       <span className="flex flex-wrap gap-1">
         {u.user_roles.length === 0 ? <span className="text-slate">{t("form.noRoles")}</span> : null}
         {u.user_roles.map((r) => (
-          <Badge key={r.role_key} variant={r.role_key === "super_admin" ? "graphite" : "outline"}>{r.roles ? pick(r.roles, "name", locale) : r.role_key}</Badge>
+          <Badge key={r.role_key} variant={r.role_key === "super_admin" ? "graphite" : "outline"}>{r.roles ? pick(r.roles, "name", locale) : roleLabel(r.role_key, locale)}</Badge>
         ))}
       </span>
     ) },
-    { key: "state", header: t("columns.state"), cell: (u) => <Badge variant={u.is_active ? "success" : "danger"}>{u.is_active ? t("states.active") : t("states.inactive")}</Badge> },
+    { key: "state", header: t("columns.state"), cell: (u) => <Badge variant={u.is_active ? "success" : "outline"}>{u.is_active ? t("states.active") : t("states.inactive")}</Badge> },
     { key: "created", header: t("columns.created"), cell: (u) => formatDate(u.created_at, locale) },
   ];
 
@@ -88,8 +89,8 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
         <FilterField label={t("filters.kind")} htmlFor="kind">
           <NativeSelect id="kind" name="kind" defaultValue={kind ?? ""}>
             <option value="">{t("filters.any")}</option>
-            <option value="employee">{t("kinds.employee")}</option>
-            <option value="client">{t("kinds.client")}</option>
+            <option value="employee">{label(USER_KIND_LABELS, "employee", locale)}</option>
+            <option value="client">{label(USER_KIND_LABELS, "client", locale)}</option>
           </NativeSelect>
         </FilterField>
         <FilterField label={t("filters.active")} htmlFor="state">
@@ -100,7 +101,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
           </NativeSelect>
         </FilterField>
       </FilterBar>
-      <DataTable rows={users} columns={columns} rowKey={(u) => u.id} rowHref={(u) => `/${locale}/app/users/${u.id}`} emptyTitle={t("empty.title")} emptyDescription={t("empty.description")} caption={t("title")} />
+      <DataTable rows={users} columns={columns} rowKey={(u) => u.id} rowHref={(u) => `/app/users/${u.id}`} emptyTitle={t("empty.title")} emptyDescription={t("empty.description")} caption={t("title")} />
       <ListPagination page={page} pageSize={pageSize} total={count ?? 0} hrefFor={(p) => withPage(`/${locale}/app/users`, filters, p)} />
     </>
   );

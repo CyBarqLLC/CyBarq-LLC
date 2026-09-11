@@ -9,6 +9,7 @@ import type { ActionResult } from "@/lib/actions/result";
 import type { Tables } from "@/lib/supabase/database.types";
 import { createAsset, updateAsset, deleteAsset } from "@/lib/actions/security";
 import { ASSET_TYPES } from "@/lib/validation/security";
+import { ASSET_TYPE_LABELS, label } from "@/lib/labels";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
 import { Field } from "@/components/ui/field";
@@ -24,19 +25,8 @@ import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type AssetRow = Pick<Tables<"engagement_assets">, "id" | "name" | "type" | "identifier" | "in_scope" | "notes">;
 
-const ASSET_TYPE_LABELS: Record<(typeof ASSET_TYPES)[number], { en: string; ar: string }> = {
-  web_app: { en: "Web application", ar: "تطبيق ويب" },
-  api: { en: "API", ar: "واجهة برمجية" },
-  host: { en: "Host", ar: "مضيف" },
-  network: { en: "Network", ar: "شبكة" },
-  cloud: { en: "Cloud", ar: "سحابة" },
-  mobile_app: { en: "Mobile application", ar: "تطبيق جوال" },
-  identity: { en: "Identity", ar: "هوية" },
-  other: { en: "Other", ar: "أخرى" },
-};
-
 export function assetTypeLabel(type: Tables<"engagement_assets">["type"], locale: Locale): string {
-  return ASSET_TYPE_LABELS[type][locale];
+  return label(ASSET_TYPE_LABELS, type, locale);
 }
 
 type AssetsPanelProps = { engagementId: string; assets: AssetRow[]; canWrite: boolean };

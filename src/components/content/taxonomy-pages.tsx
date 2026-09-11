@@ -8,7 +8,8 @@ import { createClient } from "@/lib/supabase/server";
 import { pick } from "@/i18n/bilingual";
 import { formatNumber } from "@/lib/utils/format";
 import { createAuthor, updateAuthor, deleteAuthor, createCategory, updateCategory, deleteCategory, createTag, updateTag, deleteTag } from "@/lib/actions/content";
-import type { CategoryKind } from "@/lib/validation/content";
+import { CATEGORY_KINDS, type CategoryKind } from "@/lib/validation/content";
+import { humanizeKey } from "@/lib/labels";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { DataTable, type Column } from "@/components/ui/data-table";
@@ -30,6 +31,10 @@ function Crumbs({ title, section, sectionHref }: { title: string; section?: stri
       ) : null}
     </span>
   );
+}
+
+function isCategoryKind(value: string): value is CategoryKind {
+  return (CATEGORY_KINDS as readonly string[]).includes(value);
 }
 
 // ---------------------------------------------------------------------------
@@ -68,7 +73,7 @@ export async function AuthorsListPage() {
         description={t("descriptions.authors")}
         actions={viewer.can("content.write") ? <Button asChild><Link href="/app/content/authors/new"><Plus aria-hidden /> {t("new.authors")}</Link></Button> : null}
       />
-      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/${locale}/app/content/authors/${r.id}`} emptyTitle={t("authors.empty")} emptyDescription={t("authors.emptyDescription")} />
+      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/app/content/authors/${r.id}`} emptyTitle={t("authors.empty")} emptyDescription={t("authors.emptyDescription")} />
     </div>
   );
 }
@@ -121,9 +126,9 @@ export async function CategoriesListPage() {
   type Row = (typeof rows)[number];
   const columns: Column<Row>[] = [
     { key: "name", header: t("categories.columns.name"), primary: true, cell: (r) => <span className="font-medium">{pick(r, "name", locale)}</span> },
-    { key: "kind", header: t("categories.columns.kind"), cell: (r) => <Badge variant="outline">{t(`categories.form.kinds.${r.kind as CategoryKind}`)}</Badge> },
+    { key: "kind", header: t("categories.columns.kind"), cell: (r) => <Badge variant="outline">{isCategoryKind(r.kind) ? t(`categories.form.kinds.${r.kind}`) : humanizeKey(r.kind)}</Badge> },
     { key: "slug", header: t("categories.columns.slug"), cell: (r) => <span dir="ltr" className="font-mono text-small">{r.slug}</span> },
-    { key: "position", header: t("categories.columns.position"), cell: (r) => formatNumber(r.position, locale), align: "end" },
+    { key: "position", header: t("categories.columns.position"), cell: (r) => formatNumber(r.position, locale), numeric: true },
   ];
   return (
     <div>
@@ -133,7 +138,7 @@ export async function CategoriesListPage() {
         description={t("descriptions.categories")}
         actions={viewer.can("content.write") ? <Button asChild><Link href="/app/content/categories/new"><Plus aria-hidden /> {t("new.categories")}</Link></Button> : null}
       />
-      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/${locale}/app/content/categories/${r.id}`} emptyTitle={t("categories.empty")} />
+      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/app/content/categories/${r.id}`} emptyTitle={t("categories.empty")} />
     </div>
   );
 }
@@ -194,7 +199,7 @@ export async function TagsListPage() {
         description={t("descriptions.tags")}
         actions={viewer.can("content.write") ? <Button asChild><Link href="/app/content/tags/new"><Plus aria-hidden /> {t("new.tags")}</Link></Button> : null}
       />
-      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/${locale}/app/content/tags/${r.id}`} emptyTitle={t("tags.empty")} />
+      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/app/content/tags/${r.id}`} emptyTitle={t("tags.empty")} />
     </div>
   );
 }

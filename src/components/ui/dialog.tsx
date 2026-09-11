@@ -3,6 +3,7 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 
 const Dialog = DialogPrimitive.Root;
@@ -10,6 +11,7 @@ const DialogTrigger = DialogPrimitive.Trigger;
 const DialogClose = DialogPrimitive.Close;
 
 function DialogContent({ className, children, title, description, ...props }: React.ComponentProps<typeof DialogPrimitive.Content> & { title: string; description?: string }) {
+  const t = useTranslations("common");
   return (
     <DialogPrimitive.Portal>
       <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-graphite/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
@@ -28,7 +30,7 @@ function DialogContent({ className, children, title, description, ...props }: Re
             <DialogPrimitive.Title className="text-h3">{title}</DialogPrimitive.Title>
             {description ? <DialogPrimitive.Description className="mt-1 text-small text-slate">{description}</DialogPrimitive.Description> : <DialogPrimitive.Description className="sr-only">{title}</DialogPrimitive.Description>}
           </div>
-          <DialogPrimitive.Close className="touch -m-2 flex items-center justify-center text-slate hover:text-graphite" aria-label="Close">
+          <DialogPrimitive.Close className="touch -m-2 flex items-center justify-center text-slate hover:text-graphite" aria-label={t("close")}>
             <X className="size-5" aria-hidden />
           </DialogPrimitive.Close>
         </div>

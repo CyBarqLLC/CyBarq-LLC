@@ -6,7 +6,7 @@ import { requirePermission } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { pick } from "@/i18n/bilingual";
 import { formatDate, formatDateTime, formatMoney } from "@/lib/utils/format";
-import { INVOICE_STATUS_LABELS, label } from "@/lib/labels";
+import { INVOICE_STATUS_LABELS, PAYMENT_METHOD_LABELS, currencyOption, label, labelOf } from "@/lib/labels";
 import { PageHeader } from "@/components/ui/page-header";
 import { Status } from "@/components/ui/status";
 import { DataTable, type Column } from "@/components/ui/data-table";
@@ -50,8 +50,8 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
 
   const paymentColumns: Column<PaymentRow>[] = [
     { key: "date", header: t("payment.paidAt"), primary: true, cell: (r) => formatDate(r.paid_at, locale, "long") },
-    { key: "amount", header: t("payment.amount"), align: "end", cell: (r) => <span className="tabular-nums">{formatMoney(r.amount, invoice.currency, locale)}</span> },
-    { key: "method", header: t("payment.method"), cell: (r) => t(`payment.methods.${r.method}`) },
+    { key: "amount", header: t("payment.amount"), numeric: true, cell: (r) => <span className="tabular-nums">{formatMoney(r.amount, invoice.currency, locale)}</span> },
+    { key: "method", header: t("payment.method"), cell: (r) => labelOf(PAYMENT_METHOD_LABELS, r.method, locale) },
     { key: "reference", header: t("payment.reference"), cell: (r) => r.reference ?? "" },
     { key: "notes", header: t("payment.notes"), cell: (r) => r.notes ?? "" },
     ...(viewer.can("finance.issue") && invoice.status !== "void"
@@ -97,7 +97,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
             { label: t("detail.project"), value: project ? <Link href={`/app/projects/${project.id}`} className="text-azure hover:underline">{`${project.code} · ${pick(project, "name", locale)}`}</Link> : null },
             { label: t("detail.issueDate"), value: formatDate(invoice.issue_date, locale, "long") },
             { label: t("detail.dueDate"), value: formatDate(invoice.due_date, locale, "long") },
-            { label: t("detail.currency"), value: invoice.currency },
+            { label: t("detail.currency"), value: currencyOption(invoice.currency, locale) },
             { label: t("detail.language"), value: t(`languages.${invoice.language}`) },
             { label: t("detail.fromQuote"), value: quote ? <Link href={`/app/finance/quotes/${quote.id}`} className="text-azure hover:underline">{quote.number ?? t("quotes.draftLabel")}</Link> : null },
             { label: t("detail.replaces"), value: replaced ? <Link href={`/app/finance/invoices/${replaced.id}`} className="text-azure hover:underline">{replaced.number ?? t("invoices.draftLabel")}</Link> : null },
@@ -141,7 +141,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
 
       {viewer.can("audit.read") ? (
         <Section title={t("history.title")}>
-          <HistoryList rows={history} locale={locale} emptyLabel={t("history.empty")} actorLabel={t("history.actor")} statusLabel={(s) => (s in INVOICE_STATUS_LABELS ? label(INVOICE_STATUS_LABELS, s as keyof typeof INVOICE_STATUS_LABELS, locale) : s)} />
+          <HistoryList rows={history} locale={locale} emptyLabel={t("history.empty")} actorLabel={t("history.actor")} entityType="invoice" currency={invoice.currency} transitionLabel={(from, to) => t("history.transition", { from, to })} />
         </Section>
       ) : null}
     </div>

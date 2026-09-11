@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Upload, FileText, X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 import { Button } from "./button";
 
@@ -23,6 +24,7 @@ type FileUploadProps = {
  * credentials and the server decides where each file may go.
  */
 export function FileUpload({ requestTicket, onUploaded, accept, maxSizeMb = 25, labels, className }: FileUploadProps) {
+  const tErrors = useTranslations("errors");
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [file, setFile] = React.useState<File | null>(null);
   const [state, setState] = React.useState<"idle" | "uploading" | "done" | "error">("idle");
@@ -59,7 +61,7 @@ export function FileUpload({ requestTicket, onUploaded, accept, maxSizeMb = 25, 
     });
     if (!res.ok) {
       setState("error");
-      setError(`Upload failed (${res.status})`);
+      setError(tErrors("uploadFailed"));
       return;
     }
     const saved = await onUploaded({ path: ticket.data.path, name: file.name, size: file.size, type: file.type });

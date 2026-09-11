@@ -15,13 +15,13 @@ function TableBody({ className, ...props }: React.ComponentProps<"tbody">) {
   return <tbody className={cn("[&_tr:last-child]:border-0", className)} {...props} />;
 }
 function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
-  return <tr className={cn("border-b border-fog transition-colors hover:bg-surface/70 data-[state=selected]:bg-ice", className)} {...props} />;
+  return <tr className={cn("border-b border-fog transition-colors duration-(--duration-state) hover:bg-surface data-[state=selected]:bg-ice", className)} {...props} />;
 }
 function TableHead({ className, ...props }: React.ComponentProps<"th">) {
-  return <th className={cn("h-11 px-3 text-start align-middle text-label text-slate whitespace-nowrap", className)} {...props} />;
+  return <th className={cn("h-11 whitespace-nowrap bg-surface/40 px-4 text-start align-middle text-label font-medium text-slate", className)} {...props} />;
 }
 function TableCell({ className, ...props }: React.ComponentProps<"td">) {
-  return <td className={cn("px-3 py-3 align-middle", className)} {...props} />;
+  return <td className={cn("px-4 py-3 align-middle", className)} {...props} />;
 }
 function TableCaption({ className, ...props }: React.ComponentProps<"caption">) {
   return <caption className={cn("mt-4 text-small text-slate", className)} {...props} />;

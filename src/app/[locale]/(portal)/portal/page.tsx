@@ -11,6 +11,7 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Status } from "@/components/ui/status";
 import { EmptyState } from "@/components/ui/states";
+import { greetingName } from "@/components/platform/person";
 
 export default async function PortalOverviewPage() {
   const viewer = await requireClientUser();
@@ -32,7 +33,7 @@ export default async function PortalOverviewPage() {
     if (!nextMilestone.has(m.project_id)) nextMilestone.set(m.project_id, { title: pick(m, "title", locale), due_date: m.due_date });
   }
   const clientNames = (clients ?? []).map((c) => pick(c, "name", locale));
-  const firstName = (locale === "ar" ? viewer.profile.full_name_ar || viewer.profile.full_name : viewer.profile.full_name).split(/\s+/)[0] ?? "";
+  const firstName = greetingName(viewer.profile, locale);
 
   const tiles = [
     { key: "projects", value: (projects ?? []).length, href: "/portal/projects", label: t("overview.activeProjects") },
@@ -43,7 +44,7 @@ export default async function PortalOverviewPage() {
   return (
     <div>
       <PageHeader
-        title={t("overview.welcome", { name: firstName })}
+        title={firstName ? t("overview.welcome", { name: firstName }) : t("overview.welcomeAnonymous")}
         description={clientNames.length > 0 ? t("overview.clientLine", { clients: clientNames.join(locale === "ar" ? "، " : ", ") }) : t("overview.noClient")}
       />
       <div className="grid gap-4 sm:grid-cols-3">

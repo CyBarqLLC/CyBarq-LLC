@@ -41,11 +41,11 @@ export function Topbar({ sections, viewer, unread, commands, signOut, variant = 
       <div className="ms-auto flex items-center gap-1 sm:gap-2">
         <CommandSearch items={commands} labels={{ placeholder: t("searchPlaceholder"), empty: t("searchEmpty"), title: t("search"), open: t("search") }} />
         <LanguageSwitch className="hidden sm:inline-flex" />
-        <Button asChild variant="ghost" size="icon" aria-label={t("notifications")}>
+        <Button asChild variant="ghost" size="icon" aria-label={unread > 0 ? `${t("notifications")} · ${t("unreadCount", { count: unread })}` : t("notifications")}>
           <Link href={`${base}/notifications`} className="relative">
             <Bell className="size-5" aria-hidden />
             {unread > 0 ? (
-              <span className="absolute end-1.5 top-1.5 flex min-w-4 items-center justify-center bg-blue px-1 text-[10px] font-medium text-graphite" aria-label={`${unread}`}>
+              <span aria-hidden className="absolute end-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center bg-blue px-1 text-[10px] font-medium leading-none text-graphite tabular-nums">
                 {unread > 99 ? "99+" : unread}
               </span>
             ) : null}

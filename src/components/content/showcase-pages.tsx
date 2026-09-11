@@ -80,7 +80,7 @@ export async function ShowcaseListPage({ table, searchParams }: { table: Showcas
     { key: "status", header: t("list.columns.status"), cell: (r) => <Status value={r.status} label={label(CONTENT_STATUS_LABELS, r.status, locale)} /> },
     { key: "practice", header: t("list.columns.practice"), cell: (r) => label(PRACTICE_LABELS, r.practice, locale) },
     { key: "year", header: t("list.columns.year"), cell: (r) => (r.year ? formatNumber(r.year, locale) : <span className="text-slate">{tc("none")}</span>) },
-    { key: "position", header: t("list.columns.position"), cell: (r) => formatNumber(r.position, locale), align: "end" },
+    { key: "position", header: t("list.columns.position"), cell: (r) => formatNumber(r.position, locale), numeric: true },
     { key: "updated", header: t("list.columns.updated"), cell: (r) => formatDateTime(r.updated_at, locale) },
   ];
 
@@ -108,7 +108,7 @@ export async function ShowcaseListPage({ table, searchParams }: { table: Showcas
         </NativeSelect>
         <Button type="submit" variant="outline">{tc("filter")}</Button>
       </form>
-      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `${base}/${r.id}`} emptyTitle={t("list.empty")} emptyDescription={t("list.emptyDescription")} caption={t(`sections.${table}`)} />
+      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/app/content/${segment}/${r.id}`} emptyTitle={t("list.empty")} emptyDescription={t("list.emptyDescription")} caption={t(`sections.${table}`)} />
       <Pagination
         page={page}
         pageSize={pageSize}

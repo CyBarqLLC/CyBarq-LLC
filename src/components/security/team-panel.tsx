@@ -5,7 +5,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { X } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
 import { addEngagementMember, removeEngagementMember } from "@/lib/actions/security";
-import { MEMBER_ROLES, type MemberRole } from "@/lib/validation/security";
+import { MEMBER_ROLES } from "@/lib/validation/security";
+import { ENGAGEMENT_ROLE_LABELS, label, labelOf } from "@/lib/labels";
 import { Field } from "@/components/ui/field";
 import { NativeSelect } from "@/components/ui/native-select";
 import { SubmitButton } from "@/components/ui/submit-button";
@@ -47,7 +48,7 @@ export function TeamPanel({ engagementId, members, employees, leadUserId, canWri
                   <div className="truncate text-body">{employeeName(m, locale)}</div>
                   {m.email ? <div className="truncate text-small text-slate">{m.email}</div> : null}
                 </div>
-                <Badge variant={m.role === "lead" ? "blue" : "outline"}>{t(`roles.${m.role as MemberRole}`)}</Badge>
+                <Badge variant={m.role === "lead" ? "blue" : "outline"}>{labelOf(ENGAGEMENT_ROLE_LABELS, m.role, locale)}</Badge>
                 {canWrite && m.user_id !== leadUserId ? <RemoveMember engagementId={engagementId} userId={m.user_id} label={t("remove")} /> : null}
               </li>
             ))}
@@ -69,7 +70,7 @@ export function TeamPanel({ engagementId, members, employees, leadUserId, canWri
           <Field label={t("role")} htmlFor="member_role" error={fieldError(result, "role")} required>
             <NativeSelect id="member_role" name="role" defaultValue="tester">
               {MEMBER_ROLES.map((r) => (
-                <option key={r} value={r}>{t(`roles.${r}`)}</option>
+                <option key={r} value={r}>{label(ENGAGEMENT_ROLE_LABELS, r, locale)}</option>
               ))}
             </NativeSelect>
           </Field>

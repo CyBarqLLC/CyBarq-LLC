@@ -7,18 +7,12 @@ import { requireClientUser } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { pick } from "@/i18n/bilingual";
 import { formatDate, formatDateTime } from "@/lib/utils/format";
-import { PRACTICE_LABELS, PROJECT_STATUS_LABELS, label } from "@/lib/labels";
+import { MILESTONE_STATUS_LABELS, PRACTICE_LABELS, PROJECT_STATUS_LABELS, label } from "@/lib/labels";
 import { PageHeader } from "@/components/ui/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Status } from "@/components/ui/status";
 import { EmptyState } from "@/components/ui/states";
 import { PortalDocumentUpload } from "@/components/portal/document-upload";
-
-const MILESTONE_LABELS = {
-  planned: { en: "Planned", ar: "مخطط" },
-  in_progress: { en: "In progress", ar: "قيد التنفيذ" },
-  completed: { en: "Completed", ar: "مكتمل" },
-} as const;
 
 export default async function PortalProjectPage({ params }: { params: Promise<{ id: string }> }) {
   await requireClientUser();
@@ -80,7 +74,7 @@ export default async function PortalProjectPage({ params }: { params: Promise<{ 
                       </div>
                       <div className="flex shrink-0 items-center gap-3 text-small">
                         {m.due_date ? <span className="text-slate">{formatDate(m.due_date, locale)}</span> : null}
-                        <Status value={m.status} label={MILESTONE_LABELS[m.status][locale]} />
+                        <Status value={m.status} label={label(MILESTONE_STATUS_LABELS, m.status, locale)} />
                       </div>
                     </li>
                   ))}

@@ -12,7 +12,8 @@ import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/states";
 import { SectionCard } from "@/components/platform/section-card";
 import { ConfirmAction } from "@/components/platform/confirm-action";
-import type { Option } from "@/components/platform/enum-options";
+import { enumOptions, type Option } from "@/components/platform/enum-options";
+import { MILESTONE_STATUS_LABELS, label } from "@/lib/labels";
 import { getProject, canManageProject } from "../project-data";
 import { MilestoneForm } from "./milestone-form";
 import { MilestoneItem } from "./milestone-item";
@@ -35,7 +36,7 @@ export default async function ProjectMilestonesPage({ params }: { params: Promis
     .order("due_date", { ascending: true, nullsFirst: false })
     .order("created_at");
   const today = businessToday();
-  const statuses: Option[] = MILESTONE_STATUSES.map((s) => ({ value: s, label: t(`statuses.${s}`) }));
+  const statuses: Option[] = enumOptions(MILESTONE_STATUS_LABELS, locale, MILESTONE_STATUSES);
 
   const list = milestones ?? [];
 
@@ -52,7 +53,7 @@ export default async function ProjectMilestonesPage({ params }: { params: Promis
                 <>
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="text-body font-medium">{pick(m, "title", locale)}</span>
-                    <Status value={m.status} label={t(`statuses.${m.status}`)} />
+                    <Status value={m.status} label={label(MILESTONE_STATUS_LABELS, m.status, locale)} />
                     {overdue ? <Badge variant="danger">{t("overdue")}</Badge> : null}
                     {m.client_visible ? <Badge variant="outline">{tp("updates.clientBadge")}</Badge> : null}
                   </div>

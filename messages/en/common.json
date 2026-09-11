@@ -37,7 +37,14 @@
   "description": "Description",
   "notes": "Notes",
   "download": "Download",
-  "upload": "Upload",
+  "upload": {
+    "choose": "Choose a file",
+    "drop": "Drag a file here or",
+    "uploading": "Uploading",
+    "done": "Uploaded",
+    "tooLarge": "This file is too large.",
+    "remove": "Remove file"
+  },
   "view": "View",
   "details": "Details",
   "confirm": "Confirm",
@@ -52,7 +59,8 @@
   "pagination": {
     "summary": "Showing {from} to {to} of {total}",
     "previous": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "label": "Pagination"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
@@ -65,18 +73,21 @@
     "tryAgain": "Try again",
     "goHome": "Go to the homepage"
   },
-  "upload": {
-    "choose": "Choose a file",
-    "drop": "Drag a file here or",
-    "uploading": "Uploading",
-    "done": "Uploaded",
-    "tooLarge": "This file is too large.",
-    "remove": "Remove file"
-  },
   "editor": {
     "link": "Link",
     "linkPrompt": "Enter a link (https://)",
-    "placeholder": "Write here"
+    "placeholder": "Write here",
+    "bold": "Bold",
+    "italic": "Italic",
+    "heading2": "Heading 2",
+    "heading3": "Heading 3",
+    "bulletList": "Bullet list",
+    "numberedList": "Numbered list",
+    "quote": "Quote",
+    "rule": "Horizontal rule",
+    "undo": "Undo",
+    "redo": "Redo",
+    "toolbar": "Formatting"
   },
   "footer": {
     "explore": "Explore",
@@ -90,5 +101,6 @@
     "terms": "Terms",
     "verify": "Verify a certificate",
     "signIn": "Sign in"
-  }
+  },
+  "navigation": "Navigation"
 }

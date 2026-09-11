@@ -65,7 +65,7 @@
     "signatoryTitleEn": "Signatory title (English)",
     "signatoryTitleAr": "Signatory title (Arabic)",
     "signatoryHint": "Optional. When empty, the company name is printed on the signature line.",
-    "saved": "Saved.",
+    "saved": "Saved",
     "cancel": "Cancel"
   },
   "actions": {
@@ -86,7 +86,7 @@
     "confirm": "Confirm",
     "cancel": "Cancel",
     "copyLink": "Copy link",
-    "copied": "Copied."
+    "copied": "Copied"
   },
   "immutable": {
     "title": "This certificate is locked",
@@ -127,6 +127,7 @@
   "history": {
     "title": "History",
     "empty": "No history yet.",
-    "actor": "By"
+    "actor": "By",
+    "transition": "{from} → {to}"
   }
 }
