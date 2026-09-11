@@ -115,8 +115,9 @@ export function CommercialDocument({ data }: { data: CommercialDocumentData }) {
   if (data.issueDate) metaRows.push({ label: t.issueDate, value: formatDate(data.issueDate, locale, "long") });
   if (isInvoice && data.dueDate) metaRows.push({ label: t.dueDate, value: formatDate(data.dueDate, locale, "long") });
   if (!isInvoice && data.validUntil) metaRows.push({ label: t.validUntil, value: formatDate(data.validUntil, locale, "long") });
+  /* Code with its name in English; the Arabic name alone so the line stays one script. */
   const currencyLabel = currencyName(data.currency, locale);
-  metaRows.push({ label: t.currency, value: currencyLabel === data.currency ? data.currency : `${data.currency} · ${currencyLabel}` });
+  metaRows.push({ label: t.currency, value: currencyLabel === data.currency ? data.currency : locale === "ar" ? currencyLabel : `${data.currency} · ${currencyLabel}` });
   if (data.quoteNumber) metaRows.push({ label: t.fromQuote, value: data.quoteNumber });
   if (data.replacesNumber) metaRows.push({ label: t.replaces, value: data.replacesNumber });
   if (data.projectCode) metaRows.push({ label: t.project, value: data.projectCode });

@@ -70,20 +70,22 @@ const s = StyleSheet.create({
   header: { justifyContent: "space-between", alignItems: "flex-start" },
   headerEnd: { paddingTop: 2 },
   number: { fontSize: TYPE.body, fontWeight: 500, lineHeight: 1.4 },
-  body: { flexGrow: 1, paddingTop: 12 },
+  body: { flexGrow: 1, paddingTop: 8 },
   type: { fontSize: 8.5, fontWeight: 500, color: PDF_COLORS.slate, lineHeight: 1.4 },
-  certify: { fontSize: 11, color: PDF_COLORS.slate, marginTop: 18, lineHeight: 1.4 },
+  certify: { fontSize: 11, color: PDF_COLORS.slate, marginTop: 14, lineHeight: 1.4 },
   name: { fontSize: 32, fontWeight: 300, lineHeight: 1.15, marginTop: 4 },
   lead: { fontSize: 11, color: PDF_COLORS.slate, marginTop: 10, lineHeight: 1.4 },
   main: { fontSize: TYPE.title, fontWeight: 500, lineHeight: 1.3, marginTop: 2, maxWidth: TEXT_WIDTH },
   sub: { fontSize: TYPE.subhead, lineHeight: 1.35, marginTop: 2, maxWidth: TEXT_WIDTH },
   desc: { fontSize: TYPE.body, color: PDF_COLORS.slate, lineHeight: 1.5, marginTop: 8, maxWidth: TEXT_WIDTH },
-  facts: { marginTop: 16, width: 380 },
-  factRow: { alignItems: "flex-start", paddingVertical: 2.5 },
+  facts: { marginTop: 14, width: 380 },
+  factRow: { alignItems: "flex-start", paddingVertical: 2 },
   factKey: { width: 104, fontSize: TYPE.label, fontWeight: 500, color: PDF_COLORS.slate, lineHeight: 1.5, paddingTop: 2 },
   factValue: { flexGrow: 1, flexShrink: 1, flexBasis: 0, fontSize: TYPE.body + 0.5, lineHeight: 1.5 },
-  bottom: { justifyContent: "space-between", alignItems: "flex-end", marginTop: 20 },
-  issuer: { width: "42%" },
+  bottom: { justifyContent: "space-between", alignItems: "flex-end", marginTop: 18 },
+  issue: { alignItems: "flex-end" },
+  issued: { width: 150 },
+  issuer: { width: 190, marginHorizontal: 16 },
   signLine: { borderTopWidth: 1, borderTopColor: PDF_COLORS.graphite, borderTopStyle: "solid", width: 170, paddingTop: 5 },
   strong: { fontSize: TYPE.body, fontWeight: 500, lineHeight: 1.45 },
   small: { fontSize: TYPE.small, color: PDF_COLORS.slate, lineHeight: 1.45 },
@@ -139,7 +141,6 @@ export function CertificateDocument({ data }: { data: CertificateDocumentData })
   if (data.roleTitle && data.roleTitle !== mainLine) facts.push({ label: t.role, value: data.roleTitle });
   if (periodText) facts.push({ label: t.periodLabel, value: periodText });
   if (hoursText) facts.push({ label: t.hoursLabel, value: hoursText });
-  if (data.issueDate) facts.push({ label: t.issued, value: formatDate(data.issueDate, locale, "long") });
 
   return (
     <Document title={`${typeLabel} ${data.certificateNo ?? ""}`.trim()} author={company.legalName.en} creator="CyBarq Platform" producer="CyBarq Platform">
@@ -183,24 +184,34 @@ export function CertificateDocument({ data }: { data: CertificateDocumentData })
           ) : null}
         </View>
 
-        {/* Issuer or signatory at the start, verification at the end */}
+        {/* Issue date and signatory (or issuer) at the start, verification at the end */}
         <View style={sx(s.bottom, { flexDirection: dir })}>
-          <View style={sx(s.issuer, { alignItems: itemsStart(locale) })}>
-            {data.signatoryName ? (
-              <View style={s.signLine}>
-                <Text style={sx(s.strong, { textAlign: start })}>{data.signatoryName}</Text>
-                {data.signatoryTitle ? <Text style={sx(s.small, { textAlign: start })}>{data.signatoryTitle}</Text> : null}
-                <Text style={sx(s.small, { textAlign: start })}>{company.legalName[locale]}</Text>
-              </View>
-            ) : (
-              <View>
+          <View style={sx(s.issue, { flexDirection: dir })}>
+            {data.issueDate ? (
+              <View style={s.issued}>
                 <Label locale={locale} marginBottom={3}>
-                  {t.issuedBy}
+                  {t.issued}
                 </Label>
-                <Text style={sx(s.strong, { textAlign: start })}>{company.legalName[locale]}</Text>
-                <Text style={sx(s.small, { textAlign: start })}>{company.city[locale]}</Text>
+                <Text style={sx(s.strong, { textAlign: start })}>{formatDate(data.issueDate, locale, "long")}</Text>
               </View>
-            )}
+            ) : null}
+            <View style={sx(s.issuer, { alignItems: itemsStart(locale) })}>
+              {data.signatoryName ? (
+                <View style={s.signLine}>
+                  <Text style={sx(s.strong, { textAlign: start })}>{data.signatoryName}</Text>
+                  {data.signatoryTitle ? <Text style={sx(s.small, { textAlign: start })}>{data.signatoryTitle}</Text> : null}
+                  <Text style={sx(s.small, { textAlign: start })}>{company.legalName[locale]}</Text>
+                </View>
+              ) : (
+                <View>
+                  <Label locale={locale} marginBottom={3}>
+                    {t.issuedBy}
+                  </Label>
+                  <Text style={sx(s.strong, { textAlign: start })}>{company.legalName[locale]}</Text>
+                  <Text style={sx(s.small, { textAlign: start })}>{company.city[locale]}</Text>
+                </View>
+              )}
+            </View>
           </View>
 
           <View style={sx(s.verify, { flexDirection: dir })}>

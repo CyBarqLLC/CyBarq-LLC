@@ -171,7 +171,7 @@ describe("document footer data", () => {
   it("generates the website QR once per URL", async () => {
     await documentFooterData("en", { jordanLegalName: true }, facts);
     await documentFooterData("ar", { jordanLegalName: false }, facts);
-    const calls = vi.mocked(QRCode.toDataURL).mock.calls.filter((call) => call[0] === facts.url);
+    const calls = vi.mocked(QRCode.toDataURL).mock.calls.filter((call) => String(call[0]) === facts.url);
     expect(calls.length).toBeLessThanOrEqual(1);
   });
 });
