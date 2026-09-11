@@ -1,0 +1,126 @@
+{
+  "nav": {
+    "sections": { "portal": "Client portal" },
+    "overview": "Overview",
+    "projects": "Projects",
+    "documents": "Documents",
+    "finance": "Quotes and invoices",
+    "security": "Security reports",
+    "support": "Support"
+  },
+  "overview": {
+    "welcome": "Welcome, {name}",
+    "clientLine": "Your portal for {clients}. Projects, documents, invoices and support in one place.",
+    "noClient": "Your account is not linked to a client yet. Contact CyBarq to complete the setup.",
+    "activeProjects": "Active projects",
+    "openRequests": "Open support requests",
+    "unpaidInvoices": "Invoices awaiting payment",
+    "open": "Open",
+    "projectsTitle": "Your projects",
+    "viewAll": "View all",
+    "nextMilestone": "Next milestone: {title} ({date})",
+    "noDate": "no date",
+    "noMilestone": "No upcoming milestone",
+    "updatesTitle": "Latest updates",
+    "noUpdates": "No updates shared yet"
+  },
+  "projects": {
+    "title": "Projects",
+    "description": "Projects CyBarq is delivering for you, with milestones, updates and shared documents.",
+    "empty": "No projects yet",
+    "emptyDescription": "Projects appear here once CyBarq makes them visible to you.",
+    "columns": {
+      "name": "Project",
+      "code": "Code",
+      "client": "Client",
+      "practice": "Practice",
+      "dates": "Dates"
+    },
+    "milestones": "Milestones",
+    "noMilestones": "No milestones shared yet",
+    "updates": "Updates",
+    "noUpdates": "No updates shared yet",
+    "documents": "Documents",
+    "noDocuments": "No documents shared yet",
+    "notFound": "Project not found",
+    "notFoundDescription": "This project does not exist or is not visible to your account.",
+    "back": "Back to projects"
+  },
+  "documents": {
+    "title": "Documents",
+    "description": "Every file shared with you across your projects.",
+    "empty": "No documents yet",
+    "emptyDescription": "Documents shared by CyBarq, and files you upload on a project, appear here.",
+    "columns": {
+      "title": "Document",
+      "project": "Project",
+      "category": "Type",
+      "size": "Size"
+    },
+    "categories": {
+      "general": "General",
+      "proposal": "Proposal",
+      "contract": "Contract",
+      "report": "Report",
+      "deliverable": "Deliverable",
+      "other": "Other"
+    },
+    "uploadTitle": "Share a file with CyBarq",
+    "uploadHint": "Files you upload are visible to the CyBarq team on this project. Up to 50 MB.",
+    "documentTitle": "Title",
+    "documentTitleHint": "Optional. Defaults to the file name."
+  },
+  "finance": {
+    "title": "Quotes and invoices",
+    "description": "Documents issued to you. Each one can be downloaded as a PDF.",
+    "pdf": "PDF",
+    "quotes": "Quotes",
+    "invoices": "Invoices",
+    "noQuotes": "No quotes yet",
+    "noInvoices": "No invoices yet",
+    "quoteInstructions": "To accept or decline a quote, reply to the email it was sent with or contact sales@cybarq.com. Online acceptance will be added in a later release.",
+    "paymentInstructions": "Payment details are printed on each invoice. Questions about an invoice: finance@cybarq.com.",
+    "columns": {
+      "number": "Number",
+      "title": "Subject",
+      "issued": "Issued",
+      "validUntil": "Valid until",
+      "due": "Due",
+      "total": "Total",
+      "balance": "Balance"
+    }
+  },
+  "security": {
+    "title": "Security reports",
+    "description": "Final reports from your security engagements. Working notes and individual findings stay with the engagement team.",
+    "empty": "No security engagements yet",
+    "emptyDescription": "Engagements appear here once they are authorised.",
+    "noReports": "No final report has been shared for this engagement yet.",
+    "version": "Version {n}",
+    "issued": "Issued {date}"
+  },
+  "support": {
+    "title": "Support",
+    "description": "Ask a question or report an issue. The team replies by email and updates the status here.",
+    "new": "New request",
+    "newDescription": "Describe what you need. Include steps, dates and any references that help us respond quickly.",
+    "empty": "No support requests",
+    "emptyDescription": "Requests you submit appear here with their current status.",
+    "createdAt": "Submitted {date}",
+    "form": {
+      "client": "Client account",
+      "project": "Related project",
+      "projectHint": "Optional.",
+      "noProject": "Not related to a project",
+      "subject": "Subject",
+      "body": "Details",
+      "bodyHint": "Up to 5000 characters.",
+      "submit": "Send request"
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "empty": "No notifications"
+  }
+}

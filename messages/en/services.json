@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "problem": "The problem",
+    "whereItAppears": "Where it appears",
+    "approach": "How CyBarq approaches it",
+    "engagement": "How the engagement works",
+    "deliverables": "Deliverables",
+    "businessMeaning": "What it means for your business",
+    "related": "Related services"
+  },
+  "practice": "Practice",
+  "summaryEyebrow": "In short",
+  "cta": {
+    "title": "Talk to us about {service}",
+    "body": "Tell us about the system or the situation. We will come back with questions and a clear proposal, and we will say so if a different service fits better.",
+    "button": "Talk to us",
+    "secondary": "All services"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "services": "Services"
+  }
+}

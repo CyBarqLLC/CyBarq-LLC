@@ -1,0 +1,213 @@
+{
+  "title": "Content",
+  "description": "News, articles, public projects and case studies for the website, in both languages.",
+  "taxonomy": "Authors and classification",
+  "readOnly": "You can view this entry but not edit it. Ask an administrator for the content editor role.",
+  "sections": {
+    "news_posts": "News",
+    "articles": "Articles",
+    "public_projects": "Public projects",
+    "case_studies": "Case studies",
+    "authors": "Authors",
+    "categories": "Categories",
+    "tags": "Tags"
+  },
+  "descriptions": {
+    "news_posts": "Company announcements, partnerships and events.",
+    "articles": "Longer insight pieces with a reading time.",
+    "public_projects": "Showcase entries for the website portfolio. Separate from internal projects.",
+    "case_studies": "Challenge, solution, implementation and measured outcomes.",
+    "authors": "People credited on news and articles.",
+    "categories": "Grouping per content type. Slugs appear in public URLs.",
+    "tags": "Free form keywords shared by news and articles."
+  },
+  "new": {
+    "news_posts": "New news post",
+    "articles": "New article",
+    "public_projects": "New public project",
+    "case_studies": "New case study",
+    "authors": "New author",
+    "categories": "New category",
+    "tags": "New tag"
+  },
+  "notFound": {
+    "title": "Entry not found",
+    "description": "It may have been deleted.",
+    "back": "Back to the list"
+  },
+  "list": {
+    "search": "Search by title or slug",
+    "allStatuses": "All statuses",
+    "empty": "Nothing here yet",
+    "emptyDescription": "Create the first entry, or widen the filters.",
+    "columns": {
+      "title": "Title",
+      "status": "Status",
+      "language": "Languages",
+      "author": "Author",
+      "category": "Category",
+      "published": "Published",
+      "updated": "Updated",
+      "practice": "Practice",
+      "year": "Year",
+      "position": "Order"
+    }
+  },
+  "form": {
+    "english": "English",
+    "arabic": "Arabic",
+    "newHint": "New entries start as drafts. Publishing is a separate step on the entry page.",
+    "sections": {
+      "content": "Content",
+      "classification": "Classification"
+    },
+    "title": "Title",
+    "slug": "Slug",
+    "slugHint": "Part of the public URL. Lowercase letters, numbers and hyphens; follows the English title until you edit it.",
+    "excerpt": "Excerpt",
+    "body": "Body",
+    "summary": "Summary",
+    "author": "Author",
+    "noAuthor": "No author",
+    "category": "Category",
+    "noCategory": "No category",
+    "tags": "Tags",
+    "noTags": "No tags defined yet.",
+    "scheduledFor": "Scheduled for",
+    "scheduledForHint": "Amman time. The entry goes live automatically at this moment.",
+    "cover": "Cover image",
+    "coverHint": "Shown on listings and social previews. Use a wide image, ideally 1600 by 900 pixels.",
+    "coverAlt": "Image description (alt text)",
+    "seo": "Search and sharing",
+    "seoHint": "Optional overrides for the page title and description. Leave empty to reuse the title and excerpt.",
+    "seoTitle": "SEO title",
+    "seoDescription": "SEO description",
+    "languageStatus": "Available languages",
+    "languageStatusHint": "Controls which language versions the website links to.",
+    "languageStatuses": {
+      "both": "English and Arabic",
+      "en_only": "English only",
+      "ar_only": "Arabic only"
+    },
+    "clientDisplayName": "Client name to display",
+    "clientDisplayNameHint": "As it should appear publicly. Leave empty for a confidential client.",
+    "services": "Services",
+    "servicesHint": "Comma separated list, for example: Penetration testing, Cloud hardening.",
+    "practice": "Practice",
+    "year": "Year",
+    "position": "Order",
+    "positionHint": "Lower numbers appear first.",
+    "internalProject": "Internal project reference",
+    "internalProjectHint": "Editor only. Links this public entry to an internal project for your own reference. Never shown on the website.",
+    "noInternalProject": "No internal reference",
+    "industry": "Industry",
+    "narrative": {
+      "challenge": "Challenge",
+      "solution": "Solution",
+      "implementation": "Implementation",
+      "outcome": "Outcome"
+    },
+    "impact": {
+      "title": "Impact",
+      "description": "Measurable results shown as a row of figures on the case study page.",
+      "empty": "No impact items yet.",
+      "labelEn": "Label (English)",
+      "labelAr": "Label (Arabic)",
+      "value": "Value",
+      "verified": "Verified",
+      "verifiedHint": "Only tick verified when the figure was confirmed with the client. Unverified figures are shown with a note.",
+      "remove": "Remove item",
+      "add": "Add impact item"
+    },
+    "createDraft": "Create draft",
+    "save": "Save changes",
+    "saved": "Saved."
+  },
+  "images": {
+    "remove": "Remove image",
+    "hint": "PNG, JPEG, WebP, AVIF or SVG, up to 10 MB. The image is stored when you upload it and linked when you save."
+  },
+  "workflow": {
+    "scheduledAt": "Goes live {date}",
+    "publishedAt": "Published {date}",
+    "actions": {
+      "submit_review": "Submit for review",
+      "publish": "Publish",
+      "schedule": "Schedule",
+      "unpublish": "Back to draft",
+      "archive": "Archive",
+      "restore": "Restore to draft"
+    },
+    "publishNeedsPermission": "Publishing and scheduling need the content.publish permission.",
+    "viewPublic": "View on the website",
+    "delete": "Delete",
+    "deleteTitle": "Delete this entry?",
+    "deleteDescription": "This removes the entry permanently. Archive it instead if it may be needed again.",
+    "scheduleTitle": "Schedule publication",
+    "scheduleDescription": "The entry is published automatically at the chosen time (Amman).",
+    "scheduleAt": "Publish at"
+  },
+  "authors": {
+    "columns": {
+      "name": "Name",
+      "title": "Title",
+      "linked": "Employee account"
+    },
+    "linked": "Linked",
+    "notLinked": "Not linked",
+    "empty": "No authors yet",
+    "emptyDescription": "Add the people who will be credited on news and articles.",
+    "deleteTitle": "Delete this author?",
+    "deleteDescription": "Entries by this author keep their content but lose the byline.",
+    "form": {
+      "name": "Name",
+      "title": "Title or role",
+      "bio": "Short bio",
+      "avatar": "Photo",
+      "employee": "Employee account",
+      "employeeHint": "Optional. Links the byline to an employee profile.",
+      "noEmployee": "Not linked",
+      "saved": "Saved."
+    }
+  },
+  "categories": {
+    "columns": {
+      "name": "Name",
+      "kind": "Used for",
+      "slug": "Slug",
+      "position": "Order"
+    },
+    "empty": "No categories yet",
+    "deleteTitle": "Delete this category?",
+    "deleteDescription": "Entries in it keep their content and become uncategorised.",
+    "form": {
+      "kind": "Used for",
+      "kinds": {
+        "news": "News",
+        "article": "Articles",
+        "project": "Public projects",
+        "case_study": "Case studies"
+      },
+      "position": "Order",
+      "nameEn": "Name (English)",
+      "nameAr": "Name (Arabic)",
+      "slug": "Slug",
+      "saved": "Saved."
+    }
+  },
+  "tags": {
+    "columns": {
+      "name": "Name",
+      "slug": "Slug"
+    },
+    "empty": "No tags yet",
+    "deleteTitle": "Delete this tag?",
+    "deleteDescription": "It is removed from every entry that uses it.",
+    "form": {
+      "nameEn": "Name (English)",
+      "nameAr": "Name (Arabic)",
+      "slug": "Slug",
+      "saved": "Saved."
+    }
+  }
+}

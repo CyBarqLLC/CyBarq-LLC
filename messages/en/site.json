@@ -1,0 +1,202 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "projects": "Projects",
+    "caseStudies": "Case studies",
+    "news": "News",
+    "articles": "Articles",
+    "about": "About",
+    "careers": "Careers",
+    "contact": "Contact",
+    "verify": "Verify a certificate",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "talk": "Talk to us"
+  },
+  "home": {
+    "eyebrow": "CyBarq, Amman",
+    "title": "The systems your organisation runs on, built and secured by one team.",
+    "lead": "CyBarq is a technology company in Amman working across cybersecurity, digital engineering, artificial intelligence and infrastructure. We take responsibility for the whole system: how it is designed, how it runs and how it is protected.",
+    "primaryCta": "Talk to us",
+    "secondaryCta": "Explore services",
+    "practicesEyebrow": "What we do",
+    "practicesTitle": "Four practices, one team",
+    "practicesLead": "Each practice stands on its own. Together they cover everything between an idea and a system that runs securely in production.",
+    "allServices": "See all services",
+    "howEyebrow": "How we work",
+    "howTitle": "Careful work, explained clearly",
+    "statementEyebrow": "Our promise",
+    "statementBody": "Systems that are designed with care, built to be maintained and tested by people whose job is to break them. That is what done properly means to us.",
+    "selectedEyebrow": "Selected services",
+    "selectedTitle": "Where clients usually start",
+    "selectedLead": "A penetration test, an incident, a platform that needs building, an AI feature that has to be trusted. These are the engagements we are asked for most often.",
+    "latestEyebrow": "Latest",
+    "latestTitle": "News, articles and work",
+    "viewAllNews": "All news",
+    "viewAllArticles": "All articles",
+    "viewAllCaseStudies": "All case studies",
+    "partnersTitle": "Partners",
+    "certificationsTitle": "Certifications",
+    "registrationTitle": "Officially registered in Jordan",
+    "registrationAlt": "Logos of the Ministry of Digital Economy and Entrepreneurship and the National Cyber Security Center of Jordan",
+    "ctaTitle": "Tell us what you are working on",
+    "ctaBody": "A short message is enough. We will reply with questions, not a sales pitch, and we will tell you honestly whether we are the right team for it.",
+    "ctaButton": "Talk to us",
+    "seoTitle": "CyBarq Technology LLC. Technology, done properly.",
+    "seoDescription": "CyBarq is a technology company in Amman working across cybersecurity, digital engineering, artificial intelligence and technology infrastructure. Penetration testing, incident response, platforms, AI integration and cloud, from one team."
+  },
+  "services": {
+    "title": "Services",
+    "lead": "Thirty three services across four practices. Each page explains the problem, where it appears, how we approach it and what you receive, in plain language.",
+    "seoDescription": "All CyBarq services: cybersecurity, digital engineering, artificial intelligence and technology infrastructure. Penetration testing, DFIR, platforms, AI agents and assistants, cloud architecture, observability and more.",
+    "practiceEyebrow": "Practice",
+    "inPractice": "Services in this practice",
+    "count": "{count, plural, one {# service} other {# services}}",
+    "explore": "Explore",
+    "allServices": "All services",
+    "morePractices": "Other practices"
+  },
+  "about": {
+    "title": "About CyBarq",
+    "seoDescription": "CyBarq officially began in 2024 as a security first technology company in Amman. Learn how we work across cybersecurity, digital engineering, AI and infrastructure.",
+    "storyEyebrow": "Our story",
+    "statsEyebrow": "In numbers",
+    "practicesLink": "See the services"
+  },
+  "careers": {
+    "seoTitle": "Careers",
+    "seoDescription": "Working at CyBarq in Amman: how the team works, what we look for, and how to get in touch. No applicant tracking system, just an email.",
+    "applyButton": "Write to {email}",
+    "verifyNote": "Certificates issued by CyBarq can be checked on the verification page."
+  },
+  "contact": {
+    "title": "Contact",
+    "lead": "Write to the address that fits, or use the form. We respond promptly to every message.",
+    "seoDescription": "Contact CyBarq in Amman for new engagements, support on active work, partnerships or general information. We respond promptly to every message.",
+    "channelsEyebrow": "Channels",
+    "channels": {
+      "general": {
+        "title": "General",
+        "description": "For general enquiries, partnerships, and information about CyBarq."
+      },
+      "sales": {
+        "title": "Sales",
+        "description": "For new engagements, proposals, and service enquiries."
+      },
+      "support": {
+        "title": "Support",
+        "description": "For active engagements, technical questions, and incidents."
+      }
+    },
+    "location": "Based in Amman, Jordan. We work with clients across the region and beyond.",
+    "form": {
+      "eyebrow": "Send a message",
+      "title": "Tell us what you need",
+      "name": "Name",
+      "email": "Work email",
+      "company": "Company",
+      "country": "Country",
+      "service": "Service",
+      "servicePlaceholder": "Choose a service, if you know it",
+      "message": "Message",
+      "messageHint": "A few sentences about the system, the situation or the question is enough.",
+      "submit": "Send message",
+      "promise": "We respond promptly to every message.",
+      "privacy": "We use what you send only to reply to you. See the privacy notice for details.",
+      "successTitle": "Thank you, your message is on its way.",
+      "successBody": "We have received it and will reply from one of our addresses shortly. If it is urgent, write to support@cybarq.com directly.",
+      "sendAnother": "Send another message",
+      "errors": {
+        "name": "Please enter your name.",
+        "email": "Please enter a valid work email address.",
+        "message": "Please write a short message (at least 20 characters).",
+        "tooLong": "This is a little too long.",
+        "rateLimited": "Too many messages from this connection. Please try again in a few minutes or email us directly.",
+        "generic": "We could not send your message. Please try again or email us directly."
+      }
+    }
+  },
+  "verify": {
+    "title": "Verify a certificate",
+    "lead": "Every certificate issued by CyBarq carries a verification code. Enter it below to confirm that the certificate is genuine and still valid.",
+    "seoDescription": "Verify a training, internship, experience or appreciation certificate issued by CyBarq using its verification code.",
+    "codeLabel": "Verification code",
+    "codeHint": "Printed on the certificate, usually next to the QR code.",
+    "submit": "Verify",
+    "resultEyebrow": "Verification result",
+    "statusValid": "Valid",
+    "statusRevoked": "Revoked",
+    "validBody": "This certificate was issued by CyBarq Technology LLC and is valid.",
+    "revokedBody": "This certificate was issued by CyBarq Technology LLC but has since been revoked and is no longer valid.",
+    "notFoundTitle": "No certificate found",
+    "notFoundBody": "We could not find a certificate with this code. Check the code for typing mistakes and try again. If you believe this is an error, contact info@cybarq.com.",
+    "rateLimitedTitle": "Too many attempts",
+    "rateLimitedBody": "Too many verification requests from this connection. Please wait a few minutes and try again.",
+    "fields": {
+      "number": "Certificate number",
+      "type": "Type",
+      "recipient": "Issued to",
+      "title": "Title",
+      "program": "Programme",
+      "period": "Period",
+      "issued": "Issue date",
+      "revokedOn": "Revoked on"
+    },
+    "checkAnother": "Check another certificate",
+    "note": "This page shows only the information printed on the certificate. For questions about a certificate, contact info@cybarq.com."
+  },
+  "legal": {
+    "updated": "Last updated {date}",
+    "privacySeo": "How CyBarq Technology LLC collects, uses, stores and retains personal data through cybarq.com and the CyBarq platform.",
+    "termsSeo": "Terms of use for cybarq.com and the CyBarq platform and client portal operated by CyBarq Technology LLC."
+  },
+  "content": {
+    "projects": {
+      "title": "Projects",
+      "lead": "Selected work we are able to talk about publicly. Client names appear only where the client has agreed.",
+      "seoDescription": "Selected CyBarq projects across cybersecurity, digital engineering, AI and infrastructure.",
+      "empty": "No projects have been published yet.",
+      "servicesDelivered": "Services delivered",
+      "backToList": "All projects"
+    },
+    "caseStudies": {
+      "title": "Case studies",
+      "lead": "What the client faced, what we did and what changed. Results marked as verified have been confirmed with the client.",
+      "seoDescription": "CyBarq case studies: the challenge, the solution, the implementation and the outcome, with verified results.",
+      "empty": "No case studies have been published yet.",
+      "challenge": "The challenge",
+      "solution": "The solution",
+      "implementation": "The implementation",
+      "outcome": "The outcome",
+      "impact": "Impact",
+      "verified": "Verified with the client",
+      "backToList": "All case studies"
+    },
+    "news": {
+      "title": "News",
+      "lead": "Company news, partnerships and events.",
+      "seoDescription": "News from CyBarq: company updates, partnerships and events.",
+      "empty": "No news has been published yet.",
+      "backToList": "All news"
+    },
+    "articles": {
+      "title": "Articles",
+      "lead": "Writing from the team on security, engineering, AI and infrastructure.",
+      "seoDescription": "Articles by the CyBarq team on cybersecurity, digital engineering, artificial intelligence and infrastructure.",
+      "empty": "No articles have been published yet.",
+      "backToList": "All articles"
+    },
+    "readingTime": "{minutes, plural, one {# minute read} other {# minute read}}",
+    "by": "By {name}",
+    "client": "Client",
+    "industry": "Industry",
+    "year": "Year",
+    "practice": "Practice",
+    "publishedOn": "Published {date}",
+    "relatedPractice": "Related practice",
+    "moreInPractice": "See the {practice} practice",
+    "notFoundTitle": "Not found",
+    "notFoundBody": "This item does not exist or is no longer published."
+  }
+}

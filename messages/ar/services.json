@@ -1,0 +1,23 @@
+{
+  "sections": {
+    "problem": "المشكلة",
+    "whereItAppears": "أين تظهر",
+    "approach": "كيف تتعامل سايبرق معها",
+    "engagement": "كيف يسير العمل",
+    "deliverables": "ما تحصل عليه",
+    "businessMeaning": "ماذا يعني ذلك لأعمالك",
+    "related": "خدمات ذات صلة"
+  },
+  "practice": "الممارسة",
+  "summaryEyebrow": "باختصار",
+  "cta": {
+    "title": "تحدث معنا عن {service}",
+    "body": "أخبرنا عن النظام أو الوضع. سنعود إليك بأسئلة وعرض واضح، وسنخبرك إن كانت خدمة أخرى أنسب لك.",
+    "button": "تحدث معنا",
+    "secondary": "كل الخدمات"
+  },
+  "breadcrumbs": {
+    "home": "الرئيسية",
+    "services": "الخدمات"
+  }
+}

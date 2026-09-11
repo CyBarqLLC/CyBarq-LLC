@@ -1,0 +1,13 @@
+:root{
+  /* CyBarq design tokens, Brand Refresh 2026 */
+  --cb-blue:#74C3F2; --cb-sky:#A9DCF7; --cb-ice:#DCEFFA; --cb-azure:#2E86CF;
+  --cb-lime:#DCEF9A; --cb-lime-tint:#F1F8D6; --cb-lime-deep:#C5E27A;
+  --cb-graphite:#0D0E13; --cb-slate:#5A616B; --cb-grey:#C6C8CB; --cb-fog:#DADCDF; --cb-white:#FFFFFF;
+  --cb-gradient-blue:linear-gradient(158deg, #A9DCF7 0%, #74C3F2 42%, #2E86CF 100%);
+  --cb-gradient-lime:linear-gradient(158deg, #F1F8D6 0%, #DCEF9A 55%, #C5E27A 100%);
+  --cb-font:"Thmanyah Sans", system-ui, Tahoma, sans-serif;
+  --cb-display:300 64px/1.05 var(--cb-font); --cb-h1:300 40px/1.1 var(--cb-font); --cb-h2:400 28px/1.25 var(--cb-font); --cb-h3:500 20px/1.35 var(--cb-font);
+  --cb-body:400 16px/1.6 var(--cb-font); --cb-body-ar:400 17px/1.8 var(--cb-font); --cb-small:400 13px/1.5 var(--cb-font); --cb-label:500 12.5px/1.35 var(--cb-font);
+  --cb-radius:0; --cb-border:1px solid var(--cb-fog); --cb-blade-apex:20.2deg;
+  --cb-ease:cubic-bezier(.2,.7,.2,1); --cb-dur-state:200ms; --cb-dur-panel:400ms;
+}

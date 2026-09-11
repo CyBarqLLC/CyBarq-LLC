@@ -1,0 +1,195 @@
+{
+  "title": "Security engagements",
+  "description": "Penetration tests, assessments and incident response work, from scoping to closure.",
+  "new": "New engagement",
+  "notFound": {
+    "title": "Engagement not found",
+    "description": "It may have been removed, or you are not a member of it.",
+    "back": "Back to engagements"
+  },
+  "list": {
+    "search": "Search by code or title",
+    "allStatuses": "All statuses",
+    "allTypes": "All types",
+    "empty": "No engagements yet",
+    "emptyDescription": "Engagements you lead or are a member of appear here.",
+    "noFindings": "No findings",
+    "columns": {
+      "code": "Code",
+      "title": "Title",
+      "client": "Client",
+      "type": "Type",
+      "status": "Status",
+      "findings": "Findings",
+      "dates": "Dates",
+      "lead": "Lead"
+    }
+  },
+  "form": {
+    "newDescription": "Record the client, the scope and who authorised the work. Assets, team and findings are added on the engagement page.",
+    "editTitle": "Edit engagement",
+    "sections": {
+      "basics": "Engagement",
+      "scope": "Scope and rules",
+      "authorisation": "Authorisation"
+    },
+    "code": "Code",
+    "codeHint": "Generated automatically. You can change it, but it must be unique.",
+    "type": "Type",
+    "title": "Title",
+    "client": "Client",
+    "noClient": "No client",
+    "project": "Related project",
+    "projectHint": "Optional. Links the engagement to a delivery project for reference.",
+    "noProject": "No project",
+    "lead": "Engagement lead",
+    "noLead": "Not assigned",
+    "startDate": "Start date",
+    "endDate": "End date",
+    "scopeSummary": "Scope summary",
+    "rules": "Rules of engagement",
+    "rulesHint": "Testing windows, contacts, exclusions, escalation path and any constraints agreed with the client.",
+    "authorisationHint": "An engagement can only be marked authorised once the person who approved it and the date are recorded. The signed letter is uploaded from the engagement page.",
+    "authorisedBy": "Authorised by",
+    "authorisedAt": "Authorised on",
+    "create": "Create engagement",
+    "save": "Save changes"
+  },
+  "tabs": {
+    "overview": "Overview",
+    "team": "Team",
+    "scope": "Scope",
+    "findings": "Findings",
+    "reports": "Reports"
+  },
+  "overview": {
+    "details": "Details",
+    "noScope": "No scope summary recorded.",
+    "noRules": "No rules of engagement recorded.",
+    "lifecycle": "Lifecycle",
+    "findingsSummary": "Findings by severity",
+    "delete": "Delete engagement",
+    "deleteTitle": "Delete this engagement?",
+    "deleteDescription": "Only engagements still in scoping can be deleted. Assets and team members are removed with it."
+  },
+  "status": {
+    "moveTo": "Move to {status}",
+    "cancel": "Cancel engagement",
+    "cancelTitle": "Cancel this engagement?",
+    "cancelDescription": "A cancelled engagement keeps its records but cannot move forward again.",
+    "cancelConfirm": "Cancel engagement"
+  },
+  "authorisation": {
+    "title": "Authorisation letter",
+    "document": "Authorisation document",
+    "download": "Download",
+    "none": "No authorisation document uploaded yet."
+  },
+  "team": {
+    "empty": "No team members yet",
+    "emptyDescription": "Members see the engagement, its assets, findings and reports.",
+    "roles": {
+      "lead": "Lead",
+      "tester": "Tester",
+      "reviewer": "Reviewer",
+      "observer": "Observer"
+    },
+    "remove": "Remove member",
+    "add": "Add a member",
+    "member": "Employee",
+    "pick": "Choose an employee",
+    "role": "Role",
+    "addSubmit": "Add to team"
+  },
+  "scope": {
+    "add": "Add asset",
+    "addTitle": "Add an asset",
+    "editTitle": "Edit asset",
+    "addSubmit": "Add asset",
+    "empty": "No assets recorded",
+    "emptyDescription": "List every authorised target: applications, hosts, networks, cloud accounts or identities.",
+    "inScope": "In scope",
+    "outOfScope": "Out of scope",
+    "name": "Name",
+    "type": "Type",
+    "identifier": "Identifier",
+    "identifierHint": "URL, IP address, CIDR range, account id or package name.",
+    "deleteTitle": "Remove this asset?",
+    "deleteDescription": "Findings linked to it will keep their details but lose the asset reference."
+  },
+  "findings": {
+    "new": "New finding",
+    "editTitle": "Edit finding",
+    "empty": "No findings yet",
+    "emptyDescription": "Findings are internal. They are never shown to the client; the client receives the final report.",
+    "notFound": "Finding not found",
+    "lifecycle": "Status",
+    "moveTo": "Mark as {status}",
+    "delete": "Delete finding",
+    "deleteTitle": "Delete this finding?",
+    "deleteDescription": "Evidence files attached to it are removed as well.",
+    "columns": {
+      "ref": "Finding",
+      "severity": "Severity",
+      "cvss": "CVSS",
+      "status": "Status",
+      "asset": "Asset",
+      "discovered": "Discovered"
+    },
+    "form": {
+      "sections": {
+        "identification": "Identification",
+        "details": "Details",
+        "remediation": "Remediation and retest"
+      },
+      "refCode": "Reference",
+      "severity": "Severity",
+      "cvss": "CVSS score",
+      "cvssHint": "0 to 10, one decimal.",
+      "title": "Title",
+      "asset": "Affected asset",
+      "noAsset": "Not linked to an asset",
+      "discoveredAt": "Discovered on",
+      "description": "Description",
+      "impact": "Impact",
+      "evidenceSummary": "Evidence summary",
+      "evidenceSummaryHint": "Describe what proves the issue. Files are attached after saving.",
+      "recommendation": "Recommendation",
+      "remediatedAt": "Remediated on",
+      "retestedAt": "Retested on",
+      "retestResult": "Retest result",
+      "create": "Create finding",
+      "save": "Save changes"
+    }
+  },
+  "evidence": {
+    "title": "Evidence",
+    "empty": "No evidence files",
+    "emptyDescription": "Screenshots, request logs and proof of concept files stay private to the engagement team.",
+    "add": "Add evidence",
+    "caption": "Caption",
+    "captionHint": "Optional. Defaults to the file name.",
+    "deleteTitle": "Delete this evidence file?"
+  },
+  "reports": {
+    "empty": "No reports yet",
+    "emptyDescription": "Upload report versions here. Finalise a version to freeze it, then share it with the client.",
+    "version": "Version {n}",
+    "draft": "Draft",
+    "final": "Final",
+    "visibleToClient": "Shared with client",
+    "internalOnly": "Internal",
+    "issuedAt": "Finalised {date}",
+    "uploadedAt": "Uploaded {date}",
+    "finalise": "Finalise",
+    "finaliseTitle": "Finalise this report?",
+    "finaliseDescription": "A final report cannot be replaced or edited. Upload a new version for corrections.",
+    "deleteTitle": "Delete this draft report?",
+    "upload": "Upload a report version",
+    "uploadHint": "PDF only. This upload will be recorded as version {n}.",
+    "title": "Report title",
+    "titleRequired": "Enter a title before uploading.",
+    "shareWithClient": "Share with client",
+    "hideFromClient": "Hide from client"
+  }
+}

@@ -1,0 +1,251 @@
+{
+  "name": "CyBarq Brand Refresh 2026",
+  "colors": [
+    {
+      "name": "CyBarq Blue",
+      "name_ar": "أزرق سايبرق",
+      "hex": "#74C3F2",
+      "rgb": [
+        116,
+        195,
+        242
+      ],
+      "cmyk": [
+        52,
+        19,
+        0,
+        5
+      ],
+      "role": "Primary"
+    },
+    {
+      "name": "Sky",
+      "name_ar": "سماوي",
+      "hex": "#A9DCF7",
+      "rgb": [
+        169,
+        220,
+        247
+      ],
+      "cmyk": [
+        32,
+        11,
+        0,
+        3
+      ],
+      "role": "Calm blue"
+    },
+    {
+      "name": "Ice",
+      "name_ar": "ثلجي",
+      "hex": "#DCEFFA",
+      "rgb": [
+        220,
+        239,
+        250
+      ],
+      "cmyk": [
+        12,
+        4,
+        0,
+        2
+      ],
+      "role": "Blue background"
+    },
+    {
+      "name": "Lime",
+      "name_ar": "ليموني",
+      "hex": "#DCEF9A",
+      "rgb": [
+        220,
+        239,
+        154
+      ],
+      "cmyk": [
+        12,
+        0,
+        42,
+        0
+      ],
+      "role": "Secondary"
+    },
+    {
+      "name": "Lime tint",
+      "name_ar": "ليموني فاتح",
+      "hex": "#F1F8D6",
+      "rgb": [
+        241,
+        248,
+        214
+      ],
+      "cmyk": [
+        5,
+        0,
+        18,
+        0
+      ],
+      "role": "Background"
+    },
+    {
+      "name": "Graphite",
+      "name_ar": "غرافيت",
+      "hex": "#0D0E13",
+      "rgb": [
+        13,
+        14,
+        19
+      ],
+      "cmyk": [
+        75,
+        65,
+        55,
+        90
+      ],
+      "role": "Text, dark"
+    },
+    {
+      "name": "Slate",
+      "name_ar": "أردوازي",
+      "hex": "#5A616B",
+      "rgb": [
+        90,
+        97,
+        107
+      ],
+      "cmyk": [
+        65,
+        52,
+        45,
+        20
+      ],
+      "role": "Secondary text"
+    },
+    {
+      "name": "Grey",
+      "name_ar": "رمادي",
+      "hex": "#C6C8CB",
+      "rgb": [
+        198,
+        200,
+        203
+      ],
+      "cmyk": [
+        20,
+        15,
+        12,
+        2
+      ],
+      "role": "Surfaces"
+    },
+    {
+      "name": "Fog",
+      "name_ar": "ضباب",
+      "hex": "#DADCDF",
+      "rgb": [
+        218,
+        220,
+        223
+      ],
+      "cmyk": [
+        13,
+        9,
+        8,
+        1
+      ],
+      "role": "Rules and borders"
+    },
+    {
+      "name": "White",
+      "name_ar": "أبيض",
+      "hex": "#FFFFFF",
+      "rgb": [
+        255,
+        255,
+        255
+      ],
+      "cmyk": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "role": "Ground"
+    },
+    {
+      "name": "Azure",
+      "name_ar": "لازوردي",
+      "hex": "#2E86CF",
+      "rgb": [
+        46,
+        134,
+        207
+      ],
+      "cmyk": [
+        78,
+        38,
+        0,
+        0
+      ],
+      "role": "Blue gradient stop only"
+    },
+    {
+      "name": "Deep lime",
+      "name_ar": "ليموني غامق",
+      "hex": "#C5E27A",
+      "rgb": [
+        197,
+        226,
+        122
+      ],
+      "cmyk": [
+        22,
+        0,
+        55,
+        0
+      ],
+      "role": "Lime gradient stop only"
+    }
+  ],
+  "gradients": {
+    "blue": {
+      "angle": 158,
+      "stops": [
+        [
+          "#A9DCF7",
+          0
+        ],
+        [
+          "#74C3F2",
+          42
+        ],
+        [
+          "#2E86CF",
+          100
+        ]
+      ]
+    },
+    "lime": {
+      "angle": 158,
+      "stops": [
+        [
+          "#F1F8D6",
+          0
+        ],
+        [
+          "#DCEF9A",
+          55
+        ],
+        [
+          "#C5E27A",
+          100
+        ]
+      ]
+    }
+  },
+  "rules": [
+    "One flat field of CyBarq Blue per layout at most",
+    "Lime is a quiet secondary, never mixed with the blue gradient",
+    "Graphite for text on light grounds, white on Graphite",
+    "Western numerals only in Arabic and English"
+  ]
+}

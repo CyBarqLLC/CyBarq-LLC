@@ -1,0 +1,297 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   CyBarq design tokens. Brand Refresh 2026.
+   Source of truth: CyBarq_Brand_Refresh_2026/03_Colour/cybarq_tokens.css
+   --------------------------------------------------------------------------- */
+@theme {
+  /* Brand palette (exact values from the guidelines) */
+  --color-blue: #74c3f2;
+  --color-sky: #a9dcf7;
+  --color-ice: #dceffa;
+  --color-azure: #2e86cf;
+  --color-lime: #dcef9a;
+  --color-lime-tint: #f1f8d6;
+  --color-lime-deep: #c5e27a;
+  --color-graphite: #0d0e13;
+  --color-slate: #5a616b;
+  --color-grey: #c6c8cb;
+  --color-fog: #dadcdf;
+  --color-white: #ffffff;
+
+  /* Semantic aliases used by components */
+  --color-background: var(--color-white);
+  --color-foreground: var(--color-graphite);
+  --color-muted: var(--color-slate);
+  --color-surface: #f5f6f7;
+  --color-border: var(--color-fog);
+  --color-primary: var(--color-blue);
+  --color-primary-foreground: var(--color-graphite);
+  --color-accent: var(--color-lime);
+  --color-danger: #b42318;
+  --color-danger-soft: #fdecea;
+  --color-warning: #b54708;
+  --color-warning-soft: #fff4e5;
+  --color-success: #1b6f3a;
+  --color-success-soft: #e6f4ea;
+  --color-info-soft: var(--color-ice);
+
+  /* Typography: Thmanyah Sans for Arabic and English */
+  --font-sans: var(--font-thmanyah), system-ui, Tahoma, sans-serif;
+
+  /* Square corners are part of the identity */
+  --radius-none: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+
+  /* Motion */
+  --ease-brand: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-state: 200ms;
+  --duration-panel: 400ms;
+
+  /* Fluid type scale (mobile first, clamps up to the guideline desktop sizes) */
+  --text-display: clamp(2.25rem, 1.4rem + 3.6vw, 4rem);
+  --text-display--line-height: 1.05;
+  --text-h1: clamp(1.75rem, 1.2rem + 2.2vw, 2.5rem);
+  --text-h1--line-height: 1.1;
+  --text-h2: clamp(1.375rem, 1.1rem + 1.2vw, 1.75rem);
+  --text-h2--line-height: 1.25;
+  --text-h3: clamp(1.125rem, 1.05rem + 0.4vw, 1.25rem);
+  --text-h3--line-height: 1.35;
+  --text-body: 1rem;
+  --text-body--line-height: 1.6;
+  --text-small: 0.8125rem;
+  --text-small--line-height: 1.5;
+  --text-label: 0.78rem;
+  --text-label--line-height: 1.35;
+
+  /* Layout */
+  --container-page: 80rem;
+  --spacing-gutter: clamp(1rem, 4vw, 2.5rem);
+  --spacing-section: clamp(3.5rem, 8vw, 7.5rem);
+}
+
+/* Safe areas for notches, home indicators and browser chrome */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --nav-height: 4rem;
+  color-scheme: light;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-feature-settings: "kern" 1, "liga" 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: clip;
+    min-height: 100dvh;
+  }
+  /* Arabic body text sits on a slightly larger size and looser leading */
+  :lang(ar) body,
+  body:lang(ar) {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+    font-weight: 300;
+    letter-spacing: 0;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  /* Western numerals in both languages */
+  :lang(ar) {
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  ::selection {
+    background: var(--color-sky);
+    color: var(--color-graphite);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-azure);
+    outline-offset: 2px;
+  }
+  img, svg, video, canvas {
+    display: block;
+    max-width: 100%;
+  }
+  button, input, select, textarea {
+    font: inherit;
+    color: inherit;
+  }
+  input::placeholder, textarea::placeholder {
+    color: color-mix(in srgb, var(--color-slate) 70%, transparent);
+  }
+  a {
+    text-underline-offset: 0.18em;
+  }
+}
+
+@utility container-page {
+  width: min(100% - 2 * var(--spacing-gutter), var(--container-page));
+  margin-inline: auto;
+}
+
+@utility safe-px {
+  padding-inline-start: max(var(--spacing-gutter), var(--safe-left));
+  padding-inline-end: max(var(--spacing-gutter), var(--safe-right));
+}
+
+@utility safe-pb {
+  padding-bottom: max(1rem, var(--safe-bottom));
+}
+
+@utility safe-pt {
+  padding-top: max(0px, var(--safe-top));
+}
+
+@utility text-display {
+  font-size: var(--text-display);
+  line-height: var(--text-display--line-height);
+  font-weight: 300;
+}
+@utility text-h1 {
+  font-size: var(--text-h1);
+  line-height: var(--text-h1--line-height);
+  font-weight: 300;
+}
+@utility text-h2 {
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+  font-weight: 400;
+}
+@utility text-h3 {
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  font-weight: 500;
+}
+@utility text-label {
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  font-weight: 500;
+}
+@utility text-small {
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+}
+
+/* A hairline rule from the brand (1px Fog). Never dashed or dotted. */
+@utility rule {
+  border-top: 1px solid var(--color-fog);
+}
+
+/* Section rhythm */
+@utility section {
+  padding-block: var(--spacing-section);
+}
+
+/* Touch target floor */
+@utility touch {
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+}
+
+/* Rich text rendering for CMS bodies (sanitised HTML) */
+.prose-cb {
+  max-width: 68ch;
+}
+.prose-cb > * + * {
+  margin-top: 1em;
+}
+.prose-cb h2 {
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+  margin-top: 2em;
+}
+.prose-cb h3 {
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  margin-top: 1.6em;
+}
+.prose-cb a {
+  color: var(--color-azure);
+  text-decoration: underline;
+}
+.prose-cb ul, .prose-cb ol {
+  padding-inline-start: 1.4em;
+}
+.prose-cb ul {
+  list-style: disc;
+}
+.prose-cb ol {
+  list-style: decimal;
+}
+.prose-cb blockquote {
+  border-inline-start: 2px solid var(--color-blue);
+  padding-inline-start: 1rem;
+  color: var(--color-slate);
+}
+.prose-cb pre {
+  background: var(--color-surface);
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+.prose-cb code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+.prose-cb img {
+  width: 100%;
+  height: auto;
+}
+.prose-cb hr {
+  border: 0;
+  border-top: 1px solid var(--color-fog);
+}
+
+/* Tiptap editor surface */
+.tiptap {
+  min-height: 16rem;
+  outline: none;
+}
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: var(--color-grey);
+  float: inline-start;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Foldable and dual screen: keep content off the hinge when the browser exposes segments */
+@media (horizontal-viewport-segments: 2) {
+  .fold-aware {
+    column-gap: env(viewport-segment-left 1 0);
+  }
+}

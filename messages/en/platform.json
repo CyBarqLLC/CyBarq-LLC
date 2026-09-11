@@ -1,0 +1,323 @@
+{
+  "nav": {
+    "sections": {
+      "work": "Work",
+      "company": "Company",
+      "admin": "Administration"
+    },
+    "dashboard": "Dashboard",
+    "tasks": "My tasks",
+    "projects": "Projects",
+    "clients": "Clients",
+    "security": "Security engagements",
+    "content": "Content",
+    "finance": "Finance",
+    "certificates": "Certificates",
+    "employees": "Employees",
+    "users": "Users and roles",
+    "audit": "Audit log",
+    "settings": "Settings",
+    "notifications": "Notifications"
+  },
+  "topbar": {
+    "menu": "Menu",
+    "search": "Search",
+    "searchPlaceholder": "Go to",
+    "searchEmpty": "Nothing found",
+    "notifications": "Notifications",
+    "account": "Account",
+    "profile": "Profile and settings",
+    "signOut": "Sign out"
+  },
+  "list": {
+    "clear": "Clear filters",
+    "search": "Search",
+    "any": "Any"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "greeting": "Hello, {name}",
+    "description": "Your work, projects that need attention, and what is waiting on you.",
+    "kpi": {
+      "myOpenTasks": "Open tasks assigned to me",
+      "activeProjects": "Active projects",
+      "unread": "Unread notifications",
+      "overdueInvoices": "Overdue invoices",
+      "activeClients": "Active clients"
+    },
+    "myWork": {
+      "title": "My work",
+      "description": "Your open tasks, soonest first.",
+      "empty": "No open tasks assigned to you.",
+      "viewAll": "All my tasks",
+      "overdue": "Overdue",
+      "today": "Today",
+      "upcoming": "Upcoming",
+      "noDate": "No due date"
+    },
+    "attention": {
+      "title": "Projects requiring attention",
+      "description": "Active projects you manage or belong to with overdue tasks or milestones.",
+      "empty": "Nothing is overdue on your projects.",
+      "overdueTasks": "{count, plural, =1 {1 overdue task} other {# overdue tasks}}",
+      "overdueMilestones": "{count, plural, =1 {1 milestone past due} other {# milestones past due}}"
+    },
+    "approvals": {
+      "title": "Pending approvals",
+      "contentReview": "Content in review",
+      "draftQuotes": "Draft quotes",
+      "draftInvoices": "Draft invoices",
+      "empty": "Nothing is waiting for your approval."
+    },
+    "activity": {
+      "title": "Recent activity",
+      "empty": "No recent activity on your projects."
+    },
+    "notifications": {
+      "title": "Notifications",
+      "empty": "You are all caught up.",
+      "viewAll": "All notifications"
+    }
+  },
+  "clients": {
+    "title": "Clients",
+    "description": "Organisations you work with, their contacts and portal access.",
+    "new": "New client",
+    "edit": "Edit client",
+    "back": "Back to clients",
+    "searchPlaceholder": "Search by name",
+    "filters": {
+      "search": "Search",
+      "status": "Status",
+      "any": "Any"
+    },
+    "statuses": {
+      "prospect": "Prospect",
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "columns": {
+      "name": "Client",
+      "status": "Status",
+      "contact": "Primary contact",
+      "country": "Country",
+      "projects": "Projects",
+      "updated": "Updated"
+    },
+    "empty": {
+      "title": "No clients found",
+      "description": "Clients appear here once they are created or when your filters match."
+    },
+    "fields": {
+      "nameEn": "Name (English)",
+      "nameAr": "Name (Arabic)",
+      "legalName": "Legal name",
+      "country": "Country",
+      "city": "City",
+      "address": "Address",
+      "taxNumber": "Tax number",
+      "website": "Website",
+      "primaryContactName": "Primary contact",
+      "primaryContactEmail": "Primary contact email",
+      "phone": "Phone",
+      "status": "Status",
+      "notes": "Internal notes"
+    },
+    "form": {
+      "identity": "Identity",
+      "contact": "Contact",
+      "other": "Other",
+      "create": "Create client",
+      "save": "Save changes",
+      "created": "Client created",
+      "saved": "Client saved"
+    },
+    "detail": {
+      "info": "Details",
+      "projects": "Projects",
+      "projectsEmpty": "No projects for this client yet.",
+      "newProject": "New project",
+      "created": "Created",
+      "updated": "Last updated"
+    },
+    "contacts": {
+      "title": "Contacts",
+      "add": "Add contact",
+      "edit": "Edit contact",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "jobTitle": "Job title",
+      "saved": "Contact saved",
+      "delete": "Delete",
+      "deleteTitle": "Delete this contact?",
+      "deleted": "Contact deleted",
+      "empty": "No contacts yet"
+    },
+    "portal": {
+      "title": "Portal users",
+      "description": "People at the client who can sign in to the portal. Invitations are sent by email.",
+      "invite": "Invite a portal user",
+      "email": "Email",
+      "fullName": "Full name",
+      "fullNameAr": "Full name (Arabic)",
+      "send": "Send invitation",
+      "invited": "Invitation sent",
+      "active": "Active",
+      "inactive": "Deactivated",
+      "deactivate": "Deactivate",
+      "reactivate": "Reactivate",
+      "deactivateTitle": "Deactivate portal access?",
+      "deactivateDescription": "They will no longer be able to open this client's portal.",
+      "updated": "Portal access updated",
+      "empty": "No portal users yet",
+      "columns": {
+        "person": "Person",
+        "status": "Status",
+        "since": "Since"
+      },
+      "user": "Portal user"
+    }
+  },
+  "users": {
+    "title": "Users and roles",
+    "description": "Accounts, their roles and activation state.",
+    "invite": "Invite an employee",
+    "roles": "Roles",
+    "back": "Back to users",
+    "searchPlaceholder": "Search by name or email",
+    "filters": {
+      "search": "Search",
+      "kind": "Kind",
+      "active": "State",
+      "any": "Any"
+    },
+    "kinds": {
+      "employee": "Employee",
+      "client": "Client"
+    },
+    "states": {
+      "active": "Active",
+      "inactive": "Deactivated"
+    },
+    "columns": {
+      "person": "Person",
+      "kind": "Kind",
+      "roles": "Roles",
+      "state": "State",
+      "created": "Created"
+    },
+    "empty": {
+      "title": "No users found",
+      "description": "Adjust your filters or invite an employee."
+    },
+    "form": {
+      "email": "Email",
+      "fullName": "Full name",
+      "fullNameAr": "Full name (Arabic)",
+      "rolesHint": "Every employee should keep the base Employee role. Super admin can only be granted by a super admin.",
+      "send": "Send invitation",
+      "invited": "Invitation sent",
+      "noRoles": "No roles"
+    },
+    "detail": {
+      "account": "Account",
+      "email": "Email",
+      "kind": "Kind",
+      "locale": "Language",
+      "created": "Created",
+      "state": "State",
+      "rolesTitle": "Roles",
+      "rolesDescription": "Tick the roles this person should hold and save.",
+      "saveRoles": "Save roles",
+      "rolesSaved": "Roles updated",
+      "deactivate": "Deactivate account",
+      "reactivate": "Reactivate account",
+      "deactivateTitle": "Deactivate this account?",
+      "deactivateDescription": "They will be signed out and unable to sign in until reactivated. Their data is kept.",
+      "stateSaved": "Account state updated",
+      "clientRolesNote": "This is a client account. Portal access is managed from the client page.",
+      "clientOf": "Client organisations"
+    },
+    "rolesPage": {
+      "title": "Roles and permissions",
+      "description": "What each role can do. Permissions are checked by the server and by the database.",
+      "readOnly": "You can view this matrix. Changing it requires the roles.manage permission.",
+      "superAdminNote": "Super admin always holds every permission and cannot be edited.",
+      "permission": "Permission",
+      "toggle": "Toggle",
+      "saved": "Permission updated"
+    }
+  },
+  "audit": {
+    "title": "Audit log",
+    "description": "Append only record of sensitive actions across the platform.",
+    "filters": {
+      "action": "Action starts with",
+      "entity": "Entity type",
+      "actor": "Actor email",
+      "from": "From",
+      "to": "To",
+      "any": "Any"
+    },
+    "columns": {
+      "when": "When",
+      "actor": "Actor",
+      "action": "Action",
+      "entity": "Entity",
+      "details": "Details",
+      "ip": "IP"
+    },
+    "empty": {
+      "title": "No audit entries",
+      "description": "Nothing matches these filters."
+    },
+    "system": "System",
+    "showDetails": "Details"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "description": "Assignments and updates addressed to you.",
+    "markAllRead": "Mark all as read",
+    "markRead": "Mark as read",
+    "allRead": "All notifications marked as read",
+    "read": "Marked as read",
+    "empty": "No notifications yet",
+    "emptyHint": "You will see task and project assignments here.",
+    "unread": "Unread",
+    "open": "Open"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Your profile, language and security.",
+    "profile": {
+      "title": "Profile",
+      "fullName": "Full name",
+      "fullNameAr": "Full name (Arabic)",
+      "phone": "Phone",
+      "locale": "Preferred language",
+      "email": "Email",
+      "emailHint": "Your sign in email is managed by an administrator.",
+      "save": "Save profile",
+      "saved": "Profile saved"
+    },
+    "avatar": {
+      "title": "Photo",
+      "description": "PNG, JPEG or WebP up to 2 MB.",
+      "kind": "Type",
+      "image": "Image",
+      "saved": "Photo updated",
+      "remove": "Remove photo",
+      "removed": "Photo removed"
+    },
+    "security": {
+      "title": "Password",
+      "description": "Password changes go through a reset link sent to your email.",
+      "change": "Change password"
+    },
+    "platform": {
+      "title": "Platform settings",
+      "description": "Brand assets, document numbering and integrations are configured in code and deployed with the application. There is nothing to change here yet."
+    }
+  }
+}
