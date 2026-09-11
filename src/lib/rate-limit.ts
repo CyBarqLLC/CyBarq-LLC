@@ -2,34 +2,51 @@ import "server-only";
 import { createHash } from "node:crypto";
 import { headers } from "next/headers";
 import { serverEnv } from "@/lib/env.server";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 /**
- * Small in-memory token bucket. On Vercel each function instance keeps its own
- * bucket, so this is a first line of defense against bursts, not a global
- * quota. Sensitive endpoints additionally rely on database constraints and
- * Supabase Auth's own rate limits. Documented as a residual risk.
+ * Rate limiting shared by every server instance: a fixed window counter in the
+ * database (public.consume_rate_limit, service role only). Keys are hashed
+ * with the server salt before they leave the process, so no raw IP address or
+ * email is stored. If the database cannot be reached, a small per-instance
+ * bucket still limits bursts rather than failing open completely.
  */
 const buckets = new Map<string, { tokens: number; updatedAt: number }>();
 const MAX_KEYS = 5000;
 
 export type RateLimitOptions = { key: string; limit: number; windowMs: number };
 
-export function rateLimit({ key, limit, windowMs }: RateLimitOptions): { allowed: boolean; remaining: number } {
+function localLimit({ key, limit, windowMs }: RateLimitOptions): { allowed: boolean } {
   const now = Date.now();
   if (buckets.size > MAX_KEYS) {
     for (const [k, v] of buckets) if (now - v.updatedAt > windowMs) buckets.delete(k);
   }
   const bucket = buckets.get(key) ?? { tokens: limit, updatedAt: now };
-  const refill = ((now - bucket.updatedAt) / windowMs) * limit;
-  bucket.tokens = Math.min(limit, bucket.tokens + refill);
+  bucket.tokens = Math.min(limit, bucket.tokens + ((now - bucket.updatedAt) / windowMs) * limit);
   bucket.updatedAt = now;
-  if (bucket.tokens < 1) {
-    buckets.set(key, bucket);
-    return { allowed: false, remaining: 0 };
-  }
-  bucket.tokens -= 1;
+  const allowed = bucket.tokens >= 1;
+  if (allowed) bucket.tokens -= 1;
   buckets.set(key, bucket);
-  return { allowed: true, remaining: Math.floor(bucket.tokens) };
+  return { allowed };
+}
+
+function hashKey(key: string): string {
+  return createHash("sha256").update(`${serverEnv().RATE_LIMIT_SALT}:rl:${key}`).digest("hex").slice(0, 40);
+}
+
+export async function rateLimit(options: RateLimitOptions): Promise<{ allowed: boolean }> {
+  try {
+    const { data, error } = await createAdminClient().rpc("consume_rate_limit", {
+      _key: hashKey(options.key),
+      _limit: options.limit,
+      _window_seconds: Math.max(1, Math.round(options.windowMs / 1000)),
+    });
+    if (error) throw error;
+    return { allowed: data === true };
+  } catch (error) {
+    console.error("[rate-limit] database limiter unavailable, using local bucket", error);
+    return localLimit(options);
+  }
 }
 
 export async function requestIp(): Promise<string> {

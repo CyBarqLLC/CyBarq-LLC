@@ -1,11 +1,12 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "@/i18n/navigation";
 import { inviteEmployee } from "@/lib/actions/users";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { NativeSelect } from "@/components/ui/native-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
@@ -16,12 +17,14 @@ export function InviteEmployeeForm({ children }: { children: React.ReactNode }) 
   const [result, formAction] = useActionState(inviteEmployee, null);
   const t = useTranslations("platform.users");
   const router = useRouter();
-  const handled = useRef<ActionResult<{ userId: string }> | null>(null);
+  const locale = useLocale();
+  const handled = useRef<ActionResult<{ userId: string; emailSent: boolean }> | null>(null);
 
   useEffect(() => {
     if (result?.ok && handled.current !== result) {
       handled.current = result;
-      toast.success(t("form.invited"));
+      if (result.data.emailSent) toast.success(t("form.invited"));
+      else toast.warning(t("form.invitedNoEmail"));
       router.push(`/app/users/${result.data.userId}`);
     }
   }, [result, router, t]);
@@ -37,6 +40,12 @@ export function InviteEmployeeForm({ children }: { children: React.ReactNode }) 
         </Field>
         <Field label={t("form.fullNameAr")} htmlFor="full_name_ar" error={fieldError(result, "full_name_ar")}>
           <Input id="full_name_ar" name="full_name_ar" maxLength={200} dir="rtl" />
+        </Field>
+        <Field label={t("form.inviteLanguage")} htmlFor="invite_locale" hint={t("form.inviteLanguageHint")}>
+          <NativeSelect id="invite_locale" name="locale" defaultValue={locale}>
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+          </NativeSelect>
         </Field>
       </div>
       <div className="flex flex-col gap-2">

@@ -176,7 +176,9 @@
         "status": "Status",
         "since": "Since"
       },
-      "user": "Portal user"
+      "user": "Portal user",
+      "inviteLanguage": "Invitation language",
+      "linked": "The account was linked to this client."
     }
   },
   "users": {
@@ -218,7 +220,10 @@
       "rolesHint": "Every employee should keep the base Employee role. Super admin can only be granted by a super admin.",
       "send": "Send invitation",
       "invited": "Invitation sent",
-      "noRoles": "No roles"
+      "noRoles": "No roles",
+      "invitedNoEmail": "The account was created, but the invitation email could not be sent. Resend it from this page.",
+      "inviteLanguage": "Invitation language",
+      "inviteLanguageHint": "The email and the account start in this language."
     },
     "detail": {
       "account": "Account",

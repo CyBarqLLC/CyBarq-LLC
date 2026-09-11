@@ -9,6 +9,12 @@ const intlMiddleware = createIntlMiddleware(routing);
 
 /** Paths (after the locale segment) that require a signed in user. */
 const PROTECTED_PREFIXES = ["/app", "/portal"];
+/** Paths that read or change the session (the public site never does). */
+const SESSION_PREFIXES = [...PROTECTED_PREFIXES, "/login", "/forgot-password", "/reset-password", "/welcome"];
+
+function matchesPrefix(path: string, prefixes: readonly string[]): boolean {
+  return prefixes.some((p) => path === p || path.startsWith(p + "/"));
+}
 
 export async function middleware(request: NextRequest) {
   const { pathname: requestPath } = request.nextUrl;
@@ -39,17 +45,19 @@ export async function middleware(request: NextRequest) {
 
   const response = intlMiddleware(request);
 
-  // Refresh the auth session on every page request so server components see a valid user.
-  // Without Supabase configured, the public site still renders and private areas stay closed.
-  const { user } = hasSupabaseEnv() ? await updateSession(request, response) : { user: null };
-
   const { pathname } = request.nextUrl;
   const [, maybeLocale, ...rest] = pathname.split("/");
   const locale = isLocale(maybeLocale) ? maybeLocale : routing.defaultLocale;
   const innerPath = "/" + rest.join("/");
 
-  const isProtected = PROTECTED_PREFIXES.some((p) => innerPath === p || innerPath.startsWith(p + "/"));
-  if (isProtected && !user) {
+  // The public website is static and never touches the session: no auth work on those requests.
+  if (!matchesPrefix(innerPath, SESSION_PREFIXES)) return response;
+
+  // Refresh the auth session so server components see a valid token.
+  // Without Supabase configured, private areas stay closed.
+  const { userId } = hasSupabaseEnv() ? await updateSession(request, response) : { userId: null };
+
+  if (matchesPrefix(innerPath, PROTECTED_PREFIXES) && !userId) {
     const url = request.nextUrl.clone();
     url.pathname = `/${locale}/login`;
     url.search = `?next=${encodeURIComponent(pathname)}`;

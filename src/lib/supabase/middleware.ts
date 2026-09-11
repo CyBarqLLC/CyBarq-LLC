@@ -4,8 +4,12 @@ import type { Database } from "./database.types";
 import { normaliseUrl } from "@/lib/env";
 
 /**
- * Refreshes the Supabase session cookie on every request and returns the user
- * (or null). The response carries any rotated cookies back to the browser.
+ * Refreshes the Supabase session cookie and returns the signed in user id (or
+ * null). The response carries any rotated cookies back to the browser.
+ * The access token is verified locally against the project's published signing
+ * keys, so a valid session costs no round trip to the auth server; only an
+ * expired token triggers a refresh. Authorization itself happens in the
+ * server components and the database, never here.
  */
 export async function updateSession(request: NextRequest, response: NextResponse) {
   const supabase = createServerClient<Database>(
@@ -23,9 +27,7 @@ export async function updateSession(request: NextRequest, response: NextResponse
       },
     },
   );
-  // getUser() validates the JWT against the auth server; never trust getSession() here.
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return { user, response };
+  const { data, error } = await supabase.auth.getClaims();
+  const userId = !error && data?.claims?.sub ? data.claims.sub : null;
+  return { userId, response };
 }
