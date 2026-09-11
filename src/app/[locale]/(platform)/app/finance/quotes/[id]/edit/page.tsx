@@ -41,6 +41,7 @@ export default async function EditQuotePage({ params }: { params: Promise<{ id: 
         mode="edit"
         values={{
           id: quote.id,
+          updated_at: quote.updated_at,
           client_id: quote.client_id,
           project_id: quote.project_id,
           language: quote.language,

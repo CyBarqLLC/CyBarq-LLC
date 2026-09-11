@@ -1,6 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { requireEmployee } from "@/lib/auth/session";
-import { createClient } from "@/lib/supabase/server";
 import { signOut } from "@/lib/actions/auth";
 import { Sidebar } from "@/components/platform/sidebar";
 import { Topbar } from "@/components/platform/topbar";
@@ -13,8 +12,6 @@ export default async function PlatformLayout({ children }: { children: React.Rea
   const viewer = await requireEmployee();
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations("platform.nav");
-  const supabase = await createClient();
-  const { count } = await supabase.from("notifications").select("id", { count: "exact", head: true }).is("read_at", null).eq("user_id", viewer.userId);
 
   const sections = PLATFORM_NAV.map((s) => ({
     section: s.section,
@@ -36,7 +33,7 @@ export default async function PlatformLayout({ children }: { children: React.Rea
         <Topbar
           sections={sections}
           viewer={{ name, email: viewer.email, avatarUrl: viewer.profile.avatar_path ? publicUrl("public-content", viewer.profile.avatar_path) : null }}
-          unread={count ?? 0}
+          unread={viewer.unreadNotifications}
           commands={commands}
           signOut={signOut}
         />

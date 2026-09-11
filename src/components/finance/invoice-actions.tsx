@@ -79,7 +79,7 @@ export function InvoiceActions({ invoice, canWrite, canIssue, today }: Props) {
         </ActionDialog>
       ) : null}
 
-      {invoice.status === "issued" && canWrite ? (
+      {(invoice.status === "issued" || invoice.status === "sent") && canWrite ? (
         <ActionForm action={sendInvoiceToClient} fields={{ id: invoice.id }} label={t("send")} variant="primary" confirm={t("sendHint")} successMessage={(d) => t("sent", { email: d.email })} />
       ) : null}
 
@@ -138,8 +138,8 @@ export function InvoiceActions({ invoice, canWrite, canIssue, today }: Props) {
         </ActionDialog>
       ) : null}
 
-      {!isDraft && canWrite ? (
-        <ActionForm action={issueReplacement} fields={{ id: invoice.id }} label={t("replace")} variant={isVoid ? "primary" : "outline"} confirm={t("replaceHint")} />
+      {isVoid && canWrite ? (
+        <ActionForm action={issueReplacement} fields={{ id: invoice.id }} label={t("replace")} variant="primary" confirm={t("replaceHint")} />
       ) : null}
 
       {isDraft && canWrite ? (

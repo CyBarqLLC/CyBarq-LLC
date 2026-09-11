@@ -41,6 +41,7 @@ export default async function EditInvoicePage({ params }: { params: Promise<{ id
         mode="edit"
         values={{
           id: invoice.id,
+          updated_at: invoice.updated_at,
           client_id: invoice.client_id,
           project_id: invoice.project_id,
           language: invoice.language,

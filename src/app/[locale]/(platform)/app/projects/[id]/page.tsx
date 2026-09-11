@@ -18,6 +18,7 @@ import { ActionButton } from "@/components/platform/action-button";
 import { ConfirmAction } from "@/components/platform/confirm-action";
 import { enumOptions } from "@/components/platform/enum-options";
 import { getProject, canManageProject } from "./project-data";
+import { businessToday } from "@/lib/time";
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params;
@@ -35,7 +36,7 @@ export default async function ProjectOverviewPage({ params }: { params: Promise<
   const t = await getTranslations("projects");
   const supabase = await createClient();
   const manage = await canManageProject(viewer, project);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = businessToday();
 
   const [{ count: openTasks }, { count: overdueTasks }, { count: members }, { count: milestones }] = await Promise.all([
     supabase.from("tasks").select("id", { count: "exact", head: true }).eq("project_id", project.id).in("status", ["todo", "in_progress", "review"]),

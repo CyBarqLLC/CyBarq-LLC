@@ -6,18 +6,15 @@ import { pick } from "@/i18n/bilingual";
 import type { ClientOption, ProjectOption } from "@/components/finance/document-form";
 
 /** Today's date in Amman as yyyy-mm-dd. */
-export function todayIso(): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Amman", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
-}
+export { businessToday as todayIso } from "@/lib/time";
 
 /**
- * Marks issued or sent invoices whose due date has passed as overdue. One
- * UPDATE through the user's client: RLS restricts it to finance.write holders
- * and it is a no-op for everyone else.
+ * Overdue is a business fact derived from the due date: an open invoice whose
+ * due date has passed. The scheduled job also stores the `overdue` status for
+ * filters; pages never write on read.
  */
-export async function markOverdueInvoices(supabase: SupabaseServerClient): Promise<void> {
-  const { error } = await supabase.from("invoices").update({ status: "overdue" }).in("status", ["issued", "sent"]).lt("due_date", todayIso());
-  if (error && error.code !== "42501") console.error("[finance] overdue sweep failed", error.message);
+export function isOverdue(row: { status: Enums<"invoice_status">; due_date: string | null }, today: string): boolean {
+  return row.due_date !== null && row.due_date < today && (row.status === "issued" || row.status === "sent" || row.status === "partially_paid" || row.status === "overdue");
 }
 
 /** Escapes user input used inside a PostgREST `or` filter. */

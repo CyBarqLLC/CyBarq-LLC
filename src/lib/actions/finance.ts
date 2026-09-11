@@ -2,11 +2,12 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { z } from "zod";
 import { requirePermission } from "@/lib/auth/session";
-import { createClient, type SupabaseServerClient } from "@/lib/supabase/server";
-import type { Tables, TablesInsert } from "@/lib/supabase/database.types";
+import { createClient } from "@/lib/supabase/server";
 import { ok, fail, runAction, type ActionResult } from "@/lib/actions/result";
+import { actionError } from "@/lib/actions/messages";
 import { formToObject } from "@/lib/validation/common";
 import {
   quoteHeaderSchema,
@@ -19,115 +20,23 @@ import {
   voidSchema,
   idSchema,
   paymentSchema,
+  removePaymentSchema,
   type LineItemInput,
-  type QuoteHeaderInput,
-  type InvoiceHeaderInput,
 } from "@/lib/validation/finance";
 import { audit } from "@/lib/audit";
-import { sendMail, mailLayout } from "@/lib/email/resend";
-import { publicEnv } from "@/lib/env";
+import { sendMail, renderEmail } from "@/lib/email/resend";
+import { siteUrl } from "@/lib/env";
 import { pick } from "@/i18n/bilingual";
-import { z } from "zod";
+import { formatMoney, formatDate } from "@/lib/utils/format";
 
 type IdResult = ActionResult<{ id: string }>;
 type Prev<T> = ActionResult<T> | null;
 
 const draftItemsSchema = z.array(lineItemSchema).max(100);
+const expectedSchema = z.object({ expected_updated_at: z.string().max(64).optional() });
 
 function revalidateFinance() {
-  revalidatePath("/[locale]/app/finance", "layout");
-}
-
-/** Parses the repeated line item fields; errors name the offending row. */
-function parseItems(formData: FormData): { items: LineItemInput[] } | { error: ActionResult<never> } {
-  const parsed = draftItemsSchema.safeParse(readLineItems(formData));
-  if (parsed.success) return { items: parsed.data };
-  const issue = parsed.error.issues[0];
-  const first = issue?.path[0];
-  const second = issue?.path[1];
-  const row = typeof first === "number" ? first + 1 : 0;
-  const field = typeof second === "string" ? second.replace("_", " ") : "";
-  const message = row ? `Line ${row}${field ? ` (${field})` : ""}: ${issue?.message ?? "invalid value"}` : "Line items need attention.";
-  return { error: fail(message, "VALIDATION") };
-}
-
-function quoteRow(h: QuoteHeaderInput): Omit<TablesInsert<"quotes">, "created_by"> {
-  return {
-    client_id: h.client_id,
-    project_id: h.project_id ?? null,
-    language: h.language,
-    currency: h.currency,
-    tax_rate: h.tax_rate,
-    title_en: h.title_en ?? null,
-    title_ar: h.title_ar ?? null,
-    notes_en: h.notes_en ?? null,
-    notes_ar: h.notes_ar ?? null,
-    terms_en: h.terms_en ?? null,
-    terms_ar: h.terms_ar ?? null,
-    valid_until: h.valid_until ?? null,
-  };
-}
-
-function invoiceRow(h: InvoiceHeaderInput): Omit<TablesInsert<"invoices">, "created_by"> {
-  return {
-    client_id: h.client_id,
-    project_id: h.project_id ?? null,
-    language: h.language,
-    currency: h.currency,
-    tax_rate: h.tax_rate,
-    title_en: h.title_en ?? null,
-    title_ar: h.title_ar ?? null,
-    notes_en: h.notes_en ?? null,
-    notes_ar: h.notes_ar ?? null,
-    terms_en: h.terms_en ?? null,
-    terms_ar: h.terms_ar ?? null,
-    due_date: h.due_date ?? null,
-  };
-}
-
-/** Replaces the items of a draft: delete existing rows, then insert. Triggers recalculate totals. */
-async function replaceQuoteItems(supabase: SupabaseServerClient, quoteId: string, items: LineItemInput[]) {
-  const { error: delError } = await supabase.from("quote_items").delete().eq("quote_id", quoteId);
-  if (delError) throw delError;
-  if (items.length === 0) return;
-  const rows: TablesInsert<"quote_items">[] = items.map((it, i) => ({
-    quote_id: quoteId,
-    position: i,
-    description_en: it.description_en,
-    description_ar: it.description_ar ?? null,
-    quantity: it.quantity,
-    unit_price: it.unit_price,
-  }));
-  const { error } = await supabase.from("quote_items").insert(rows);
-  if (error) throw error;
-}
-
-async function replaceInvoiceItems(supabase: SupabaseServerClient, invoiceId: string, items: LineItemInput[]) {
-  const { error: delError } = await supabase.from("invoice_items").delete().eq("invoice_id", invoiceId);
-  if (delError) throw delError;
-  if (items.length === 0) return;
-  const rows: TablesInsert<"invoice_items">[] = items.map((it, i) => ({
-    invoice_id: invoiceId,
-    position: i,
-    description_en: it.description_en,
-    description_ar: it.description_ar ?? null,
-    quantity: it.quantity,
-    unit_price: it.unit_price,
-  }));
-  const { error } = await supabase.from("invoice_items").insert(rows);
-  if (error) throw error;
-}
-
-async function loadQuote(supabase: SupabaseServerClient, id: string): Promise<Tables<"quotes"> | null> {
-  const { data, error } = await supabase.from("quotes").select("*").eq("id", id).maybeSingle();
-  if (error) throw error;
-  return data;
-}
-
-async function loadInvoice(supabase: SupabaseServerClient, id: string): Promise<Tables<"invoices"> | null> {
-  const { data, error } = await supabase.from("invoices").select("*").eq("id", id).maybeSingle();
-  if (error) throw error;
-  return data;
+  revalidatePath("/[locale]/(platform)/app/finance", "layout");
 }
 
 async function localePath(path: string): Promise<string> {
@@ -135,44 +44,68 @@ async function localePath(path: string): Promise<string> {
   return `/${locale}${path}`;
 }
 
+/** Parses the repeated line item fields; the message names the row that needs attention. */
+async function parseItems(formData: FormData): Promise<{ items: LineItemInput[] } | { error: ActionResult<never> }> {
+  const parsed = draftItemsSchema.safeParse(readLineItems(formData));
+  if (parsed.success) return { items: parsed.data };
+  const t = await getTranslations("errors");
+  const issue = parsed.error.issues[0];
+  const first = issue?.path[0];
+  const row = typeof first === "number" ? first + 1 : 0;
+  return { error: fail(row ? t("lineItem", { row }) : t("lineItems"), "VALIDATION") };
+}
+
+function headerJson(header: z.infer<typeof quoteHeaderSchema> | z.infer<typeof invoiceHeaderSchema>) {
+  return {
+    client_id: header.client_id,
+    project_id: header.project_id ?? "",
+    language: header.language,
+    currency: header.currency,
+    tax_rate: header.tax_rate,
+    title_en: header.title_en ?? "",
+    title_ar: header.title_ar ?? "",
+    notes_en: header.notes_en ?? "",
+    notes_ar: header.notes_ar ?? "",
+    terms_en: header.terms_en ?? "",
+    terms_ar: header.terms_ar ?? "",
+    valid_until: "valid_until" in header ? header.valid_until ?? "" : "",
+    due_date: "due_date" in header ? header.due_date ?? "" : "",
+  };
+}
+
+function itemsJson(items: LineItemInput[]) {
+  return items.map((it) => ({ description_en: it.description_en, description_ar: it.description_ar ?? "", quantity: it.quantity, unit_price: it.unit_price }));
+}
+
 /* ------------------------------------------------------------------------ */
 /* Quotes                                                                    */
 /* ------------------------------------------------------------------------ */
 
+/** Creates or updates a draft quote with all its items in one transaction. */
+async function saveQuote(formData: FormData, mode: "create" | "update"): Promise<IdResult> {
+  await requirePermission("finance.write", "action");
+  const header = quoteHeaderSchema.parse(formToObject(formData));
+  const parsed = await parseItems(formData);
+  if ("error" in parsed) return parsed.error;
+  const id = mode === "update" ? idSchema.parse({ id: formData.get("id") }).id : undefined;
+  const { expected_updated_at } = expectedSchema.parse({ expected_updated_at: formData.get("expected_updated_at") ?? undefined });
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("save_quote", { _header: headerJson(header), _items: itemsJson(parsed.items), _id: id, _expected_updated_at: expected_updated_at || undefined });
+  if (error) throw error;
+  revalidateFinance();
+  return ok({ id: data.id });
+}
+
 export async function createQuote(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
-  const result = await runAction<{ id: string }>(async () => {
-    const viewer = await requirePermission("finance.write", "action");
-    const header = quoteHeaderSchema.parse(formToObject(formData));
-    const parsed = parseItems(formData);
-    if ("error" in parsed) return parsed.error;
-    const supabase = await createClient();
-    const { data, error } = await supabase.from("quotes").insert({ ...quoteRow(header), created_by: viewer.userId }).select("id").single();
-    if (error) throw error;
-    await replaceQuoteItems(supabase, data.id, parsed.items);
-    revalidateFinance();
-    return ok({ id: data.id });
-  });
+  const result = await runAction(() => saveQuote(formData, "create"));
   if (result.ok) redirect(await localePath(`/app/finance/quotes/${result.data.id}`));
   return result;
 }
 
 export async function updateQuote(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
-  return runAction<{ id: string }>(async () => {
-    await requirePermission("finance.write", "action");
-    const { id } = idSchema.parse({ id: formData.get("id") });
-    const header = quoteHeaderSchema.parse(formToObject(formData));
-    const parsed = parseItems(formData);
-    if ("error" in parsed) return parsed.error;
-    const supabase = await createClient();
-    const quote = await loadQuote(supabase, id);
-    if (!quote) return fail("Not found.", "NOT_FOUND");
-    if (quote.status !== "draft") return fail("Issued quotes cannot be edited. Void it and issue a new one.", "CONFLICT");
-    const { error } = await supabase.from("quotes").update(quoteRow(header)).eq("id", id).eq("status", "draft");
-    if (error) throw error;
-    await replaceQuoteItems(supabase, id, parsed.items);
-    revalidateFinance();
-    return ok({ id });
-  });
+  const result = await runAction(() => saveQuote(formData, "update"));
+  if (result.ok) redirect(await localePath(`/app/finance/quotes/${result.data.id}`));
+  return result;
 }
 
 export async function issueQuote(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
@@ -197,11 +130,10 @@ export async function setQuoteStatus(_prev: Prev<{ id: string }>, formData: Form
     await requirePermission("finance.write", "action");
     const input = quoteStatusSchema.parse(formToObject(formData));
     const supabase = await createClient();
-    const { data, error } = await supabase.from("quotes").update({ status: input.status }).eq("id", input.id).eq("status", "sent").select("id");
+    const { data, error } = await supabase.rpc("set_quote_status", { _quote_id: input.id, _status: input.status });
     if (error) throw error;
-    if (!data || data.length === 0) return fail("Only sent quotes can change to this status.", "CONFLICT");
     revalidateFinance();
-    return ok({ id: input.id });
+    return ok({ id: data.id });
   });
 }
 
@@ -210,16 +142,10 @@ export async function voidQuote(_prev: Prev<{ id: string }>, formData: FormData)
     await requirePermission("finance.issue", "action");
     const { id } = idSchema.parse({ id: formData.get("id") });
     const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("quotes")
-      .update({ status: "void", pdf_path: null })
-      .eq("id", id)
-      .in("status", ["sent", "accepted", "declined", "expired"])
-      .select("id");
+    const { data, error } = await supabase.rpc("set_quote_status", { _quote_id: id, _status: "void" });
     if (error) throw error;
-    if (!data || data.length === 0) return fail("This quote cannot be voided in its current state.", "CONFLICT");
     revalidateFinance();
-    return ok({ id });
+    return ok({ id: data.id });
   });
 }
 
@@ -230,7 +156,7 @@ export async function deleteDraftQuote(_prev: Prev<undefined>, formData: FormDat
     const supabase = await createClient();
     const { data, error } = await supabase.from("quotes").delete().eq("id", id).eq("status", "draft").select("id");
     if (error) throw error;
-    if (!data || data.length === 0) return fail("Only drafts can be deleted.", "CONFLICT");
+    if (!data || data.length === 0) return fail(await actionError("onlyDraftsDeletable"), "CONFLICT");
     revalidateFinance();
     return ok(undefined);
   });
@@ -241,37 +167,11 @@ export async function deleteDraftQuote(_prev: Prev<undefined>, formData: FormDat
 /** Copies a quote (any status) into a new draft. */
 export async function duplicateQuote(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
   const result = await runAction<{ id: string }>(async () => {
-    const viewer = await requirePermission("finance.write", "action");
+    await requirePermission("finance.write", "action");
     const { id } = idSchema.parse({ id: formData.get("id") });
     const supabase = await createClient();
-    const source = await loadQuote(supabase, id);
-    if (!source) return fail("Not found.", "NOT_FOUND");
-    const { data: items, error: itemsError } = await supabase.from("quote_items").select("description_en, description_ar, quantity, unit_price").eq("quote_id", id).order("position");
-    if (itemsError) throw itemsError;
-    const { data, error } = await supabase
-      .from("quotes")
-      .insert({
-        client_id: source.client_id,
-        project_id: source.project_id,
-        language: source.language,
-        currency: source.currency,
-        tax_rate: source.tax_rate,
-        title_en: source.title_en,
-        title_ar: source.title_ar,
-        notes_en: source.notes_en,
-        notes_ar: source.notes_ar,
-        terms_en: source.terms_en,
-        terms_ar: source.terms_ar,
-        created_by: viewer.userId,
-      })
-      .select("id")
-      .single();
+    const { data, error } = await supabase.rpc("duplicate_quote", { _quote_id: id });
     if (error) throw error;
-    await replaceQuoteItems(
-      supabase,
-      data.id,
-      (items ?? []).map((it) => ({ description_en: it.description_en, description_ar: it.description_ar ?? undefined, quantity: Number(it.quantity), unit_price: Number(it.unit_price) })),
-    );
     revalidateFinance();
     return ok({ id: data.id });
   });
@@ -279,42 +179,14 @@ export async function duplicateQuote(_prev: Prev<{ id: string }>, formData: Form
   return result;
 }
 
-/** Turns an accepted quote into a draft invoice (header and items copied, quote linked). */
+/** Turns an accepted quote into a draft invoice. Running it twice opens the same invoice. */
 export async function convertQuoteToInvoice(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
   const result = await runAction<{ id: string }>(async () => {
-    const viewer = await requirePermission("finance.write", "action");
+    await requirePermission("finance.write", "action");
     const { id } = idSchema.parse({ id: formData.get("id") });
     const supabase = await createClient();
-    const source = await loadQuote(supabase, id);
-    if (!source) return fail("Not found.", "NOT_FOUND");
-    if (source.status !== "accepted") return fail("Only accepted quotes can be converted to an invoice.", "CONFLICT");
-    const { data: items, error: itemsError } = await supabase.from("quote_items").select("description_en, description_ar, quantity, unit_price").eq("quote_id", id).order("position");
-    if (itemsError) throw itemsError;
-    const { data, error } = await supabase
-      .from("invoices")
-      .insert({
-        client_id: source.client_id,
-        project_id: source.project_id,
-        quote_id: source.id,
-        language: source.language,
-        currency: source.currency,
-        tax_rate: source.tax_rate,
-        title_en: source.title_en,
-        title_ar: source.title_ar,
-        notes_en: source.notes_en,
-        notes_ar: source.notes_ar,
-        terms_en: source.terms_en,
-        terms_ar: source.terms_ar,
-        created_by: viewer.userId,
-      })
-      .select("id")
-      .single();
+    const { data, error } = await supabase.rpc("convert_quote_to_invoice", { _quote_id: id });
     if (error) throw error;
-    await replaceInvoiceItems(
-      supabase,
-      data.id,
-      (items ?? []).map((it) => ({ description_en: it.description_en, description_ar: it.description_ar ?? undefined, quantity: Number(it.quantity), unit_price: Number(it.unit_price) })),
-    );
     revalidateFinance();
     return ok({ id: data.id });
   });
@@ -326,40 +198,30 @@ export async function convertQuoteToInvoice(_prev: Prev<{ id: string }>, formDat
 /* Invoices                                                                  */
 /* ------------------------------------------------------------------------ */
 
+async function saveInvoice(formData: FormData, mode: "create" | "update"): Promise<IdResult> {
+  await requirePermission("finance.write", "action");
+  const header = invoiceHeaderSchema.parse(formToObject(formData));
+  const parsed = await parseItems(formData);
+  if ("error" in parsed) return parsed.error;
+  const id = mode === "update" ? idSchema.parse({ id: formData.get("id") }).id : undefined;
+  const { expected_updated_at } = expectedSchema.parse({ expected_updated_at: formData.get("expected_updated_at") ?? undefined });
+  const supabase = await createClient();
+  const { data, error } = await supabase.rpc("save_invoice", { _header: headerJson(header), _items: itemsJson(parsed.items), _id: id, _expected_updated_at: expected_updated_at || undefined });
+  if (error) throw error;
+  revalidateFinance();
+  return ok({ id: data.id });
+}
+
 export async function createInvoice(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
-  const result = await runAction<{ id: string }>(async () => {
-    const viewer = await requirePermission("finance.write", "action");
-    const header = invoiceHeaderSchema.parse(formToObject(formData));
-    const parsed = parseItems(formData);
-    if ("error" in parsed) return parsed.error;
-    const supabase = await createClient();
-    const { data, error } = await supabase.from("invoices").insert({ ...invoiceRow(header), created_by: viewer.userId }).select("id").single();
-    if (error) throw error;
-    await replaceInvoiceItems(supabase, data.id, parsed.items);
-    revalidateFinance();
-    return ok({ id: data.id });
-  });
+  const result = await runAction(() => saveInvoice(formData, "create"));
   if (result.ok) redirect(await localePath(`/app/finance/invoices/${result.data.id}`));
   return result;
 }
 
 export async function updateInvoice(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
-  return runAction<{ id: string }>(async () => {
-    await requirePermission("finance.write", "action");
-    const { id } = idSchema.parse({ id: formData.get("id") });
-    const header = invoiceHeaderSchema.parse(formToObject(formData));
-    const parsed = parseItems(formData);
-    if ("error" in parsed) return parsed.error;
-    const supabase = await createClient();
-    const invoice = await loadInvoice(supabase, id);
-    if (!invoice) return fail("Not found.", "NOT_FOUND");
-    if (invoice.status !== "draft") return fail("Issued invoices cannot be edited. Void it and issue a replacement.", "CONFLICT");
-    const { error } = await supabase.from("invoices").update(invoiceRow(header)).eq("id", id).eq("status", "draft");
-    if (error) throw error;
-    await replaceInvoiceItems(supabase, id, parsed.items);
-    revalidateFinance();
-    return ok({ id });
-  });
+  const result = await runAction(() => saveInvoice(formData, "update"));
+  if (result.ok) redirect(await localePath(`/app/finance/invoices/${result.data.id}`));
+  return result;
 }
 
 export async function issueInvoice(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
@@ -386,80 +248,53 @@ export async function voidInvoice(_prev: Prev<{ id: string }>, formData: FormDat
     const supabase = await createClient();
     const { data, error } = await supabase.rpc("void_invoice", { _invoice_id: input.id, _reason: input.reason });
     if (error) throw error;
-    // The stored PDF predates the void stamp; drop it so the next download re-renders.
-    await supabase.from("invoices").update({ pdf_path: null }).eq("id", data.id);
     revalidateFinance();
     return ok({ id: data.id });
   });
 }
 
+/** Records a payment. The database locks the invoice, rejects overpayment and updates the status. */
 export async function recordPayment(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
   return runAction<{ id: string }>(async () => {
-    const viewer = await requirePermission("finance.write", "action");
+    await requirePermission("finance.write", "action");
     const input = paymentSchema.parse(formToObject(formData));
     const supabase = await createClient();
-    const invoice = await loadInvoice(supabase, input.invoice_id);
-    if (!invoice) return fail("Not found.", "NOT_FOUND");
-    if (invoice.status === "draft" || invoice.status === "void") return fail("Payments can only be recorded against issued invoices.", "CONFLICT");
-    const { data, error } = await supabase
-      .from("payments")
-      .insert({
-        invoice_id: input.invoice_id,
-        amount: input.amount,
-        paid_at: input.paid_at,
-        method: input.method,
-        reference: input.reference ?? null,
-        notes: input.notes ?? null,
-        recorded_by: viewer.userId,
-      })
-      .select("id")
-      .single();
+    const { data, error } = await supabase.rpc("record_payment", {
+      _invoice_id: input.invoice_id,
+      _amount: input.amount,
+      _paid_at: input.paid_at,
+      _method: input.method,
+      _reference: input.reference,
+      _notes: input.notes,
+    });
     if (error) throw error;
-    // Paid and balance lines change: invalidate the stored PDF.
-    await supabase.from("invoices").update({ pdf_path: null }).eq("id", input.invoice_id);
-    await audit("payment.recorded", "invoice", input.invoice_id, { payment_id: data.id, amount: input.amount, method: input.method, currency: invoice.currency }, invoice.client_id);
+    await audit("payment.recorded", "invoice", input.invoice_id, { payment_id: data.id, amount: input.amount, method: input.method });
     revalidateFinance();
     return ok({ id: data.id });
   });
 }
 
-/** Creates a new draft that copies an issued or void invoice and points back to it. */
+/** Removes a payment recorded by mistake (with a reason, audited in the database). */
+export async function removePayment(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
+  return runAction<{ id: string }>(async () => {
+    await requirePermission("finance.issue", "action");
+    const input = removePaymentSchema.parse(formToObject(formData));
+    const supabase = await createClient();
+    const { data, error } = await supabase.rpc("remove_payment", { _payment_id: input.payment_id, _reason: input.reason });
+    if (error) throw error;
+    revalidateFinance();
+    return ok({ id: data.id });
+  });
+}
+
+/** Creates a draft copy of a void invoice that points back to it. Running it twice opens the same draft. */
 export async function issueReplacement(_prev: Prev<{ id: string }>, formData: FormData): Promise<IdResult> {
   const result = await runAction<{ id: string }>(async () => {
-    const viewer = await requirePermission("finance.write", "action");
+    await requirePermission("finance.write", "action");
     const { id } = idSchema.parse({ id: formData.get("id") });
     const supabase = await createClient();
-    const source = await loadInvoice(supabase, id);
-    if (!source) return fail("Not found.", "NOT_FOUND");
-    if (source.status === "draft") return fail("Drafts can be edited directly.", "CONFLICT");
-    const { data: items, error: itemsError } = await supabase.from("invoice_items").select("description_en, description_ar, quantity, unit_price").eq("invoice_id", id).order("position");
-    if (itemsError) throw itemsError;
-    const { data, error } = await supabase
-      .from("invoices")
-      .insert({
-        client_id: source.client_id,
-        project_id: source.project_id,
-        quote_id: source.quote_id,
-        replaces_invoice_id: source.id,
-        language: source.language,
-        currency: source.currency,
-        tax_rate: source.tax_rate,
-        title_en: source.title_en,
-        title_ar: source.title_ar,
-        notes_en: source.notes_en,
-        notes_ar: source.notes_ar,
-        terms_en: source.terms_en,
-        terms_ar: source.terms_ar,
-        created_by: viewer.userId,
-      })
-      .select("id")
-      .single();
+    const { data, error } = await supabase.rpc("create_replacement_invoice", { _invoice_id: id });
     if (error) throw error;
-    await replaceInvoiceItems(
-      supabase,
-      data.id,
-      (items ?? []).map((it) => ({ description_en: it.description_en, description_ar: it.description_ar ?? undefined, quantity: Number(it.quantity), unit_price: Number(it.unit_price) })),
-    );
     revalidateFinance();
     return ok({ id: data.id });
   });
@@ -474,7 +309,7 @@ export async function deleteDraftInvoice(_prev: Prev<undefined>, formData: FormD
     const supabase = await createClient();
     const { data, error } = await supabase.from("invoices").delete().eq("id", id).eq("status", "draft").select("id");
     if (error) throw error;
-    if (!data || data.length === 0) return fail("Only drafts can be deleted.", "CONFLICT");
+    if (!data || data.length === 0) return fail(await actionError("onlyDraftsDeletable"), "CONFLICT");
     revalidateFinance();
     return ok(undefined);
   });
@@ -482,42 +317,64 @@ export async function deleteDraftInvoice(_prev: Prev<undefined>, formData: FormD
   return result;
 }
 
-function escapeHtml(value: string): string {
-  return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-}
-
-/** Emails the client's primary contact a link to the portal and marks the invoice as sent. */
+/**
+ * Emails the client's primary contact a link to the invoice in the portal and
+ * marks it as sent. The email carries an idempotency key, so a double click or
+ * a retry delivers one message.
+ */
 export async function sendInvoiceToClient(_prev: Prev<{ email: string }>, formData: FormData): Promise<ActionResult<{ email: string }>> {
   return runAction<{ email: string }>(async () => {
     await requirePermission("finance.write", "action");
     const { id } = idSchema.parse({ id: formData.get("id") });
     const supabase = await createClient();
-    const invoice = await loadInvoice(supabase, id);
-    if (!invoice) return fail("Not found.", "NOT_FOUND");
-    if (invoice.status !== "issued") return fail("Only issued invoices can be sent.", "CONFLICT");
-    const { data: client, error: clientError } = await supabase.from("clients").select("name_en, name_ar, primary_contact_name, primary_contact_email").eq("id", invoice.client_id).maybeSingle();
-    if (clientError) throw clientError;
+    const { data: invoice, error: loadError } = await supabase
+      .from("invoices")
+      .select("id, number, status, language, total, currency, due_date, client_id, client:clients(name_en, name_ar, primary_contact_name, primary_contact_email)")
+      .eq("id", id)
+      .maybeSingle();
+    if (loadError) throw loadError;
+    if (!invoice) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (invoice.status !== "issued" && invoice.status !== "sent") return fail(await actionError("invoiceNotSendable"), "CONFLICT");
+    const client = invoice.client;
     const email = client?.primary_contact_email?.trim();
-    if (!client || !email) return fail("The client has no primary contact email. Add one on the client record first.", "VALIDATION");
+    if (!client || !email) return fail(await actionError("noPrimaryEmail"), "VALIDATION");
 
     const locale = invoice.language;
-    const base = publicEnv.NEXT_PUBLIC_SITE_URL.replace(/\/+$/, "");
-    const link = `${base}/${locale}/portal/finance`;
     const number = invoice.number ?? "";
-    const clientName = escapeHtml(pick(client, "name", locale));
-    const contact = escapeHtml(client.primary_contact_name ?? "");
-    const subject = locale === "ar" ? `فاتورة ${number} من سايبرق` : `Invoice ${number} from CyBarq`;
-    const body =
+    const link = `${siteUrl()}/${locale}/portal/finance`;
+    const contact = client.primary_contact_name ?? "";
+    const amount = formatMoney(invoice.total, invoice.currency, locale);
+    const due = formatDate(invoice.due_date, locale, "long");
+    const copy =
       locale === "ar"
-        ? `<p>${contact ? `مرحباً ${contact}،` : "مرحباً،"}</p><p>أصدرنا الفاتورة رقم <strong>${escapeHtml(number)}</strong> لصالح ${clientName}. يمكنكم الاطلاع عليها وتنزيلها من بوابة العملاء:</p><p><a href="${link}">${link}</a></p><p>شكراً لتعاملكم معنا.</p>`
-        : `<p>${contact ? `Hello ${contact},` : "Hello,"}</p><p>Invoice <strong>${escapeHtml(number)}</strong> for ${clientName} has been issued. You can view and download it from the client portal:</p><p><a href="${link}">${link}</a></p><p>Thank you for working with us.</p>`;
-    const text = locale === "ar" ? `أصدرنا الفاتورة رقم ${number}. يمكنكم الاطلاع عليها من بوابة العملاء: ${link}` : `Invoice ${number} has been issued. View it in the client portal: ${link}`;
+        ? {
+            subject: `فاتورة ${number} من سايبرق`,
+            title: `الفاتورة ${number}`,
+            paragraphs: [
+              contact ? `مرحباً ${contact}،` : "مرحباً،",
+              `أصدرنا الفاتورة رقم ${number} لصالح ${pick(client, "name", locale)} بقيمة ${amount}${due ? `، ويستحق سدادها في ${due}` : ""}.`,
+              "يمكنكم الاطلاع عليها وتنزيل نسخة PDF من بوابة العملاء.",
+            ],
+            action: "عرض الفاتورة",
+            note: "شكراً لتعاملكم مع سايبرق.",
+          }
+        : {
+            subject: `Invoice ${number} from CyBarq`,
+            title: `Invoice ${number}`,
+            paragraphs: [
+              contact ? `Hello ${contact},` : "Hello,",
+              `We have issued invoice ${number} to ${pick(client, "name", locale)} for ${amount}${due ? `, due on ${due}` : ""}.`,
+              "You can view it and download a PDF copy in the client portal.",
+            ],
+            action: "View invoice",
+            note: "Thank you for working with CyBarq.",
+          };
+    const { html, text } = renderEmail({ locale, title: copy.title, paragraphs: copy.paragraphs, action: { label: copy.action, url: link }, note: copy.note });
+    const mail = await sendMail({ to: email, subject: copy.subject, html, text, idempotencyKey: `invoice-sent/${invoice.id}/${number}` });
+    if (!mail.sent) return fail(await actionError("emailNotSent"), "ERROR");
 
-    await sendMail({ to: email, subject, html: mailLayout(subject, body, locale), text });
-
-    const { data, error } = await supabase.from("invoices").update({ status: "sent" }).eq("id", id).eq("status", "issued").select("id");
+    const { error } = await supabase.rpc("mark_invoice_sent", { _invoice_id: id });
     if (error) throw error;
-    if (!data || data.length === 0) return fail("The invoice changed while sending. Reload and try again.", "CONFLICT");
     await audit("invoice.sent", "invoice", id, { number, to: email }, invoice.client_id);
     revalidateFinance();
     return ok({ email });

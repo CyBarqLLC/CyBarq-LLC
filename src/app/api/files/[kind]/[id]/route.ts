@@ -1,5 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
+import { getViewer } from "@/lib/auth/session";
+import { displayFileName } from "@/lib/utils/format";
+import { documentError } from "@/app/api/documents/_lib/respond";
 import { signedDownloadUrl, type PrivateBucket } from "@/lib/storage";
 import { audit } from "@/lib/audit";
 
@@ -25,22 +28,18 @@ function isKind(value: string): value is Kind {
   return value in KINDS;
 }
 
-export async function GET(_request: NextRequest, context: { params: Promise<{ kind: string; id: string }> }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ kind: string; id: string }> }) {
   const { kind, id } = await context.params;
-  if (!isKind(kind) || !/^[0-9a-f-]{36}$/i.test(id)) {
-    return NextResponse.json({ error: "Not found" }, { status: 404 });
-  }
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  if (!isKind(kind) || !/^[0-9a-f-]{36}$/i.test(id)) return documentError(request, 404);
+  const viewer = await getViewer();
+  if (!viewer) return documentError(request, 401);
 
+  const supabase = await createClient();
   const def = KINDS[kind];
   const { data: row } = await supabase.from(def.table).select("id, storage_path").eq("id", id).maybeSingle();
-  if (!row) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  if (!row) return documentError(request, 404);
 
-  const fileName = row.storage_path.split("/").pop() ?? "file";
+  const fileName = displayFileName(row.storage_path) || "file";
   const url = await signedDownloadUrl(def.bucket, row.storage_path, fileName);
   if (kind === "reports" || kind === "evidence" || kind === "employee-documents") {
     await audit("file.accessed", def.table, id, { bucket: def.bucket });

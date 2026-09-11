@@ -8,6 +8,7 @@ import type { Locale } from "@/i18n/routing";
 import { requireClientUser, type Viewer } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { ok, fail, runAction, type ActionResult } from "@/lib/actions/result";
+import { actionError } from "@/lib/actions/messages";
 import { formToObject } from "@/lib/validation/common";
 import { supportRequestSchema, portalUploadFileSchema, portalDocumentRegisterSchema } from "@/lib/validation/portal";
 import { signedUploadUrl, safeFileName } from "@/lib/storage";
@@ -47,7 +48,7 @@ export async function registerPortalDocument(input: { project_id: string; path: 
     const viewer = await requireClientUser();
     const parsed = portalDocumentRegisterSchema.parse(input);
     const project = await loadClientProject(viewer, parsed.project_id);
-    if (!parsed.path.startsWith(`${project.id}/`)) return fail("Invalid file path.", "VALIDATION");
+    if (!parsed.path.startsWith(`${project.id}/`)) return fail(await actionError("filePath"), "VALIDATION");
     const supabase = await createClient();
     // The database trigger forces client_visible = true for client uploads; set it explicitly as well.
     const { data, error } = await supabase
@@ -76,7 +77,7 @@ export async function createSupportRequest(_prev: ActionResult<{ id: string }> |
   const result = await runAction(async () => {
     const viewer = await requireClientUser();
     const input = supportRequestSchema.parse(formToObject(formData));
-    if (!viewer.clientIds.includes(input.client_id)) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!viewer.clientIds.includes(input.client_id)) return fail(await actionError("forbidden"), "FORBIDDEN");
     if (input.project_id) {
       // Only projects visible to this client may be referenced.
       await loadClientProject(viewer, input.project_id);

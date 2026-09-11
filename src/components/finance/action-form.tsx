@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { useActionState } from "react";
+import { useTranslations } from "next-intl";
 import type { ActionResult } from "@/lib/actions/result";
 import { Button, type ButtonProps } from "@/components/ui/button";
 import { SubmitButton } from "@/components/ui/submit-button";
@@ -23,28 +24,65 @@ type ActionFormProps<T> = {
 };
 
 /**
- * One button that submits a server action with hidden fields. Errors and an
- * optional success line render under the button.
+ * One button that submits a server action with hidden fields. With `confirm`,
+ * the button first opens a small in-app confirmation dialog (never the
+ * browser's native confirm box). Errors and an optional success line render
+ * under the button.
  */
 export function ActionForm<T>({ action, fields, label, confirm, variant = "outline", size = "sm", successMessage, className }: ActionFormProps<T>) {
   const [result, formAction] = useActionState(action, null);
-  return (
-    <form
-      action={formAction}
-      className={className ?? "flex flex-col gap-1"}
-      onSubmit={(e) => {
-        if (confirm && !window.confirm(confirm)) e.preventDefault();
-      }}
-    >
-      {Object.entries(fields).map(([k, v]) => (
-        <input key={k} type="hidden" name={k} value={v} />
-      ))}
-      <SubmitButton variant={variant} size={size}>{label}</SubmitButton>
+  const [open, setOpen] = React.useState(false);
+  const t = useTranslations("common");
+  const handled = React.useRef<ActionResult<T> | null>(null);
+
+  React.useEffect(() => {
+    if (result && handled.current !== result) {
+      handled.current = result;
+      if (result.ok) setOpen(false);
+    }
+  }, [result]);
+
+  const hidden = Object.entries(fields).map(([k, v]) => <input key={k} type="hidden" name={k} value={v} />);
+  const feedback = (
+    <>
       <FormMessage result={result} />
       {result?.ok && successMessage ? (
         <p role="status" className="text-small text-success">{successMessage(result.data)}</p>
       ) : null}
-    </form>
+    </>
+  );
+
+  if (!confirm) {
+    return (
+      <form action={formAction} className={className ?? "flex flex-col gap-1"}>
+        {hidden}
+        <SubmitButton variant={variant} size={size}>{label}</SubmitButton>
+        {feedback}
+      </form>
+    );
+  }
+
+  return (
+    <div className={className ?? "flex flex-col gap-1"}>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button type="button" variant={variant} size={size}>{label}</Button>
+        </DialogTrigger>
+        <DialogContent title={typeof label === "string" ? label : t("confirm")} description={confirm}>
+          <form action={formAction} className="flex flex-col gap-5">
+            {hidden}
+            <FormMessage result={result} />
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="ghost">{t("cancel")}</Button>
+              </DialogClose>
+              <SubmitButton variant={variant === "danger" ? "danger" : "primary"}>{label}</SubmitButton>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
+      {result?.ok && successMessage ? <p role="status" className="text-small text-success">{successMessage(result.data)}</p> : null}
+    </div>
   );
 }
 

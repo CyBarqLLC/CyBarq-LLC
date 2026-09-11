@@ -18,6 +18,8 @@ import { LineItemsEditor, type LineItemDraft } from "./line-items-editor";
 
 export type DocumentFormValues = {
   id?: string;
+  /** Version the form was loaded from; the save is refused if someone changed the draft since. */
+  updated_at?: string;
   client_id: string;
   project_id: string | null;
   language: Locale;
@@ -62,6 +64,7 @@ export function DocumentForm({ kind, mode, values, items, clients, projects, loc
   return (
     <form action={formAction} className="flex flex-col gap-10" noValidate>
       {values?.id ? <input type="hidden" name="id" value={values.id} /> : null}
+      {values?.updated_at ? <input type="hidden" name="expected_updated_at" value={values.updated_at} /> : null}
 
       <section className="flex flex-col gap-5">
         <h2 className="text-h3">{t("form.sections.document")}</h2>

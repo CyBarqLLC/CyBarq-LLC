@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
+import { businessToday } from "@/lib/time";
 
 type FindingFormProps = {
   action: (prev: ActionResult<{ id: string }> | null, formData: FormData) => Promise<ActionResult<{ id: string }>>;
@@ -60,7 +61,7 @@ export function FindingForm({ action, engagementId, defaults, assets, mode }: Fi
             </NativeSelect>
           </Field>
           <Field label={t("discoveredAt")} htmlFor="discovered_at" error={fieldError(result, "discovered_at")}>
-            <Input id="discovered_at" name="discovered_at" type="date" defaultValue={defaults.discovered_at ?? new Date().toISOString().slice(0, 10)} aria-invalid={invalid("discovered_at")} />
+            <Input id="discovered_at" name="discovered_at" type="date" defaultValue={defaults.discovered_at ?? businessToday()} aria-invalid={invalid("discovered_at")} />
           </Field>
         </div>
       </section>

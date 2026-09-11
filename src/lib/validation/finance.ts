@@ -114,3 +114,8 @@ export const paymentSchema = z.object({
   notes: optionalString(500),
 });
 export type PaymentInput = z.infer<typeof paymentSchema>;
+
+export const removePaymentSchema = z.object({
+  payment_id: uuid,
+  reason: z.string().trim().min(3).max(500),
+});

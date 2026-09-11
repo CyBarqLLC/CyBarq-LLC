@@ -19,6 +19,7 @@ import { StatusSelectForm } from "@/components/platform/status-select-form";
 import { enumOptions } from "@/components/platform/enum-options";
 import { personName } from "@/components/platform/person";
 import { getProject } from "../project-data";
+import { businessToday } from "@/lib/time";
 
 export default async function ProjectTasksPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<SearchParams> }) {
   await requireEmployee();
@@ -46,7 +47,7 @@ export default async function ProjectTasksPage({ params, searchParams }: { param
   const { data: rows } = await query;
   type Row = NonNullable<typeof rows>[number];
   const tasks: Row[] = rows ?? [];
-  const today = new Date().toISOString().slice(0, 10);
+  const today = businessToday();
   const statusOptions = enumOptions(TASK_STATUS_LABELS, locale, TASK_STATUSES);
   const base = `/app/projects/${project.id}/tasks`;
 

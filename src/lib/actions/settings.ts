@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireViewer } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { ok, fail, runAction, type ActionResult } from "@/lib/actions/result";
+import { actionError } from "@/lib/actions/messages";
 import { signedUploadUrl } from "@/lib/storage";
 import { profileSchema, avatarRequestSchema, avatarSaveSchema, avatarExtension } from "@/lib/validation/settings";
 import type { UploadTicket } from "@/components/ui/file-upload";
@@ -35,7 +36,7 @@ export async function requestAvatarUpload(file: { name: string; size: number; ty
   return runAction(async () => {
     const viewer = await requireViewer();
     const parsed = avatarRequestSchema.safeParse(file);
-    if (!parsed.success) return fail("Choose a PNG, JPEG or WebP image up to 2 MB.", "VALIDATION");
+    if (!parsed.success) return fail(await actionError("avatarInvalid"), "VALIDATION");
     const path = `avatars/${viewer.userId}/${crypto.randomUUID()}.${avatarExtension(parsed.data.type)}`;
     const ticket = await signedUploadUrl("public-content", path);
     return ok(ticket);
@@ -46,7 +47,7 @@ export async function saveAvatar(input: { path: string }): Promise<ActionResult>
   return runAction(async () => {
     const viewer = await requireViewer();
     const { path } = avatarSaveSchema.parse(input);
-    if (!path.startsWith(`avatars/${viewer.userId}/`)) return fail("Invalid file path.", "VALIDATION");
+    if (!path.startsWith(`avatars/${viewer.userId}/`)) return fail(await actionError("filePath"), "VALIDATION");
     const supabase = await createClient();
     const { error } = await supabase.from("profiles").update({ avatar_path: path }).eq("id", viewer.userId);
     if (error) throw error;

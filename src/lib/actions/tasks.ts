@@ -4,8 +4,9 @@ import { revalidatePath } from "next/cache";
 import { requireEmployee } from "@/lib/auth/session";
 import { createClient, type SupabaseServerClient } from "@/lib/supabase/server";
 import { ok, fail, runAction, type ActionResult } from "@/lib/actions/result";
-import { sendMail, mailLayout } from "@/lib/email/resend";
-import { publicEnv } from "@/lib/env";
+import { actionError } from "@/lib/actions/messages";
+import { sendMail, renderEmail } from "@/lib/email/resend";
+import { siteUrl } from "@/lib/env";
 import { uuid } from "@/lib/validation/common";
 import { taskSchema, taskStatusSchema, commentSchema } from "@/lib/validation/tasks";
 
@@ -45,7 +46,7 @@ export async function createTask(projectId: string, _prev: ActionResult<{ id: st
     const input = taskSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const project = await projectVisible(supabase, pid);
-    if (!project) return fail("Not found.", "NOT_FOUND");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
     const assignee = emptyToNull(input.assignee_user_id);
     if (assignee && !(await assigneeAllowed(supabase, pid, assignee))) {
       return invalidAssignee();
@@ -80,7 +81,7 @@ export async function updateTask(projectId: string, taskId: string, _prev: Actio
     const input = taskSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const { data: existing } = await supabase.from("tasks").select("id, assignee_user_id").eq("id", tid).eq("project_id", pid).maybeSingle();
-    if (!existing) return fail("Not found.", "NOT_FOUND");
+    if (!existing) return fail(await actionError("notFound"), "NOT_FOUND");
     const assignee = emptyToNull(input.assignee_user_id);
     if (assignee && assignee !== existing.assignee_user_id && !(await assigneeAllowed(supabase, pid, assignee))) {
       return invalidAssignee();
@@ -115,7 +116,7 @@ export async function setTaskStatus(taskId: string, _prev: ActionResult | null, 
     const { status } = taskStatusSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const { data: existing } = await supabase.from("tasks").select("id, project_id").eq("id", tid).maybeSingle();
-    if (!existing) return fail("Not found.", "NOT_FOUND");
+    if (!existing) return fail(await actionError("notFound"), "NOT_FOUND");
     const { error } = await supabase.from("tasks").update({ status }).eq("id", tid);
     if (error) throw error;
     revalidateTask(existing.project_id, tid);
@@ -132,7 +133,7 @@ export async function deleteTask(projectId: string, taskId: string): Promise<Act
     // RLS: projects.write or a managed project. A silent no-op means forbidden or missing.
     const { data, error } = await supabase.from("tasks").delete().eq("id", tid).eq("project_id", pid).select("id");
     if (error) throw error;
-    if (!data || data.length === 0) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!data || data.length === 0) return fail(await actionError("forbidden"), "FORBIDDEN");
     revalidateTask(pid);
     return ok(undefined);
   });
@@ -150,7 +151,7 @@ export async function addTaskComment(projectId: string, taskId: string, _prev: A
     const { body } = commentSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const { data: task } = await supabase.from("tasks").select("id").eq("id", tid).eq("project_id", pid).maybeSingle();
-    if (!task) return fail("Not found.", "NOT_FOUND");
+    if (!task) return fail(await actionError("notFound"), "NOT_FOUND");
     const { error } = await supabase.from("task_comments").insert({ task_id: tid, author_id: viewer.userId, body });
     if (error) throw error;
     revalidateTask(pid, tid);
@@ -168,7 +169,7 @@ export async function updateTaskComment(projectId: string, taskId: string, comme
     const supabase = await createClient();
     const { data, error } = await supabase.from("task_comments").update({ body }).eq("id", cid).eq("task_id", tid).eq("author_id", viewer.userId).select("id");
     if (error) throw error;
-    if (!data || data.length === 0) return fail("You can only edit your own comments.", "FORBIDDEN");
+    if (!data || data.length === 0) return fail(await actionError("ownCommentsOnly"), "FORBIDDEN");
     revalidateTask(pid, tid);
     return ok(undefined);
   });
@@ -184,7 +185,7 @@ export async function deleteTaskComment(projectId: string, taskId: string, comme
     // RLS: own comments, or projects.write.
     const { data, error } = await supabase.from("task_comments").delete().eq("id", cid).eq("task_id", tid).select("id");
     if (error) throw error;
-    if (!data || data.length === 0) return fail("You can only delete your own comments.", "FORBIDDEN");
+    if (!data || data.length === 0) return fail(await actionError("ownCommentsOnly"), "FORBIDDEN");
     revalidateTask(pid, tid);
     return ok(undefined);
   });
@@ -196,17 +197,17 @@ export async function deleteTaskComment(projectId: string, taskId: string, comme
 
 async function notifyTaskAssignment(supabase: SupabaseServerClient, userId: string, task: { id: string; title: string; projectId: string }): Promise<void> {
   try {
-    const { data: profile } = await supabase.from("profiles").select("email, locale").eq("id", userId).maybeSingle();
+    const { data: profile } = await supabase.from("profiles").select("email, full_name, full_name_ar, locale").eq("id", userId).maybeSingle();
     if (!profile) return;
     const locale = profile.locale;
-    const link = `${publicEnv.NEXT_PUBLIC_SITE_URL}/${locale}/app/projects/${task.projectId}/tasks/${task.id}`;
-    const subject = locale === "ar" ? `تم إسناد مهمة إليك: ${task.title}` : `You were assigned a task: ${task.title}`;
-    const safeTitle = task.title.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
-    const body =
+    const person = (locale === "ar" ? profile.full_name_ar : null) || profile.full_name;
+    const link = `${siteUrl()}/${locale}/app/projects/${task.projectId}/tasks/${task.id}`;
+    const copy =
       locale === "ar"
-        ? `<p>تم إسناد المهمة <strong>${safeTitle}</strong> إليك.</p><p><a href="${link}">فتح المهمة</a></p>`
-        : `<p>The task <strong>${safeTitle}</strong> was assigned to you.</p><p><a href="${link}">Open the task</a></p>`;
-    await sendMail({ to: profile.email, subject, html: mailLayout(subject, body, locale), text: `${subject}\n${link}` });
+        ? { subject: `مهمة جديدة لك: ${task.title}`, title: "أُسندت إليك مهمة", body: [person ? `مرحباً ${person}،` : "مرحباً،", `أُسندت إليك المهمة «${task.title}».`], action: "فتح المهمة" }
+        : { subject: `New task for you: ${task.title}`, title: "A task was assigned to you", body: [person ? `Hello ${person},` : "Hello,", `The task "${task.title}" is now yours.`], action: "Open the task" };
+    const { html, text } = renderEmail({ locale, title: copy.title, paragraphs: copy.body, action: { label: copy.action, url: link } });
+    await sendMail({ to: profile.email, subject: copy.subject, html, text, idempotencyKey: `task-assigned/${task.id}/${userId}` });
   } catch (error) {
     console.error("[mail] task assignment", error);
   }

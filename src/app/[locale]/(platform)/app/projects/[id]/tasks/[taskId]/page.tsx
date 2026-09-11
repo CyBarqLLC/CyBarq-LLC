@@ -21,6 +21,7 @@ import { ConfirmAction } from "@/components/platform/confirm-action";
 import { enumOptions } from "@/components/platform/enum-options";
 import { getProject, canManageProject } from "../../project-data";
 import { CommentForm, EditableComment } from "./comments";
+import { businessToday } from "@/lib/time";
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -57,7 +58,7 @@ export default async function TaskDetailPage({ params }: { params: Promise<{ id:
   if (!task) notFound();
 
   const manage = await canManageProject(viewer, project);
-  const today = new Date().toISOString().slice(0, 10);
+  const today = businessToday();
   const overdue = task.due_date !== null && task.due_date < today && task.status !== "done" && task.status !== "cancelled";
   const base = `/app/projects/${project.id}/tasks`;
 

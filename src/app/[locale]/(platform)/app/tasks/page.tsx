@@ -17,6 +17,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { FilterBar, FilterField } from "@/components/platform/filter-bar";
 import { StatusSelectForm } from "@/components/platform/status-select-form";
 import { enumOptions } from "@/components/platform/enum-options";
+import { addDays, businessToday } from "@/lib/time";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("projects.myTasks");
@@ -58,8 +59,8 @@ export default async function MyTasksPage({ searchParams }: { searchParams: Prom
   const tasks: Row[] = rows ?? [];
 
   const now = new Date();
-  const today = now.toISOString().slice(0, 10);
-  const weekEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+  const today = businessToday(now);
+  const weekEnd = addDays(today, 7);
   const groups: Record<Group, Row[]> = { overdue: [], dueToday: [], thisWeek: [], later: [], noDate: [] };
   for (const task of tasks) groups[groupOf(task.due_date, today, weekEnd)].push(task);
   const order: Group[] = ["overdue", "dueToday", "thisWeek", "later", "noDate"];

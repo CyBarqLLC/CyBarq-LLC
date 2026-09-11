@@ -4,7 +4,8 @@ import { revalidatePath } from "next/cache";
 import { requirePermission } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { ok, fail, runAction, type ActionResult } from "@/lib/actions/result";
-import { signedUploadUrl, safeFileName } from "@/lib/storage";
+import { actionError } from "@/lib/actions/messages";
+import { signedUploadUrl, safeFileName, removeStoredFiles } from "@/lib/storage";
 import { audit } from "@/lib/audit";
 import { uuid } from "@/lib/validation/common";
 import {
@@ -51,10 +52,10 @@ export async function createEmployee(_prev: ActionResult<{ userId: string }> | n
     const input = createEmployeeSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const { data: profile } = await supabase.from("profiles").select("id, kind").eq("id", input.user_id).maybeSingle();
-    if (!profile || profile.kind !== "employee") return fail("Choose an employee account.", "VALIDATION");
+    if (!profile || profile.kind !== "employee") return fail(await actionError("employeeOnly"), "VALIDATION");
     const { error } = await supabase.from("employees").insert({ user_id: input.user_id, ...toRow(input) });
     if (error) {
-      if (error.code === "23505") return fail("An employee record already exists for this account or employee number.", "CONFLICT");
+      if (error.code === "23505") return fail(await actionError("employeeRecordExists"), "CONFLICT");
       throw error;
     }
     revalidateEmployees(input.user_id);
@@ -70,10 +71,10 @@ export async function updateEmployee(userId: string, _prev: ActionResult<{ userI
     const supabase = await createClient();
     const { data, error } = await supabase.from("employees").update(toRow(input)).eq("user_id", uid).select("user_id");
     if (error) {
-      if (error.code === "23505") return fail("This employee number is already in use.", "CONFLICT");
+      if (error.code === "23505") return fail(await actionError("employeeNumberTaken"), "CONFLICT");
       throw error;
     }
-    if (!data || data.length === 0) return fail("Not found.", "NOT_FOUND");
+    if (!data || data.length === 0) return fail(await actionError("notFound"), "NOT_FOUND");
     revalidateEmployees(uid);
     return ok({ userId: uid });
   });
@@ -208,7 +209,7 @@ export async function requestEmployeeDocumentUpload(employeeUserId: string, file
     const input = hrUploadRequestSchema.parse(file);
     const supabase = await createClient();
     const { data: employee } = await supabase.from("employees").select("user_id").eq("user_id", uid).maybeSingle();
-    if (!employee) return fail("Not found.", "NOT_FOUND");
+    if (!employee) return fail(await actionError("notFound"), "NOT_FOUND");
     const path = `${uid}/${crypto.randomUUID()}-${safeFileName(input.name)}`;
     const ticket = await signedUploadUrl("private-hr-documents", path);
     return ok(ticket);
@@ -219,7 +220,7 @@ export async function registerEmployeeDocument(input: { employeeUserId: string; 
   return runAction(async () => {
     const viewer = await requirePermission("hr.write", "action");
     const parsed = employeeDocumentSchema.parse(input);
-    if (!parsed.path.startsWith(`${parsed.employeeUserId}/`)) return fail("Invalid file path.", "VALIDATION");
+    if (!parsed.path.startsWith(`${parsed.employeeUserId}/`)) return fail(await actionError("filePath"), "VALIDATION");
     const supabase = await createClient();
     const { data, error } = await supabase
       .from("employee_documents")
@@ -235,7 +236,7 @@ export async function registerEmployeeDocument(input: { employeeUserId: string; 
       .select("id")
       .single();
     if (error) throw error;
-    await audit("hr_document.uploaded", "employee_documents", data.id, { employee_user_id: parsed.employeeUserId, kind: parsed.kind });
+    await audit("hr_document.uploaded", "employee_document", data.id, { employee_user_id: parsed.employeeUserId, kind: parsed.kind });
     revalidateEmployees(parsed.employeeUserId);
     return ok({ id: data.id });
   });
@@ -247,9 +248,11 @@ export async function deleteEmployeeDocument(employeeUserId: string, documentId:
     const uid = uuid.parse(employeeUserId);
     const did = uuid.parse(documentId);
     const supabase = await createClient();
-    const { error } = await supabase.from("employee_documents").delete().eq("id", did).eq("employee_user_id", uid);
+    const { data, error } = await supabase.from("employee_documents").delete().eq("id", did).eq("employee_user_id", uid).select("storage_path");
     if (error) throw error;
-    await audit("hr_document.deleted", "employee_documents", did, { employee_user_id: uid });
+    if (!data || data.length === 0) return fail(await actionError("notFound"), "NOT_FOUND");
+    await removeStoredFiles("private-hr-documents", data.map((r) => r.storage_path));
+    await audit("hr_document.deleted", "employee_document", did, { employee_user_id: uid });
     revalidateEmployees(uid);
     return ok(undefined);
   });

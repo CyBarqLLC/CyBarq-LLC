@@ -34,7 +34,7 @@ export default async function VerifyCodePage({ params }: Props) {
   const code = normaliseCode(decodeURIComponent(rawCode));
 
   const ip = await requestIp();
-  const { allowed } = rateLimit({ key: `verify:${hashIp(ip)}`, ...VERIFY_RATE_LIMIT });
+  const { allowed } = await rateLimit({ key: `verify:${hashIp(ip)}`, ...VERIFY_RATE_LIMIT });
 
   let certificate: Awaited<ReturnType<typeof lookup>> = null;
   if (allowed && code) certificate = await lookup(code);

@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { Symbol } from "@/components/brand/logo";
+import { Logo } from "@/components/brand/logo";
 import { NavIcon } from "./nav-icon";
 import type { NavEntry } from "./nav-config";
 import { cn } from "@/lib/utils/cn";
@@ -23,9 +23,8 @@ export function Sidebar({ sections, onNavigate, className, namespace = "platform
   const isActive = (href: string) => (href === homeHref ? pathname === homeHref : pathname === href || pathname.startsWith(href + "/"));
   return (
     <nav className={cn("flex h-full flex-col", className)} aria-label="Platform">
-      <Link href={homeHref} className="flex h-(--nav-height) items-center gap-2 px-5 text-graphite" onClick={onNavigate}>
-        <Symbol className="size-5" />
-        <span className="text-body font-medium">CyBarq</span>
+      <Link href={homeHref} className="flex h-(--nav-height) items-center px-5 text-graphite" onClick={onNavigate} aria-label="CyBarq">
+        <Logo className="h-6" />
       </Link>
       <div className="flex-1 overflow-y-auto px-3 pb-6">
         {sections.map((s) => (

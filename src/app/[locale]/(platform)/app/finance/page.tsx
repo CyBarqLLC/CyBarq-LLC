@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { Status } from "@/components/ui/status";
 import { KpiCard, Section } from "@/components/finance/detail-blocks";
-import { clientLabel, clientNames, markOverdueInvoices, todayIso, type InvoiceListRow, type QuoteListRow } from "./_lib/data";
+import { clientLabel, clientNames, todayIso, type InvoiceListRow, type QuoteListRow } from "./_lib/data";
 
 const OPEN_STATUSES = ["issued", "sent", "partially_paid", "overdue"] as const;
 
@@ -21,7 +21,6 @@ export default async function FinanceIndexPage() {
   const t = await getTranslations("finance");
   const supabase = await createClient();
 
-  await markOverdueInvoices(supabase);
 
   const today = todayIso();
   const monthStart = `${today.slice(0, 7)}-01`;

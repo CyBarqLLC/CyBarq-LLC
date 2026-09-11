@@ -16,6 +16,7 @@ import type { Option } from "@/components/platform/enum-options";
 import { getProject, canManageProject } from "../project-data";
 import { MilestoneForm } from "./milestone-form";
 import { MilestoneItem } from "./milestone-item";
+import { businessToday } from "@/lib/time";
 
 export default async function ProjectMilestonesPage({ params }: { params: Promise<{ id: string }> }) {
   const viewer = await requireEmployee();
@@ -33,7 +34,7 @@ export default async function ProjectMilestonesPage({ params }: { params: Promis
     .eq("project_id", project.id)
     .order("due_date", { ascending: true, nullsFirst: false })
     .order("created_at");
-  const today = new Date().toISOString().slice(0, 10);
+  const today = businessToday();
   const statuses: Option[] = MILESTONE_STATUSES.map((s) => ({ value: s, label: t(`statuses.${s}`) }));
 
   const list = milestones ?? [];

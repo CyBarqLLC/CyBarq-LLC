@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     return wantsJson ? NextResponse.json({ ok: true, next: destination }) : NextResponse.redirect(new URL(destination, request.url), { status: 303 });
   }
 
-  if (!rateLimit({ key: `site-access:${clientIp(request)}`, limit: 8, windowMs: 10 * 60 * 1000 }).allowed) {
+  if (!(await rateLimit({ key: `site-access:${clientIp(request)}`, limit: 8, windowMs: 10 * 60 * 1000 })).allowed) {
     return fail(429, "rate_limited");
   }
 

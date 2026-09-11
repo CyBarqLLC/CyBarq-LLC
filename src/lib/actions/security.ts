@@ -9,7 +9,8 @@ import { requireEmployee, requirePermission, type Viewer } from "@/lib/auth/sess
 import { createClient } from "@/lib/supabase/server";
 import type { Enums } from "@/lib/supabase/database.types";
 import { ok, fail, runAction, type ActionResult } from "@/lib/actions/result";
-import { formToObject } from "@/lib/validation/common";
+import { actionError } from "@/lib/actions/messages";
+import { formToObject, uuid } from "@/lib/validation/common";
 import {
   engagementSchema,
   engagementStatusSchema,
@@ -29,8 +30,10 @@ import {
   FINDING_TRANSITIONS,
   type UploadFile,
 } from "@/lib/validation/security";
-import { signedUploadUrl, signedDownloadUrl, safeFileName } from "@/lib/storage";
+import { signedUploadUrl, signedDownloadUrl, safeFileName, removeStoredFiles } from "@/lib/storage";
+import { displayFileName } from "@/lib/utils/format";
 import { audit } from "@/lib/audit";
+import { businessToday } from "@/lib/time";
 
 const SECURITY_LIST = "/[locale]/app/security";
 const ENGAGEMENT_PAGE = "/[locale]/app/security/[id]";
@@ -94,19 +97,25 @@ function engagementRow(input: ReturnType<typeof engagementSchema.parse>) {
 
 export async function createEngagement(_prev: ActionResult<{ id: string }> | null, formData: FormData): Promise<ActionResult<{ id: string }>> {
   const result = await runAction(async () => {
-    const viewer = await requirePermission("security.write", "action");
+    await requirePermission("security.write", "action");
     const input = engagementSchema.parse(formToObject(formData));
     const supabase = await createClient();
-    const { data, error } = await supabase
-      .from("security_engagements")
-      .insert({ ...engagementRow(input), created_by: viewer.userId })
-      .select("id")
-      .single();
+    // One database call creates the engagement and its roster (lead, and the creator so they can see it).
+    const { data, error } = await supabase.rpc("create_engagement", {
+      _code: input.code.toUpperCase(),
+      _title: input.title,
+      _type: input.type,
+      _client_id: input.client_id,
+      _project_id: input.project_id,
+      _lead_user_id: input.lead_user_id,
+      _start_date: input.start_date,
+      _end_date: input.end_date,
+      _scope_summary: input.scope_summary,
+      _rules_of_engagement: input.rules_of_engagement,
+      _authorised_by_name: input.authorised_by_name,
+      _authorised_at: input.authorised_at,
+    });
     if (error) throw error;
-    // The lead is a member by definition (RLS treats lead_user_id as membership); the row keeps the roster explicit.
-    if (input.lead_user_id) {
-      await supabase.from("engagement_members").upsert({ engagement_id: data.id, user_id: input.lead_user_id, role: "lead" }, { onConflict: "engagement_id,user_id" });
-    }
     revalidatePath(SECURITY_LIST, "page");
     return ok({ id: data.id });
   });
@@ -124,7 +133,7 @@ export async function updateEngagement(id: string, _prev: ActionResult<{ id: str
     const supabase = await createClient();
     const { data, error } = await supabase.from("security_engagements").update(engagementRow(input)).eq("id", id).select("id").maybeSingle();
     if (error) throw error;
-    if (!data) return fail("Not found.", "NOT_FOUND");
+    if (!data) return fail(await actionError("notFound"), "NOT_FOUND");
     revalidateEngagement();
     return ok({ id: data.id });
   });
@@ -141,12 +150,12 @@ export async function changeEngagementStatus(_prev: ActionResult | null, formDat
     const input = engagementStatusSchema.parse(formToObject(formData));
     const supabase = await createClient();
     const { data: current } = await supabase.from("security_engagements").select("id, status, authorised_by_name, authorised_at").eq("id", input.id).maybeSingle();
-    if (!current) return fail("Not found.", "NOT_FOUND");
+    if (!current) return fail(await actionError("notFound"), "NOT_FOUND");
     if (!nextEngagementStatuses(current.status).includes(input.status)) {
-      return fail("This status change is not allowed from the current state.", "VALIDATION");
+      return fail(await actionError("statusTransition"), "VALIDATION");
     }
     if (input.status === "authorised" && (!current.authorised_by_name || !current.authorised_at)) {
-      return fail("Record who authorised the engagement and when before marking it authorised.", "VALIDATION");
+      return fail(await actionError("authorisationMissing"), "VALIDATION");
     }
     const { error } = await supabase.from("security_engagements").update({ status: input.status }).eq("id", input.id).eq("status", current.status);
     if (error) throw error;
@@ -158,11 +167,22 @@ export async function changeEngagementStatus(_prev: ActionResult | null, formDat
 export async function deleteEngagement(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
   const result = await runAction(async () => {
     await requirePermission("security.write", "action");
-    const id = String(formData.get("id") ?? "");
+    const id = uuid.parse(String(formData.get("id") ?? ""));
     const supabase = await createClient();
+    // Collect the stored files first: the rows that point at them disappear with the engagement.
+    const [{ data: engagement }, { data: reports }, { data: evidence }] = await Promise.all([
+      supabase.from("security_engagements").select("authorisation_document_path").eq("id", id).maybeSingle(),
+      supabase.from("engagement_reports").select("storage_path").eq("engagement_id", id),
+      supabase.from("finding_evidence").select("storage_path, finding:findings!inner(engagement_id)").eq("finding.engagement_id", id),
+    ]);
     const { data, error } = await supabase.from("security_engagements").delete().eq("id", id).eq("status", "scoping").select("id");
     if (error) throw error;
-    if (!data || data.length === 0) return fail("Only engagements still in scoping can be deleted.", "FORBIDDEN");
+    if (!data || data.length === 0) return fail(await actionError("onlyScopingDeletable"), "FORBIDDEN");
+    await removeStoredFiles("private-security-reports", [
+      engagement?.authorisation_document_path ?? null,
+      ...(reports ?? []).map((r) => r.storage_path),
+      ...(evidence ?? []).map((r) => r.storage_path),
+    ]);
     revalidatePath(SECURITY_LIST, "page");
     return ok(undefined);
   });
@@ -192,7 +212,7 @@ export async function setAuthorisationDocument(engagementId: string, upload: { p
   return runAction(async () => {
     const viewer = await requirePermission("security.write", "action");
     const engagement = await assertEngagementWriter(viewer, engagementId);
-    if (!upload.path.startsWith(`${engagement.id}/authorisation/`)) return fail("Invalid file path.", "VALIDATION");
+    if (!upload.path.startsWith(`${engagement.id}/authorisation/`)) return fail(await actionError("filePath"), "VALIDATION");
     const supabase = await createClient();
     const { error } = await supabase.from("security_engagements").update({ authorisation_document_path: upload.path }).eq("id", engagement.id);
     if (error) throw error;
@@ -208,8 +228,8 @@ export async function getAuthorisationDownloadUrl(engagementId: string): Promise
     await requireEmployee();
     const supabase = await createClient();
     const { data } = await supabase.from("security_engagements").select("id, client_id, authorisation_document_path").eq("id", engagementId).maybeSingle();
-    if (!data || !data.authorisation_document_path) return fail("Not found.", "NOT_FOUND");
-    const fileName = data.authorisation_document_path.split("/").pop() ?? "authorisation";
+    if (!data || !data.authorisation_document_path) return fail(await actionError("notFound"), "NOT_FOUND");
+    const fileName = displayFileName(data.authorisation_document_path) || "authorisation";
     const url = await signedDownloadUrl("private-security-reports", data.authorisation_document_path, fileName);
     await audit("file.accessed", "security_engagement", data.id, { kind: "authorisation" }, data.client_id);
     return ok({ url });
@@ -277,7 +297,7 @@ export async function updateAsset(id: string, _prev: ActionResult | null, formDa
     const supabase = await createClient();
     const { data, error } = await supabase.from("engagement_assets").update(assetRow(input)).eq("id", id).eq("engagement_id", input.engagement_id).select("id").maybeSingle();
     if (error) throw error;
-    if (!data) return fail("Not found.", "NOT_FOUND");
+    if (!data) return fail(await actionError("notFound"), "NOT_FOUND");
     revalidateEngagement();
     return ok(undefined);
   });
@@ -349,7 +369,7 @@ export async function updateFinding(id: string, _prev: ActionResult<{ id: string
     const supabase = await createClient();
     const { data, error } = await supabase.from("findings").update(findingRow(input)).eq("id", id).eq("engagement_id", input.engagement_id).select("id").maybeSingle();
     if (error) throw error;
-    if (!data) return fail("Not found.", "NOT_FOUND");
+    if (!data) return fail(await actionError("notFound"), "NOT_FOUND");
     revalidateEngagement();
     revalidatePath(FINDING_PAGE, "page");
     return ok({ id: data.id });
@@ -367,11 +387,11 @@ export async function changeFindingStatus(_prev: ActionResult | null, formData: 
     const input = findingStatusSchema.parse(formToObject(formData));
     const supabase = await createClient();
     const { data: current } = await supabase.from("findings").select("id, status, remediated_at, retested_at").eq("id", input.id).eq("engagement_id", input.engagement_id).maybeSingle();
-    if (!current) return fail("Not found.", "NOT_FOUND");
+    if (!current) return fail(await actionError("notFound"), "NOT_FOUND");
     if (!FINDING_TRANSITIONS[current.status].includes(input.status)) {
-      return fail("This status change is not allowed from the current state.", "VALIDATION");
+      return fail(await actionError("statusTransition"), "VALIDATION");
     }
-    const today = new Date().toISOString().slice(0, 10);
+    const today = businessToday();
     const patch: { status: Enums<"finding_status">; remediated_at?: string; retested_at?: string } = { status: input.status };
     if (input.status === "remediated" && !current.remediated_at) patch.remediated_at = today;
     if (input.status === "verified" && !current.retested_at) patch.retested_at = today;
@@ -392,7 +412,7 @@ export async function deleteFinding(_prev: ActionResult | null, formData: FormDa
     const supabase = await createClient();
     const { data, error } = await supabase.from("findings").delete().eq("id", input.id).eq("engagement_id", input.engagement_id).select("id");
     if (error) throw error;
-    if (!data || data.length === 0) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!data || data.length === 0) return fail(await actionError("forbidden"), "FORBIDDEN");
     revalidateEngagement();
     return ok(undefined);
   });
@@ -432,7 +452,7 @@ export async function registerEvidence(input: { finding_id: string; path: string
     const viewer = await requirePermission("security.write", "action");
     const parsed = evidenceRegisterSchema.parse(input);
     const finding = await loadWritableFinding(viewer, parsed.finding_id);
-    if (!parsed.path.startsWith(`${finding.engagement_id}/evidence/${finding.id}/`)) return fail("Invalid file path.", "VALIDATION");
+    if (!parsed.path.startsWith(`${finding.engagement_id}/evidence/${finding.id}/`)) return fail(await actionError("filePath"), "VALIDATION");
     const supabase = await createClient();
     const { error } = await supabase.from("finding_evidence").insert({
       finding_id: finding.id,
@@ -451,10 +471,12 @@ export async function registerEvidence(input: { finding_id: string; path: string
 export async function deleteEvidence(_prev: ActionResult | null, formData: FormData): Promise<ActionResult> {
   return runAction(async () => {
     await requirePermission("security.write", "action");
-    const id = String(formData.get("id") ?? "");
+    const id = uuid.parse(String(formData.get("id") ?? ""));
     const supabase = await createClient();
-    const { error } = await supabase.from("finding_evidence").delete().eq("id", id);
+    const { data, error } = await supabase.from("finding_evidence").delete().eq("id", id).select("storage_path");
     if (error) throw error;
+    if (!data || data.length === 0) return fail(await actionError("notFound"), "NOT_FOUND");
+    await removeStoredFiles("private-security-reports", data.map((r) => r.storage_path));
     revalidatePath(FINDING_PAGE, "page");
     return ok(undefined);
   });
@@ -480,7 +502,7 @@ export async function registerReport(input: { engagement_id: string; title: stri
     const viewer = await requirePermission("security.write", "action");
     const parsed = reportRegisterSchema.parse(input);
     const engagement = await assertEngagementWriter(viewer, parsed.engagement_id);
-    if (!parsed.path.startsWith(`${engagement.id}/reports/`)) return fail("Invalid file path.", "VALIDATION");
+    if (!parsed.path.startsWith(`${engagement.id}/reports/`)) return fail(await actionError("filePath"), "VALIDATION");
     const supabase = await createClient();
     const { data: latest } = await supabase.from("engagement_reports").select("version").eq("engagement_id", engagement.id).order("version", { ascending: false }).limit(1).maybeSingle();
     const version = (latest?.version ?? 0) + 1;
@@ -513,7 +535,7 @@ export async function finaliseReport(_prev: ActionResult | null, formData: FormD
       .select("id")
       .maybeSingle();
     if (error) throw error;
-    if (!data) return fail("This report is already final or could not be found.", "CONFLICT");
+    if (!data) return fail(await actionError("reportFinal"), "CONFLICT");
     await audit("report.finalised", "engagement_report", input.id, { engagement_id: input.engagement_id });
     revalidateEngagement();
     return ok(undefined);
@@ -527,9 +549,9 @@ export async function setReportClientVisible(_prev: ActionResult | null, formDat
     const input = reportVisibilitySchema.parse(formToObject(formData));
     const supabase = await createClient();
     const { data: current } = await supabase.from("engagement_reports").select("id, status").eq("id", input.id).eq("engagement_id", input.engagement_id).maybeSingle();
-    if (!current) return fail("Not found.", "NOT_FOUND");
+    if (!current) return fail(await actionError("notFound"), "NOT_FOUND");
     if (current.status === "final" && !viewer.can("security.report")) {
-      return fail("Only users who can issue reports may change the visibility of a final report.", "FORBIDDEN");
+      return fail(await actionError("reportApproval"), "FORBIDDEN");
     }
     const { error } = await supabase.from("engagement_reports").update({ client_visible: input.client_visible }).eq("id", input.id);
     if (error) throw error;
@@ -544,9 +566,10 @@ export async function deleteReport(_prev: ActionResult | null, formData: FormDat
     await requirePermission("security.write", "action");
     const input = reportIdSchema.parse(formToObject(formData));
     const supabase = await createClient();
-    const { data, error } = await supabase.from("engagement_reports").delete().eq("id", input.id).eq("engagement_id", input.engagement_id).eq("status", "draft").select("id");
+    const { data, error } = await supabase.from("engagement_reports").delete().eq("id", input.id).eq("engagement_id", input.engagement_id).eq("status", "draft").select("storage_path");
     if (error) throw error;
-    if (!data || data.length === 0) return fail("Only draft reports can be deleted.", "FORBIDDEN");
+    if (!data || data.length === 0) return fail(await actionError("onlyDraftReportsDeletable"), "FORBIDDEN");
+    await removeStoredFiles("private-security-reports", data.map((r) => r.storage_path));
     revalidateEngagement();
     return ok(undefined);
   });

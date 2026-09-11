@@ -9,6 +9,7 @@ import { requirePermission } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import type { Enums, Json } from "@/lib/supabase/database.types";
 import { ok, fail, runAction, type ActionResult } from "@/lib/actions/result";
+import { actionError } from "@/lib/actions/messages";
 import { formToObject } from "@/lib/validation/common";
 import {
   editorialSchema,
@@ -125,7 +126,7 @@ export async function createEditorial(table: EditorialTable, _prev: ActionResult
     const viewer = await requirePermission("content.write", "action");
     const input = editorialSchema.parse(formToObject(formData));
     const row = editorialRow(input, viewer.userId);
-    if (!row.slug) return fail("A slug is required.", "VALIDATION");
+    if (!row.slug) return fail(await actionError("slugRequired"), "VALIDATION");
     const supabase = await createClient();
     const base = { ...row, status: "draft" as const, created_by: viewer.userId };
     const { data, error } =
@@ -146,14 +147,14 @@ export async function updateEditorial(table: EditorialTable, id: string, _prev: 
     const viewer = await requirePermission("content.write", "action");
     const input = editorialSchema.parse(formToObject(formData));
     const row = editorialRow(input, viewer.userId);
-    if (!row.slug) return fail("A slug is required.", "VALIDATION");
+    if (!row.slug) return fail(await actionError("slugRequired"), "VALIDATION");
     const supabase = await createClient();
     const { data, error } =
       table === "articles"
         ? await supabase.from("articles").update({ ...row, reading_minutes: articleMinutes(row) }).eq("id", id).select("id").maybeSingle()
         : await supabase.from("news_posts").update(row).eq("id", id).select("id").maybeSingle();
     if (error) throw error;
-    if (!data) return fail("Not found.", "NOT_FOUND");
+    if (!data) return fail(await actionError("notFound"), "NOT_FOUND");
     await syncEditorialTags(table, id, input.tag_ids);
     revalidateContent(table);
     return ok({ id });
@@ -198,7 +199,7 @@ export async function createPublicProject(_prev: ActionResult<{ id: string }> | 
     const viewer = await requirePermission("content.write", "action");
     const input = showcaseProjectSchema.parse(formToObject(formData));
     const row = showcaseProjectRow(input, viewer.userId);
-    if (!row.slug) return fail("A slug is required.", "VALIDATION");
+    if (!row.slug) return fail(await actionError("slugRequired"), "VALIDATION");
     const supabase = await createClient();
     const { data, error } = await supabase.from("public_projects").insert({ ...row, status: "draft", created_by: viewer.userId }).select("id").single();
     if (error) throw error;
@@ -214,11 +215,11 @@ export async function updatePublicProject(id: string, _prev: ActionResult<{ id: 
     const viewer = await requirePermission("content.write", "action");
     const input = showcaseProjectSchema.parse(formToObject(formData));
     const row = showcaseProjectRow(input, viewer.userId);
-    if (!row.slug) return fail("A slug is required.", "VALIDATION");
+    if (!row.slug) return fail(await actionError("slugRequired"), "VALIDATION");
     const supabase = await createClient();
     const { data, error } = await supabase.from("public_projects").update(row).eq("id", id).select("id").maybeSingle();
     if (error) throw error;
-    if (!data) return fail("Not found.", "NOT_FOUND");
+    if (!data) return fail(await actionError("notFound"), "NOT_FOUND");
     revalidateContent("public_projects");
     return ok({ id });
   });
@@ -273,7 +274,7 @@ export async function createCaseStudy(_prev: ActionResult<{ id: string }> | null
     const viewer = await requirePermission("content.write", "action");
     const input = caseStudySchema.parse(formToObject(formData));
     const row = caseStudyRow(input, viewer.userId);
-    if (!row.slug) return fail("A slug is required.", "VALIDATION");
+    if (!row.slug) return fail(await actionError("slugRequired"), "VALIDATION");
     const supabase = await createClient();
     const { data, error } = await supabase.from("case_studies").insert({ ...row, status: "draft", created_by: viewer.userId }).select("id").single();
     if (error) throw error;
@@ -289,11 +290,11 @@ export async function updateCaseStudy(id: string, _prev: ActionResult<{ id: stri
     const viewer = await requirePermission("content.write", "action");
     const input = caseStudySchema.parse(formToObject(formData));
     const row = caseStudyRow(input, viewer.userId);
-    if (!row.slug) return fail("A slug is required.", "VALIDATION");
+    if (!row.slug) return fail(await actionError("slugRequired"), "VALIDATION");
     const supabase = await createClient();
     const { data, error } = await supabase.from("case_studies").update(row).eq("id", id).select("id").maybeSingle();
     if (error) throw error;
-    if (!data) return fail("Not found.", "NOT_FOUND");
+    if (!data) return fail(await actionError("notFound"), "NOT_FOUND");
     revalidateContent("case_studies");
     return ok({ id });
   });
@@ -310,20 +311,20 @@ export async function changeContentStatus(_prev: ActionResult | null, formData: 
     const input = workflowSchema.parse(formToObject(formData));
     const target = WORKFLOW_TARGET[input.action];
     if ((target === "published" || target === "scheduled") && !viewer.can("content.publish")) {
-      return fail("Publishing requires the content.publish permission.", "FORBIDDEN");
+      return fail(await actionError("publishPermission"), "FORBIDDEN");
     }
     const supabase = await createClient();
     const { data: current } = await supabase.from(input.table).select("id, status").eq("id", input.id).maybeSingle();
-    if (!current) return fail("Not found.", "NOT_FOUND");
+    if (!current) return fail(await actionError("notFound"), "NOT_FOUND");
     if (!workflowActionsFor(current.status, input.table).includes(input.action)) {
-      return fail("This action is not available in the current status.", "VALIDATION");
+      return fail(await actionError("statusTransition"), "VALIDATION");
     }
     let scheduledFor: string | null | undefined;
     if (input.action === "schedule") {
-      if (!isEditorial(input.table)) return fail("Only news and articles can be scheduled.", "VALIDATION");
+      if (!isEditorial(input.table)) return fail(await actionError("onlyEditorialScheduled"), "VALIDATION");
       scheduledFor = input.scheduled_for ? localDateTimeToIso(input.scheduled_for) : null;
-      if (!scheduledFor) return fail("Choose a date and time to publish.", "VALIDATION");
-      if (new Date(scheduledFor).getTime() <= Date.now()) return fail("The scheduled time must be in the future.", "VALIDATION");
+      if (!scheduledFor) return fail(await actionError("scheduleNeedsTime"), "VALIDATION");
+      if (new Date(scheduledFor).getTime() <= Date.now()) return fail(await actionError("scheduleInFuture"), "VALIDATION");
     }
     const patch: { status: Enums<"content_status">; updated_by: string } = { status: target, updated_by: viewer.userId };
     const withSchedule = scheduledFor !== undefined ? { ...patch, scheduled_for: scheduledFor } : patch;
@@ -357,7 +358,7 @@ export async function deleteContent(_prev: ActionResult | null, formData: FormDa
     const supabase = await createClient();
     const { data, error } = await supabase.from(input.table).delete().eq("id", input.id).select("id");
     if (error) throw error;
-    if (!data || data.length === 0) return fail("Not found.", "NOT_FOUND");
+    if (!data || data.length === 0) return fail(await actionError("notFound"), "NOT_FOUND");
     revalidateContent(input.table);
     return ok(undefined);
   });
@@ -372,7 +373,7 @@ export async function deleteContent(_prev: ActionResult | null, formData: FormDa
 export async function requestCoverUpload(kind: CoverKind, file: { name: string; size: number; type: string }): Promise<ActionResult<UploadTicket>> {
   return runAction(async () => {
     await requirePermission("content.write", "action");
-    if (!(COVER_KINDS as readonly string[]).includes(kind)) return fail("Invalid upload target.", "VALIDATION");
+    if (!(COVER_KINDS as readonly string[]).includes(kind)) return fail(await actionError("filePath"), "VALIDATION");
     const parsed = imageUploadSchema.parse(file);
     const path = `covers/${kind}/${randomUUID()}.${imageExtension(parsed.type)}`;
     const ticket = await signedUploadUrl("public-content", path);
@@ -428,7 +429,7 @@ export async function updateAuthor(id: string, _prev: ActionResult<{ id: string 
     const supabase = await createClient();
     const { data, error } = await supabase.from("authors").update(authorRow(input)).eq("id", id).select("id").maybeSingle();
     if (error) throw error;
-    if (!data) return fail("Not found.", "NOT_FOUND");
+    if (!data) return fail(await actionError("notFound"), "NOT_FOUND");
     revalidatePath("/[locale]/app/content/authors", "page");
     revalidatePath("/[locale]/app/content/authors/[id]", "page");
     return ok({ id });
@@ -464,7 +465,7 @@ export async function createCategory(_prev: ActionResult<{ id: string }> | null,
     await requirePermission("content.write", "action");
     const input = categorySchema.parse(formToObject(formData));
     const row = categoryRow(input);
-    if (!row.slug) return fail("A slug is required.", "VALIDATION");
+    if (!row.slug) return fail(await actionError("slugRequired"), "VALIDATION");
     const supabase = await createClient();
     const { data, error } = await supabase.from("categories").insert(row).select("id").single();
     if (error) throw error;
@@ -480,11 +481,11 @@ export async function updateCategory(id: string, _prev: ActionResult<{ id: strin
     await requirePermission("content.write", "action");
     const input = categorySchema.parse(formToObject(formData));
     const row = categoryRow(input);
-    if (!row.slug) return fail("A slug is required.", "VALIDATION");
+    if (!row.slug) return fail(await actionError("slugRequired"), "VALIDATION");
     const supabase = await createClient();
     const { data, error } = await supabase.from("categories").update(row).eq("id", id).select("id").maybeSingle();
     if (error) throw error;
-    if (!data) return fail("Not found.", "NOT_FOUND");
+    if (!data) return fail(await actionError("notFound"), "NOT_FOUND");
     revalidatePath("/[locale]/app/content/categories", "page");
     revalidatePath("/[locale]/app/content/categories/[id]", "page");
     return ok({ id });
@@ -514,7 +515,7 @@ export async function createTag(_prev: ActionResult<{ id: string }> | null, form
     await requirePermission("content.write", "action");
     const input = tagSchema.parse(formToObject(formData));
     const row = tagRow(input);
-    if (!row.slug) return fail("A slug is required.", "VALIDATION");
+    if (!row.slug) return fail(await actionError("slugRequired"), "VALIDATION");
     const supabase = await createClient();
     const { data, error } = await supabase.from("tags").insert(row).select("id").single();
     if (error) throw error;
@@ -530,11 +531,11 @@ export async function updateTag(id: string, _prev: ActionResult<{ id: string }> 
     await requirePermission("content.write", "action");
     const input = tagSchema.parse(formToObject(formData));
     const row = tagRow(input);
-    if (!row.slug) return fail("A slug is required.", "VALIDATION");
+    if (!row.slug) return fail(await actionError("slugRequired"), "VALIDATION");
     const supabase = await createClient();
     const { data, error } = await supabase.from("tags").update(row).eq("id", id).select("id").maybeSingle();
     if (error) throw error;
-    if (!data) return fail("Not found.", "NOT_FOUND");
+    if (!data) return fail(await actionError("notFound"), "NOT_FOUND");
     revalidatePath("/[locale]/app/content/tags", "page");
     revalidatePath("/[locale]/app/content/tags/[id]", "page");
     return ok({ id });

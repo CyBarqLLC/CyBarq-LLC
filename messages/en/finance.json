@@ -124,7 +124,7 @@
     "convert": "Create invoice",
     "convertHint": "Copies the header and line items into a draft invoice linked to this quote.",
     "replace": "Issue replacement",
-    "replaceHint": "Creates a draft invoice that copies this one and references it. Issue it once corrected.",
+    "replaceHint": "Creates a new draft that copies this void invoice and refers back to it. Correct it, then issue it.",
     "recordPayment": "Record payment",
     "send": "Send to client",
     "sendHint": "Emails the client's primary contact a link to the client portal and marks the invoice as sent.",
@@ -156,7 +156,12 @@
       "card": "Card",
       "cheque": "Cheque",
       "other": "Other"
-    }
+    },
+    "remove": "Remove",
+    "removeTitle": "Remove this payment?",
+    "removeHint": "Use this only for a payment recorded by mistake. The balance and status of the invoice are recalculated, and the removal is kept in the audit log.",
+    "removeReason": "Reason",
+    "actions": "Actions"
   },
   "immutable": {
     "title": "This document is locked",

@@ -3,7 +3,7 @@
 import { getLocale } from "next-intl/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { rateLimit, requestIp, hashIp } from "@/lib/rate-limit";
-import { sendMail, mailLayout } from "@/lib/email/resend";
+import { sendMail, renderEmail, escapeHtml } from "@/lib/email/resend";
 import { serverEnv } from "@/lib/env.server";
 import { ok, fail, runAction, type ActionResult } from "@/lib/actions/result";
 import { contactSchema, CONTACT_RATE_LIMIT, CONTACT_RATE_LIMITED } from "@/lib/validation/contact";
@@ -11,9 +11,6 @@ import { getServiceBySlug } from "@/content/services";
 import { isLocale, type Locale } from "@/i18n/routing";
 
 export type ContactResult = ActionResult<{ id: string }>;
-
-const escapeHtml = (value: string): string =>
-  value.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c] ?? c);
 
 /**
  * Public contact form. Anonymous: validated with Zod, rate limited per hashed
@@ -29,7 +26,7 @@ export async function submitContact(_prev: ContactResult | null, formData: FormD
 
     const ip = await requestIp();
     const ipHash = hashIp(ip);
-    const { allowed } = rateLimit({ key: `contact:${ipHash}`, ...CONTACT_RATE_LIMIT });
+    const { allowed } = await rateLimit({ key: `contact:${ipHash}`, ...CONTACT_RATE_LIMIT });
     if (!allowed) return fail(CONTACT_RATE_LIMITED, "ERROR");
 
     const requestLocale = await getLocale();
@@ -54,34 +51,32 @@ export async function submitContact(_prev: ContactResult | null, formData: FormD
     if (error) throw error;
 
     const env = serverEnv();
-    const rows: Array<[string, string | null]> = [
+    const details: Array<[string, string | null]> = [
       ["Name", input.name],
       ["Email", input.email],
       ["Company", input.company ?? null],
       ["Country", input.country ?? null],
       ["Service", serviceTitle],
-      ["Language", locale],
+      ["Language", locale === "ar" ? "Arabic" : "English"],
     ];
-    const details = rows
-      .filter((r): r is [string, string] => typeof r[1] === "string" && r[1] !== "")
-      .map(([k, v]) => `<tr><td style="padding:4px 12px 4px 0;color:#5a616b;white-space:nowrap">${k}</td><td style="padding:4px 0">${escapeHtml(v)}</td></tr>`)
-      .join("");
-    const html = `<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px">${details}</table>
-<p style="margin:20px 0 6px 0;color:#5a616b">Message</p>
-<p style="white-space:pre-wrap;margin:0">${escapeHtml(input.message)}</p>
-<p style="margin:20px 0 0 0;font-size:13px;color:#5a616b">Submission ${escapeHtml(data.id)}</p>`;
-    const text = rows
-      .filter((r): r is [string, string] => typeof r[1] === "string" && r[1] !== "")
-      .map(([k, v]) => `${k}: ${v}`)
-      .concat(["", "Message:", input.message, "", `Submission ${data.id}`])
-      .join("\n");
-
+    const rows = details.filter((r): r is [string, string] => typeof r[1] === "string" && r[1] !== "");
+    const table = `<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px;margin:0 0 16px 0">${rows
+      .map(([k, v]) => `<tr><td style="padding:4px 16px 4px 0;color:#5a616b;white-space:nowrap;vertical-align:top">${escapeHtml(k)}</td><td style="padding:4px 0">${escapeHtml(v)}</td></tr>`)
+      .join("")}</table><p style="margin:0 0 6px 0;color:#5a616b">Message</p><p style="white-space:pre-wrap;margin:0 0 16px 0">${escapeHtml(input.message)}</p>`;
+    const { html, text } = renderEmail({
+      locale: "en",
+      title: "New message from the website",
+      paragraphs: [],
+      extraHtml: table,
+      note: "Reply to this email to answer the sender directly.",
+    });
     await sendMail({
       to: env.CONTACT_INBOX,
-      subject: `Contact form: ${input.name}${input.company ? ` (${input.company})` : ""}`,
-      html: mailLayout("New contact message", html),
-      text,
+      subject: `Website enquiry: ${input.name}${input.company ? ` (${input.company})` : ""}`,
+      html,
+      text: `${rows.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\nMessage:\n${input.message}\n\n${text}`,
       replyTo: input.email,
+      idempotencyKey: `contact/${data.id}`,
     });
 
     return ok({ id: data.id });

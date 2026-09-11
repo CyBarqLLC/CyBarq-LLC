@@ -14,7 +14,8 @@ import { DocumentItems } from "@/components/finance/document-items";
 import { DetailList, ImmutableNotice, Section } from "@/components/finance/detail-blocks";
 import { HistoryList } from "@/components/finance/history-list";
 import { InvoiceActions } from "@/components/finance/invoice-actions";
-import { documentHistory, invoiceItems, markOverdueInvoices, todayIso } from "../../_lib/data";
+import { PaymentRemove } from "@/components/finance/payment-remove";
+import { documentHistory, invoiceItems, todayIso } from "../../_lib/data";
 
 const UUID = /^[0-9a-f-]{36}$/i;
 
@@ -28,7 +29,6 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
   const t = await getTranslations("finance");
   const supabase = await createClient();
 
-  await markOverdueInvoices(supabase);
 
   const { data: invoice } = await supabase.from("invoices").select("*").eq("id", id).maybeSingle();
   if (!invoice) notFound();
@@ -54,6 +54,9 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
     { key: "method", header: t("payment.method"), cell: (r) => t(`payment.methods.${r.method}`) },
     { key: "reference", header: t("payment.reference"), cell: (r) => r.reference ?? "" },
     { key: "notes", header: t("payment.notes"), cell: (r) => r.notes ?? "" },
+    ...(viewer.can("finance.issue") && invoice.status !== "void"
+      ? [{ key: "actions", header: <span className="sr-only">{t("payment.actions")}</span>, align: "end" as const, cell: (r: PaymentRow) => <PaymentRemove paymentId={r.id} /> }]
+      : []),
   ];
 
   return (

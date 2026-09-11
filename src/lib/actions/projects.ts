@@ -4,9 +4,10 @@ import { revalidatePath } from "next/cache";
 import { requireEmployee, requirePermission, type Viewer } from "@/lib/auth/session";
 import { createClient, type SupabaseServerClient } from "@/lib/supabase/server";
 import { ok, fail, runAction, type ActionResult } from "@/lib/actions/result";
-import { signedUploadUrl, safeFileName } from "@/lib/storage";
-import { sendMail, mailLayout } from "@/lib/email/resend";
-import { publicEnv } from "@/lib/env";
+import { actionError } from "@/lib/actions/messages";
+import { signedUploadUrl, safeFileName, removeStoredFiles } from "@/lib/storage";
+import { sendMail, renderEmail } from "@/lib/email/resend";
+import { siteUrl } from "@/lib/env";
 import { uuid } from "@/lib/validation/common";
 import {
   projectSchema,
@@ -75,7 +76,7 @@ export async function createProject(_prev: ActionResult<{ id: string }> | null, 
       .select("id")
       .single();
     if (error) {
-      if (error.code === "23505") return fail("A project with this code already exists. Choose another code.", "CONFLICT");
+      if (error.code === "23505") return fail(await actionError("projectCodeTaken"), "CONFLICT");
       throw error;
     }
     revalidatePath("/[locale]/(platform)/app/projects", "page");
@@ -90,8 +91,8 @@ export async function updateProject(projectId: string, _prev: ActionResult<{ id:
     const input = projectSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!(await canManage(supabase, viewer, project))) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!(await canManage(supabase, viewer, project))) return fail(await actionError("forbidden"), "FORBIDDEN");
     const { error } = await supabase
       .from("projects")
       .update({
@@ -108,7 +109,7 @@ export async function updateProject(projectId: string, _prev: ActionResult<{ id:
       })
       .eq("id", id);
     if (error) {
-      if (error.code === "23505") return fail("A project with this code already exists. Choose another code.", "CONFLICT");
+      if (error.code === "23505") return fail(await actionError("projectCodeTaken"), "CONFLICT");
       throw error;
     }
     revalidateProject(id);
@@ -123,8 +124,8 @@ export async function setProjectStatus(projectId: string, _prev: ActionResult | 
     const { status } = projectStatusChangeSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!(await canManage(supabase, viewer, project))) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!(await canManage(supabase, viewer, project))) return fail(await actionError("forbidden"), "FORBIDDEN");
     const { error } = await supabase.from("projects").update({ status }).eq("id", id);
     if (error) throw error;
     revalidateProject(id);
@@ -138,8 +139,8 @@ export async function setProjectClientVisibility(projectId: string, visible: boo
     const id = uuid.parse(projectId);
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!(await canManage(supabase, viewer, project))) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!(await canManage(supabase, viewer, project))) return fail(await actionError("forbidden"), "FORBIDDEN");
     const { error } = await supabase.from("projects").update({ client_visible: visible === true }).eq("id", id);
     if (error) throw error;
     revalidateProject(id);
@@ -154,9 +155,9 @@ export async function deleteProject(projectId: string): Promise<ActionResult> {
     const id = uuid.parse(projectId);
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
     if (project.status !== "draft" && project.status !== "cancelled") {
-      return fail("Only draft or cancelled projects can be deleted.", "CONFLICT");
+      return fail(await actionError("projectNotDeletable"), "CONFLICT");
     }
     const { error } = await supabase.from("projects").delete().eq("id", id);
     if (error) throw error;
@@ -177,14 +178,16 @@ export async function addProjectMember(projectId: string, _prev: ActionResult | 
     const input = projectMemberSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!(await canManage(supabase, viewer, project))) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!(await canManage(supabase, viewer, project))) return fail(await actionError("forbidden"), "FORBIDDEN");
+    const { data: existing } = await supabase.from("project_members").select("user_id").eq("project_id", id).eq("user_id", input.user_id).maybeSingle();
     const { error } = await supabase
       .from("project_members")
       .upsert({ project_id: id, user_id: input.user_id, role: input.role, added_by: viewer.userId }, { onConflict: "project_id,user_id" });
     if (error) throw error;
     revalidateProject(id);
-    if (input.user_id !== viewer.userId) await notifyProjectAssignment(supabase, input.user_id, project);
+    // Only a new member hears about it; a role change is not a new assignment.
+    if (!existing && input.user_id !== viewer.userId) await notifyProjectAssignment(supabase, input.user_id, project);
     return ok(undefined);
   });
 }
@@ -196,8 +199,8 @@ export async function removeProjectMember(projectId: string, userId: string): Pr
     const member = uuid.parse(userId);
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!(await canManage(supabase, viewer, project))) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!(await canManage(supabase, viewer, project))) return fail(await actionError("forbidden"), "FORBIDDEN");
     const { error } = await supabase.from("project_members").delete().eq("project_id", id).eq("user_id", member);
     if (error) throw error;
     revalidateProject(id);
@@ -205,27 +208,24 @@ export async function removeProjectMember(projectId: string, userId: string): Pr
   });
 }
 
-/** Minimal email on project assignment. Mail failures never fail the action. */
+/** Email on project assignment. Mail failures never fail the action. */
 async function notifyProjectAssignment(supabase: SupabaseServerClient, userId: string, project: ProjectRef): Promise<void> {
   try {
     const { data: profile } = await supabase.from("profiles").select("email, full_name, full_name_ar, locale").eq("id", userId).maybeSingle();
     if (!profile) return;
     const locale = profile.locale;
     const name = locale === "ar" ? project.name_ar || project.name_en : project.name_en;
-    const link = `${publicEnv.NEXT_PUBLIC_SITE_URL}/${locale}/app/projects/${project.id}`;
-    const subject = locale === "ar" ? `تمت إضافتك إلى مشروع: ${name}` : `You were added to a project: ${name}`;
-    const body =
+    const person = (locale === "ar" ? profile.full_name_ar : null) || profile.full_name;
+    const link = `${siteUrl()}/${locale}/app/projects/${project.id}`;
+    const copy =
       locale === "ar"
-        ? `<p>تمت إضافتك إلى المشروع <strong>${escapeHtml(name)}</strong>.</p><p><a href="${link}">فتح المشروع</a></p>`
-        : `<p>You were added to the project <strong>${escapeHtml(name)}</strong>.</p><p><a href="${link}">Open the project</a></p>`;
-    await sendMail({ to: profile.email, subject, html: mailLayout(subject, body, locale), text: `${subject}\n${link}` });
+        ? { subject: `انضممت إلى مشروع: ${name}`, title: "تمت إضافتك إلى مشروع", body: [person ? `مرحباً ${person}،` : "مرحباً،", `أصبحت ضمن فريق مشروع «${name}» على منصة سايبرق.`], action: "فتح المشروع" }
+        : { subject: `You've joined a project: ${name}`, title: "You were added to a project", body: [person ? `Hello ${person},` : "Hello,", `You are now part of the team on "${name}" in the CyBarq platform.`], action: "Open the project" };
+    const { html, text } = renderEmail({ locale, title: copy.title, paragraphs: copy.body, action: { label: copy.action, url: link } });
+    await sendMail({ to: profile.email, subject: copy.subject, html, text, idempotencyKey: `project-member/${project.id}/${userId}` });
   } catch (error) {
     console.error("[mail] project assignment", error);
   }
-}
-
-function escapeHtml(value: string): string {
-  return value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;");
 }
 
 // ---------------------------------------------------------------------------
@@ -239,8 +239,8 @@ export async function createMilestone(projectId: string, _prev: ActionResult<{ i
     const input = milestoneSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!(await canManage(supabase, viewer, project))) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!(await canManage(supabase, viewer, project))) return fail(await actionError("forbidden"), "FORBIDDEN");
     const { data, error } = await supabase
       .from("milestones")
       .insert({
@@ -268,8 +268,8 @@ export async function updateMilestone(projectId: string, milestoneId: string, _p
     const input = milestoneSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!(await canManage(supabase, viewer, project))) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!(await canManage(supabase, viewer, project))) return fail(await actionError("forbidden"), "FORBIDDEN");
     const { error } = await supabase
       .from("milestones")
       .update({
@@ -295,8 +295,8 @@ export async function deleteMilestone(projectId: string, milestoneId: string): P
     const mid = uuid.parse(milestoneId);
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!(await canManage(supabase, viewer, project))) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!(await canManage(supabase, viewer, project))) return fail(await actionError("forbidden"), "FORBIDDEN");
     const { error } = await supabase.from("milestones").delete().eq("id", mid).eq("project_id", id);
     if (error) throw error;
     revalidateProject(id);
@@ -315,7 +315,7 @@ export async function createProjectUpdate(projectId: string, _prev: ActionResult
     const input = projectUpdateSchema.parse(Object.fromEntries(formData));
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
     const { error } = await supabase.from("project_updates").insert({
       project_id: id,
       title: input.title,
@@ -336,8 +336,8 @@ export async function deleteProjectUpdate(projectId: string, updateId: string): 
     const uid = uuid.parse(updateId);
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!(await canManage(supabase, viewer, project))) return fail("You do not have permission to do this.", "FORBIDDEN");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!(await canManage(supabase, viewer, project))) return fail(await actionError("forbidden"), "FORBIDDEN");
     const { error } = await supabase.from("project_updates").delete().eq("id", uid).eq("project_id", id);
     if (error) throw error;
     revalidateProject(id);
@@ -356,7 +356,7 @@ export async function requestProjectDocumentUpload(projectId: string, file: { na
     const input = uploadRequestSchema.parse(file);
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
     const path = `${id}/${crypto.randomUUID()}-${safeFileName(input.name)}`;
     const ticket = await signedUploadUrl("private-project-documents", path);
     return ok(ticket);
@@ -377,8 +377,8 @@ export async function registerProjectDocument(input: {
     const parsed = projectDocumentSchema.parse(input);
     const supabase = await createClient();
     const project = await loadProject(supabase, parsed.projectId);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!parsed.path.startsWith(`${parsed.projectId}/`)) return fail("Invalid file path.", "VALIDATION");
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!parsed.path.startsWith(`${parsed.projectId}/`)) return fail(await actionError("filePath"), "VALIDATION");
     const { data, error } = await supabase
       .from("project_documents")
       .insert({
@@ -406,10 +406,12 @@ export async function deleteProjectDocument(projectId: string, documentId: strin
     const did = uuid.parse(documentId);
     const supabase = await createClient();
     const project = await loadProject(supabase, id);
-    if (!project) return fail("Not found.", "NOT_FOUND");
-    if (!(await canManage(supabase, viewer, project))) return fail("You do not have permission to do this.", "FORBIDDEN");
-    const { error } = await supabase.from("project_documents").delete().eq("id", did).eq("project_id", id);
+    if (!project) return fail(await actionError("notFound"), "NOT_FOUND");
+    if (!(await canManage(supabase, viewer, project))) return fail(await actionError("forbidden"), "FORBIDDEN");
+    const { data, error } = await supabase.from("project_documents").delete().eq("id", did).eq("project_id", id).select("storage_path");
     if (error) throw error;
+    if (!data || data.length === 0) return fail(await actionError("notFound"), "NOT_FOUND");
+    await removeStoredFiles("private-project-documents", data.map((r) => r.storage_path));
     revalidateProject(id);
     return ok(undefined);
   });

@@ -1,70 +1,45 @@
 import type { NextRequest } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { createAdminClient } from "@/lib/supabase/admin";
-import { downloadBuffer, uploadBuffer } from "@/lib/storage";
+import { getViewer } from "@/lib/auth/session";
 import { audit } from "@/lib/audit";
 import { certificateDocumentData } from "@/lib/pdf/documents";
 import { renderCertificatePdf } from "@/lib/pdf/render";
-import { isUuid, jsonError, pdfResponse } from "../../_lib/respond";
+import { documentError, isUuid, pdfResponse } from "../../_lib/respond";
+import { storedOrRendered } from "../../_lib/stored-pdf";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-const BUCKET = "private-certificates";
-
 /**
  * GET /api/documents/certificates/[id]
- * Visible to certificates.read holders and to the recipient (RLS). Issued and
- * revoked certificates are stored after the first render; drafts render live.
+ * For certificates.read holders and the recipient (RLS). Issued and revoked
+ * certificates are stored after the first render; drafts render live.
+ * Recipients without an account use the public link on the verification page.
  */
-export async function GET(_request: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
   const { id } = await context.params;
-  if (!isUuid(id)) return jsonError(404, "Not found");
+  if (!isUuid(id)) return documentError(request, 404);
+  const viewer = await getViewer();
+  if (!viewer) return documentError(request, 401);
 
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) return jsonError(401, "Unauthorized");
-
   const { data: certificate } = await supabase.from("certificates").select("*").eq("id", id).maybeSingle();
-  if (!certificate) return jsonError(404, "Not found");
+  if (!certificate) return documentError(request, 404);
 
-  const isDraft = certificate.status === "draft";
-  const fileName = certificate.certificate_no ?? `draft-certificate-${certificate.id.slice(0, 8)}`;
-
-  if (!isDraft && certificate.pdf_path) {
-    try {
-      const stored = await downloadBuffer(BUCKET, certificate.pdf_path);
-      await audit("document.downloaded", "certificate", certificate.id, { certificate_no: certificate.certificate_no, source: "stored" });
-      return pdfResponse(stored, fileName);
-    } catch (error) {
-      console.error("[documents] stored certificate unavailable, rendering", error);
-    }
-  }
-
-  let buffer: Buffer;
   try {
-    buffer = await renderCertificatePdf(await certificateDocumentData(certificate));
+    const { buffer, source } = await storedOrRendered({
+      bucket: "private-certificates",
+      table: "certificates",
+      id: certificate.id,
+      isDraft: certificate.status === "draft",
+      pdfPath: certificate.pdf_path,
+      storePath: `${certificate.id}.pdf`,
+      render: async () => renderCertificatePdf(await certificateDocumentData(certificate)),
+    });
+    await audit("document.downloaded", "certificate", certificate.id, { certificate_no: certificate.certificate_no, source });
+    return pdfResponse(buffer, certificate.certificate_no ?? (certificate.language === "ar" ? "مسودة-شهادة" : "draft-certificate"));
   } catch (error) {
     console.error("[documents] certificate render failed", error);
-    return jsonError(500, "Could not render the document");
+    return documentError(request, 500);
   }
-
-  if (!isDraft) {
-    const path = `${certificate.id}.pdf`;
-    try {
-      await uploadBuffer(BUCKET, path, buffer, "application/pdf");
-      if (certificate.pdf_path !== path) {
-        const admin = createAdminClient();
-        const { error } = await admin.from("certificates").update({ pdf_path: path }).eq("id", certificate.id);
-        if (error) console.error("[documents] could not record certificate pdf_path", error.message);
-      }
-    } catch (error) {
-      console.error("[documents] could not store certificate PDF", error);
-    }
-  }
-
-  await audit("document.downloaded", "certificate", certificate.id, { certificate_no: certificate.certificate_no, source: isDraft ? "draft" : "rendered" });
-  return pdfResponse(buffer, fileName);
 }

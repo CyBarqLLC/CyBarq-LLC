@@ -13,7 +13,7 @@ import { DataTable, type Column } from "@/components/ui/data-table";
 import { Pagination } from "@/components/ui/pagination";
 import { Status } from "@/components/ui/status";
 import { FinanceFilters } from "@/components/finance/finance-filters";
-import { INVOICE_STATUSES, clientLabel, clientNames, clientOptions, listInvoices, markOverdueInvoices, type InvoiceListRow } from "../_lib/data";
+import { INVOICE_STATUSES, clientLabel, clientNames, clientOptions, listInvoices, type InvoiceListRow } from "../_lib/data";
 
 export default async function InvoicesPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
   const viewer = await requirePermission("finance.read");
@@ -22,7 +22,6 @@ export default async function InvoicesPage({ searchParams }: { searchParams: Pro
   const [t, tc] = await Promise.all([getTranslations("finance"), getTranslations("common")]);
   const supabase = await createClient();
 
-  await markOverdueInvoices(supabase);
 
   const status = param(sp, "status");
   const client = param(sp, "client");

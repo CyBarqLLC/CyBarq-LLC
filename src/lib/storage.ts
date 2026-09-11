@@ -45,6 +45,18 @@ export async function downloadBuffer(bucket: PrivateBucket, path: string): Promi
   return Buffer.from(await data.arrayBuffer());
 }
 
+/**
+ * Deletes stored objects after their database rows are gone, so removed
+ * documents do not linger in the bucket (and cannot be re-registered).
+ * Failures are logged: the row deletion has already succeeded.
+ */
+export async function removeStoredFiles(bucket: PrivateBucket | PublicBucket, paths: Array<string | null | undefined>): Promise<void> {
+  const list = paths.filter((p): p is string => typeof p === "string" && p.length > 0);
+  if (list.length === 0) return;
+  const { error } = await createAdminClient().storage.from(bucket).remove(list);
+  if (error) console.error("[storage] cleanup failed", bucket, error.message);
+}
+
 export function publicUrl(bucket: PublicBucket, path: string): string {
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`;
 }

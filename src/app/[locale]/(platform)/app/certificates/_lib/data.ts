@@ -6,9 +6,7 @@ import { pick } from "@/i18n/bilingual";
 import { CERTIFICATE_TYPES } from "@/lib/validation/certificates";
 
 /** Today's date in Amman as yyyy-mm-dd. */
-export function todayIso(): string {
-  return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Amman", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
-}
+export { businessToday as todayIso } from "@/lib/time";
 
 export const CERTIFICATE_STATUSES: Enums<"certificate_status">[] = ["draft", "issued", "revoked"];
 

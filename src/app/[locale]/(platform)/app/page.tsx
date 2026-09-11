@@ -15,6 +15,7 @@ import { KpiTile } from "@/components/platform/kpi-tile";
 import { SectionCard } from "@/components/platform/section-card";
 import { ActivityList } from "@/components/platform/activity-list";
 import { personName } from "@/components/platform/person";
+import { businessToday } from "@/lib/time";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("platform.dashboard");
@@ -28,7 +29,7 @@ export default async function DashboardPage() {
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations("platform.dashboard");
   const supabase = await createClient();
-  const today = new Date().toISOString().slice(0, 10);
+  const today = businessToday();
   const me = viewer.userId;
 
   const canContent = viewer.can("content.publish");
