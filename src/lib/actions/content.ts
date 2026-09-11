@@ -127,8 +127,11 @@ export async function createEditorial(table: EditorialTable, _prev: ActionResult
     const row = editorialRow(input, viewer.userId);
     if (!row.slug) return fail("A slug is required.", "VALIDATION");
     const supabase = await createClient();
-    const values = { ...row, status: "draft" as const, created_by: viewer.userId, ...(table === "articles" ? { reading_minutes: articleMinutes(row) } : {}) };
-    const { data, error } = await supabase.from(table).insert(values).select("id").single();
+    const base = { ...row, status: "draft" as const, created_by: viewer.userId };
+    const { data, error } =
+      table === "articles"
+        ? await supabase.from("articles").insert({ ...base, reading_minutes: articleMinutes(row) }).select("id").single()
+        : await supabase.from("news_posts").insert(base).select("id").single();
     if (error) throw error;
     await syncEditorialTags(table, data.id, input.tag_ids);
     revalidateContent(table);
@@ -145,8 +148,10 @@ export async function updateEditorial(table: EditorialTable, id: string, _prev: 
     const row = editorialRow(input, viewer.userId);
     if (!row.slug) return fail("A slug is required.", "VALIDATION");
     const supabase = await createClient();
-    const values = { ...row, ...(table === "articles" ? { reading_minutes: articleMinutes(row) } : {}) };
-    const { data, error } = await supabase.from(table).update(values).eq("id", id).select("id").maybeSingle();
+    const { data, error } =
+      table === "articles"
+        ? await supabase.from("articles").update({ ...row, reading_minutes: articleMinutes(row) }).eq("id", id).select("id").maybeSingle()
+        : await supabase.from("news_posts").update(row).eq("id", id).select("id").maybeSingle();
     if (error) throw error;
     if (!data) return fail("Not found.", "NOT_FOUND");
     await syncEditorialTags(table, id, input.tag_ids);
@@ -320,9 +325,23 @@ export async function changeContentStatus(_prev: ActionResult | null, formData: 
       if (!scheduledFor) return fail("Choose a date and time to publish.", "VALIDATION");
       if (new Date(scheduledFor).getTime() <= Date.now()) return fail("The scheduled time must be in the future.", "VALIDATION");
     }
-    const patch: { status: Enums<"content_status">; updated_by: string; scheduled_for?: string | null } = { status: target, updated_by: viewer.userId };
-    if (scheduledFor !== undefined) patch.scheduled_for = scheduledFor;
-    const { error } = await supabase.from(input.table).update(patch).eq("id", input.id).eq("status", current.status);
+    const patch: { status: Enums<"content_status">; updated_by: string } = { status: target, updated_by: viewer.userId };
+    const withSchedule = scheduledFor !== undefined ? { ...patch, scheduled_for: scheduledFor } : patch;
+    let error: { code?: string; message: string } | null = null;
+    switch (input.table) {
+      case "news_posts":
+        ({ error } = await supabase.from("news_posts").update(withSchedule).eq("id", input.id).eq("status", current.status));
+        break;
+      case "articles":
+        ({ error } = await supabase.from("articles").update(withSchedule).eq("id", input.id).eq("status", current.status));
+        break;
+      case "public_projects":
+        ({ error } = await supabase.from("public_projects").update(patch).eq("id", input.id).eq("status", current.status));
+        break;
+      case "case_studies":
+        ({ error } = await supabase.from("case_studies").update(patch).eq("id", input.id).eq("status", current.status));
+        break;
+    }
     if (error) throw error;
     revalidateContent(input.table);
     return ok(undefined);

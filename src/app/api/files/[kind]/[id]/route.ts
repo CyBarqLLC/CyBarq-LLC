@@ -35,7 +35,7 @@ export async function GET(_request: NextRequest, context: { params: Promise<{ ki
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const def = KINDS[kind];
-  const { data: row } = await supabase.from(def.table).select("id, storage_path, mime_type").eq("id", id).maybeSingle();
+  const { data: row } = await supabase.from(def.table).select("id, storage_path").eq("id", id).maybeSingle();
   if (!row) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   const fileName = row.storage_path.split("/").pop() ?? "file";
