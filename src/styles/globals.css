@@ -612,15 +612,16 @@ html:has(.site-header) {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    background: linear-gradient(to top, #fff 0%, rgb(255 255 255 / 0.94) 34%, rgb(255 255 255 / 0.55) 58%, rgb(255 255 255 / 0) 82%);
+    background: linear-gradient(to top, #fff 0%, rgb(255 255 255 / 0.92) 38%, rgb(255 255 255 / 0.5) 60%, rgb(255 255 255 / 0) 84%);
   }
+  /* On phones the copy sits low and the field keeps a clear stage above it. */
   .site-hero__content {
     position: relative;
     display: flex;
     flex: 1;
     flex-direction: column;
     justify-content: flex-end;
-    padding-block: 3rem 6rem;
+    padding-block: clamp(6rem, 16svh, 9rem) 5rem;
     /* Pointer events pass through the copy to the field; the calls to action keep theirs. */
     pointer-events: none;
   }
@@ -724,17 +725,13 @@ html:has(.site-header) {
     grid-template-columns: minmax(0, 1fr);
     border-block: 1px solid var(--color-fog);
   }
-  /* The transition also carries the reveal (opacity, transform): this rule wins over the stagger rule above. */
   .site-panel {
     position: relative;
     display: flex;
     min-width: 0;
     flex-direction: column;
     background: var(--color-white);
-    transition:
-      background-color 400ms var(--ease-brand),
-      opacity 800ms var(--ease-brand),
-      transform 800ms var(--ease-brand);
+    transition: background-color 400ms var(--ease-brand);
   }
   .site-panel + .site-panel {
     border-top: 1px solid var(--color-fog);
@@ -774,22 +771,26 @@ html:has(.site-header) {
     }
   }
   @media (min-width: 64rem) {
+    /* Four explicit tracks (no repeat()) so the track list interpolates. The transition also carries the reveal. */
     .site-panels {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      min-height: 34rem;
-      transition: grid-template-columns 600ms var(--ease-brand);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      min-height: 30rem;
+      transition:
+        grid-template-columns 600ms var(--ease-brand),
+        opacity 800ms var(--ease-brand),
+        transform 800ms var(--ease-brand);
     }
     .site-panels[data-active="0"] {
-      grid-template-columns: minmax(0, 2.4fr) repeat(3, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
     }
     .site-panels[data-active="1"] {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr) repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr) minmax(0, 1fr) minmax(0, 1fr);
     }
     .site-panels[data-active="2"] {
-      grid-template-columns: repeat(2, minmax(0, 1fr)) minmax(0, 2.4fr) minmax(0, 1fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2.4fr) minmax(0, 1fr);
     }
     .site-panels[data-active="3"] {
-      grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(0, 2.4fr);
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2.4fr);
     }
     .site-panel {
       overflow: hidden;
@@ -816,9 +817,7 @@ html:has(.site-header) {
     transform: translateY(0.75rem);
   }
   .site-step {
-    transition:
-      opacity 600ms var(--ease-brand),
-      transform 800ms var(--ease-brand);
+    transition: opacity 600ms var(--ease-brand);
   }
   @media (min-width: 64rem) {
     .site-step:not([data-active]) {
@@ -835,7 +834,7 @@ html:has(.site-header) {
     scroll-snap-type: x mandatory;
     scroll-padding-inline: var(--spacing-gutter);
     padding-inline: var(--spacing-gutter);
-    padding-block: 0.5rem 1rem;
+    padding-block: 0.5rem 1.5rem;
     margin-inline: calc(-1 * var(--spacing-gutter));
     scrollbar-width: none;
     -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--spacing-gutter), #000 calc(100% - var(--spacing-gutter)), transparent);

@@ -77,7 +77,7 @@ export function PracticePanels({ panels, linkLabel }: PracticePanelsProps) {
   };
 
   return (
-    <ul ref={reveal} className="site-panels site-reveal-stagger" data-active={active}>
+    <ul ref={reveal} className="site-panels site-reveal" data-active={active}>
       {panels.map((panel, index) => {
         const open = index === active;
         const tabId = `${baseId}-tab-${index}`;

@@ -107,12 +107,12 @@ export default async function HomePage({ params }: Props) {
       {/* Selected services: a row that scrolls sideways */}
       <section className="container-page section" aria-labelledby="selected-title">
         <SectionHeading id="selected-title" title={t("selectedTitle")} lead={t("selectedLead")} className="mb-6 sm:mb-8" />
-        <ServiceStrip label={t("selectedTitle")} controls={{ previous: t("stripPrevious"), next: t("stripNext") }}>
+        <ServiceStrip labelledBy="selected-title" controls={{ previous: t("stripPrevious"), next: t("stripNext") }}>
           {featured.map((s) => (
             <ServiceStripCard key={s.slug} service={s} locale={locale} practiceLabel={getPractice(s.practice)?.title[locale]} />
           ))}
         </ServiceStrip>
-        <Reveal className="mt-10">
+        <Reveal className="mt-8">
           <Button asChild variant="outline" size="lg">
             <Link href="/services">{t("allServices")}</Link>
           </Button>

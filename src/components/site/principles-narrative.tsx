@@ -61,7 +61,7 @@ export function PrinciplesNarrative({ steps }: { steps: NarrativeStep[] }) {
           </div>
         </div>
       </div>
-      <ol ref={reveal} className="site-reveal-stagger flex flex-col">
+      <ol ref={reveal} className="site-reveal flex flex-col">
         {steps.map((step, index) => (
           <li
             key={step.key}

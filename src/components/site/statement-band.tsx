@@ -12,11 +12,12 @@ type StatementBandProps = {
 };
 
 /**
- * Line form in White, running slowly, entering and leaving at the edges.
- * A module constant: the canvas restarts whenever it receives a new object.
- * Mirrors the job in scripts/generate-stream-svgs.ts for the first paint.
+ * Line form in White, running slowly below the statement, entering and
+ * leaving at the edges. A module constant: the canvas restarts whenever it
+ * receives a new object. Mirrors the job in scripts/generate-stream-svgs.ts
+ * for the first paint.
  */
-const LINE_BAND: StreamParams = { flow: 0.8, alpha: 0.75, spread: 0.1, share: 0.07, fadeIn: 1.2, fadeRight: true, fadeOut: 1.2 };
+const LINE_BAND: StreamParams = { flow: 0.8, alpha: 0.8, spread: 0.09, share: 0.07, cy0: 0.76, amp: 0.06, fadeIn: 1.2, fadeRight: true, fadeOut: 1.2 };
 
 /**
  * The dark statement band of the home page: Graphite ground, white type, the

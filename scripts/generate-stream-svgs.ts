@@ -23,7 +23,7 @@ const jobs: Job[] = [
   {
     file: "public/brand/pattern/stream-line-band.svg",
     note: "Line form in White for the home statement band on Graphite (the canvas takes over after hydration).",
-    preset: "line", width: 1200, height: 400, density: "master", params: { alpha: 0.75, spread: 0.1, share: 0.07, fadeIn: 1.2, fadeRight: true, fadeOut: 1.2 }, ink: "#FFFFFF", accent: "#74C3F2",
+    preset: "line", width: 1200, height: 400, density: "master", params: { alpha: 0.8, spread: 0.09, share: 0.07, cy0: 0.76, amp: 0.06, fadeIn: 1.2, fadeRight: true, fadeOut: 1.2 }, ink: "#FFFFFF", accent: "#74C3F2",
   },
   {
     file: "public/brand/pattern/stream-fine-footer.svg",

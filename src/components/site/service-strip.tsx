@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils/cn";
 import { useReveal } from "./reveal";
 
 type ServiceStripProps = {
-  /** Accessible name of the row. */
-  label: string;
+  /** id of the heading that names the row. */
+  labelledBy: string;
   /** Button labels; the strip is also scrolled by touch, wheel and keyboard focus. */
   controls: { previous: string; next: string };
   /** Cards, rendered on the server (ServiceStripCard). */
@@ -20,7 +20,7 @@ type ServiceStripProps = {
  * the row by one card (mirrored in right to left) and switch off at the ends;
  * focus moving through the cards scrolls them into view on its own.
  */
-export function ServiceStrip({ label, controls, children, className }: ServiceStripProps) {
+export function ServiceStrip({ labelledBy, controls, children, className }: ServiceStripProps) {
   const scroller = React.useRef<HTMLUListElement>(null);
   const [edges, setEdges] = React.useState({ start: true, end: false });
   const reveal = useReveal();
@@ -63,7 +63,7 @@ export function ServiceStrip({ label, controls, children, className }: ServiceSt
           {controls.next}
         </button>
       </div>
-      <ul ref={scroller} className="site-strip" aria-label={label}>
+      <ul ref={scroller} className="site-strip" aria-labelledby={labelledBy}>
         {children}
       </ul>
     </div>
