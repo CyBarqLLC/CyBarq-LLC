@@ -8,7 +8,7 @@ import { pagination, param, withPage, type SearchParams } from "@/lib/data/pagin
 import { formatDateTime } from "@/lib/utils/format";
 import { searchTerm } from "@/lib/validation/projects";
 import type { Json } from "@/lib/supabase/database.types";
-import { AUDIT_ACTION_LABELS, auditActionLabel, auditEntityHref, auditEntityLabel, isAuditAction, type AuditAction } from "@/lib/labels";
+import { AUDIT_ACTION_LABELS, auditActionLabel, auditEntityHref, auditEntityLabel, isAuditAction, type AuditAction, type AuditLinkContext } from "@/lib/labels";
 import { PageHeader } from "@/components/ui/page-header";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { Input } from "@/components/ui/input";
@@ -48,10 +48,14 @@ const ACTION_GROUPS = [
 
 const DATE = /^\d{4}-\d{2}-\d{2}$/;
 
-function engagementIdOf(meta: Json): string | null {
-  if (!meta || typeof meta !== "object" || Array.isArray(meta)) return null;
-  const v = meta.engagement_id;
-  return typeof v === "string" ? v : null;
+/** Parent ids some entries carry, so documents and findings can link to the page they belong to. */
+function linkContext(meta: Json): AuditLinkContext {
+  if (!meta || typeof meta !== "object" || Array.isArray(meta)) return {};
+  const id = (key: string) => {
+    const v = meta[key];
+    return typeof v === "string" ? v : null;
+  };
+  return { engagementId: id("engagement_id"), projectId: id("project_id"), employeeUserId: id("employee_user_id") };
 }
 
 export default async function AuditPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
@@ -101,7 +105,7 @@ export default async function AuditPage({ searchParams }: { searchParams: Promis
     { key: "action", header: t("columns.action"), primary: true, cell: (r) => <span className="font-medium text-graphite">{auditActionLabel(r.action, locale)}</span> },
     { key: "entity", header: t("columns.entity"), cell: (r) => {
       const noun = auditEntityLabel(r.entity_type, locale);
-      const href = auditEntityHref(r.entity_type, r.entity_id, { engagementId: engagementIdOf(r.metadata) });
+      const href = auditEntityHref(r.entity_type, r.entity_id, linkContext(r.metadata));
       return href ? (
         <Link href={href} className="text-azure hover:underline" title={r.entity_id ?? undefined}>{noun}</Link>
       ) : (

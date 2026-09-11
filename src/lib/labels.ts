@@ -538,45 +538,59 @@ export function auditEntityLabel(entityType: string, locale: Locale): string {
   return isAuditEntity(entityType) ? AUDIT_ENTITY_LABELS[entityType][locale] : humanizeKey(entityType);
 }
 
+/** Ids an audit entry may carry in its metadata, used to reach a page for entities that have none of their own. */
+export type AuditLinkContext = { engagementId?: string | null; projectId?: string | null; employeeUserId?: string | null };
+
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+function uuidPath(prefix: string, id: string | null | undefined, suffix = ""): string | null {
+  return id && UUID.test(id) ? `${prefix}/${id}${suffix}` : null;
+}
+
 /**
  * Where an audited entity lives in the platform, when the type has a page of
- * its own. Findings need their engagement id, which callers read from the
- * entry's metadata.
+ * its own. Findings, reports and documents need a parent id, which callers
+ * read from the entry's metadata.
  */
-export function auditEntityHref(entityType: string, entityId: string | null, meta?: { engagementId?: string | null }): string | null {
-  if (!entityId) return null;
-  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+export function auditEntityHref(entityType: string, entityId: string | null, meta: AuditLinkContext = {}): string | null {
   switch (entityType) {
     case "user":
     case "client_user":
-      return uuid.test(entityId) ? `/app/users/${entityId}` : null;
+      return uuidPath("/app/users", entityId);
     case "role":
       return "/app/users/roles";
     case "client":
-      return uuid.test(entityId) ? `/app/clients/${entityId}` : null;
+      return uuidPath("/app/clients", entityId);
     case "project":
-      return uuid.test(entityId) ? `/app/projects/${entityId}` : null;
+      return uuidPath("/app/projects", entityId);
     case "invoice":
-      return uuid.test(entityId) ? `/app/finance/invoices/${entityId}` : null;
+      return uuidPath("/app/finance/invoices", entityId);
     case "quote":
-      return uuid.test(entityId) ? `/app/finance/quotes/${entityId}` : null;
+      return uuidPath("/app/finance/quotes", entityId);
     case "certificate":
-      return uuid.test(entityId) ? `/app/certificates/${entityId}` : null;
+      return uuidPath("/app/certificates", entityId);
     case "security_engagement":
-      return uuid.test(entityId) ? `/app/security/${entityId}` : null;
+      return uuidPath("/app/security", entityId);
     case "finding":
-      return meta?.engagementId && uuid.test(meta.engagementId) && uuid.test(entityId) ? `/app/security/${meta.engagementId}/findings/${entityId}` : null;
+      return entityId && UUID.test(entityId) ? uuidPath("/app/security", meta.engagementId, `/findings/${entityId}`) : null;
+    case "engagement_report":
+    case "engagement_reports":
+    case "finding_evidence":
+      return uuidPath("/app/security", meta.engagementId);
+    case "project_document":
+    case "project_documents":
+      return uuidPath("/app/projects", meta.projectId, "/documents");
     case "employee_document":
     case "employee_documents":
-      return null;
+      return uuidPath("/app/employees", meta.employeeUserId);
     case "news_posts":
-      return uuid.test(entityId) ? `/app/content/news/${entityId}` : null;
+      return uuidPath("/app/content/news", entityId);
     case "articles":
-      return uuid.test(entityId) ? `/app/content/articles/${entityId}` : null;
+      return uuidPath("/app/content/articles", entityId);
     case "public_projects":
-      return uuid.test(entityId) ? `/app/content/projects/${entityId}` : null;
+      return uuidPath("/app/content/projects", entityId);
     case "case_studies":
-      return uuid.test(entityId) ? `/app/content/case-studies/${entityId}` : null;
+      return uuidPath("/app/content/case-studies", entityId);
     default:
       return null;
   }

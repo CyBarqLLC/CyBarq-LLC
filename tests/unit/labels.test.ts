@@ -116,5 +116,8 @@ describe("labels", () => {
     expect(auditEntityHref("role", "admin")).toBe("/app/users/roles");
     expect(auditEntityHref("invoice", "not-a-uuid")).toBeNull();
     expect(auditEntityHref("employee_document", id)).toBeNull();
+    expect(auditEntityHref("employee_document", id, { employeeUserId: id })).toBe(`/app/employees/${id}`);
+    expect(auditEntityHref("project_documents", id, { projectId: id })).toBe(`/app/projects/${id}/documents`);
+    expect(auditEntityHref("engagement_reports", id, { engagementId: id })).toBe(`/app/security/${id}`);
   });
 });
