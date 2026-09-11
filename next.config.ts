@@ -11,6 +11,8 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
 ];
 
+const PDF_RUNTIME_FILES = ["./src/assets/fonts/*.otf", "./node_modules/pdfkit/js/**/*", "./node_modules/@react-pdf/pdfkit/**/*"];
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
@@ -23,11 +25,14 @@ const nextConfig: NextConfig = {
       : [],
   },
   serverExternalPackages: ["@react-pdf/renderer"],
-  // PDF rendering reads the brand fonts from disk at runtime on Vercel.
+  // PDF routes read files at runtime that output tracing cannot see: the brand
+  // fonts, and pdfkit's standard font metrics (loaded through computed paths).
+  // Without them every PDF render fails on Vercel with MODULE_NOT_FOUND.
   outputFileTracingIncludes: {
-    "/api/documents/invoices/[id]": ["./src/assets/fonts/*.otf"],
-    "/api/documents/quotes/[id]": ["./src/assets/fonts/*.otf"],
-    "/api/documents/certificates/[id]": ["./src/assets/fonts/*.otf"],
+    "/api/documents/invoices/[id]": PDF_RUNTIME_FILES,
+    "/api/documents/quotes/[id]": PDF_RUNTIME_FILES,
+    "/api/documents/certificates/[id]": PDF_RUNTIME_FILES,
+    "/api/verify/[code]/pdf": PDF_RUNTIME_FILES,
   },
   async headers() {
     return [{ source: "/(.*)", headers: securityHeaders }];

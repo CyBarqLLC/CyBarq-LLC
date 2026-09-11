@@ -35,7 +35,9 @@ export function StatusSelectForm({ action, name, options, defaultValue, submitLa
   }, [result, successMessage]);
   return (
     <form action={formAction} className={className ?? "flex items-center gap-2"}>
-      <NativeSelect name={name} defaultValue={defaultValue} aria-label={ariaLabel} className="h-9 min-w-36 text-small">
+      {/* Keyed on the saved value: after a change the page re-renders with the new
+          status and the select must start from it, not from the first render. */}
+      <NativeSelect key={defaultValue} name={name} defaultValue={defaultValue} aria-label={ariaLabel} className="h-9 min-w-36 text-small">
         {options.map((o) => (
           <option key={o.value} value={o.value}>{o.label}</option>
         ))}
