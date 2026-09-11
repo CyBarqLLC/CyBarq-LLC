@@ -33,18 +33,20 @@ export type ButtonProps = React.ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & { asChild?: boolean; loading?: boolean };
 
 function Button({ className, variant, size, asChild = false, loading = false, children, disabled, ...props }: ButtonProps) {
-  const Comp = asChild ? Slot : "button";
+  const classes = cn(buttonVariants({ variant, size, className }));
+  // Radix Slot requires exactly one React element child, so asChild never adds a spinner.
+  if (asChild) {
+    return (
+      <Slot data-slot="button" className={classes} aria-busy={loading || undefined} {...props}>
+        {children}
+      </Slot>
+    );
+  }
   return (
-    <Comp
-      data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      disabled={disabled || loading}
-      aria-busy={loading || undefined}
-      {...props}
-    >
+    <button data-slot="button" className={classes} disabled={disabled || loading} aria-busy={loading || undefined} {...props}>
       {loading ? <Loader2 className="animate-spin" aria-hidden /> : null}
       {children}
-    </Comp>
+    </button>
   );
 }
 
