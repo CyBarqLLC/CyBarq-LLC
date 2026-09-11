@@ -22,10 +22,10 @@ export async function middleware(request: NextRequest) {
       const url = request.nextUrl.clone();
       url.pathname = `${MAINTENANCE_PATH}/${maintenanceLang(requestPath, request.headers.get("accept-language"))}`;
       url.search = `?next=${encodeURIComponent(requestPath + request.nextUrl.search)}`;
-      // 503 + Retry-After tells crawlers the outage is temporary, so rankings and the index are kept.
-      const locked = NextResponse.rewrite(url, { status: 503 });
-      locked.headers.set("Retry-After", "3600");
+      // Plain rewrite: Vercel replaces a 503 from middleware with its own "deployment unavailable" page.
+      const locked = NextResponse.rewrite(url);
       locked.headers.set("Cache-Control", "no-store");
+      locked.headers.set("X-Robots-Tag", "noindex");
       return locked;
     }
   }
