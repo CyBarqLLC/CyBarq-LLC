@@ -39,7 +39,7 @@ export default async function ProjectsPage({ params }: Props) {
                 href={`/projects/${p.slug}`}
                 title={pick(p, "title", locale)}
                 excerpt={pick(p, "summary", locale) || null}
-                eyebrow={label(PRACTICE_LABELS, p.practice, locale)}
+                category={label(PRACTICE_LABELS, p.practice, locale)}
                 meta={[pick(p, "client_display_name", locale), p.year ? String(p.year) : null].filter(Boolean).join(" · ") || null}
                 image={coverImage(p, locale)}
               />

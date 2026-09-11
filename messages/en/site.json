@@ -19,23 +19,19 @@
     "breadcrumb": "Breadcrumb"
   },
   "home": {
-    "eyebrow": "Registered in Jordan and the United States",
     "title": "The systems your organisation runs on, built and secured by one team.",
     "lead": "A technology company with a local team, working locally and across borders. Our expertise spans technology engineering, cybersecurity and AI, and we work the way each project calls for: remotely, on site, or both.",
     "primaryCta": "Talk to us",
     "secondaryCta": "Explore services",
-    "practicesEyebrow": "What we do",
     "practicesTitle": "Four practices, one team",
     "practicesLead": "Each practice stands on its own. Together they cover everything between an idea and a system that runs securely in production.",
     "allServices": "See all services",
-    "howEyebrow": "How we work",
     "howTitle": "Careful work, explained clearly",
-    "statementEyebrow": "Our promise",
     "statementBody": "Systems that are designed with care, built to be maintained and tested by people whose job is to break them. That is what done properly means to us.",
-    "selectedEyebrow": "Selected services",
     "selectedTitle": "Where clients usually start",
     "selectedLead": "A penetration test, an incident, a platform that needs building, an AI feature that has to be trusted. These are the engagements we are asked for most often.",
-    "latestEyebrow": "Latest",
+    "stripPrevious": "Previous",
+    "stripNext": "Next",
     "latestTitle": "News, articles and work",
     "viewAllNews": "All news",
     "viewAllArticles": "All articles",
@@ -56,7 +52,6 @@
     "title": "Services",
     "lead": "Thirty three services across four practices. Each page explains the problem, where it appears, how we approach it and what you receive, in plain language.",
     "seoDescription": "All CyBarq services: cybersecurity, digital engineering, artificial intelligence and technology infrastructure. Penetration testing, DFIR, platforms, AI agents and assistants, cloud architecture, observability and more.",
-    "practiceEyebrow": "Practice",
     "inPractice": "Services in this practice",
     "count": "{count, plural, one {# service} other {# services}}",
     "explore": "Explore",
@@ -66,8 +61,7 @@
   "about": {
     "title": "About CyBarq",
     "seoDescription": "CyBarq officially began in 2024. A technology company registered in Jordan and the United States, with a local team working across technology engineering, cybersecurity and AI.",
-    "storyEyebrow": "Our story",
-    "statsEyebrow": "In numbers",
+    "storyTitle": "Our story",
     "practicesLink": "See the services"
   },
   "careers": {
@@ -81,7 +75,7 @@
     "title": "Contact",
     "lead": "Write to the address that fits, or use the form. We respond promptly to every message.",
     "seoDescription": "Contact CyBarq about new engagements, support on active work, partnerships or general information. Registered in Jordan and the United States, we work locally and across borders.",
-    "channelsEyebrow": "Channels",
+    "channelsTitle": "Channels",
     "channels": {
       "general": {
         "title": "General",
@@ -98,7 +92,6 @@
     },
     "location": "Registered in Jordan and the United States. We work locally and across borders, remotely and on site.",
     "form": {
-      "eyebrow": "Send a message",
       "title": "Tell us what you need",
       "name": "Name",
       "email": "Work email",
@@ -131,7 +124,6 @@
     "codeLabel": "Verification code",
     "codeHint": "Printed on the certificate, usually next to the QR code.",
     "submit": "Verify",
-    "resultEyebrow": "Verification result",
     "statusValid": "Valid",
     "statusRevoked": "Revoked",
     "validBody": "This certificate was issued by CyBarq Technology LLC and is valid.",

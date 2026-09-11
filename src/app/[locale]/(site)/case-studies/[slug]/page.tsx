@@ -8,6 +8,7 @@ import { getCaseStudy, parseImpact, coverImage } from "@/lib/data/public-content
 import { practiceByEnum } from "@/content/services";
 import { PostHeader } from "@/components/site/post-header";
 import { ContentBody } from "@/components/site/content-body";
+import { Reveal } from "@/components/site/reveal";
 import { CtaPanel } from "@/components/site/cta-panel";
 import { pageMetadata, resolveLocale } from "@/components/site/metadata";
 
@@ -55,10 +56,9 @@ export default async function CaseStudyPage({ params }: Props) {
     <>
       <PostHeader
         crumbs={[{ href: "/", label: tn("home") }, { href: "/case-studies", label: tn("caseStudies") }, { label: pick(item, "title", locale) }]}
-        eyebrow={label(PRACTICE_LABELS, item.practice, locale)}
         title={pick(item, "title", locale)}
         lead={pick(item, "summary", locale) || null}
-        meta={[client ? `${t("client")}: ${client}` : null, industry ? `${t("industry")}: ${industry}` : null, item.year ? `${t("year")}: ${item.year}` : null]}
+        meta={[label(PRACTICE_LABELS, item.practice, locale), client ? `${t("client")}: ${client}` : null, industry ? `${t("industry")}: ${industry}` : null, item.year ? `${t("year")}: ${item.year}` : null]}
         cover={coverImage(item, locale)}
       />
 
@@ -66,14 +66,16 @@ export default async function CaseStudyPage({ params }: Props) {
         {sections.map((s) => (
           <section key={s.key} className="grid gap-4 border-t border-fog py-10 sm:py-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
             <h2 className="text-h2 lg:sticky lg:top-[calc(var(--site-header-offset)+1.5rem)] lg:self-start">{s.title}</h2>
-            <ContentBody html={s.html} />
+            <Reveal>
+              <ContentBody html={s.html} />
+            </Reveal>
           </section>
         ))}
 
         {impact.length > 0 ? (
           <section className="grid gap-4 border-t border-fog py-10 sm:py-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
             <h2 className="text-h2">{t("caseStudies.impact")}</h2>
-            <dl className="grid gap-px border border-fog bg-fog sm:grid-cols-2">
+            <Reveal as="dl" stagger className="grid gap-px border border-fog bg-fog sm:grid-cols-2">
               {impact.map((i, idx) => (
                 <div key={idx} className="flex flex-col gap-2 bg-white p-5">
                   <dt className="order-2 text-small text-slate">{locale === "ar" ? i.label_ar || i.label_en : i.label_en || i.label_ar}</dt>
@@ -81,13 +83,19 @@ export default async function CaseStudyPage({ params }: Props) {
                   {i.verified === true ? <dd className="order-3 mt-1 text-label text-success">{t("caseStudies.verified")}</dd> : null}
                 </div>
               ))}
-            </dl>
+            </Reveal>
           </section>
         ) : null}
 
         <div className="flex flex-wrap gap-x-8 gap-y-2 border-t border-fog py-8 text-small">
-          <Link href="/case-studies" className="text-slate hover:text-azure">{t("caseStudies.backToList")}</Link>
-          {practice ? <Link href={`/services/${practice.slug}`} className="text-azure hover:underline underline-offset-4">{t("moreInPractice", { practice: practice.title[locale] })}</Link> : null}
+          <Link href="/case-studies" className="site-link text-slate hover:text-graphite">
+            {t("caseStudies.backToList")}
+          </Link>
+          {practice ? (
+            <Link href={`/services/${practice.slug}`} className="site-link text-azure">
+              {t("moreInPractice", { practice: practice.title[locale] })}
+            </Link>
+          ) : null}
         </div>
       </div>
 

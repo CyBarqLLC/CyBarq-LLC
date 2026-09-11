@@ -16,6 +16,16 @@ const jobs: Job[] = [
     preset: "opening", width: 1200, height: 520, density: "master", params: { fadeIn: 1.4 }, ink: "#0D0E13", accent: "#74C3F2",
   },
   {
+    file: "public/brand/pattern/stream-opening-hero-rtl.svg",
+    note: "Home hero first paint for right to left pages: the band opens from the start (right) side.",
+    preset: "opening", width: 1200, height: 520, density: "master", params: { opening: [0.2, 0.03], fadeIn: 100, fadeRight: true, fadeOut: 1.4 }, ink: "#0D0E13", accent: "#74C3F2",
+  },
+  {
+    file: "public/brand/pattern/stream-line-band.svg",
+    note: "Line form in White for the home statement band on Graphite (the canvas takes over after hydration).",
+    preset: "line", width: 1200, height: 400, density: "master", params: { alpha: 0.75, spread: 0.1, share: 0.07, fadeIn: 1.2, fadeRight: true, fadeOut: 1.2 }, ink: "#FFFFFF", accent: "#74C3F2",
+  },
+  {
     file: "public/brand/pattern/stream-fine-footer.svg",
     note: "Fine form in CyBarq Blue for the footer on Ice.",
     preset: "fine", width: 900, height: 520, density: "fine", params: { fadeIn: 1.2 }, ink: "#74C3F2", accent: "#74C3F2",

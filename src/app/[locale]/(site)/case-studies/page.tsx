@@ -39,7 +39,7 @@ export default async function CaseStudiesPage({ params }: Props) {
                 href={`/case-studies/${c.slug}`}
                 title={pick(c, "title", locale)}
                 excerpt={pick(c, "summary", locale) || null}
-                eyebrow={label(PRACTICE_LABELS, c.practice, locale)}
+                category={label(PRACTICE_LABELS, c.practice, locale)}
                 meta={[pick(c, "industry", locale), c.year ? String(c.year) : null].filter(Boolean).join(" · ") || null}
                 image={coverImage(c, locale)}
               />

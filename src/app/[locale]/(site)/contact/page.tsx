@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageIntro } from "@/components/site/page-intro";
+import { Reveal } from "@/components/site/reveal";
 import { ContactForm, type ServiceOptionGroup } from "@/components/site/contact-form";
 import { JsonLd } from "@/components/site/json-ld";
 import { pageMetadata, resolveLocale, absoluteUrl } from "@/components/site/metadata";
@@ -56,15 +57,15 @@ export default async function ContactPage({ params, searchParams }: Props) {
 
       <div className="border-t border-fog">
         <div className="container-page section grid gap-14 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-20">
-          <section aria-labelledby="channels-heading" className="flex flex-col gap-8">
+          <Reveal as="section" aria-labelledby="channels-heading" className="flex flex-col gap-8">
             <h2 id="channels-heading" className="text-h2">
-              {t("channelsEyebrow")}
+              {t("channelsTitle")}
             </h2>
             <ul className="flex flex-col divide-y divide-fog border-y border-fog">
               {channels.map((c) => (
                 <li key={c.key} className="flex flex-col gap-1 py-5">
                   <h3 className="text-h3">{t(`channels.${c.key}.title`)}</h3>
-                  <a href={`mailto:${c.email}`} className="self-start text-azure underline-offset-4 hover:underline">
+                  <a href={`mailto:${c.email}`} className="site-link self-start text-azure">
                     {c.email}
                   </a>
                   <p className="text-small text-slate">{t(`channels.${c.key}.description`)}</p>
@@ -72,15 +73,14 @@ export default async function ContactPage({ params, searchParams }: Props) {
               ))}
             </ul>
             <p className="max-w-sm text-small text-slate">{t("location")}</p>
-          </section>
+          </Reveal>
 
-          <section aria-labelledby="form-heading">
-            <p className="text-small text-slate">{t("form.eyebrow")}</p>
-            <h2 id="form-heading" className="mt-1 mb-8 text-h2">
+          <Reveal as="section" delay={100} aria-labelledby="form-heading">
+            <h2 id="form-heading" className="mb-8 text-h2">
               {t("form.title")}
             </h2>
             <ContactForm serviceGroups={serviceGroups} defaultService={defaultService} />
-          </section>
+          </Reveal>
         </div>
       </div>
     </>

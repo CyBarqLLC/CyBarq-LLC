@@ -47,10 +47,9 @@ export default async function ProjectPage({ params }: Props) {
     <>
       <PostHeader
         crumbs={[{ href: "/", label: tn("home") }, { href: "/projects", label: tn("projects") }, { label: pick(project, "title", locale) }]}
-        eyebrow={label(PRACTICE_LABELS, project.practice, locale)}
         title={pick(project, "title", locale)}
         lead={pick(project, "summary", locale) || null}
-        meta={[client ? `${t("client")}: ${client}` : null, project.year ? `${t("year")}: ${project.year}` : null]}
+        meta={[label(PRACTICE_LABELS, project.practice, locale), client ? `${t("client")}: ${client}` : null, project.year ? `${t("year")}: ${project.year}` : null]}
         cover={coverImage(project, locale)}
       />
 
@@ -70,10 +69,14 @@ export default async function ProjectPage({ params }: Props) {
           {practice ? (
             <div>
               <h2 className="text-label text-slate">{t("relatedPractice")}</h2>
-              <Link href={`/services/${practice.slug}`} className="mt-3 block text-azure hover:underline underline-offset-4">{t("moreInPractice", { practice: practice.title[locale] })}</Link>
+              <Link href={`/services/${practice.slug}`} className="site-link mt-3 inline-block text-azure">
+                {t("moreInPractice", { practice: practice.title[locale] })}
+              </Link>
             </div>
           ) : null}
-          <Link href="/projects" className="text-small text-slate hover:text-azure">{t("projects.backToList")}</Link>
+          <Link href="/projects" className="site-link self-start text-small text-slate hover:text-graphite">
+            {t("projects.backToList")}
+          </Link>
         </aside>
       </div>
 

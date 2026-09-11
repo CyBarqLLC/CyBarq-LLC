@@ -66,10 +66,10 @@ export default async function ArticlePage({ params }: Props) {
       <JsonLd data={schema} />
       <PostHeader
         crumbs={[{ href: "/", label: tn("home") }, { href: "/articles", label: tn("articles") }, { label: title }]}
-        eyebrow={article.category ? pick(article.category, "name", locale) : null}
         title={title}
         lead={pick(article, "excerpt", locale) || null}
         meta={[
+          article.category ? pick(article.category, "name", locale) : null,
           authorName ? t("by", { name: authorName }) : null,
           article.published_at ? t("publishedOn", { date: formatDate(article.published_at, locale, "long") }) : null,
           article.reading_minutes ? t("readingTime", { minutes: article.reading_minutes }) : null,
@@ -85,7 +85,9 @@ export default async function ArticlePage({ params }: Props) {
           </aside>
         ) : null}
         <div className="mt-8 border-t border-fog pt-6 text-small">
-          <Link href="/articles" className="text-slate hover:text-azure">{t("articles.backToList")}</Link>
+          <Link href="/articles" className="site-link text-slate hover:text-graphite">
+            {t("articles.backToList")}
+          </Link>
         </div>
       </div>
     </article>

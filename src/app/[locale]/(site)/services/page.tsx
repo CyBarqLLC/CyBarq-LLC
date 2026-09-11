@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Pictogram } from "@/components/brand/pictogram";
 import { PageIntro } from "@/components/site/page-intro";
+import { Reveal } from "@/components/site/reveal";
 import { ServiceCard, ServiceGrid } from "@/components/site/service-card";
 import { CtaPanel } from "@/components/site/cta-panel";
 import { JsonLd } from "@/components/site/json-ld";
@@ -39,7 +40,9 @@ export default async function ServicesPage({ params }: Props) {
       <PageIntro title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: t("title") }]}>
         <nav aria-label={t("title")} className="flex flex-wrap gap-x-6 gap-y-2 text-small">
           {practices.map((p) => (
-            <a key={p.slug} href={`#${p.slug}`} className="text-azure hover:underline underline-offset-4">{p.title[locale]}</a>
+            <a key={p.slug} href={`#${p.slug}`} className="site-link text-azure">
+              {p.title[locale]}
+            </a>
           ))}
         </nav>
       </PageIntro>
@@ -49,18 +52,20 @@ export default async function ServicesPage({ params }: Props) {
         return (
           <section key={p.slug} id={p.slug} className="border-t border-fog" aria-labelledby={`${p.slug}-title`}>
             <div className="container-page section">
-              <div className="mb-10 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-end">
+              <Reveal className="mb-10 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-end">
                 <div className="flex gap-5">
                   <Pictogram name={p.pictogram} className="size-12 shrink-0 text-graphite" />
                   <div>
-                    <p className="text-small text-slate">{t("count", { count: list.length })}</p>
-                    <h2 id={`${p.slug}-title`} className="text-h1 mt-1">
-                      <Link href={`/services/${p.slug}`} className="hover:text-azure">{p.title[locale]}</Link>
+                    <h2 id={`${p.slug}-title`} className="text-h1">
+                      <Link href={`/services/${p.slug}`} className="transition-colors duration-(--duration-state) hover:text-azure">
+                        {p.title[locale]}
+                      </Link>
                     </h2>
                     <p className="mt-3 max-w-2xl text-slate">{p.intro[locale]}</p>
                   </div>
                 </div>
-              </div>
+                <p className="text-small tabular-nums text-slate lg:text-end">{t("count", { count: list.length })}</p>
+              </Reveal>
               <ServiceGrid columns={3}>
                 {list.map((s) => (
                   <ServiceCard key={s.slug} service={s} locale={locale} />

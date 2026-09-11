@@ -1,10 +1,12 @@
-import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/routing";
+import { dirOf } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
-import { Stream } from "@/components/brand/stream";
+import { HeroStream } from "./hero-stream";
+import { ScrollCue } from "./scroll-cue";
 
 type HeroProps = {
-  eyebrow: string;
+  locale: Locale;
   title: string;
   lead: string;
   primary: { href: string; label: string };
@@ -12,22 +14,25 @@ type HeroProps = {
 };
 
 /**
- * Home hero. Text on the start side; the animated Stream ("opening" preset) as
- * a wide panel on the end side on large screens, and a low band under the text
- * on small screens. The Stream is decorative: its first paint is a static SVG
- * file (public/brand/pattern/stream-opening-hero.svg, generated from the same
- * maths and preloaded), and the canvas takes over after hydration. Serving it
- * as a file keeps about 20 KB of path data out of every home page response.
+ * Home hero. The live Stream ("opening" preset) is the whole surface: it
+ * starts under the transparent header and fills the viewport, always moving
+ * and reacting to mouse and touch. A white scrim on the start side (from the
+ * bottom on phones) keeps the copy fully readable while the field flows
+ * through. The first paint is a static SVG file generated from the same maths
+ * (mirrored for right to left), replaced by the canvas after hydration.
  */
-export function Hero({ eyebrow, title, lead, primary, secondary }: HeroProps) {
+export function Hero({ locale, title, lead, primary, secondary }: HeroProps) {
   return (
-    <section className="border-b border-fog">
-      <div className="container-page grid gap-10 pt-14 pb-10 sm:pt-20 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:items-center lg:gap-16 lg:pb-20">
-        <div className="max-w-2xl">
-          <p className="mb-6 text-small text-slate">{eyebrow}</p>
+    <section className="site-hero">
+      <div className="site-hero__field" aria-hidden>
+        <HeroStream dir={dirOf(locale)} />
+      </div>
+      <div className="site-hero__scrim" aria-hidden />
+      <div className="site-hero__content container-page">
+        <div className="site-enter max-w-2xl">
           <h1 className="text-display">{title}</h1>
           <p className="mt-6 max-w-xl text-lg text-slate">{lead}</p>
-          <div className="mt-10 flex flex-wrap gap-3">
+          <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button asChild size="lg">
               <Link href={primary.href}>{primary.label}</Link>
             </Button>
@@ -36,12 +41,8 @@ export function Hero({ eyebrow, title, lead, primary, secondary }: HeroProps) {
             </Button>
           </div>
         </div>
-        <div className="relative h-40 w-full sm:h-56 lg:h-[26rem]" aria-hidden>
-          <Stream preset="opening" className="absolute inset-0" interactive>
-            <Image src="/brand/pattern/stream-opening-hero.svg" alt="" fill priority unoptimized sizes="(min-width: 1024px) 55vw, 100vw" className="object-cover" />
-          </Stream>
-        </div>
       </div>
+      <ScrollCue />
     </section>
   );
 }

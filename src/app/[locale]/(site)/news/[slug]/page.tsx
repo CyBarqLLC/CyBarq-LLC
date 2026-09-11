@@ -64,16 +64,17 @@ export default async function NewsPostPage({ params }: Props) {
       <JsonLd data={schema} />
       <PostHeader
         crumbs={[{ href: "/", label: tn("home") }, { href: "/news", label: tn("news") }, { label: title }]}
-        eyebrow={post.category ? pick(post.category, "name", locale) : null}
         title={title}
         lead={pick(post, "excerpt", locale) || null}
-        meta={[authorName ? t("by", { name: authorName }) : null, post.published_at ? t("publishedOn", { date: formatDate(post.published_at, locale, "long") }) : null]}
+        meta={[post.category ? pick(post.category, "name", locale) : null, authorName ? t("by", { name: authorName }) : null, post.published_at ? t("publishedOn", { date: formatDate(post.published_at, locale, "long") }) : null]}
         cover={cover}
       />
       <div className="container-page py-12 sm:py-16">
         <ContentBody html={pick(post, "body", locale)} />
         <div className="mt-12 border-t border-fog pt-6 text-small">
-          <Link href="/news" className="text-slate hover:text-azure">{t("news.backToList")}</Link>
+          <Link href="/news" className="site-link text-slate hover:text-graphite">
+            {t("news.backToList")}
+          </Link>
         </div>
       </div>
     </article>

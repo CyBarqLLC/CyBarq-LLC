@@ -2,21 +2,24 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Pictogram } from "@/components/brand/pictogram";
-import { SectionHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { Hero } from "@/components/site/hero";
-import { PracticeGrid } from "@/components/site/practice-grid";
-import { ServiceCard, ServiceGrid } from "@/components/site/service-card";
-import { StatementPanel } from "@/components/site/statement-panel";
+import { SectionHeading } from "@/components/site/section-heading";
+import { Reveal } from "@/components/site/reveal";
+import { PracticePanels } from "@/components/site/practice-panels";
+import { PrinciplesNarrative } from "@/components/site/principles-narrative";
+import { StatementBand } from "@/components/site/statement-band";
+import { ServiceStrip } from "@/components/site/service-strip";
+import { ServiceStripCard } from "@/components/site/service-card";
 import { LatestContent } from "@/components/site/latest-content";
 import { LogoGrid, LogoMarquee } from "@/components/site/logo-strip";
 import { RegistrationPanel } from "@/components/site/registration-panel";
-import { CtaPanel } from "@/components/site/cta-panel";
+import { ClosingCta } from "@/components/site/closing-cta";
 import { JsonLd } from "@/components/site/json-ld";
 import { pageMetadata, resolveLocale, siteUrl } from "@/components/site/metadata";
 import { company } from "@/content/site/company";
 import { principles } from "@/content/site/principles";
-import { featuredServices, getPractice } from "@/content/services";
+import { featuredServices, getPractice, practices } from "@/content/services";
 import { listNews, listArticles, listCaseStudies } from "@/lib/data/public-content";
 
 export const revalidate = 300;
@@ -54,65 +57,72 @@ export default async function HomePage({ params }: Props) {
     sameAs: Object.values(company.social),
   };
 
+  const panels = practices.map((p) => ({
+    key: p.slug,
+    href: `/services/${p.slug}`,
+    title: p.title[locale],
+    short: p.short[locale],
+    intro: p.intro[locale],
+    icon: <Pictogram name={p.pictogram} className="size-8 sm:size-10 lg:size-12" />,
+  }));
+
+  const steps = principles.map((p) => ({
+    key: p.key,
+    title: p.title[locale],
+    body: p.body[locale],
+    icon: <Pictogram name={p.pictogram} className="size-9 sm:size-11" />,
+  }));
+
   return (
     <>
       <JsonLd data={organization} />
 
-      <Hero
-        eyebrow={t("eyebrow")}
-        title={t("title")}
-        lead={t("lead")}
-        primary={{ href: "/contact", label: t("primaryCta") }}
-        secondary={{ href: "/services", label: t("secondaryCta") }}
-      />
+      <Hero locale={locale} title={t("title")} lead={t("lead")} primary={{ href: "/contact", label: t("primaryCta") }} secondary={{ href: "/services", label: t("secondaryCta") }} />
 
-      <section className="container-page section">
-        <SectionHeader eyebrow={t("practicesEyebrow")} title={t("practicesTitle")} description={t("practicesLead")} />
-        <PracticeGrid locale={locale} linkLabel={ts("explore")} />
-        <div className="mt-8">
-          <Link href="/services" className="text-azure underline-offset-4 hover:underline">
-            {t("allServices")}
-          </Link>
-        </div>
+      {/* One system: the four practices */}
+      <section className="container-page section" aria-labelledby="practices-title">
+        <SectionHeading
+          id="practices-title"
+          title={t("practicesTitle")}
+          lead={t("practicesLead")}
+          aside={
+            <Link href="/services" className="site-link text-azure">
+              {t("allServices")}
+            </Link>
+          }
+        />
+        <PracticePanels panels={panels} linkLabel={ts("explore")} />
       </section>
 
-      <section className="border-t border-fog">
+      {/* How we work: pinned narrative */}
+      <section className="border-t border-fog" aria-labelledby="how-title">
         <div className="container-page section">
-          <SectionHeader eyebrow={t("howEyebrow")} title={t("howTitle")} />
-          <div className="grid gap-12 sm:grid-cols-2 lg:gap-x-20 lg:gap-y-16">
-            {principles.map((p) => (
-              <article key={p.key} className="flex gap-5">
-                <Pictogram name={p.pictogram} className="size-10 shrink-0 text-graphite" />
-                <div>
-                  <h3 className="text-h3">{p.title[locale]}</h3>
-                  <p className="mt-2 text-slate">{p.body[locale]}</p>
-                </div>
-              </article>
-            ))}
-          </div>
+          <SectionHeading id="how-title" title={t("howTitle")} />
+          <PrinciplesNarrative steps={steps} />
         </div>
       </section>
 
-      <StatementPanel tone="blue" marks eyebrow={t("statementEyebrow")} statement={company.slogan[locale]} body={t("statementBody")} />
+      <StatementBand statement={company.slogan[locale]} body={t("statementBody")} />
 
-      <section className="container-page section">
-        <SectionHeader eyebrow={t("selectedEyebrow")} title={t("selectedTitle")} description={t("selectedLead")} />
-        <ServiceGrid columns={3}>
+      {/* Selected services: a row that scrolls sideways */}
+      <section className="container-page section" aria-labelledby="selected-title">
+        <SectionHeading id="selected-title" title={t("selectedTitle")} lead={t("selectedLead")} className="mb-6 sm:mb-8" />
+        <ServiceStrip label={t("selectedTitle")} controls={{ previous: t("stripPrevious"), next: t("stripNext") }}>
           {featured.map((s) => (
-            <ServiceCard key={s.slug} service={s} locale={locale} practiceLabel={getPractice(s.practice)?.title[locale]} />
+            <ServiceStripCard key={s.slug} service={s} locale={locale} practiceLabel={getPractice(s.practice)?.title[locale]} />
           ))}
-        </ServiceGrid>
-        <div className="mt-8">
-          <Button asChild variant="outline">
+        </ServiceStrip>
+        <Reveal className="mt-10">
+          <Button asChild variant="outline" size="lg">
             <Link href="/services">{t("allServices")}</Link>
           </Button>
-        </div>
+        </Reveal>
       </section>
 
       {news.length + articles.length + caseStudies.length > 0 ? (
-        <section className="border-t border-fog">
+        <section className="border-t border-fog" aria-labelledby="latest-title">
           <div className="container-page section">
-            <SectionHeader eyebrow={t("latestEyebrow")} title={t("latestTitle")} />
+            <SectionHeading id="latest-title" title={t("latestTitle")} />
             <LatestContent
               locale={locale}
               news={news}
@@ -125,14 +135,14 @@ export default async function HomePage({ params }: Props) {
       ) : null}
 
       <div className="border-t border-fog">
-        <div className="section flex flex-col gap-16 sm:gap-20">
+        <div className="section flex flex-col gap-20 sm:gap-24 lg:gap-28">
           <LogoMarquee id="partners" title={t("partnersTitle")} items={company.partners} labels={{ pause: t("logosPause"), play: t("logosPlay"), subject: t("logosSubject") }} />
           <LogoGrid id="certifications" title={t("certificationsTitle")} items={company.certifications} />
           <RegistrationPanel locale={locale} title={t("registrationTitle")} />
         </div>
       </div>
 
-      <CtaPanel title={t("ctaTitle")} body={t("ctaBody")} primary={{ href: "/contact", label: t("ctaButton") }} secondary={{ href: "/about", label: tn("about") }} />
+      <ClosingCta title={t("ctaTitle")} body={t("ctaBody")} primary={{ href: "/contact", label: t("ctaButton") }} secondary={{ href: "/about", label: tn("about") }} />
     </>
   );
 }

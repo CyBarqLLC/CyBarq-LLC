@@ -45,7 +45,7 @@ export default async function ArticlesPage({ params }: Props) {
                   href={`/articles/${a.slug}`}
                   title={pick(a, "title", locale)}
                   excerpt={pick(a, "excerpt", locale) || null}
-                  eyebrow={a.category ? pick(a.category, "name", locale) : null}
+                  category={a.category ? pick(a.category, "name", locale) : null}
                   meta={meta.join(" · ") || null}
                   image={coverImage(a, locale)}
                 />

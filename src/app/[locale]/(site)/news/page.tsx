@@ -39,7 +39,7 @@ export default async function NewsPage({ params }: Props) {
                 href={`/news/${p.slug}`}
                 title={pick(p, "title", locale)}
                 excerpt={pick(p, "excerpt", locale) || null}
-                eyebrow={p.category ? pick(p.category, "name", locale) : null}
+                category={p.category ? pick(p.category, "name", locale) : null}
                 meta={p.published_at ? formatDate(p.published_at, locale, "long") : null}
                 image={coverImage(p, locale)}
               />
