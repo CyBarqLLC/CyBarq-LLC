@@ -2185,6 +2185,49 @@ export type Database = {
       };
     };
     Functions: {
+      consume_rate_limit: {
+        Args: {
+          _key: string;
+          _limit: number;
+          _window_seconds: number;
+        };
+        Returns: boolean;
+      };
+      convert_quote_to_invoice: {
+        Args: {
+          _quote_id: string;
+        };
+        Returns: Database["public"]["Tables"]["invoices"]["Row"];
+      };
+      create_engagement: {
+        Args: {
+          _code: string;
+          _title: string;
+          _type: Database["public"]["Enums"]["engagement_type"];
+          _client_id?: string;
+          _project_id?: string;
+          _lead_user_id?: string;
+          _start_date?: string;
+          _end_date?: string;
+          _scope_summary?: string;
+          _rules_of_engagement?: string;
+          _authorised_by_name?: string;
+          _authorised_at?: string;
+        };
+        Returns: Database["public"]["Tables"]["security_engagements"]["Row"];
+      };
+      create_replacement_invoice: {
+        Args: {
+          _invoice_id: string;
+        };
+        Returns: Database["public"]["Tables"]["invoices"]["Row"];
+      };
+      duplicate_quote: {
+        Args: {
+          _quote_id: string;
+        };
+        Returns: Database["public"]["Tables"]["quotes"]["Row"];
+      };
       issue_certificate: {
         Args: {
           _certificate_id: string;
@@ -2211,6 +2254,12 @@ export type Database = {
         };
         Returns: Database["public"]["Tables"]["quotes"]["Row"];
       };
+      mark_invoice_sent: {
+        Args: {
+          _invoice_id: string;
+        };
+        Returns: Database["public"]["Tables"]["invoices"]["Row"];
+      };
       my_permissions: {
         Args: Record<PropertyKey, never>;
         Returns: string[];
@@ -2228,8 +2277,27 @@ export type Database = {
           _client_id?: string;
           _ip?: string;
           _user_agent?: string;
+          _actor_id?: string;
         };
         Returns: undefined;
+      };
+      record_payment: {
+        Args: {
+          _invoice_id: string;
+          _amount: number;
+          _paid_at: string;
+          _method: string;
+          _reference?: string;
+          _notes?: string;
+        };
+        Returns: Database["public"]["Tables"]["payments"]["Row"];
+      };
+      remove_payment: {
+        Args: {
+          _payment_id: string;
+          _reason: string;
+        };
+        Returns: Database["public"]["Tables"]["invoices"]["Row"];
       };
       revoke_certificate: {
         Args: {
@@ -2238,11 +2306,44 @@ export type Database = {
         };
         Returns: Database["public"]["Tables"]["certificates"]["Row"];
       };
+      run_scheduled_jobs: {
+        Args: Record<PropertyKey, never>;
+        Returns: Json;
+      };
+      save_invoice: {
+        Args: {
+          _header: Json;
+          _items: Json;
+          _id?: string;
+          _expected_updated_at?: string;
+        };
+        Returns: Database["public"]["Tables"]["invoices"]["Row"];
+      };
+      save_quote: {
+        Args: {
+          _header: Json;
+          _items: Json;
+          _id?: string;
+          _expected_updated_at?: string;
+        };
+        Returns: Database["public"]["Tables"]["quotes"]["Row"];
+      };
+      set_quote_status: {
+        Args: {
+          _quote_id: string;
+          _status: Database["public"]["Enums"]["quote_status"];
+        };
+        Returns: Database["public"]["Tables"]["quotes"]["Row"];
+      };
       verify_certificate: {
         Args: {
           _code: string;
         };
-        Returns: { certificate_no: string | null; type: Database["public"]["Enums"]["certificate_type"] | null; status: Database["public"]["Enums"]["certificate_status"] | null; recipient_name_en: string | null; recipient_name_ar: string | null; title_en: string | null; title_ar: string | null; program_name_en: string | null; program_name_ar: string | null; start_date: string | null; end_date: string | null; issue_date: string | null; revoked_at: string | null }[];
+        Returns: { certificate_no: string | null; type: Database["public"]["Enums"]["certificate_type"] | null; status: Database["public"]["Enums"]["certificate_status"] | null; language: Database["public"]["Enums"]["locale"] | null; recipient_name_en: string | null; recipient_name_ar: string | null; title_en: string | null; title_ar: string | null; program_name_en: string | null; program_name_ar: string | null; role_title_en: string | null; role_title_ar: string | null; hours: number | null; start_date: string | null; end_date: string | null; issue_date: string | null; revoked_at: string | null }[];
+      };
+      viewer_context: {
+        Args: Record<PropertyKey, never>;
+        Returns: Json;
       };
       void_invoice: {
         Args: {

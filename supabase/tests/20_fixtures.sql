@@ -4,19 +4,19 @@
 select set_config('request.jwt.claims', '{"role":"service_role"}', false);
 
 -- Users (auth trigger creates profiles)
-insert into auth.users (id, email, raw_user_meta_data) values
-  ('00000000-0000-0000-0000-00000000a001', 'superadmin@test.local', '{"full_name":"Super Admin","kind":"employee"}'),
-  ('00000000-0000-0000-0000-00000000a002', 'admin@test.local', '{"full_name":"Admin","kind":"employee"}'),
-  ('00000000-0000-0000-0000-00000000a003', 'finance@test.local', '{"full_name":"Finance","kind":"employee"}'),
-  ('00000000-0000-0000-0000-00000000a004', 'hr@test.local', '{"full_name":"HR","kind":"employee"}'),
-  ('00000000-0000-0000-0000-00000000a005', 'pm@test.local', '{"full_name":"Project Manager","kind":"employee"}'),
-  ('00000000-0000-0000-0000-00000000a006', 'sec@test.local', '{"full_name":"Security Tester","kind":"employee"}'),
-  ('00000000-0000-0000-0000-00000000a007', 'dev@test.local', '{"full_name":"Developer","kind":"employee"}'),
-  ('00000000-0000-0000-0000-00000000a008', 'editor@test.local', '{"full_name":"Editor","kind":"employee"}'),
-  ('00000000-0000-0000-0000-00000000a009', 'employee@test.local', '{"full_name":"Plain Employee","kind":"employee"}'),
-  ('00000000-0000-0000-0000-00000000a010', 'sec2@test.local', '{"full_name":"Security Tester Two","kind":"employee"}'),
-  ('00000000-0000-0000-0000-00000000c001', 'clienta@test.local', '{"full_name":"Client A User","kind":"client"}'),
-  ('00000000-0000-0000-0000-00000000c002', 'clientb@test.local', '{"full_name":"Client B User","kind":"client"}');
+insert into auth.users (id, email, raw_user_meta_data, raw_app_meta_data) values
+  ('00000000-0000-0000-0000-00000000a001', 'superadmin@test.local', '{"full_name":"Super Admin","kind":"employee"}', '{"kind":"employee"}'),
+  ('00000000-0000-0000-0000-00000000a002', 'admin@test.local', '{"full_name":"Admin","kind":"employee"}', '{"kind":"employee"}'),
+  ('00000000-0000-0000-0000-00000000a003', 'finance@test.local', '{"full_name":"Finance","kind":"employee"}', '{"kind":"employee"}'),
+  ('00000000-0000-0000-0000-00000000a004', 'hr@test.local', '{"full_name":"HR","kind":"employee"}', '{"kind":"employee"}'),
+  ('00000000-0000-0000-0000-00000000a005', 'pm@test.local', '{"full_name":"Project Manager","kind":"employee"}', '{"kind":"employee"}'),
+  ('00000000-0000-0000-0000-00000000a006', 'sec@test.local', '{"full_name":"Security Tester","kind":"employee"}', '{"kind":"employee"}'),
+  ('00000000-0000-0000-0000-00000000a007', 'dev@test.local', '{"full_name":"Developer","kind":"employee"}', '{"kind":"employee"}'),
+  ('00000000-0000-0000-0000-00000000a008', 'editor@test.local', '{"full_name":"Editor","kind":"employee"}', '{"kind":"employee"}'),
+  ('00000000-0000-0000-0000-00000000a009', 'employee@test.local', '{"full_name":"Plain Employee","kind":"employee"}', '{"kind":"employee"}'),
+  ('00000000-0000-0000-0000-00000000a010', 'sec2@test.local', '{"full_name":"Security Tester Two","kind":"employee"}', '{"kind":"employee"}'),
+  ('00000000-0000-0000-0000-00000000c001', 'clienta@test.local', '{"full_name":"Client A User","kind":"client"}', '{"kind":"client"}'),
+  ('00000000-0000-0000-0000-00000000c002', 'clientb@test.local', '{"full_name":"Client B User","kind":"client"}', '{"kind":"client"}');
 
 insert into public.user_roles (user_id, role_key) values
   ('00000000-0000-0000-0000-00000000a001', 'super_admin'),
@@ -96,15 +96,20 @@ insert into public.engagement_reports (id, engagement_id, version, title, storag
   ('00000000-0000-0000-0000-0000000024a2', '00000000-0000-0000-0000-0000000020a1', 2, 'Final report', '00000000-0000-0000-0000-0000000020a1/reports/v2.pdf', 'final', true, '00000000-0000-0000-0000-00000000a006');
 
 -- Finance: invoices for A (issued, draft) and B (issued); quote for A sent.
-insert into public.invoices (id, number, client_id, status, issue_date, due_date, subtotal, total, created_by) values
-  ('00000000-0000-0000-0000-0000000030a1', 'INV-2025-0001', '00000000-0000-0000-0000-0000000000aa', 'issued', '2026-09-01', '2026-10-01', 1000, 1000, '00000000-0000-0000-0000-00000000a003'),
-  ('00000000-0000-0000-0000-0000000030a2', null, '00000000-0000-0000-0000-0000000000aa', 'draft', null, null, 0, 0, '00000000-0000-0000-0000-00000000a003'),
-  ('00000000-0000-0000-0000-0000000030b1', 'INV-2025-0002', '00000000-0000-0000-0000-0000000000bb', 'issued', '2026-09-01', '2026-10-01', 500, 500, '00000000-0000-0000-0000-00000000a003');
+-- Items are added while the invoices are drafts; totals are derived from them.
+insert into public.invoices (id, client_id, status, created_by) values
+  ('00000000-0000-0000-0000-0000000030a1', '00000000-0000-0000-0000-0000000000aa', 'draft', '00000000-0000-0000-0000-00000000a003'),
+  ('00000000-0000-0000-0000-0000000030a2', '00000000-0000-0000-0000-0000000000aa', 'draft', '00000000-0000-0000-0000-00000000a003'),
+  ('00000000-0000-0000-0000-0000000030b1', '00000000-0000-0000-0000-0000000000bb', 'draft', '00000000-0000-0000-0000-00000000a003');
 insert into public.invoice_items (invoice_id, description_en, quantity, unit_price) values
   ('00000000-0000-0000-0000-0000000030a1', 'Penetration test', 1, 1000),
   ('00000000-0000-0000-0000-0000000030b1', 'Consulting', 1, 500);
 insert into public.invoice_items (invoice_id, description_en, quantity, unit_price) values
   ('00000000-0000-0000-0000-0000000030a2', 'Draft line', 2, 250);
+update public.invoices set status = 'issued', number = 'INV-2025-0001', issue_date = '2026-09-01', due_date = '2026-10-01', issued_at = now()
+  where id = '00000000-0000-0000-0000-0000000030a1';
+update public.invoices set status = 'issued', number = 'INV-2025-0002', issue_date = '2026-09-01', due_date = '2026-10-01', issued_at = now()
+  where id = '00000000-0000-0000-0000-0000000030b1';
 insert into public.quotes (id, number, client_id, status, issue_date, subtotal, total, created_by) values
   ('00000000-0000-0000-0000-0000000031a1', 'QT-2025-0001', '00000000-0000-0000-0000-0000000000aa', 'sent', '2026-09-01', 900, 900, '00000000-0000-0000-0000-00000000a003');
 
