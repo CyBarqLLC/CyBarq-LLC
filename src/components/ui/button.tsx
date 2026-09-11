@@ -5,17 +5,17 @@ import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors duration-(--duration-state) ease-(--ease-brand) disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0 select-none",
+  "inline-flex select-none items-center justify-center gap-2 whitespace-nowrap font-medium transition-colors duration-(--duration-state) ease-(--ease-brand) focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-azure disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         primary: "bg-blue text-graphite hover:bg-sky active:bg-azure active:text-white",
-        secondary: "bg-graphite text-white hover:bg-slate",
-        outline: "border border-graphite text-graphite bg-transparent hover:bg-graphite hover:text-white",
-        ghost: "text-graphite hover:bg-surface",
-        subtle: "bg-surface text-graphite hover:bg-fog",
-        danger: "bg-danger text-white hover:opacity-90",
-        link: "text-azure underline-offset-4 hover:underline h-auto px-0",
+        secondary: "bg-graphite text-white hover:bg-slate active:bg-graphite",
+        outline: "border border-graphite bg-transparent text-graphite hover:bg-graphite hover:text-white active:bg-slate active:border-slate active:text-white",
+        ghost: "text-graphite hover:bg-surface active:bg-fog",
+        subtle: "bg-surface text-graphite hover:bg-fog active:bg-grey/60",
+        danger: "bg-danger text-white hover:bg-danger/90 active:bg-danger",
+        link: "h-auto px-0 text-azure underline-offset-4 hover:underline",
       },
       size: {
         sm: "h-9 px-3 text-small",

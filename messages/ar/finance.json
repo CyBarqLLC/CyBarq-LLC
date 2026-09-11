@@ -171,7 +171,8 @@
   "history": {
     "title": "السجل",
     "empty": "لا يوجد سجل بعد.",
-    "actor": "بواسطة"
+    "actor": "بواسطة",
+    "transition": "من {from} إلى {to}"
   },
   "detail": {
     "client": "العميل",

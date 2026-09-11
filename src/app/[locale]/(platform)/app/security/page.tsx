@@ -121,7 +121,7 @@ export default async function SecurityListPage({ searchParams }: { searchParams:
         rows={rows}
         columns={columns}
         rowKey={(r) => r.id}
-        rowHref={(r) => `${base}/${r.id}`}
+        rowHref={(r) => `/app/security/${r.id}`}
         emptyTitle={t("list.empty")}
         emptyDescription={t("list.emptyDescription")}
         caption={t("title")}

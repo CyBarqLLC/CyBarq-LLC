@@ -138,7 +138,7 @@
       "archive": "أرشفة",
       "restore": "استعادة كمسودة"
     },
-    "publishNeedsPermission": "يتطلب النشر والجدولة صلاحية content.publish.",
+    "publishNeedsPermission": "يتطلب النشر والجدولة صلاحية «نشر المحتوى».",
     "viewPublic": "عرض على الموقع",
     "delete": "حذف",
     "deleteTitle": "حذف هذا العنصر؟",

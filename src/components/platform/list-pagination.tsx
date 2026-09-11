@@ -12,7 +12,7 @@ export async function ListPagination({ page, pageSize, total, hrefFor }: ListPag
       pageSize={pageSize}
       total={total}
       hrefFor={hrefFor}
-      labels={{ previous: t("previous"), next: t("next"), summary: (from, to, all) => t("summary", { from, to, total: all }) }}
+      labels={{ previous: t("previous"), next: t("next"), label: t("label"), summary: (from, to, all) => t("summary", { from, to, total: all }) }}
     />
   );
 }

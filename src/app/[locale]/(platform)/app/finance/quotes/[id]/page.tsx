@@ -6,7 +6,7 @@ import { requirePermission } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { pick } from "@/i18n/bilingual";
 import { formatDate, formatDateTime } from "@/lib/utils/format";
-import { QUOTE_STATUS_LABELS, label } from "@/lib/labels";
+import { QUOTE_STATUS_LABELS, currencyOption, label } from "@/lib/labels";
 import { PageHeader } from "@/components/ui/page-header";
 import { Status } from "@/components/ui/status";
 import { DocumentItems } from "@/components/finance/document-items";
@@ -69,7 +69,7 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
             { label: t("detail.project"), value: project ? <Link href={`/app/projects/${project.id}`} className="text-azure hover:underline">{`${project.code} · ${pick(project, "name", locale)}`}</Link> : null },
             { label: t("detail.issueDate"), value: formatDate(quote.issue_date, locale, "long") },
             { label: t("detail.validUntil"), value: formatDate(quote.valid_until, locale, "long") },
-            { label: t("detail.currency"), value: quote.currency },
+            { label: t("detail.currency"), value: currencyOption(quote.currency, locale) },
             { label: t("detail.language"), value: t(`languages.${quote.language}`) },
             { label: t("detail.created"), value: formatDateTime(quote.created_at, locale) },
             {
@@ -110,7 +110,7 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
 
       {viewer.can("audit.read") ? (
         <Section title={t("history.title")}>
-          <HistoryList rows={history} locale={locale} emptyLabel={t("history.empty")} actorLabel={t("history.actor")} statusLabel={(s) => (s in QUOTE_STATUS_LABELS ? label(QUOTE_STATUS_LABELS, s as keyof typeof QUOTE_STATUS_LABELS, locale) : s)} />
+          <HistoryList rows={history} locale={locale} emptyLabel={t("history.empty")} actorLabel={t("history.actor")} entityType="quote" transitionLabel={(from, to) => t("history.transition", { from, to })} />
         </Section>
       ) : null}
     </div>

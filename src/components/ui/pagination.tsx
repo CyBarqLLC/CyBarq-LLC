@@ -7,7 +7,7 @@ type PaginationProps = {
   pageSize: number;
   total: number;
   hrefFor: (page: number) => string;
-  labels: { previous: string; next: string; summary: (from: number, to: number, total: number) => string };
+  labels: { previous: string; next: string; summary: (from: number, to: number, total: number) => string; label?: string };
   className?: string;
 };
 
@@ -31,7 +31,7 @@ export function Pagination({ page, pageSize, total, hrefFor, labels, className }
   const to = Math.min(total, page * pageSize);
   const btn = "touch inline-flex items-center gap-1 border border-fog px-3 text-small hover:bg-surface aria-disabled:pointer-events-none aria-disabled:opacity-40";
   return (
-    <nav className={cn("mt-6 flex flex-wrap items-center justify-between gap-3", className)} aria-label="Pagination">
+    <nav className={cn("mt-6 flex flex-wrap items-center justify-between gap-3", className)} aria-label={labels.label ?? labels.summary(from, to, total)}>
       <p className="text-small text-slate">{labels.summary(from, to, total)}</p>
       <div className="flex gap-2">
         <Link href={hrefFor(Math.max(1, page - 1))} aria-disabled={page <= 1} className={btn} rel="prev">

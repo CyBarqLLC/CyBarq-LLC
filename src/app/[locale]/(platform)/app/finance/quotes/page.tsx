@@ -35,7 +35,7 @@ export default async function QuotesPage({ searchParams }: { searchParams: Promi
     { key: "client", header: t("columns.client"), cell: (r) => clientLabel(names, r.client_id, locale) },
     { key: "title", header: t("columns.title"), cell: (r) => pick(r, "title", locale) },
     { key: "status", header: t("columns.status"), cell: (r) => <Status value={r.status} label={label(QUOTE_STATUS_LABELS, r.status, locale)} /> },
-    { key: "total", header: t("columns.total"), align: "end", cell: (r) => <span className="tabular-nums">{formatMoney(r.total, r.currency, locale)}</span> },
+    { key: "total", header: t("columns.total"), numeric: true, cell: (r) => <span className="tabular-nums">{formatMoney(r.total, r.currency, locale)}</span> },
     { key: "validUntil", header: t("columns.validUntil"), cell: (r) => formatDate(r.valid_until, locale) },
     { key: "updated", header: t("columns.updated"), cell: (r) => formatDate(r.updated_at, locale) },
   ];
@@ -78,7 +78,7 @@ export default async function QuotesPage({ searchParams }: { searchParams: Promi
         rows={rows}
         columns={columns}
         rowKey={(r) => r.id}
-        rowHref={(r) => `${basePath}/${r.id}`}
+        rowHref={(r) => `/app/finance/quotes/${r.id}`}
         emptyTitle={t("quotes.empty")}
         emptyDescription={t("quotes.emptyDescription")}
         caption={t("quotes.title")}

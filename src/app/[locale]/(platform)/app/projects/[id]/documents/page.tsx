@@ -5,6 +5,7 @@ import { requireEmployee } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate } from "@/lib/utils/format";
 import { DOCUMENT_CATEGORIES } from "@/lib/validation/projects";
+import { DOCUMENT_CATEGORY_LABELS, label, labelOf } from "@/lib/labels";
 import { deleteProjectDocument } from "@/lib/actions/projects";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { Badge } from "@/components/ui/badge";
@@ -33,13 +34,12 @@ export default async function ProjectDocumentsPage({ params }: { params: Promise
     .limit(200);
   type Row = NonNullable<typeof rows>[number];
   const documents: Row[] = rows ?? [];
-  const categoryLabel = (value: string) => (DOCUMENT_CATEGORIES.includes(value as (typeof DOCUMENT_CATEGORIES)[number]) ? t(`categories.${value}`) : value);
 
   const columns: Column<Row>[] = [
     { key: "title", header: t("columns.title"), primary: true, cell: (d) => (
       <a href={`/api/files/project-documents/${d.id}`} className="font-medium text-graphite hover:text-azure" rel="noopener">{d.title}</a>
     ) },
-    { key: "category", header: t("columns.category"), cell: (d) => categoryLabel(d.category) },
+    { key: "category", header: t("columns.category"), cell: (d) => labelOf(DOCUMENT_CATEGORY_LABELS, d.category, locale) },
     { key: "size", header: t("columns.size"), cell: (d) => formatBytes(d.size_bytes, locale) },
     { key: "visibility", header: t("columns.visibility"), cell: (d) => <Badge variant={d.client_visible ? "blue" : "neutral"}>{d.client_visible ? t("clientBadge") : t("internalBadge")}</Badge> },
     { key: "uploader", header: t("columns.uploadedBy"), cell: (d) => personName(d.uploader, locale) },
@@ -67,7 +67,7 @@ export default async function ProjectDocumentsPage({ params }: { params: Promise
     <div className="grid gap-6 lg:grid-cols-[2fr_1fr]">
       <DataTable rows={documents} columns={columns} rowKey={(d) => d.id} emptyTitle={t("empty")} emptyDescription={t("emptyHint")} caption={t("title")} />
       <SectionCard title={t("upload")} description={t("description")}>
-        <ProjectDocumentUploader projectId={project.id} categories={DOCUMENT_CATEGORIES.map((c) => ({ value: c, label: t(`categories.${c}`) }))} />
+        <ProjectDocumentUploader projectId={project.id} categories={DOCUMENT_CATEGORIES.map((c) => ({ value: c, label: label(DOCUMENT_CATEGORY_LABELS, c, locale) }))} />
       </SectionCard>
     </div>
   );

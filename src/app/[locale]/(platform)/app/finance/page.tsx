@@ -69,14 +69,14 @@ export default async function FinanceIndexPage() {
     { key: "number", header: t("columns.number"), primary: true, cell: (r) => r.number ?? t("invoices.draftLabel") },
     { key: "client", header: t("columns.client"), cell: (r) => clientLabel(names, r.client_id, locale) },
     { key: "status", header: t("columns.status"), cell: (r) => <Status value={r.status} label={label(INVOICE_STATUS_LABELS, r.status, locale)} /> },
-    { key: "total", header: t("columns.total"), align: "end", cell: (r) => <span className="tabular-nums">{formatMoney(r.total, r.currency, locale)}</span> },
+    { key: "total", header: t("columns.total"), numeric: true, cell: (r) => <span className="tabular-nums">{formatMoney(r.total, r.currency, locale)}</span> },
     { key: "due", header: t("columns.dueDate"), cell: (r) => formatDate(r.due_date, locale) },
   ];
   const quoteColumns: Column<QuoteListRow>[] = [
     { key: "number", header: t("columns.number"), primary: true, cell: (r) => r.number ?? t("quotes.draftLabel") },
     { key: "client", header: t("columns.client"), cell: (r) => clientLabel(names, r.client_id, locale) },
     { key: "status", header: t("columns.status"), cell: (r) => <Status value={r.status} label={label(QUOTE_STATUS_LABELS, r.status, locale)} /> },
-    { key: "total", header: t("columns.total"), align: "end", cell: (r) => <span className="tabular-nums">{formatMoney(r.total, r.currency, locale)}</span> },
+    { key: "total", header: t("columns.total"), numeric: true, cell: (r) => <span className="tabular-nums">{formatMoney(r.total, r.currency, locale)}</span> },
     { key: "title", header: t("columns.title"), cell: (r) => pick(r, "title", locale) },
   ];
 
@@ -114,7 +114,7 @@ export default async function FinanceIndexPage() {
           </Button>
         }
       >
-        <DataTable rows={invoices} columns={invoiceColumns} rowKey={(r) => r.id} rowHref={(r) => `/${locale}/app/finance/invoices/${r.id}`} emptyTitle={t("invoices.empty")} emptyDescription={t("invoices.emptyDescription")} />
+        <DataTable rows={invoices} columns={invoiceColumns} rowKey={(r) => r.id} rowHref={(r) => `/app/finance/invoices/${r.id}`} emptyTitle={t("invoices.empty")} emptyDescription={t("invoices.emptyDescription")} />
       </Section>
 
       <Section
@@ -125,7 +125,7 @@ export default async function FinanceIndexPage() {
           </Button>
         }
       >
-        <DataTable rows={quotes} columns={quoteColumns} rowKey={(r) => r.id} rowHref={(r) => `/${locale}/app/finance/quotes/${r.id}`} emptyTitle={t("quotes.empty")} emptyDescription={t("quotes.emptyDescription")} />
+        <DataTable rows={quotes} columns={quoteColumns} rowKey={(r) => r.id} rowHref={(r) => `/app/finance/quotes/${r.id}`} emptyTitle={t("quotes.empty")} emptyDescription={t("quotes.emptyDescription")} />
       </Section>
     </div>
   );

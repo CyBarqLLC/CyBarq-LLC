@@ -4,6 +4,7 @@ import type { Locale } from "@/i18n/routing";
 import { requireEmployee } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { formatDate } from "@/lib/utils/format";
+import { PROJECT_MEMBER_ROLE_LABELS, label } from "@/lib/labels";
 import { addProjectMember, removeProjectMember } from "@/lib/actions/projects";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { Badge } from "@/components/ui/badge";
@@ -33,11 +34,10 @@ export default async function ProjectMembersPage({ params }: { params: Promise<{
       .map((d) => ({ value: d.user_id ?? "", label: personName(d, locale) }));
   }
 
-  const roleLabel = (role: ProjectMember["role"]) => t(`roles.${role}`);
 
   const columns: Column<ProjectMember>[] = [
     { key: "person", header: t("columns.person"), primary: true, cell: (m) => <Person person={m.profile} locale={locale} secondary={m.profile?.email ?? null} /> },
-    { key: "role", header: t("columns.role"), cell: (m) => <Badge variant={m.role === "manager" ? "blue" : "neutral"}>{roleLabel(m.role)}</Badge> },
+    { key: "role", header: t("columns.role"), cell: (m) => <Badge variant={m.role === "manager" ? "blue" : "neutral"}>{label(PROJECT_MEMBER_ROLE_LABELS, m.role, locale)}</Badge> },
     { key: "since", header: t("columns.since"), cell: (m) => formatDate(m.created_at, locale) },
   ];
   if (manage) {

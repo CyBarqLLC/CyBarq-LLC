@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Link } from "@/i18n/navigation";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
 import { EmptyState } from "./states";
 import { cn } from "@/lib/utils/cn";
@@ -13,6 +14,8 @@ export type Column<T> = {
   hideOnCard?: boolean;
   className?: string;
   align?: "start" | "end";
+  /** Figures: end aligned with tabular numerals. */
+  numeric?: boolean;
 };
 
 type DataTableProps<T> = {
@@ -22,11 +25,18 @@ type DataTableProps<T> = {
   emptyTitle: string;
   emptyDescription?: string;
   emptyAction?: React.ReactNode;
-  /** Whole row click target (rendered as an overlay link on cards and rows). */
+  /**
+   * Whole row click target, rendered as an overlay link on cards and rows.
+   * Locale-less path (`/app/projects/123`): the i18n `Link` adds the locale.
+   */
   rowHref?: (row: T) => string | undefined;
   caption?: string;
   className?: string;
 };
+
+function cellClasses<T>(c: Column<T>): string {
+  return cn((c.align === "end" || c.numeric) && "text-end", c.numeric && "tabular-nums", c.className);
+}
 
 /**
  * Responsive data table. Full table from `md` up; stacked cards below so
@@ -38,6 +48,7 @@ export function DataTable<T>({ rows, columns, rowKey, emptyTitle, emptyDescripti
     return <EmptyState title={emptyTitle} description={emptyDescription} action={emptyAction} />;
   }
   const primary = columns.find((c) => c.primary) ?? columns[0];
+  const openLabel = typeof primary?.header === "string" ? primary.header : (caption ?? "");
   return (
     <div className={cn("w-full", className)}>
       {/* Cards (mobile) */}
@@ -45,31 +56,35 @@ export function DataTable<T>({ rows, columns, rowKey, emptyTitle, emptyDescripti
         {rows.map((row) => {
           const href = rowHref?.(row);
           return (
-            <li key={rowKey(row)} className="relative border border-fog bg-white p-4">
-              {primary ? <div className="text-body font-medium mb-2 pe-6">{primary.cell(row)}</div> : null}
+            <li key={rowKey(row)} className={cn("relative border border-fog bg-white p-4 transition-colors", href && "hover:border-grey")}>
+              {primary ? <div className="mb-2 pe-6 text-body font-medium text-graphite">{primary.cell(row)}</div> : null}
               <dl className="grid grid-cols-[minmax(6rem,auto)_1fr] gap-x-4 gap-y-1.5 text-small">
                 {columns
                   .filter((c) => c !== primary && !c.hideOnCard)
                   .map((c) => (
                     <React.Fragment key={c.key}>
                       <dt className="text-slate">{c.header}</dt>
-                      <dd className="min-w-0 break-words">{c.cell(row)}</dd>
+                      <dd className={cn("min-w-0 break-words", c.numeric && "tabular-nums")}>{c.cell(row)}</dd>
                     </React.Fragment>
                   ))}
               </dl>
-              {href ? <a href={href} className="absolute inset-0" aria-label={typeof primary?.header === "string" ? primary.header : "Open"}><span className="sr-only">Open</span></a> : null}
+              {href ? (
+                <Link href={href} className="absolute inset-0" aria-label={openLabel}>
+                  <span className="sr-only">{openLabel}</span>
+                </Link>
+              ) : null}
             </li>
           );
         })}
       </ul>
       {/* Table (tablet and desktop) */}
-      <div className="hidden md:block border border-fog bg-white">
+      <div className="hidden border border-fog bg-white md:block">
         <Table>
           {caption ? <caption className="sr-only">{caption}</caption> : null}
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               {columns.map((c) => (
-                <TableHead key={c.key} className={cn(c.align === "end" && "text-end", c.className)}>
+                <TableHead key={c.key} className={cellClasses(c)}>
                   {c.header}
                 </TableHead>
               ))}
@@ -79,11 +94,11 @@ export function DataTable<T>({ rows, columns, rowKey, emptyTitle, emptyDescripti
             {rows.map((row) => {
               const href = rowHref?.(row);
               return (
-                <TableRow key={rowKey(row)} className={cn(href && "relative")}>
+                <TableRow key={rowKey(row)} className={cn(href && "relative cursor-pointer")}>
                   {columns.map((c, i) => (
-                    <TableCell key={c.key} className={cn(c.align === "end" && "text-end", c.className)}>
+                    <TableCell key={c.key} className={cellClasses(c)}>
                       {href && i === 0 ? (
-                        <a href={href} className="after:absolute after:inset-0 after:content-['']">{c.cell(row)}</a>
+                        <Link href={href} className="after:absolute after:inset-0 after:content-['']">{c.cell(row)}</Link>
                       ) : (
                         c.cell(row)
                       )}

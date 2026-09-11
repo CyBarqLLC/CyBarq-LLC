@@ -3,6 +3,7 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils/cn";
 
 const Sheet = DialogPrimitive.Root;
@@ -13,6 +14,7 @@ type Side = "start" | "end" | "bottom";
 
 /** Drawer. `start`/`end` follow the writing direction so RTL works without extra props. */
 function SheetContent({ className, children, side = "end", title, ...props }: React.ComponentProps<typeof DialogPrimitive.Content> & { side?: Side; title: string }) {
+  const t = useTranslations("common");
   const sideClasses: Record<Side, string> = {
     start: "inset-y-0 start-0 h-full w-[min(88vw,22rem)] border-e",
     end: "inset-y-0 end-0 h-full w-[min(88vw,26rem)] border-s",
@@ -28,7 +30,7 @@ function SheetContent({ className, children, side = "end", title, ...props }: Re
         <div className="flex items-center justify-between gap-4 border-b border-fog px-5 py-4 pt-[max(1rem,var(--safe-top))]">
           <DialogPrimitive.Title className="text-h3 truncate">{title}</DialogPrimitive.Title>
           <DialogPrimitive.Description className="sr-only">{title}</DialogPrimitive.Description>
-          <DialogPrimitive.Close className="touch -m-2 flex items-center justify-center text-slate hover:text-graphite" aria-label="Close">
+          <DialogPrimitive.Close className="touch -m-2 flex items-center justify-center text-slate hover:text-graphite" aria-label={t("close")}>
             <X className="size-5" aria-hidden />
           </DialogPrimitive.Close>
         </div>

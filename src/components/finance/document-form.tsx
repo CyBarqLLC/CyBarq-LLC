@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { CURRENCIES } from "@/lib/validation/finance";
+import { currencyOption } from "@/lib/labels";
 import { createQuote, updateQuote, createInvoice, updateInvoice } from "@/lib/actions/finance";
 import { LineItemsEditor, type LineItemDraft } from "./line-items-editor";
 import { ServerActionForm } from "@/components/ui/server-action-form";
@@ -95,7 +96,7 @@ export function DocumentForm({ kind, mode, values, items, clients, projects, loc
           <Field label={t("form.currency")} htmlFor="currency" error={err("currency")}>
             <NativeSelect id="currency" name="currency" value={currency} onChange={(e) => setCurrency(e.target.value)}>
               {CURRENCIES.map((c) => (
-                <option key={c} value={c}>{c}</option>
+                <option key={c} value={c}>{currencyOption(c, locale)}</option>
               ))}
             </NativeSelect>
           </Field>

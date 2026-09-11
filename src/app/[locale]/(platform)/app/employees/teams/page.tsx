@@ -54,7 +54,7 @@ export default async function TeamsPage() {
         }
       />
       <div className="grid gap-6 lg:grid-cols-[3fr_2fr]">
-        <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/${locale}/app/employees/teams/${r.id}`} emptyTitle={t("empty")} caption={t("title")} />
+        <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/app/employees/teams/${r.id}`} emptyTitle={t("empty")} caption={t("title")} />
         <SectionCard title={t("add")}>
           <TeamForm
             mode="create"

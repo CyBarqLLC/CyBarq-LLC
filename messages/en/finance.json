@@ -171,7 +171,8 @@
   "history": {
     "title": "History",
     "empty": "No history yet.",
-    "actor": "By"
+    "actor": "By",
+    "transition": "{from} → {to}"
   },
   "detail": {
     "client": "Client",

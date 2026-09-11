@@ -9,6 +9,7 @@ import { pagination, param, withPage, type SearchParams } from "@/lib/data/pagin
 import { formatDate } from "@/lib/utils/format";
 import { searchTerm } from "@/lib/validation/projects";
 import { isClientStatus, CLIENT_STATUSES } from "@/lib/validation/clients";
+import { CLIENT_STATUS_LABELS, label, labelOf } from "@/lib/labels";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { DataTable, type Column } from "@/components/ui/data-table";
@@ -54,7 +55,7 @@ export default async function ClientsPage({ searchParams }: { searchParams: Prom
         {locale === "ar" && c.name_ar ? <span className="block text-small text-slate" dir="ltr">{c.name_en}</span> : null}
       </span>
     ) },
-    { key: "status", header: t("columns.status"), cell: (c) => <Status value={c.status} label={t(`statuses.${c.status}`)} /> },
+    { key: "status", header: t("columns.status"), cell: (c) => <Status value={c.status} label={labelOf(CLIENT_STATUS_LABELS, c.status, locale)} /> },
     { key: "contact", header: t("columns.contact"), cell: (c) => (
       <span className="block">
         <span className="block">{c.primary_contact_name ?? ""}</span>
@@ -84,12 +85,12 @@ export default async function ClientsPage({ searchParams }: { searchParams: Prom
           <NativeSelect id="status" name="status" defaultValue={status ?? ""}>
             <option value="">{t("filters.any")}</option>
             {CLIENT_STATUSES.map((s) => (
-              <option key={s} value={s}>{t(`statuses.${s}`)}</option>
+              <option key={s} value={s}>{label(CLIENT_STATUS_LABELS, s, locale)}</option>
             ))}
           </NativeSelect>
         </FilterField>
       </FilterBar>
-      <DataTable rows={clients} columns={columns} rowKey={(c) => c.id} rowHref={(c) => `/${locale}/app/clients/${c.id}`} emptyTitle={t("empty.title")} emptyDescription={t("empty.description")} caption={t("title")} />
+      <DataTable rows={clients} columns={columns} rowKey={(c) => c.id} rowHref={(c) => `/app/clients/${c.id}`} emptyTitle={t("empty.title")} emptyDescription={t("empty.description")} caption={t("title")} />
       <ListPagination page={page} pageSize={pageSize} total={count ?? 0} hrefFor={(p) => withPage(`/${locale}/app/clients`, filters, p)} />
     </>
   );

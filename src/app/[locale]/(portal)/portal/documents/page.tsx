@@ -6,6 +6,7 @@ import { createClient } from "@/lib/supabase/server";
 import { pagination, withPage, type SearchParams } from "@/lib/data/paginate";
 import { pick } from "@/i18n/bilingual";
 import { formatDate } from "@/lib/utils/format";
+import { DOCUMENT_CATEGORY_LABELS, labelOf } from "@/lib/labels";
 import { PageHeader } from "@/components/ui/page-header";
 import { DataTable, type Column } from "@/components/ui/data-table";
 import { Pagination } from "@/components/ui/pagination";
@@ -45,7 +46,7 @@ export default async function PortalDocumentsPage({ searchParams }: { searchPara
   const columns: Column<Row>[] = [
     { key: "title", header: t("documents.columns.title"), primary: true, cell: (r) => <span className="font-medium">{r.title}</span> },
     { key: "project", header: t("documents.columns.project"), cell: (r) => (r.project ? pick(r.project, "name", locale) : "") },
-    { key: "category", header: t("documents.columns.category"), cell: (r) => <Badge variant="outline">{t(`documents.categories.${r.category}`)}</Badge> },
+    { key: "category", header: t("documents.columns.category"), cell: (r) => <Badge variant="outline">{labelOf(DOCUMENT_CATEGORY_LABELS, r.category, locale)}</Badge> },
     { key: "size", header: t("documents.columns.size"), cell: (r) => <span dir="ltr">{formatSize(r.size_bytes)}</span> },
     { key: "date", header: tc("date"), cell: (r) => formatDate(r.created_at, locale) },
     {

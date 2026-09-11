@@ -116,7 +116,7 @@ export async function EditorialListPage({ table, searchParams }: { table: Editor
         </NativeSelect>
         <Button type="submit" variant="outline">{tc("filter")}</Button>
       </form>
-      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `${base}/${r.id}`} emptyTitle={t("list.empty")} emptyDescription={t("list.emptyDescription")} caption={t(`sections.${table}`)} />
+      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/app/content/${segment}/${r.id}`} emptyTitle={t("list.empty")} emptyDescription={t("list.emptyDescription")} caption={t(`sections.${table}`)} />
       <Pagination
         page={page}
         pageSize={pageSize}

@@ -48,7 +48,7 @@ export default async function PortalProjectsPage() {
   return (
     <div>
       <PageHeader title={t("projects.title")} description={t("projects.description")} />
-      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/${locale}/portal/projects/${r.id}`} emptyTitle={t("projects.empty")} emptyDescription={t("projects.emptyDescription")} caption={t("projects.title")} />
+      <DataTable rows={rows} columns={columns} rowKey={(r) => r.id} rowHref={(r) => `/portal/projects/${r.id}`} emptyTitle={t("projects.empty")} emptyDescription={t("projects.emptyDescription")} caption={t("projects.title")} />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/routing";
 import { pick } from "@/i18n/bilingual";
 import { requirePermission } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
+import { permissionDescription, permissionLabel, roleDescription } from "@/lib/labels";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -49,39 +50,46 @@ export default async function RolesPage() {
           <caption className="sr-only">{t("title")}</caption>
           <TableHeader>
             <TableRow className="hover:bg-transparent">
-              <TableHead className="sticky start-0 z-10 bg-white">{t("permission")}</TableHead>
-              {roleList.map((role) => (
-                <TableHead key={role.key} className="text-center">
-                  <span className="block">{pick(role, "name", locale)}</span>
-                  <span className="block font-mono text-[10px] font-normal text-slate" dir="ltr">{role.key}</span>
-                </TableHead>
-              ))}
+              <TableHead className="sticky start-0 z-10 min-w-56 bg-white">{t("permission")}</TableHead>
+              {roleList.map((role) => {
+                const name = pick(role, "name", locale);
+                return (
+                  <TableHead key={role.key} className="text-center align-bottom">
+                    <span className="block whitespace-normal text-graphite" title={roleDescription(role.key, locale) ?? role.description ?? undefined}>{name}</span>
+                  </TableHead>
+                );
+              })}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {permissionList.map((permission) => (
-              <TableRow key={permission.key}>
-                <TableCell className="sticky start-0 z-10 bg-white">
-                  <span className="block font-mono text-small" dir="ltr">{permission.key}</span>
-                  <span className="block max-w-xs text-label text-slate">{permission.description}</span>
-                </TableCell>
-                {roleList.map((role) => {
-                  const has = granted.has(`${role.key}:${permission.key}`);
-                  const editable = canManage && role.key !== "super_admin";
-                  return (
-                    <TableCell key={role.key} className="text-center">
-                      {editable ? (
-                        <PermissionToggle roleKey={role.key} permissionKey={permission.key} granted={has} label={`${t("toggle")}: ${role.key} ${permission.key}`} successMessage={t("saved")} />
-                      ) : has ? (
-                        <Check className="mx-auto size-4 text-graphite" aria-label="yes" />
-                      ) : (
-                        <span className="sr-only">no</span>
-                      )}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            ))}
+            {permissionList.map((permission) => {
+              const name = permissionLabel(permission.key, locale);
+              const description = permissionDescription(permission.key, locale) ?? permission.description;
+              return (
+                <TableRow key={permission.key}>
+                  <TableCell className="sticky start-0 z-10 bg-white">
+                    <span className="block font-medium text-graphite">{name}</span>
+                    {description ? <span className="block max-w-xs text-small text-slate">{description}</span> : null}
+                  </TableCell>
+                  {roleList.map((role) => {
+                    const has = granted.has(`${role.key}:${permission.key}`);
+                    const editable = canManage && role.key !== "super_admin";
+                    const roleName = pick(role, "name", locale);
+                    return (
+                      <TableCell key={role.key} className="text-center">
+                        {editable ? (
+                          <PermissionToggle roleKey={role.key} permissionKey={permission.key} granted={has} label={t("toggleLabel", { role: roleName, permission: name })} successMessage={t("saved")} />
+                        ) : has ? (
+                          <Check className="mx-auto size-4 text-graphite" aria-label={t("granted", { role: roleName, permission: name })} />
+                        ) : (
+                          <span className="sr-only">{t("notGranted", { role: roleName, permission: name })}</span>
+                        )}
+                      </TableCell>
+                    );
+                  })}
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>

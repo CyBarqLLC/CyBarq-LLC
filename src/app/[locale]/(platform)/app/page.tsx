@@ -8,13 +8,14 @@ import { createClient } from "@/lib/supabase/server";
 import { formatDate, formatNumber } from "@/lib/utils/format";
 import { label, TASK_PRIORITY_LABELS } from "@/lib/labels";
 import { PageHeader } from "@/components/ui/page-header";
+import { EmptyText } from "@/components/ui/states";
 import { Button } from "@/components/ui/button";
 import { Status } from "@/components/ui/status";
 import { Badge } from "@/components/ui/badge";
 import { KpiTile } from "@/components/platform/kpi-tile";
 import { SectionCard } from "@/components/platform/section-card";
 import { ActivityList } from "@/components/platform/activity-list";
-import { personName } from "@/components/platform/person";
+import { greetingName } from "@/components/platform/person";
 import { businessToday } from "@/lib/time";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -102,11 +103,11 @@ export default async function DashboardPage() {
   }
   const showApprovals = canContent || canFinance;
 
-  const name = personName(viewer.profile, locale, viewer.email);
+  const firstName = greetingName(viewer.profile, locale);
 
   return (
     <>
-      <PageHeader title={t("greeting", { name })} description={t("description")} />
+      <PageHeader title={firstName ? t("greeting", { name: firstName }) : t("greetingAnonymous")} description={t("description")} />
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <KpiTile label={t("kpi.myOpenTasks")} value={formatNumber(openCount ?? 0, locale)} href="/app/tasks" />
@@ -132,7 +133,7 @@ export default async function DashboardPage() {
             }
           >
             {(myTasks ?? []).length === 0 ? (
-              <p className="px-4 py-6 text-center text-small text-slate">{t("myWork.empty")}</p>
+              <EmptyText>{t("myWork.empty")}</EmptyText>
             ) : (
               <ul className="divide-y divide-fog">
                 {(myTasks ?? []).map((task) => {
@@ -167,7 +168,7 @@ export default async function DashboardPage() {
 
           <SectionCard title={t("attention.title")} description={t("attention.description")} flush>
             {needsAttention.length === 0 ? (
-              <p className="px-4 py-6 text-center text-small text-slate">{t("attention.empty")}</p>
+              <EmptyText>{t("attention.empty")}</EmptyText>
             ) : (
               <ul className="divide-y divide-fog">
                 {needsAttention.map((p) => (
@@ -194,7 +195,7 @@ export default async function DashboardPage() {
           {showApprovals ? (
             <SectionCard title={t("approvals.title")} flush>
               {approvals.every((a) => a.count === 0) ? (
-                <p className="px-4 py-6 text-center text-small text-slate">{t("approvals.empty")}</p>
+                <EmptyText>{t("approvals.empty")}</EmptyText>
               ) : (
                 <ul className="divide-y divide-fog">
                   {approvals.map((a) => (
@@ -220,7 +221,7 @@ export default async function DashboardPage() {
             }
           >
             {(notifications ?? []).length === 0 ? (
-              <p className="px-4 py-6 text-center text-small text-slate">{t("notifications.empty")}</p>
+              <EmptyText>{t("notifications.empty")}</EmptyText>
             ) : (
               <ul className="divide-y divide-fog">
                 {(notifications ?? []).map((n) => {
