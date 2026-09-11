@@ -43,6 +43,8 @@ The application (Vercel) and the database (Supabase) are deployed separately. A 
 | `CONTACT_INBOX` | server only | `info@cybarq.com` |
 | `RATE_LIMIT_SALT` | server only | 32+ random characters |
 | `CRON_SECRET` | server only | optional, protects `/api/cron/publish` |
+| `SITE_LOCKED` | server only | `true` shows the Under Maintenance screen on every page, `false` opens the site |
+| `SITE_LOCK_PASSWORD` | server only | development team password for the maintenance screen; never sent to the browser. Access lasts 4 hours. Changing it signs everyone out |
 
 3. Domains: add `cybarq.com` and `www.cybarq.com` (redirect www to apex). Remove the GitHub Pages `CNAME` (moved to `legacy/`) and update DNS to Vercel.
 4. Deploy. Legacy URLs (`/about.html`, `/ar/dfir.html`, ...) are redirected permanently by `next.config.ts`.
