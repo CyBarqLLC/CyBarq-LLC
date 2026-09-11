@@ -1,10 +1,10 @@
 import type { MetadataRoute } from "next";
 import { locales, type Locale } from "@/i18n/routing";
-import { company } from "@/content/site/company";
 import { practices, services, servicePath } from "@/content/services";
 import { listPublishedSlugs } from "@/lib/data/public-content";
+import { siteUrl } from "@/lib/env";
 
-const base = (process.env.NEXT_PUBLIC_SITE_URL ?? company.url).replace(/\/$/, "");
+const base = siteUrl();
 
 const STATIC_PATHS = ["/", "/about", "/services", "/projects", "/case-studies", "/news", "/articles", "/careers", "/contact", "/verify", "/privacy", "/terms"];
 

@@ -7,6 +7,7 @@ import { thmanyah } from "@/lib/fonts";
 import { Toaster } from "@/components/ui/toaster";
 import { company } from "@/content/site/company";
 import "@/styles/globals.css";
+import { siteUrl } from "@/lib/env";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -18,9 +19,9 @@ export const viewport: Viewport = {
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const l: Locale = hasLocale(routing.locales, locale) ? locale : routing.defaultLocale;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? company.url;
+  const base = siteUrl();
   return {
-    metadataBase: new URL(siteUrl),
+    metadataBase: new URL(base),
     title: { default: company.legalName[l], template: `%s | ${company.name[l]}` },
     description: company.description[l],
     applicationName: company.name.en,

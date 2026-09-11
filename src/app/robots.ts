@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next";
-import { company } from "@/content/site/company";
+import { siteUrl } from "@/lib/env";
 
 export default function robots(): MetadataRoute.Robots {
-  const base = process.env.NEXT_PUBLIC_SITE_URL ?? company.url;
+  const base = siteUrl();
   return {
     rules: [
       { userAgent: "*", allow: "/", disallow: ["/*/app", "/*/app/", "/*/portal", "/*/portal/", "/api/", "/*/login"] },

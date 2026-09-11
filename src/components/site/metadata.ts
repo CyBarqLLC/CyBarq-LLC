@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { isLocale, defaultLocale, type Locale } from "@/i18n/routing";
+import { siteUrl as envSiteUrl } from "@/lib/env";
 
 type PageMetadataArgs = {
   locale: Locale;
@@ -62,7 +63,7 @@ export function resolveLocale(value: string): Locale {
 
 /** Absolute site URL for JSON-LD and the sitemap. */
 export function siteUrl(): string {
-  return (process.env.NEXT_PUBLIC_SITE_URL ?? "https://cybarq.com").replace(/\/$/, "");
+  return envSiteUrl();
 }
 
 export function absoluteUrl(locale: Locale, path: string): string {

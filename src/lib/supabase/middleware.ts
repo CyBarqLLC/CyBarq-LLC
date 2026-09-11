@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import type { Database } from "./database.types";
+import { normaliseUrl } from "@/lib/env";
 
 /**
  * Refreshes the Supabase session cookie on every request and returns the user
@@ -8,8 +9,8 @@ import type { Database } from "./database.types";
  */
 export async function updateSession(request: NextRequest, response: NextResponse) {
   const supabase = createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
+    normaliseUrl(process.env.NEXT_PUBLIC_SUPABASE_URL) ?? "",
+    (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "").trim(),
     {
       cookies: {
         getAll() {
