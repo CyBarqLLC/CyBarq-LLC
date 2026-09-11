@@ -16,6 +16,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { CERTIFICATE_TYPES } from "@/lib/validation/certificates";
 import { createCertificate, updateCertificate } from "@/lib/actions/certificates";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type CertificateFormValues = {
   id?: string;
@@ -77,7 +78,7 @@ export function CertificateForm({ mode, values, employees, locale, cancelHref }:
   };
 
   return (
-    <form action={formAction} className="flex flex-col gap-10" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-10" noValidate>
       {values?.id ? <input type="hidden" name="id" value={values.id} /> : null}
 
       <section className="flex flex-col gap-5">
@@ -215,6 +216,6 @@ export function CertificateForm({ mode, values, employees, locale, cancelHref }:
           <Link href={cancelHref}>{t("form.cancel")}</Link>
         </Button>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

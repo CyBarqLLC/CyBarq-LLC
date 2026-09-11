@@ -8,12 +8,13 @@ import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export function LoginForm({ next }: { next?: string }) {
   const [result, action] = useActionState(signIn, null);
   const t = useTranslations("auth");
   return (
-    <form action={action} className="flex flex-col gap-5" noValidate>
+    <ServerActionForm action={action} result={result} className="flex flex-col gap-5" noValidate>
       {next ? <input type="hidden" name="next" value={next} /> : null}
       <Field label={t("email")} htmlFor="email" error={fieldError(result, "email")}>
         <Input id="email" name="email" type="email" autoComplete="email" inputMode="email" required autoFocus aria-invalid={!!fieldError(result, "email")} />
@@ -24,6 +25,6 @@ export function LoginForm({ next }: { next?: string }) {
       <FormMessage result={result} />
       <SubmitButton size="lg" className="w-full">{t("signIn")}</SubmitButton>
       <Link href="/forgot-password" className="text-small text-slate hover:text-azure">{t("forgot")}</Link>
-    </form>
+    </ServerActionForm>
   );
 }

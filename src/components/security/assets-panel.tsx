@@ -20,6 +20,7 @@ import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { Badge } from "@/components/ui/badge";
 import { EmptyState } from "@/components/ui/states";
 import { ConfirmAction } from "./confirm-action";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type AssetRow = Pick<Tables<"engagement_assets">, "id" | "name" | "type" | "identifier" | "in_scope" | "notes">;
 
@@ -111,7 +112,7 @@ function AssetDialog({ engagementId, asset, trigger }: { engagementId: string; a
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent title={asset ? t("editTitle") : t("addTitle")}>
-        <form action={formAction} className="flex flex-col gap-4" noValidate>
+        <ServerActionForm action={formAction} result={result} className="flex flex-col gap-4" noValidate>
           <input type="hidden" name="engagement_id" value={engagementId} />
           <Field label={t("name")} htmlFor={`${prefix}-name`} error={fieldError(result, "name")} required>
             <Input id={`${prefix}-name`} name="name" defaultValue={asset?.name ?? ""} required maxLength={200} aria-invalid={invalid("name")} />
@@ -140,7 +141,7 @@ function AssetDialog({ engagementId, asset, trigger }: { engagementId: string; a
             </DialogClose>
             <SubmitButton>{asset ? tc("saveChanges") : t("addSubmit")}</SubmitButton>
           </DialogFooter>
-        </form>
+        </ServerActionForm>
       </DialogContent>
     </Dialog>
   );

@@ -8,6 +8,7 @@ import { Button, type ButtonProps } from "@/components/ui/button";
 import { Dialog, DialogClose, DialogContent, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage } from "@/components/ui/form-message";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type ConfirmActionProps = {
   action: (prev: ActionResult | null, formData: FormData) => Promise<ActionResult>;
@@ -41,7 +42,7 @@ export function ConfirmAction({ action, fields, title, description, confirmLabel
         </Button>
       </DialogTrigger>
       <DialogContent title={title} description={description}>
-        <form action={formAction} className="flex flex-col gap-4">
+        <ServerActionForm action={formAction} result={result} className="flex flex-col gap-4">
           {Object.entries(fields).map(([k, v]) => (
             <input key={k} type="hidden" name={k} value={v} />
           ))}
@@ -52,7 +53,7 @@ export function ConfirmAction({ action, fields, title, description, confirmLabel
             </DialogClose>
             <SubmitButton variant={destructive ? "danger" : "primary"}>{confirmLabel}</SubmitButton>
           </DialogFooter>
-        </form>
+        </ServerActionForm>
       </DialogContent>
     </Dialog>
   );

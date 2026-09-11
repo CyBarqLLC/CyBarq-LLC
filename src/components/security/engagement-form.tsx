@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type ClientOption = { id: string; name_en: string; name_ar: string | null };
 export type ProjectOption = { id: string; code: string; name_en: string; name_ar: string | null; client_id: string | null };
@@ -42,7 +43,7 @@ export function EngagementForm({ action, defaults, clients, projects, employees,
   const invalid = (name: string) => !!fieldError(result, name);
 
   return (
-    <form action={formAction} className="flex flex-col gap-8" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-8" noValidate>
       <section className="flex flex-col gap-5">
         <h2 className="text-h3">{t("sections.basics")}</h2>
         <div className="grid gap-5 md:grid-cols-2">
@@ -121,6 +122,6 @@ export function EngagementForm({ action, defaults, clients, projects, employees,
       <div className="flex flex-wrap gap-3">
         <SubmitButton>{mode === "create" ? t("create") : t("save")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

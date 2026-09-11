@@ -6,6 +6,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type StatusSelectFormProps = {
   /** Bound server action in the (prevState, formData) shape. */
@@ -34,7 +35,7 @@ export function StatusSelectForm({ action, name, options, defaultValue, submitLa
     }
   }, [result, successMessage]);
   return (
-    <form action={formAction} className={className ?? "flex items-center gap-2"}>
+    <ServerActionForm action={formAction} result={result} className={className ?? "flex items-center gap-2"}>
       {/* Keyed on the saved value: after a change the page re-renders with the new
           status and the select must start from it, not from the first render. */}
       <NativeSelect key={defaultValue} name={name} defaultValue={defaultValue} aria-label={ariaLabel} className="h-9 min-w-36 text-small">
@@ -43,6 +44,6 @@ export function StatusSelectForm({ action, name, options, defaultValue, submitLa
         ))}
       </NativeSelect>
       <SubmitButton size="sm" variant="subtle">{submitLabel}</SubmitButton>
-    </form>
+    </ServerActionForm>
   );
 }

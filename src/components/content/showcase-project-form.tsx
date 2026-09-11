@@ -16,6 +16,7 @@ import { RichTextEditor } from "@/components/ui/rich-text-editor";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { LangGrid, Section, TitleFields, CoverSection, SeoSection, useSlug } from "./form-shared";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type InternalProjectOption = { id: string; code: string; name_en: string; name_ar: string | null };
 
@@ -36,7 +37,7 @@ export function ShowcaseProjectForm({ action, defaults, internalProjects, public
   const editorLabels = { link: te("link"), linkPrompt: te("linkPrompt") };
 
   return (
-    <form action={formAction} className="flex flex-col gap-10" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-10" noValidate>
       <Section title={t("sections.content")}>
         <TitleFields result={result} defaults={defaults} slug={slug} />
         <LangGrid
@@ -109,6 +110,6 @@ export function ShowcaseProjectForm({ action, defaults, internalProjects, public
         <SubmitButton>{mode === "create" ? t("createDraft") : t("save")}</SubmitButton>
         {result?.ok && mode === "edit" ? <span role="status" className="text-small text-success">{t("saved")}</span> : null}
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

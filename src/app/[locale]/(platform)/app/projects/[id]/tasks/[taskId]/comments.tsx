@@ -10,6 +10,7 @@ import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import { addTaskComment, updateTaskComment } from "@/lib/actions/tasks";
 import type { ActionResult } from "@/lib/actions/result";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type CommentFormProps = { projectId: string; taskId: string };
 
@@ -31,7 +32,7 @@ export function CommentForm({ projectId, taskId }: CommentFormProps) {
   }, [result, router, t]);
 
   return (
-    <form key={formKey} action={formAction} className="flex flex-col gap-3" noValidate>
+    <ServerActionForm key={formKey} action={formAction} result={result} className="flex flex-col gap-3" noValidate>
       <label htmlFor="comment-body" className="text-label text-graphite">{t("add")}</label>
       <Textarea id="comment-body" name="body" placeholder={t("placeholder")} required maxLength={5000} className="min-h-24" aria-invalid={!!fieldError(result, "body")} />
       {fieldError(result, "body") ? <p role="alert" className="text-small text-danger">{fieldError(result, "body")}</p> : null}
@@ -39,7 +40,7 @@ export function CommentForm({ projectId, taskId }: CommentFormProps) {
       <div>
         <SubmitButton size="sm">{t("post")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }
 
@@ -86,14 +87,14 @@ export function EditableComment({ projectId, taskId, commentId, body, header, de
         ) : null}
       </div>
       {editing ? (
-        <form action={formAction} className="mt-3 flex flex-col gap-3" noValidate>
+        <ServerActionForm action={formAction} result={result} className="mt-3 flex flex-col gap-3" noValidate>
           <Textarea name="body" defaultValue={body} required maxLength={5000} className="min-h-24" aria-label={t("edit")} />
           <FormMessage result={result} />
           <div className="flex gap-2">
             <SubmitButton size="sm">{t("save")}</SubmitButton>
             <Button type="button" variant="ghost" size="sm" onClick={() => setEditing(false)}>{t("cancel")}</Button>
           </div>
-        </form>
+        </ServerActionForm>
       ) : (
         <p className="mt-2 whitespace-pre-line text-body">{body}</p>
       )}

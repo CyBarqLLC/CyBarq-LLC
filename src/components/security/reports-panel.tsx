@@ -17,6 +17,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage } from "@/components/ui/form-message";
 import { EmptyState } from "@/components/ui/states";
 import { ConfirmAction } from "./confirm-action";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type ReportRow = Pick<Tables<"engagement_reports">, "id" | "version" | "title" | "status" | "client_visible" | "issued_at" | "created_at"> & {
   uploader: string | null;
@@ -111,12 +112,12 @@ function VisibilityToggle({ engagementId, report }: { engagementId: string; repo
   const [result, formAction] = useActionState(setReportClientVisible, null);
   const t = useTranslations("security.reports");
   return (
-    <form action={formAction} className="flex flex-col gap-1">
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-1">
       <input type="hidden" name="id" value={report.id} />
       <input type="hidden" name="engagement_id" value={engagementId} />
       {report.client_visible ? null : <input type="hidden" name="client_visible" value="true" />}
       <SubmitButton size="sm" variant="outline">{report.client_visible ? t("hideFromClient") : t("shareWithClient")}</SubmitButton>
       <FormMessage result={result} />
-    </form>
+    </ServerActionForm>
   );
 }

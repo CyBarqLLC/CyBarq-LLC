@@ -11,6 +11,7 @@ import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
 import type { Option } from "@/components/platform/enum-options";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type TeamFormValues = { name_en: string; name_ar: string; department_id: string | null; lead_user_id: string | null };
 
@@ -38,7 +39,7 @@ export function TeamForm({ mode, action, defaults, departments, leads }: TeamFor
   }, [result, mode, router, t]);
 
   return (
-    <form action={formAction} className="flex flex-col gap-4" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-4" noValidate>
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label={t("nameEn")} htmlFor="team-name_en" error={fieldError(result, "name_en")} required>
           <Input id="team-name_en" name="name_en" defaultValue={defaults.name_en} required maxLength={120} dir="ltr" />
@@ -67,6 +68,6 @@ export function TeamForm({ mode, action, defaults, departments, leads }: TeamFor
       <div>
         <SubmitButton size="sm">{mode === "create" ? t("add") : t("edit")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

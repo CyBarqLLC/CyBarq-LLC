@@ -8,6 +8,7 @@ import { Button, type ButtonProps } from "@/components/ui/button";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage } from "@/components/ui/form-message";
 import { Dialog, DialogContent, DialogFooter, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type FormAction<T> = (prev: ActionResult<T> | null, formData: FormData) => Promise<ActionResult<T>>;
 
@@ -54,11 +55,11 @@ export function ActionForm<T>({ action, fields, label, confirm, variant = "outli
 
   if (!confirm) {
     return (
-      <form action={formAction} className={className ?? "flex flex-col gap-1"}>
+      <ServerActionForm action={formAction} result={result} className={className ?? "flex flex-col gap-1"}>
         {hidden}
         <SubmitButton variant={variant} size={size}>{label}</SubmitButton>
         {feedback}
-      </form>
+      </ServerActionForm>
     );
   }
 
@@ -69,7 +70,7 @@ export function ActionForm<T>({ action, fields, label, confirm, variant = "outli
           <Button type="button" variant={variant} size={size}>{label}</Button>
         </DialogTrigger>
         <DialogContent title={typeof label === "string" ? label : t("confirm")} description={confirm}>
-          <form action={formAction} className="flex flex-col gap-5">
+          <ServerActionForm action={formAction} result={result} className="flex flex-col gap-5">
             {hidden}
             <FormMessage result={result} />
             <DialogFooter>
@@ -78,7 +79,7 @@ export function ActionForm<T>({ action, fields, label, confirm, variant = "outli
               </DialogClose>
               <SubmitButton variant={variant === "danger" ? "danger" : "primary"}>{label}</SubmitButton>
             </DialogFooter>
-          </form>
+          </ServerActionForm>
         </DialogContent>
       </Dialog>
       {result?.ok && successMessage ? <p role="status" className="text-small text-success">{successMessage(result.data)}</p> : null}
@@ -124,7 +125,7 @@ export function ActionDialog<T>({ action, fields, trigger, triggerVariant = "out
         <Button type="button" variant={triggerVariant} size="sm">{trigger}</Button>
       </DialogTrigger>
       <DialogContent title={title} description={description}>
-        <form action={formAction} className="flex flex-col gap-5" noValidate>
+        <ServerActionForm action={formAction} result={result} className="flex flex-col gap-5" noValidate>
           {Object.entries(fields).map(([k, v]) => (
             <input key={k} type="hidden" name={k} value={v} />
           ))}
@@ -136,7 +137,7 @@ export function ActionDialog<T>({ action, fields, trigger, triggerVariant = "out
             </DialogClose>
             <SubmitButton variant={submitVariant}>{submitLabel}</SubmitButton>
           </DialogFooter>
-        </form>
+        </ServerActionForm>
       </DialogContent>
     </Dialog>
   );

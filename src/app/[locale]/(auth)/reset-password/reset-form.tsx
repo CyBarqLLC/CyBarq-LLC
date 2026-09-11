@@ -8,6 +8,7 @@ import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type Props =
   /** From an invitation or reset email: the one time token is verified on submit. */
@@ -25,7 +26,7 @@ export function ResetForm(props: Props) {
     if (props.mode === "session" && result?.ok) router.replace("/app");
   }, [props.mode, result, router]);
   return (
-    <form action={action} className="flex flex-col gap-5" noValidate>
+    <ServerActionForm action={action} result={result} className="flex flex-col gap-5" noValidate>
       {props.mode === "token" ? (
         <>
           <input type="hidden" name="token" value={props.token} />
@@ -41,6 +42,6 @@ export function ResetForm(props: Props) {
       </Field>
       <FormMessage result={result} />
       <SubmitButton size="lg" className="w-full">{props.submitLabel ?? t("setPassword")}</SubmitButton>
-    </form>
+    </ServerActionForm>
   );
 }

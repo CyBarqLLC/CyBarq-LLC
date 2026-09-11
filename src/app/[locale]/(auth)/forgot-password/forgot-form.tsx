@@ -8,6 +8,7 @@ import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export function ForgotForm() {
   const [result, action] = useActionState(requestPasswordReset, null);
@@ -21,13 +22,13 @@ export function ForgotForm() {
     );
   }
   return (
-    <form action={action} className="flex flex-col gap-5" noValidate>
+    <ServerActionForm action={action} result={result} className="flex flex-col gap-5" noValidate>
       <Field label={t("email")} htmlFor="email" error={fieldError(result, "email")}>
         <Input id="email" name="email" type="email" autoComplete="email" inputMode="email" required autoFocus />
       </Field>
       <FormMessage result={result} />
       <SubmitButton size="lg" className="w-full">{t("sendLink")}</SubmitButton>
       <Link href="/login" className="text-small text-slate hover:text-azure">{t("backToSignIn")}</Link>
-    </form>
+    </ServerActionForm>
   );
 }

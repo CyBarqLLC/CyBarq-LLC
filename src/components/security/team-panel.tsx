@@ -14,6 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
 import { EmptyState } from "@/components/ui/states";
 import { employeeName, type EmployeeOption } from "./engagement-form";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type MemberRow = { user_id: string; role: string; full_name: string; full_name_ar: string | null; email: string | null };
 
@@ -54,7 +55,7 @@ export function TeamPanel({ engagementId, members, employees, leadUserId, canWri
         )}
       </div>
       {canWrite ? (
-        <form action={formAction} className="flex h-fit flex-col gap-4 border border-fog bg-white p-5" noValidate>
+        <ServerActionForm action={formAction} result={result} className="flex h-fit flex-col gap-4 border border-fog bg-white p-5" noValidate>
           <h3 className="text-h3">{t("add")}</h3>
           <input type="hidden" name="engagement_id" value={engagementId} />
           <Field label={t("member")} htmlFor="member_user_id" error={fieldError(result, "user_id")} required>
@@ -74,7 +75,7 @@ export function TeamPanel({ engagementId, members, employees, leadUserId, canWri
           </Field>
           <FormMessage result={result} />
           <SubmitButton size="sm" disabled={candidates.length === 0}>{t("addSubmit")}</SubmitButton>
-        </form>
+        </ServerActionForm>
       ) : null}
     </div>
   );
@@ -83,12 +84,12 @@ export function TeamPanel({ engagementId, members, employees, leadUserId, canWri
 function RemoveMember({ engagementId, userId, label }: { engagementId: string; userId: string; label: string }) {
   const [result, formAction] = useActionState(removeEngagementMember, null);
   return (
-    <form action={formAction} className="flex items-center">
+    <ServerActionForm action={formAction} result={result} className="flex items-center">
       <input type="hidden" name="engagement_id" value={engagementId} />
       <input type="hidden" name="user_id" value={userId} />
       <SubmitButton variant="ghost" size="icon-sm" aria-label={label} title={result && !result.ok ? result.error : undefined}>
         <X aria-hidden />
       </SubmitButton>
-    </form>
+    </ServerActionForm>
   );
 }

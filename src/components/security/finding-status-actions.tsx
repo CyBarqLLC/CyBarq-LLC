@@ -9,6 +9,7 @@ import { FINDING_TRANSITIONS } from "@/lib/validation/security";
 import { FINDING_STATUS_LABELS, label } from "@/lib/labels";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage } from "@/components/ui/form-message";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type Props = { findingId: string; engagementId: string; status: Enums<"finding_status">; canWrite: boolean };
 
@@ -19,7 +20,7 @@ export function FindingStatusActions({ findingId, engagementId, status, canWrite
   const next = FINDING_TRANSITIONS[status];
   if (!canWrite || next.length === 0) return null;
   return (
-    <form action={formAction} className="flex flex-col gap-3">
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-3">
       <input type="hidden" name="id" value={findingId} />
       <input type="hidden" name="engagement_id" value={engagementId} />
       <div className="flex flex-wrap gap-2">
@@ -30,6 +31,6 @@ export function FindingStatusActions({ findingId, engagementId, status, canWrite
         ))}
       </div>
       <FormMessage result={result} />
-    </form>
+    </ServerActionForm>
   );
 }

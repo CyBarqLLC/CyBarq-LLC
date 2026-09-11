@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { NativeSelect } from "@/components/ui/native-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type PortalClientOption = { id: string; name_en: string; name_ar: string | null };
 export type PortalProjectOption = { id: string; code: string; name_en: string; name_ar: string | null; client_id: string | null };
@@ -23,7 +24,7 @@ export function SupportRequestForm({ clients, projects }: { clients: PortalClien
   const invalid = (name: string) => !!fieldError(result, name);
 
   return (
-    <form action={formAction} className="flex flex-col gap-5" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-5" noValidate>
       {single ? (
         <input type="hidden" name="client_id" value={single.id} />
       ) : (
@@ -53,6 +54,6 @@ export function SupportRequestForm({ clients, projects }: { clients: PortalClien
       <div>
         <SubmitButton>{t("submit")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

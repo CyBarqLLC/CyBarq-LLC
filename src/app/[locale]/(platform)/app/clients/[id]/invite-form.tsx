@@ -10,6 +10,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type InviteResult = ActionResult<{ emailSent: boolean }>;
 
@@ -32,7 +33,7 @@ export function InviteClientUserForm({ action }: { action: (prev: InviteResult |
   }, [result, router, t]);
 
   return (
-    <form key={formKey} action={formAction} className="flex flex-col gap-4" noValidate>
+    <ServerActionForm key={formKey} action={formAction} result={result} className="flex flex-col gap-4" noValidate>
       <Field label={t("email")} htmlFor="invite-email" error={fieldError(result, "email")} required>
         <Input id="invite-email" name="email" type="email" inputMode="email" autoComplete="off" required maxLength={200} dir="ltr" aria-invalid={!!fieldError(result, "email")} />
       </Field>
@@ -52,6 +53,6 @@ export function InviteClientUserForm({ action }: { action: (prev: InviteResult |
       <div>
         <SubmitButton size="sm">{t("send")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

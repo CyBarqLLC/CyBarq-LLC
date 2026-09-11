@@ -11,6 +11,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type ProfileFormProps = {
   defaults: { full_name: string; full_name_ar: string | null; phone: string | null; locale: "en" | "ar"; email: string };
@@ -31,7 +32,7 @@ export function ProfileForm({ defaults }: ProfileFormProps) {
   }, [result, router, t]);
 
   return (
-    <form action={formAction} className="flex flex-col gap-5" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-5" noValidate>
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label={t("fullName")} htmlFor="full_name" error={fieldError(result, "full_name")} required>
           <Input id="full_name" name="full_name" defaultValue={defaults.full_name} required maxLength={200} autoComplete="name" />
@@ -56,6 +57,6 @@ export function ProfileForm({ defaults }: ProfileFormProps) {
       <div>
         <SubmitButton>{t("save")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

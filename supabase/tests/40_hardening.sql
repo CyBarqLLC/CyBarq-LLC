@@ -116,6 +116,13 @@ select tests.expect_rows('select 1 from public.invoices where quote_id = ''00000
 select tests.expect_rows('select public.convert_quote_to_invoice(''00000000-0000-0000-0000-0000000031a1'')', 1, 'finance: converting twice returns the same invoice');
 select tests.expect_rows('select 1 from public.invoices where quote_id = ''00000000-0000-0000-0000-0000000031a1''', 1, 'finance: still one invoice per quote');
 select tests.expect_error('update public.quotes set status = ''declined'' where id = ''00000000-0000-0000-0000-0000000031a1''', 'finance: quote status cannot be set directly');
+select tests.logout();
+select tests.expect_rows($q$select 1 from public.audit_logs where entity_id = '00000000-0000-0000-0000-0000000030a1' and action = 'invoice.status_changed' and metadata ->> 'from' = 'paid'$q$, 1,
+  'audit: returning to issued after a payment removal is recorded as a status change');
+select tests.expect_rows($q$select 1 from public.audit_logs where entity_id = '00000000-0000-0000-0000-0000000030a1' and action = 'invoice.issued' and metadata ->> 'from' <> 'draft'$q$, 0,
+  'audit: "issued" is only recorded for the first issue');
+select tests.expect_rows($q$select 1 from public.audit_logs where entity_id = '00000000-0000-0000-0000-0000000031a1' and action = 'quote.status_changed' and metadata ->> 'to' = 'accepted'$q$, 1,
+  'audit: quote outcomes are status changes');
 rollback;
 
 begin;

@@ -12,6 +12,7 @@ import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
 import type { Option } from "@/components/platform/enum-options";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type EmployeeFormValues = {
   employee_no: string | null;
@@ -55,7 +56,7 @@ export function EmployeeForm({ mode, action, defaults, departments, statuses, ca
   const err = (name: string) => fieldError(result, name);
 
   return (
-    <form action={formAction} className="flex flex-col gap-8" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-8" noValidate>
       {mode === "create" ? (
         <section className="flex flex-col gap-5">
           <h2 className="text-h3">{t("fields.account")}</h2>
@@ -143,6 +144,6 @@ export function EmployeeForm({ mode, action, defaults, departments, statuses, ca
       <div>
         <SubmitButton>{mode === "create" ? t("form.create") : t("form.save")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

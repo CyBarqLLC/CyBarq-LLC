@@ -10,6 +10,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type DepartmentValues = { name_en: string; name_ar: string; position: number };
 
@@ -41,7 +42,7 @@ export function DepartmentForm({ action, defaults, submitLabel, idPrefix, onDone
 
   const id = (n: string) => `${idPrefix}-${n}`;
   return (
-    <form key={formKey} action={formAction} className="grid gap-4 sm:grid-cols-[1fr_1fr_6rem_auto] sm:items-end" noValidate>
+    <ServerActionForm key={formKey} action={formAction} result={result} className="grid gap-4 sm:grid-cols-[1fr_1fr_6rem_auto] sm:items-end" noValidate>
       <Field label={t("nameEn")} htmlFor={id("name_en")} error={fieldError(result, "name_en")} required>
         <Input id={id("name_en")} name="name_en" defaultValue={defaults.name_en} required maxLength={120} dir="ltr" />
       </Field>
@@ -56,7 +57,7 @@ export function DepartmentForm({ action, defaults, submitLabel, idPrefix, onDone
         {onDone ? <Button type="button" variant="ghost" onClick={onDone}>{tc("cancel")}</Button> : null}
       </div>
       <FormMessage result={result} className="sm:col-span-full" />
-    </form>
+    </ServerActionForm>
   );
 }
 

@@ -10,6 +10,7 @@ import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
 import type { Option } from "@/components/platform/enum-options";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export function TeamMemberForm({ action, candidates }: { action: (prev: ActionResult | null, formData: FormData) => Promise<ActionResult>; candidates: Option[] }) {
   const [result, formAction] = useActionState(action, null);
@@ -28,7 +29,7 @@ export function TeamMemberForm({ action, candidates }: { action: (prev: ActionRe
   }, [result, router, t]);
 
   return (
-    <form key={formKey} action={formAction} className="flex flex-col gap-4" noValidate>
+    <ServerActionForm key={formKey} action={formAction} result={result} className="flex flex-col gap-4" noValidate>
       <Field label={t("chooseMember")} htmlFor="member-user_id" error={fieldError(result, "user_id")} required>
         <NativeSelect id="member-user_id" name="user_id" defaultValue="" required>
           <option value="" disabled>{t("chooseMember")}</option>
@@ -41,6 +42,6 @@ export function TeamMemberForm({ action, candidates }: { action: (prev: ActionRe
       <div>
         <SubmitButton size="sm">{t("addMember")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

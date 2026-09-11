@@ -10,6 +10,7 @@ import { ENGAGEMENT_STATUS_LABELS, label } from "@/lib/labels";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage } from "@/components/ui/form-message";
 import { ConfirmAction } from "./confirm-action";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type StatusActionsProps = {
   engagementId: string;
@@ -32,14 +33,14 @@ export function StatusActions({ engagementId, status, canWrite }: StatusActionsP
     <div className="flex flex-col gap-3">
       <div className="flex flex-wrap items-center gap-2">
         {forward.length > 0 ? (
-          <form action={formAction} className="flex flex-wrap gap-2">
+          <ServerActionForm action={formAction} result={result} className="flex flex-wrap gap-2">
             <input type="hidden" name="id" value={engagementId} />
             {forward.map((s) => (
               <SubmitButton key={s} name="status" value={s} size="sm" variant={s === "closed" ? "secondary" : "primary"}>
                 {t("moveTo", { status: label(ENGAGEMENT_STATUS_LABELS, s, locale) })}
               </SubmitButton>
             ))}
-          </form>
+          </ServerActionForm>
         ) : null}
         {canCancel ? (
           <ConfirmAction

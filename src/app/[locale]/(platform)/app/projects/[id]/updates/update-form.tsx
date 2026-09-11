@@ -10,6 +10,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export function UpdateForm({ action }: { action: (prev: ActionResult | null, formData: FormData) => Promise<ActionResult> }) {
   const [result, formAction] = useActionState(action, null);
@@ -28,7 +29,7 @@ export function UpdateForm({ action }: { action: (prev: ActionResult | null, for
   }, [result, router, t]);
 
   return (
-    <form key={formKey} action={formAction} className="flex flex-col gap-4" noValidate>
+    <ServerActionForm key={formKey} action={formAction} result={result} className="flex flex-col gap-4" noValidate>
       <Field label={t("titleField")} htmlFor="update-title" error={fieldError(result, "title")} required>
         <Input id="update-title" name="title" required maxLength={200} />
       </Field>
@@ -43,6 +44,6 @@ export function UpdateForm({ action }: { action: (prev: ActionResult | null, for
       <div>
         <SubmitButton size="sm">{t("post")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

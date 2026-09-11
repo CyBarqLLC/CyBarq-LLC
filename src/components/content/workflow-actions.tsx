@@ -17,6 +17,7 @@ import { Status } from "@/components/ui/status";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { ConfirmAction } from "./confirm-action";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type WorkflowActionsProps = {
   table: ContentTable;
@@ -55,7 +56,7 @@ export function WorkflowActions({ table, id, status, scheduledFor, publishedAt, 
         {status === "published" && publishedAt ? <span className="text-small text-slate">{t("publishedAt", { date: formatDateTime(publishedAt, locale) })}</span> : null}
       </div>
       <div className="flex flex-wrap gap-2">
-        <form action={formAction} className="contents">
+        <ServerActionForm action={formAction} result={result} className="contents">
           <input type="hidden" name="table" value={table} />
           <input type="hidden" name="id" value={id} />
           {direct.map((a) => (
@@ -63,7 +64,7 @@ export function WorkflowActions({ table, id, status, scheduledFor, publishedAt, 
               {t(`actions.${a}`)}
             </SubmitButton>
           ))}
-        </form>
+        </ServerActionForm>
         {canSchedule ? <ScheduleDialog table={table} id={id} scheduledFor={scheduledFor} /> : null}
       </div>
       {!canPublish && actions.some(needsPublish) ? <p className="text-small text-slate">{t("publishNeedsPermission")}</p> : null}
@@ -105,7 +106,7 @@ function ScheduleDialog({ table, id, scheduledFor }: { table: ContentTable; id: 
         <Button type="button" size="sm" variant={VARIANT.schedule}>{t("actions.schedule")}</Button>
       </DialogTrigger>
       <DialogContent title={t("scheduleTitle")} description={t("scheduleDescription")}>
-        <form action={formAction} className="flex flex-col gap-4" noValidate>
+        <ServerActionForm action={formAction} result={result} className="flex flex-col gap-4" noValidate>
           <input type="hidden" name="table" value={table} />
           <input type="hidden" name="id" value={id} />
           <input type="hidden" name="action" value="schedule" />
@@ -119,7 +120,7 @@ function ScheduleDialog({ table, id, scheduledFor }: { table: ContentTable; id: 
             </DialogClose>
             <SubmitButton>{t("actions.schedule")}</SubmitButton>
           </DialogFooter>
-        </form>
+        </ServerActionForm>
       </DialogContent>
     </Dialog>
   );

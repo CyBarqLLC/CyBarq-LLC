@@ -13,6 +13,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { Button } from "@/components/ui/button";
 import { Blade } from "@/components/brand/elements";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type ServiceOptionGroup = { label: string; options: { value: string; label: string }[] };
 
@@ -58,7 +59,7 @@ function ContactFormInner({ serviceGroups, defaultService, onReset }: ContactFor
   const topError = result && !result.ok && !result.fieldErrors ? (result.error === CONTACT_RATE_LIMITED ? t("errors.rateLimited") : t("errors.generic")) : null;
 
   return (
-    <form action={action} className="flex flex-col gap-5" noValidate>
+    <ServerActionForm action={action} result={result} className="flex flex-col gap-5" noValidate>
       <input type="hidden" name="locale" value={locale} />
       {/* Honeypot: hidden from people, filled by bots. */}
       <div className="sr-only" aria-hidden>
@@ -107,6 +108,6 @@ function ContactFormInner({ serviceGroups, defaultService, onReset }: ContactFor
       <p className="text-small text-slate">
         {t("privacy")} <Link href="/privacy" className="text-azure underline underline-offset-4">{tc("footer.privacy")}</Link>
       </p>
-    </form>
+    </ServerActionForm>
   );
 }

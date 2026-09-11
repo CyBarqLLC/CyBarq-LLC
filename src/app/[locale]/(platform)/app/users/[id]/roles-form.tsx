@@ -7,6 +7,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 /** Role matrix form; the checkboxes are server rendered children. */
 export function UserRolesForm({ action, children }: { action: (prev: ActionResult | null, formData: FormData) => Promise<ActionResult>; children: React.ReactNode }) {
@@ -24,12 +25,12 @@ export function UserRolesForm({ action, children }: { action: (prev: ActionResul
   }, [result, router, t]);
 
   return (
-    <form action={formAction} className="flex flex-col gap-5" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-5" noValidate>
       {children}
       <FormMessage result={result} />
       <div>
         <SubmitButton size="sm">{t("saveRoles")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

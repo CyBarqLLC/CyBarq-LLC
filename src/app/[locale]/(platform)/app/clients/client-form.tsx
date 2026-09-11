@@ -12,6 +12,7 @@ import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
 import { CLIENT_STATUSES } from "@/lib/validation/clients";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type ClientFormValues = {
   name_en: string;
@@ -52,7 +53,7 @@ export function ClientForm({ mode, action, defaults }: ClientFormProps) {
   const err = (name: string) => fieldError(result, name);
 
   return (
-    <form action={formAction} className="flex flex-col gap-8" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-8" noValidate>
       <section className="flex flex-col gap-5">
         <h2 className="text-h3">{t("form.identity")}</h2>
         <div className="grid gap-5 sm:grid-cols-2">
@@ -116,6 +117,6 @@ export function ClientForm({ mode, action, defaults }: ClientFormProps) {
       <div>
         <SubmitButton>{mode === "create" ? t("form.create") : t("form.save")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

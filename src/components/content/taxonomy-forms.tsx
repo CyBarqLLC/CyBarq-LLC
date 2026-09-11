@@ -14,6 +14,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { ImageUpload } from "./image-upload";
 import { LangGrid, useSlug } from "./form-shared";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type FormAction = (prev: ActionResult<{ id: string }> | null, formData: FormData) => Promise<ActionResult<{ id: string }>>;
 
@@ -25,7 +26,7 @@ export function AuthorForm({ action, defaults, employees, publicBase, mode }: { 
   const tc = useTranslations("common");
   const locale = useLocale() as Locale;
   return (
-    <form action={formAction} className="flex flex-col gap-8" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-8" noValidate>
       <LangGrid
         en={
           <>
@@ -73,7 +74,7 @@ export function AuthorForm({ action, defaults, employees, publicBase, mode }: { 
         <SubmitButton>{mode === "create" ? tc("create") : tc("saveChanges")}</SubmitButton>
         {result?.ok && mode === "edit" ? <span role="status" className="text-small text-success">{t("saved")}</span> : null}
       </div>
-    </form>
+    </ServerActionForm>
   );
 }
 
@@ -83,7 +84,7 @@ export function CategoryForm({ action, defaults, mode }: { action: FormAction; d
   const tc = useTranslations("common");
   const slug = useSlug(defaults.slug ?? "", mode === "create");
   return (
-    <form action={formAction} className="flex flex-col gap-6" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-6" noValidate>
       <div className="grid gap-5 md:grid-cols-2">
         <Field label={t("kind")} htmlFor="kind" error={fieldError(result, "kind")} required>
           <NativeSelect id="kind" name="kind" defaultValue={defaults.kind ?? "news"}>
@@ -110,7 +111,7 @@ export function CategoryForm({ action, defaults, mode }: { action: FormAction; d
         <SubmitButton>{mode === "create" ? tc("create") : tc("saveChanges")}</SubmitButton>
         {result?.ok && mode === "edit" ? <span role="status" className="text-small text-success">{t("saved")}</span> : null}
       </div>
-    </form>
+    </ServerActionForm>
   );
 }
 
@@ -120,7 +121,7 @@ export function TagForm({ action, defaults, mode }: { action: FormAction; defaul
   const tc = useTranslations("common");
   const slug = useSlug(defaults.slug ?? "", mode === "create");
   return (
-    <form action={formAction} className="flex flex-col gap-6" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-6" noValidate>
       <div className="grid gap-5 md:grid-cols-2">
         <Field label={t("nameEn")} htmlFor="name_en" error={fieldError(result, "name_en")} required>
           <Input id="name_en" name="name_en" defaultValue={defaults.name_en ?? ""} required maxLength={80} dir="ltr" onChange={(e) => slug.onTitleChange(e.target.value)} />
@@ -137,6 +138,6 @@ export function TagForm({ action, defaults, mode }: { action: FormAction; defaul
         <SubmitButton>{mode === "create" ? tc("create") : tc("saveChanges")}</SubmitButton>
         {result?.ok && mode === "edit" ? <span role="status" className="text-small text-success">{t("saved")}</span> : null}
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

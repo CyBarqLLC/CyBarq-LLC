@@ -11,6 +11,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 /** Roles are rendered by the server (RoleCheckboxes) and passed as children so the list stays server driven. */
 export function InviteEmployeeForm({ children }: { children: React.ReactNode }) {
@@ -30,7 +31,7 @@ export function InviteEmployeeForm({ children }: { children: React.ReactNode }) 
   }, [result, router, t]);
 
   return (
-    <form action={formAction} className="flex flex-col gap-6" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-6" noValidate>
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label={t("form.email")} htmlFor="email" error={fieldError(result, "email")} required className="sm:col-span-2">
           <Input id="email" name="email" type="email" inputMode="email" autoComplete="off" required maxLength={200} dir="ltr" aria-invalid={!!fieldError(result, "email")} />
@@ -58,6 +59,6 @@ export function InviteEmployeeForm({ children }: { children: React.ReactNode }) 
       <div>
         <SubmitButton>{t("form.send")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

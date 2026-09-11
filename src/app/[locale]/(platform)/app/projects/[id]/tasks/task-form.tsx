@@ -12,6 +12,7 @@ import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
 import type { Option } from "@/components/platform/enum-options";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type TaskFormValues = {
   title: string;
@@ -49,7 +50,7 @@ export function TaskForm({ mode, projectId, action, defaults, assignees, milesto
   }, [result, mode, projectId, router, t]);
 
   return (
-    <form action={formAction} className="flex flex-col gap-5" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-5" noValidate>
       <Field label={t("fields.title")} htmlFor="title" error={fieldError(result, "title")} required>
         <Input id="title" name="title" defaultValue={defaults.title} required maxLength={200} aria-invalid={!!fieldError(result, "title")} />
       </Field>
@@ -95,6 +96,6 @@ export function TaskForm({ mode, projectId, action, defaults, assignees, milesto
       <div>
         <SubmitButton>{mode === "create" ? t("new") : t("edit")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

@@ -13,6 +13,7 @@ import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
 import type { Option } from "@/components/platform/enum-options";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type MilestoneFormValues = {
   title_en: string;
@@ -53,7 +54,7 @@ export function MilestoneForm({ action, defaults, statuses, submitLabel, onDone,
   const id = (name: string) => `${idPrefix}-${name}`;
 
   return (
-    <form key={formKey} action={formAction} className="flex flex-col gap-4" noValidate>
+    <ServerActionForm key={formKey} action={formAction} result={result} className="flex flex-col gap-4" noValidate>
       <Field label={t("titleEn")} htmlFor={id("title_en")} error={fieldError(result, "title_en")} required>
         <Input id={id("title_en")} name="title_en" defaultValue={defaults.title_en} required maxLength={200} dir="ltr" />
       </Field>
@@ -86,6 +87,6 @@ export function MilestoneForm({ action, defaults, statuses, submitLabel, onDone,
           <Button type="button" variant="ghost" size="sm" onClick={onDone}>{tc("cancel")}</Button>
         ) : null}
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

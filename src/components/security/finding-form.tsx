@@ -14,6 +14,7 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { businessToday } from "@/lib/time";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type FindingFormProps = {
   action: (prev: ActionResult<{ id: string }> | null, formData: FormData) => Promise<ActionResult<{ id: string }>>;
@@ -31,7 +32,7 @@ export function FindingForm({ action, engagementId, defaults, assets, mode }: Fi
   const showRemediation = mode === "edit";
 
   return (
-    <form action={formAction} className="flex flex-col gap-8" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-8" noValidate>
       <input type="hidden" name="engagement_id" value={engagementId} />
       <section className="flex flex-col gap-5">
         <h2 className="text-h3">{t("sections.identification")}</h2>
@@ -103,6 +104,6 @@ export function FindingForm({ action, engagementId, defaults, assets, mode }: Fi
       <div>
         <SubmitButton>{mode === "create" ? t("create") : t("save")}</SubmitButton>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

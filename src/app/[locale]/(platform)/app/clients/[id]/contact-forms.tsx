@@ -10,6 +10,7 @@ import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type ContactValues = { name: string; email: string | null; phone: string | null; title: string | null };
 
@@ -41,7 +42,7 @@ export function ContactForm({ action, defaults, submitLabel, idPrefix, onDone }:
 
   const id = (n: string) => `${idPrefix}-${n}`;
   return (
-    <form key={formKey} action={formAction} className="flex flex-col gap-4" noValidate>
+    <ServerActionForm key={formKey} action={formAction} result={result} className="flex flex-col gap-4" noValidate>
       <Field label={t("name")} htmlFor={id("name")} error={fieldError(result, "name")} required>
         <Input id={id("name")} name="name" defaultValue={defaults.name} required maxLength={200} />
       </Field>
@@ -61,7 +62,7 @@ export function ContactForm({ action, defaults, submitLabel, idPrefix, onDone }:
         <SubmitButton size="sm">{submitLabel}</SubmitButton>
         {onDone ? <Button type="button" variant="ghost" size="sm" onClick={onDone}>{tc("cancel")}</Button> : null}
       </div>
-    </form>
+    </ServerActionForm>
   );
 }
 

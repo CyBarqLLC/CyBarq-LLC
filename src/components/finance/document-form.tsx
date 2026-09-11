@@ -15,6 +15,7 @@ import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { CURRENCIES } from "@/lib/validation/finance";
 import { createQuote, updateQuote, createInvoice, updateInvoice } from "@/lib/actions/finance";
 import { LineItemsEditor, type LineItemDraft } from "./line-items-editor";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 export type DocumentFormValues = {
   id?: string;
@@ -62,7 +63,7 @@ export function DocumentForm({ kind, mode, values, items, clients, projects, loc
   const dateField = kind === "quote" ? "valid_until" : "due_date";
 
   return (
-    <form action={formAction} className="flex flex-col gap-10" noValidate>
+    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-10" noValidate>
       {values?.id ? <input type="hidden" name="id" value={values.id} /> : null}
       {values?.updated_at ? <input type="hidden" name="expected_updated_at" value={values.updated_at} /> : null}
 
@@ -151,6 +152,6 @@ export function DocumentForm({ kind, mode, values, items, clients, projects, loc
           <Link href={cancelHref}>{t("form.cancel")}</Link>
         </Button>
       </div>
-    </form>
+    </ServerActionForm>
   );
 }

@@ -8,6 +8,7 @@ import { setRolePermission } from "@/lib/actions/users";
 import { toast } from "@/components/ui/toaster";
 import type { ActionResult } from "@/lib/actions/result";
 import { cn } from "@/lib/utils/cn";
+import { ServerActionForm } from "@/components/ui/server-action-form";
 
 function ToggleButton({ granted, label }: { granted: boolean; label: string }) {
   const { pending } = useFormStatus();
@@ -44,11 +45,11 @@ export function PermissionToggle({ roleKey, permissionKey, granted, label, succe
     }
   }, [result, router, successMessage]);
   return (
-    <form action={formAction} className="flex justify-center">
+    <ServerActionForm action={formAction} result={result} className="flex justify-center">
       <input type="hidden" name="role_key" value={roleKey} />
       <input type="hidden" name="permission_key" value={permissionKey} />
       <input type="hidden" name="granted" value={granted ? "false" : "true"} />
       <ToggleButton granted={granted} label={label} />
-    </form>
+    </ServerActionForm>
   );
 }
