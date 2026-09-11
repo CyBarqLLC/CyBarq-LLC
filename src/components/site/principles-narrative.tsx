@@ -30,7 +30,7 @@ export function PrinciplesNarrative({ steps }: { steps: NarrativeStep[] }) {
   React.useEffect(() => {
     const elements = items.current.filter((element): element is HTMLLIElement => element !== null);
     if (elements.length === 0) return;
-    const indexOf = new Map<Element, number>(elements.map((element, index) => [element, index]));
+    const indexOf = new Map<Element, number>(elements.map((element, index): [Element, number] => [element, index]));
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {

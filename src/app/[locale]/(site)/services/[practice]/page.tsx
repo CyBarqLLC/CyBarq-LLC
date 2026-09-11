@@ -60,7 +60,9 @@ export default async function PracticePage({ params }: Props) {
 
       <section className="border-t border-fog">
         <div className="container-page section">
-          <SectionHeading title={t("inPractice")} lead={t("count", { count: list.length })} className="mb-8" />
+          <SectionHeading title={t("inPractice")} className="mb-8">
+            <p className="text-small tabular-nums text-slate">{t("count", { count: list.length })}</p>
+          </SectionHeading>
           <ServiceGrid columns={3}>
             {list.map((s) => (
               <ServiceCard key={s.slug} service={s} locale={locale} />
