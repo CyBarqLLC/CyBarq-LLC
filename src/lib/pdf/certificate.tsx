@@ -1,4 +1,4 @@
-import { Document, Page, View, Text, Image, StyleSheet } from "@react-pdf/renderer";
+import { Document, Page, View, Text, Image as PdfImage, StyleSheet } from "@react-pdf/renderer";
 import type { Locale } from "@/i18n/routing";
 import type { Enums } from "@/lib/supabase/database.types";
 import { formatDate, formatNumber } from "@/lib/utils/format";
@@ -165,7 +165,7 @@ export function CertificateDocument({ data }: { data: CertificateDocumentData })
 
           {/* Verification */}
           <View style={sx(s.col, { alignItems: rtl ? "flex-start" : "flex-end" })}>
-            <Image src={data.qrDataUrl} style={s.qr} />
+            <PdfImage src={data.qrDataUrl} style={s.qr} />
             <Text style={sx(s.small, { marginTop: 4, textAlign: end })}>{t.verify}</Text>
             <Text style={sx(s.small, { textAlign: end, color: PDF_COLORS.graphite })}>{data.verificationUrl}</Text>
           </View>

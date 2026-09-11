@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import { pick } from "@/i18n/bilingual";
 import { createPublicClient } from "@/lib/supabase/server";
 import { rateLimit, requestIp, hashIp } from "@/lib/rate-limit";
-import { formatDate } from "@/lib/utils/format";
+import { formatDate, formatNumber } from "@/lib/utils/format";
 import { label, CERTIFICATE_TYPE_LABELS } from "@/lib/labels";
 import { Blade } from "@/components/brand/elements";
 import { Button } from "@/components/ui/button";
@@ -51,7 +51,10 @@ export default async function VerifyCodePage({ params }: Props) {
     push("recipient", pick(certificate, "recipient_name", locale));
     push("title", pick(certificate, "title", locale));
     push("program", pick(certificate, "program_name", locale));
+    push("role", pick(certificate, "role_title", locale));
     push("period", period);
+    const hours = certificate.hours === null || certificate.hours === undefined ? null : Number(certificate.hours);
+    push("hours", hours && hours > 0 ? formatNumber(hours, locale, Number.isInteger(hours) ? 0 : 1) : null);
     push("issued", certificate.issue_date ? formatDate(certificate.issue_date, locale, "long") : null);
     if (certificate.status === "revoked") push("revokedOn", certificate.revoked_at ? formatDate(certificate.revoked_at, locale, "long") : null);
   }
@@ -87,7 +90,12 @@ export default async function VerifyCodePage({ params }: Props) {
             ) : (
               <ResultPanel tone="neutral" title={t("notFoundTitle")} body={t("notFoundBody")} />
             )}
-            <div className="mt-8">
+            <div className="mt-8 flex flex-wrap gap-3">
+              {certificate && !revoked ? (
+                <Button asChild variant="primary">
+                  <a href={`/api/verify/${encodeURIComponent(code)}/pdf`} target="_blank" rel="noopener">{t("downloadPdf")}</a>
+                </Button>
+              ) : null}
               <Button asChild variant="outline">
                 <Link href="/verify">{t("checkAnother")}</Link>
               </Button>

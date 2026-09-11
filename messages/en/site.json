@@ -141,10 +141,13 @@
       "program": "Programme",
       "period": "Period",
       "issued": "Issue date",
-      "revokedOn": "Revoked on"
+      "revokedOn": "Revoked on",
+      "role": "Role",
+      "hours": "Hours"
     },
     "checkAnother": "Check another certificate",
-    "note": "This page shows only the information printed on the certificate. For questions about a certificate, contact info@cybarq.com."
+    "note": "This page shows only the information printed on the certificate. For questions about a certificate, contact info@cybarq.com.",
+    "downloadPdf": "Download the certificate (PDF)"
   },
   "legal": {
     "updated": "Last updated {date}",

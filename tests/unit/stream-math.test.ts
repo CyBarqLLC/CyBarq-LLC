@@ -11,7 +11,9 @@ describe("blade geometry", () => {
     expect(ty).toBeCloseTo(0);
     expect(bx).toBeCloseTo(50 - 100 * BLADE_E1);
     expect(by).toBeCloseTo(0);
-    const apex = Math.atan2(cy - ty, cx - tx) - Math.atan2(by - ty, bx - tx);
+    const raw = Math.atan2(cy - ty, cx - tx) - Math.atan2(by - ty, bx - tx);
+    // Normalise to (-pi, pi]: the two edges straddle the +/-pi seam when the blade points along the x axis.
+    const apex = Math.atan2(Math.sin(raw), Math.cos(raw));
     expect(Math.abs(apex)).toBeCloseTo(BLADE_APEX, 6);
   });
 });

@@ -48,6 +48,9 @@ create table if not exists private.rate_limits (
   window_start timestamptz not null,
   hits integer not null
 );
+-- Only the definer functions below touch this table. RLS with no policies keeps
+-- it closed to every API role even if the schema were ever exposed.
+alter table private.rate_limits enable row level security;
 
 create or replace function public.consume_rate_limit(_key text, _limit integer, _window_seconds integer)
 returns boolean
