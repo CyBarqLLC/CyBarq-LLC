@@ -100,7 +100,7 @@ export function ReportsPanel({ engagementId, reports, canWrite, canReport }: Pro
             }}
             accept="application/pdf"
             maxSizeMb={100}
-            labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove") }}
+            labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove"), submit: tu("submit") }}
           />
         </div>
       ) : null}

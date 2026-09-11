@@ -52,7 +52,7 @@ export function AuthorisationPanel({ engagementId, hasDocument, fileName, canWri
           onUploaded={(r) => setAuthorisationDocument(engagementId, { path: r.path })}
           accept="application/pdf,image/*"
           maxSizeMb={25}
-          labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove") }}
+          labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove"), submit: tu("submit") }}
         />
       ) : null}
     </div>

@@ -42,7 +42,7 @@ export function DocumentUploader({ requestTicket, register, categories, category
   const categoryId = React.useId();
   const visibleId = React.useId();
 
-  const labels = { choose: t("choose"), drop: t("drop"), uploading: t("uploading"), done: t("done"), tooLarge: t("tooLarge"), remove: t("remove") };
+  const labels = { choose: t("choose"), drop: t("drop"), uploading: t("uploading"), done: t("done"), tooLarge: t("tooLarge"), remove: t("remove"), submit: t("submit") };
 
   return (
     <div className="flex flex-col gap-4">

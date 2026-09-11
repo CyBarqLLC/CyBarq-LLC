@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Download, Paperclip } from "lucide-react";
 import type { Locale } from "@/i18n/routing";
 import { requestEvidenceUpload, registerEvidence, deleteEvidence } from "@/lib/actions/security";
-import { formatDate } from "@/lib/utils/format";
+import { formatDate, displayFileName } from "@/lib/utils/format";
 import { FileUpload } from "@/components/ui/file-upload";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -39,7 +39,7 @@ export function EvidencePanel({ findingId, evidence, canWrite }: Props) {
             <li key={e.id} className="flex items-center gap-3 px-4 py-3">
               <Paperclip className="size-4 shrink-0 text-slate" aria-hidden />
               <div className="min-w-0 flex-1">
-                <div className="truncate text-body">{e.caption ?? e.storage_path.split("/").pop()}</div>
+                <div className="truncate text-body">{e.caption ?? displayFileName(e.storage_path)}</div>
                 <div className="text-small text-slate">
                   {formatDate(e.created_at, locale)}
                   {e.size_bytes ? ` · ${formatSize(e.size_bytes)}` : ""}
@@ -69,7 +69,7 @@ export function EvidencePanel({ findingId, evidence, canWrite }: Props) {
               return saved;
             }}
             maxSizeMb={50}
-            labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove") }}
+            labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove"), submit: tu("submit") }}
           />
         </div>
       ) : null}

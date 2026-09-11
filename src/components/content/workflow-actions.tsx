@@ -17,6 +17,7 @@ import { Status } from "@/components/ui/status";
 import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage, fieldError } from "@/components/ui/form-message";
 import { ConfirmAction } from "./confirm-action";
+import { ActionChoices } from "@/components/platform/action-choices";
 import { ServerActionForm } from "@/components/ui/server-action-form";
 
 type WorkflowActionsProps = {
@@ -56,15 +57,14 @@ export function WorkflowActions({ table, id, status, scheduledFor, publishedAt, 
         {status === "published" && publishedAt ? <span className="text-small text-slate">{t("publishedAt", { date: formatDateTime(publishedAt, locale) })}</span> : null}
       </div>
       <div className="flex flex-wrap gap-2">
-        <ServerActionForm action={formAction} result={result} className="contents">
-          <input type="hidden" name="table" value={table} />
-          <input type="hidden" name="id" value={id} />
-          {direct.map((a) => (
-            <SubmitButton key={a} name="action" value={a} size="sm" variant={VARIANT[a]}>
-              {t(`actions.${a}`)}
-            </SubmitButton>
-          ))}
-        </ServerActionForm>
+        <ActionChoices
+          action={formAction}
+          result={result}
+          name="action"
+          fields={{ table, id }}
+          choices={direct.map((a) => ({ value: a, label: t(`actions.${a}`), variant: VARIANT[a] }))}
+          className="contents"
+        />
         {canSchedule ? <ScheduleDialog table={table} id={id} scheduledFor={scheduledFor} /> : null}
       </div>
       {!canPublish && actions.some(needsPublish) ? <p className="text-small text-slate">{t("publishNeedsPermission")}</p> : null}

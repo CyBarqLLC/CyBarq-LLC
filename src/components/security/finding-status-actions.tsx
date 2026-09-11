@@ -7,9 +7,8 @@ import type { Enums } from "@/lib/supabase/database.types";
 import { changeFindingStatus } from "@/lib/actions/security";
 import { FINDING_TRANSITIONS } from "@/lib/validation/security";
 import { FINDING_STATUS_LABELS, label } from "@/lib/labels";
-import { SubmitButton } from "@/components/ui/submit-button";
 import { FormMessage } from "@/components/ui/form-message";
-import { ServerActionForm } from "@/components/ui/server-action-form";
+import { ActionChoices } from "@/components/platform/action-choices";
 
 type Props = { findingId: string; engagementId: string; status: Enums<"finding_status">; canWrite: boolean };
 
@@ -20,17 +19,15 @@ export function FindingStatusActions({ findingId, engagementId, status, canWrite
   const next = FINDING_TRANSITIONS[status];
   if (!canWrite || next.length === 0) return null;
   return (
-    <ServerActionForm action={formAction} result={result} className="flex flex-col gap-3">
-      <input type="hidden" name="id" value={findingId} />
-      <input type="hidden" name="engagement_id" value={engagementId} />
-      <div className="flex flex-wrap gap-2">
-        {next.map((s) => (
-          <SubmitButton key={s} name="status" value={s} size="sm" variant={s === "verified" ? "primary" : "outline"}>
-            {t("moveTo", { status: label(FINDING_STATUS_LABELS, s, locale) })}
-          </SubmitButton>
-        ))}
-      </div>
+    <div className="flex flex-col gap-3">
+      <ActionChoices
+        action={formAction}
+        result={result}
+        name="status"
+        fields={{ id: findingId, engagement_id: engagementId }}
+        choices={next.map((s) => ({ value: s, label: t("moveTo", { status: label(FINDING_STATUS_LABELS, s, locale) }), variant: s === "verified" ? "primary" : "outline" }))}
+      />
       <FormMessage result={result} />
-    </ServerActionForm>
+    </div>
   );
 }

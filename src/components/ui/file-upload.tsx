@@ -15,7 +15,7 @@ type FileUploadProps = {
   onUploaded: (result: { path: string; name: string; size: number; type: string }) => Promise<{ ok: true } | { ok: false; error: string }>;
   accept?: string;
   maxSizeMb?: number;
-  labels: { choose: string; drop: string; uploading: string; done: string; tooLarge: string; remove: string };
+  labels: { choose: string; drop: string; uploading: string; done: string; tooLarge: string; remove: string; submit: string };
   className?: string;
 };
 
@@ -105,7 +105,7 @@ export function FileUpload({ requestTicket, onUploaded, accept, maxSizeMb = 25, 
       {state === "done" ? <p role="status" className="text-small text-success">{labels.done}</p> : null}
       <div>
         <Button type="button" onClick={upload} disabled={!file || state === "uploading"} loading={state === "uploading"} size="sm">
-          {state === "uploading" ? labels.uploading : labels.choose}
+          {state === "uploading" ? labels.uploading : labels.submit}
         </Button>
       </div>
     </div>

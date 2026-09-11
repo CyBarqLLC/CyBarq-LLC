@@ -52,7 +52,7 @@ export function ImageUpload({ target, name, defaultPath, publicBase, alt }: Imag
         }}
         accept="image/png,image/jpeg,image/webp,image/avif,image/svg+xml"
         maxSizeMb={10}
-        labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove") }}
+        labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove"), submit: tu("submit") }}
       />
       <p className="text-small text-slate">{t("hint")}</p>
     </div>

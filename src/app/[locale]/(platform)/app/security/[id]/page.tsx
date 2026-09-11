@@ -8,7 +8,7 @@ import { requireEmployee } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { param, type SearchParams } from "@/lib/data/paginate";
 import { pick } from "@/i18n/bilingual";
-import { formatDate } from "@/lib/utils/format";
+import { formatDate, displayFileName } from "@/lib/utils/format";
 import { ENGAGEMENT_STATUS_LABELS, ENGAGEMENT_TYPE_LABELS, FINDING_STATUS_LABELS, SEVERITY_LABELS, label } from "@/lib/labels";
 import { FINDING_STATUS_ORDER, SEVERITY_ORDER } from "@/lib/validation/security";
 import { deleteEngagement } from "@/lib/actions/security";
@@ -184,7 +184,7 @@ export default async function EngagementPage({ params, searchParams }: { params:
             <AuthorisationPanel
               engagementId={id}
               hasDocument={!!engagement.authorisation_document_path}
-              fileName={engagement.authorisation_document_path ? (engagement.authorisation_document_path.split("/").pop() ?? null) : null}
+              fileName={engagement.authorisation_document_path ? displayFileName(engagement.authorisation_document_path) : null}
               canWrite={canWrite}
             />
           </CardContent>

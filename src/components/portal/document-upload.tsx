@@ -29,7 +29,7 @@ export function PortalDocumentUpload({ projectId }: { projectId: string }) {
           return saved;
         }}
         maxSizeMb={50}
-        labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove") }}
+        labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove"), submit: tu("submit") }}
       />
     </div>
   );

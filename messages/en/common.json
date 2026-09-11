@@ -43,7 +43,8 @@
     "uploading": "Uploading",
     "done": "Uploaded",
     "tooLarge": "This file is too large.",
-    "remove": "Remove file"
+    "remove": "Remove file",
+    "submit": "Upload"
   },
   "view": "View",
   "details": "Details",

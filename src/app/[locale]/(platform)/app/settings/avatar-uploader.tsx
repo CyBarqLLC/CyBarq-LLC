@@ -26,7 +26,7 @@ export function AvatarUploader({ name, currentUrl }: { name: string; currentUrl:
         className="flex-1"
         accept="image/png,image/jpeg,image/webp"
         maxSizeMb={2}
-        labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove") }}
+        labels={{ choose: tu("choose"), drop: tu("drop"), uploading: tu("uploading"), done: tu("done"), tooLarge: tu("tooLarge"), remove: tu("remove"), submit: tu("submit") }}
         requestTicket={async (file) => {
           const result = await requestAvatarUpload(file);
           return result.ok ? { ok: true, data: result.data } : { ok: false, error: result.error };
