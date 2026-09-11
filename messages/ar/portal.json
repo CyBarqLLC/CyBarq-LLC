@@ -24,7 +24,8 @@
     "noDate": "بلا تاريخ",
     "noMilestone": "لا توجد مرحلة قادمة",
     "updatesTitle": "آخر التحديثات",
-    "noUpdates": "لم تُشارَك تحديثات بعد"
+    "noUpdates": "لم تُشارَك تحديثات بعد",
+    "welcomeAnonymous": "أهلاً بك"
   },
   "projects": {
     "title": "المشاريع",

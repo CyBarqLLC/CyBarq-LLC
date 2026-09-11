@@ -141,7 +141,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
 
       {viewer.can("audit.read") ? (
         <Section title={t("history.title")}>
-          <HistoryList rows={history} locale={locale} emptyLabel={t("history.empty")} actorLabel={t("history.actor")} entityType="invoice" transitionLabel={(from, to) => t("history.transition", { from, to })} />
+          <HistoryList rows={history} locale={locale} emptyLabel={t("history.empty")} actorLabel={t("history.actor")} entityType="invoice" currency={invoice.currency} transitionLabel={(from, to) => t("history.transition", { from, to })} />
         </Section>
       ) : null}
     </div>

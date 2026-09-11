@@ -1,6 +1,8 @@
 {
   "nav": {
-    "sections": { "portal": "Client portal" },
+    "sections": {
+      "portal": "Client portal"
+    },
     "overview": "Overview",
     "projects": "Projects",
     "documents": "Documents",
@@ -22,7 +24,8 @@
     "noDate": "no date",
     "noMilestone": "No upcoming milestone",
     "updatesTitle": "Latest updates",
-    "noUpdates": "No updates shared yet"
+    "noUpdates": "No updates shared yet",
+    "welcomeAnonymous": "Welcome"
   },
   "projects": {
     "title": "Projects",

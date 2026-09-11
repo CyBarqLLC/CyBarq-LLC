@@ -110,7 +110,7 @@ export default async function QuoteDetailPage({ params }: { params: Promise<{ id
 
       {viewer.can("audit.read") ? (
         <Section title={t("history.title")}>
-          <HistoryList rows={history} locale={locale} emptyLabel={t("history.empty")} actorLabel={t("history.actor")} entityType="quote" transitionLabel={(from, to) => t("history.transition", { from, to })} />
+          <HistoryList rows={history} locale={locale} emptyLabel={t("history.empty")} actorLabel={t("history.actor")} entityType="quote" currency={quote.currency} transitionLabel={(from, to) => t("history.transition", { from, to })} />
         </Section>
       ) : null}
     </div>

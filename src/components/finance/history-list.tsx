@@ -22,10 +22,12 @@ type HistoryListProps = {
   actorLabel: string;
   /** "{from} → {to}" phrasing in the viewer's language. */
   transitionLabel: (from: string, to: string) => string;
+  /** Currency of the document, for entries whose metadata carries an amount without one. */
+  currency?: string;
 };
 
 /** Compact audit trail for a document. Only rendered for audit.read holders. */
-export function HistoryList({ rows, locale, entityType, emptyLabel, actorLabel, transitionLabel }: HistoryListProps) {
+export function HistoryList({ rows, locale, entityType, emptyLabel, actorLabel, transitionLabel, currency: documentCurrency }: HistoryListProps) {
   if (rows.length === 0) return <p className="text-small text-slate">{emptyLabel}</p>;
   return (
     <ol className="flex flex-col divide-y divide-fog border border-fog bg-white">
@@ -34,7 +36,7 @@ export function HistoryList({ rows, locale, entityType, emptyLabel, actorLabel, 
         const to = meta(r.metadata, "to");
         const reason = meta(r.metadata, "reason");
         const amount = meta(r.metadata, "amount");
-        const currency = meta(r.metadata, "currency");
+        const currency = meta(r.metadata, "currency") ?? documentCurrency ?? null;
         const method = meta(r.metadata, "method");
         const sentTo = to && to.includes("@") ? to : null;
         const details: string[] = [];
