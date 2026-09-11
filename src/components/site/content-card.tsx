@@ -16,7 +16,7 @@ type ContentCardProps = {
 export function ContentCard({ href, title, excerpt, eyebrow, meta, image, className }: ContentCardProps) {
   return (
     <li className={cn("bg-white", className)}>
-      <Link href={href} className="group flex h-full flex-col transition-colors duration-(--duration-state) hover:bg-ice focus-visible:bg-ice">
+      <Link href={href} className="group flex h-full flex-col transition-colors duration-(--duration-state) hover:bg-ice/60 focus-visible:bg-ice/60 focus-visible:-outline-offset-2">
         {image ? (
           <div className="relative aspect-[3/2] w-full overflow-hidden border-b border-fog bg-surface">
             <Image src={image.src} alt={image.alt} fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover" />

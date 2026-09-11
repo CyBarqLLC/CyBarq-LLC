@@ -9,7 +9,7 @@ import { PracticeGrid } from "@/components/site/practice-grid";
 import { ServiceCard, ServiceGrid } from "@/components/site/service-card";
 import { StatementPanel } from "@/components/site/statement-panel";
 import { LatestContent } from "@/components/site/latest-content";
-import { LogoStrip } from "@/components/site/logo-strip";
+import { LogoGrid, LogoMarquee } from "@/components/site/logo-strip";
 import { RegistrationPanel } from "@/components/site/registration-panel";
 import { CtaPanel } from "@/components/site/cta-panel";
 import { JsonLd } from "@/components/site/json-ld";
@@ -70,14 +70,16 @@ export default async function HomePage({ params }: Props) {
         <SectionHeader eyebrow={t("practicesEyebrow")} title={t("practicesTitle")} description={t("practicesLead")} />
         <PracticeGrid locale={locale} linkLabel={ts("explore")} />
         <div className="mt-8">
-          <Link href="/services" className="text-azure hover:underline underline-offset-4">{t("allServices")}</Link>
+          <Link href="/services" className="text-azure underline-offset-4 hover:underline">
+            {t("allServices")}
+          </Link>
         </div>
       </section>
 
       <section className="border-t border-fog">
         <div className="container-page section">
           <SectionHeader eyebrow={t("howEyebrow")} title={t("howTitle")} />
-          <div className="grid gap-10 sm:grid-cols-2 lg:gap-x-16 lg:gap-y-14">
+          <div className="grid gap-12 sm:grid-cols-2 lg:gap-x-20 lg:gap-y-16">
             {principles.map((p) => (
               <article key={p.key} className="flex gap-5">
                 <Pictogram name={p.pictogram} className="size-10 shrink-0 text-graphite" />
@@ -91,7 +93,7 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      <StatementPanel tone="blue" eyebrow={t("statementEyebrow")} statement={company.slogan[locale]} body={t("statementBody")} />
+      <StatementPanel tone="blue" marks eyebrow={t("statementEyebrow")} statement={company.slogan[locale]} body={t("statementBody")} />
 
       <section className="container-page section">
         <SectionHeader eyebrow={t("selectedEyebrow")} title={t("selectedTitle")} description={t("selectedLead")} />
@@ -123,10 +125,10 @@ export default async function HomePage({ params }: Props) {
       ) : null}
 
       <div className="border-t border-fog">
-        <div className="section flex flex-col gap-14">
-          <LogoStrip title={t("partnersTitle")} logos={company.partnerLogos} alt="Partner logo" />
-          <LogoStrip title={t("certificationsTitle")} logos={company.certificationLogos} alt="Certification logo" />
-          <RegistrationPanel locale={locale} title={t("registrationTitle")} imageAlt={t("registrationAlt")} />
+        <div className="section flex flex-col gap-16 sm:gap-20">
+          <LogoMarquee id="partners" title={t("partnersTitle")} items={company.partners} labels={{ pause: t("logosPause"), play: t("logosPlay"), subject: t("logosSubject") }} />
+          <LogoGrid id="certifications" title={t("certificationsTitle")} items={company.certifications} />
+          <RegistrationPanel locale={locale} title={t("registrationTitle")} />
         </div>
       </div>
 

@@ -11,3 +11,4 @@ brand-src
 _tmp_assets.tar.gz
 supabase/.temp
 coverage
+.claude/

@@ -6,7 +6,6 @@ import { createPublicClient } from "@/lib/supabase/server";
 import { rateLimit, requestIp, hashIp } from "@/lib/rate-limit";
 import { formatDate, formatNumber } from "@/lib/utils/format";
 import { label, CERTIFICATE_TYPE_LABELS } from "@/lib/labels";
-import { Blade } from "@/components/brand/elements";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/site/page-intro";
 import { VerifyForm, normaliseCode } from "@/components/site/verify-form";
@@ -42,7 +41,9 @@ export default async function VerifyCodePage({ params }: Props) {
   const rows: Array<{ key: string; label: string; value: string }> = [];
   if (certificate) {
     const type = certificate.type ? label(CERTIFICATE_TYPE_LABELS, certificate.type, locale) : "";
-    const period = [certificate.start_date, certificate.end_date].filter(Boolean).map((d) => formatDate(d, locale, "long")).join(locale === "ar" ? " إلى " : " to ");
+    const start = formatDate(certificate.start_date, locale, "long");
+    const end = formatDate(certificate.end_date, locale, "long");
+    const period = start && end ? t("periodRange", { start, end }) : start || end;
     const push = (key: string, value: string | null | undefined) => {
       if (value && value.trim() !== "") rows.push({ key, label: t(`fields.${key}`), value });
     };
@@ -71,8 +72,7 @@ export default async function VerifyCodePage({ params }: Props) {
               <ResultPanel tone="warning" title={t("rateLimitedTitle")} body={t("rateLimitedBody")} />
             ) : certificate ? (
               <div className="border border-fog">
-                <div className={cn("flex items-center gap-3 border-b border-fog px-6 py-5", revoked ? "bg-danger-soft text-danger" : "bg-success-soft text-success")}>
-                  <Blade className="size-4" rotate={revoked ? 180 : 0} />
+                <div className={cn("border-b border-fog px-6 py-5", revoked ? "bg-danger-soft text-danger" : "bg-success-soft text-success")}>
                   <p className="text-h3">{revoked ? t("statusRevoked") : t("statusValid")}</p>
                 </div>
                 <div className="px-6 py-5">
@@ -81,7 +81,7 @@ export default async function VerifyCodePage({ params }: Props) {
                     {rows.map((r) => (
                       <div key={r.key} className="flex flex-col gap-1 border-t border-fog pt-3">
                         <dt className="text-label text-slate">{r.label}</dt>
-                        <dd className={cn("text-body", r.key === "number" && "font-mono tabular-nums")}>{r.value}</dd>
+                        <dd className={cn("text-body", r.key === "number" && "font-mono tabular-nums")}>{r.key === "number" ? <bdi dir="ltr">{r.value}</bdi> : r.value}</dd>
                       </div>
                     ))}
                   </dl>
@@ -130,8 +130,7 @@ async function lookup(code: string) {
 function ResultPanel({ tone, title, body }: { tone: "warning" | "neutral"; title: string; body: string }) {
   return (
     <div className="border border-fog">
-      <div className={cn("flex items-center gap-3 border-b border-fog px-6 py-5", tone === "warning" ? "bg-warning-soft text-warning" : "bg-surface text-graphite")}>
-        <Blade className="size-4" />
+      <div className={cn("border-b border-fog px-6 py-5", tone === "warning" ? "bg-warning-soft text-warning" : "bg-surface text-graphite")}>
         <p className="text-h3">{title}</p>
       </div>
       <p className="px-6 py-5 text-slate">{body}</p>

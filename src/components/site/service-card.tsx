@@ -15,7 +15,7 @@ type ServiceCardProps = {
 export function ServiceCard({ service, locale, practiceLabel, className }: ServiceCardProps) {
   return (
     <li className={cn("bg-white", className)}>
-      <Link href={servicePath(service)} className="flex h-full flex-col gap-4 p-6 transition-colors duration-(--duration-state) hover:bg-ice focus-visible:bg-ice">
+      <Link href={servicePath(service)} className="flex h-full flex-col gap-4 p-6 transition-colors duration-(--duration-state) hover:bg-ice/60 focus-visible:bg-ice/60 focus-visible:-outline-offset-2">
         <Pictogram name={service.pictogram} className="size-10 text-graphite" />
         <div className="flex flex-col gap-1.5">
           {practiceLabel ? <span className="text-label text-slate">{practiceLabel}</span> : null}

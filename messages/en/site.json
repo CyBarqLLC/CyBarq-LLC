@@ -12,12 +12,16 @@
     "verify": "Verify a certificate",
     "privacy": "Privacy",
     "terms": "Terms",
-    "talk": "Talk to us"
+    "talk": "Talk to us",
+    "homeLabel": "CyBarq home",
+    "primaryLabel": "Main",
+    "mobileLabel": "Site menu",
+    "breadcrumb": "Breadcrumb"
   },
   "home": {
-    "eyebrow": "CyBarq, Amman",
+    "eyebrow": "Registered in Jordan and the United States",
     "title": "The systems your organisation runs on, built and secured by one team.",
-    "lead": "CyBarq is a technology company in Amman working across cybersecurity, digital engineering, artificial intelligence and infrastructure. We take responsibility for the whole system: how it is designed, how it runs and how it is protected.",
+    "lead": "A technology company with a local team, working locally and across borders. Our expertise spans technology engineering, cybersecurity and AI, and we work the way each project calls for: remotely, on site, or both.",
     "primaryCta": "Talk to us",
     "secondaryCta": "Explore services",
     "practicesEyebrow": "What we do",
@@ -38,13 +42,15 @@
     "viewAllCaseStudies": "All case studies",
     "partnersTitle": "Partners",
     "certificationsTitle": "Certifications",
-    "registrationTitle": "Officially registered in Jordan",
-    "registrationAlt": "Logos of the Ministry of Digital Economy and Entrepreneurship and the National Cyber Security Center of Jordan",
+    "logosPause": "Pause",
+    "logosPlay": "Play",
+    "logosSubject": "logo animation",
+    "registrationTitle": "Official registration",
     "ctaTitle": "Tell us what you are working on",
-    "ctaBody": "A short message is enough. We will reply with questions, not a sales pitch, and we will tell you honestly whether we are the right team for it.",
+    "ctaBody": "A short message is enough. We reply with questions, not a sales pitch, and we tell you honestly whether we are the right team for it. Remote, on site, or both: we work the way your project calls for.",
     "ctaButton": "Talk to us",
     "seoTitle": "CyBarq Technology LLC. Technology, done properly.",
-    "seoDescription": "CyBarq is a technology company in Amman working across cybersecurity, digital engineering, artificial intelligence and technology infrastructure. Penetration testing, incident response, platforms, AI integration and cloud, from one team."
+    "seoDescription": "CyBarq is a technology company registered in Jordan and the United States. Technology engineering, cybersecurity and AI from a local team, working remotely and on site."
   },
   "services": {
     "title": "Services",
@@ -59,21 +65,22 @@
   },
   "about": {
     "title": "About CyBarq",
-    "seoDescription": "CyBarq officially began in 2024 as a security first technology company in Amman. Learn how we work across cybersecurity, digital engineering, AI and infrastructure.",
+    "seoDescription": "CyBarq officially began in 2024. A technology company registered in Jordan and the United States, with a local team working across technology engineering, cybersecurity and AI.",
     "storyEyebrow": "Our story",
     "statsEyebrow": "In numbers",
     "practicesLink": "See the services"
   },
   "careers": {
     "seoTitle": "Careers",
-    "seoDescription": "Working at CyBarq in Amman: how the team works, what we look for, and how to get in touch. No applicant tracking system, just an email.",
+    "seoDescription": "Working at CyBarq: a small, local team with a hybrid way of working. How the team works, what we look for, and how to get in touch. No applicant tracking system, just an email.",
     "applyButton": "Write to {email}",
+    "mailSubject": "Careers at CyBarq",
     "verifyNote": "Certificates issued by CyBarq can be checked on the verification page."
   },
   "contact": {
     "title": "Contact",
     "lead": "Write to the address that fits, or use the form. We respond promptly to every message.",
-    "seoDescription": "Contact CyBarq in Amman for new engagements, support on active work, partnerships or general information. We respond promptly to every message.",
+    "seoDescription": "Contact CyBarq about new engagements, support on active work, partnerships or general information. Registered in Jordan and the United States, we work locally and across borders.",
     "channelsEyebrow": "Channels",
     "channels": {
       "general": {
@@ -89,7 +96,7 @@
         "description": "For active engagements, technical questions, and incidents."
       }
     },
-    "location": "Based in Amman, Jordan. We work with clients across the region and beyond.",
+    "location": "Registered in Jordan and the United States. We work locally and across borders, remotely and on site.",
     "form": {
       "eyebrow": "Send a message",
       "title": "Tell us what you need",
@@ -103,7 +110,7 @@
       "messageHint": "A few sentences about the system, the situation or the question is enough.",
       "submit": "Send message",
       "promise": "We respond promptly to every message.",
-      "privacy": "We use what you send only to reply to you. See the privacy notice for details.",
+      "privacy": "We use what you send only to reply to you. See the <link>privacy notice</link> for details.",
       "successTitle": "Thank you, your message is on its way.",
       "successBody": "We have received it and will reply from one of our addresses shortly. If it is urgent, write to support@cybarq.com directly.",
       "sendAnother": "Send another message",
@@ -145,6 +152,7 @@
       "role": "Role",
       "hours": "Hours"
     },
+    "periodRange": "{start} to {end}",
     "checkAnother": "Check another certificate",
     "note": "This page shows only the information printed on the certificate. For questions about a certificate, contact info@cybarq.com.",
     "downloadPdf": "Download the certificate (PDF)"
@@ -153,6 +161,19 @@
     "updated": "Last updated {date}",
     "privacySeo": "How CyBarq Technology LLC collects, uses, stores and retains personal data through cybarq.com and the CyBarq platform.",
     "termsSeo": "Terms of use for cybarq.com and the CyBarq platform and client portal operated by CyBarq Technology LLC."
+  },
+  "footer": {
+    "tagline": "A technology company with a local team and a hybrid way of working. Technology engineering, cybersecurity and AI, locally and across borders.",
+    "social": "CyBarq on social media",
+    "newTab": "(opens in a new tab)"
+  },
+  "registration": {
+    "heading": "Official registration",
+    "jordan": "CyBarq is registered in the Hashemite Kingdom of Jordan with the Ministry of Digital Economy and Entrepreneurship.",
+    "us": "CyBarq is also registered in the United States.",
+    "number": "Registration No. {number}",
+    "legalNameLabel": "Registered in Jordan as",
+    "alt": "Logo of the Ministry of Digital Economy and Entrepreneurship and the emblem of the Hashemite Kingdom of Jordan"
   },
   "content": {
     "projects": {
@@ -200,6 +221,6 @@
     "relatedPractice": "Related practice",
     "moreInPractice": "See the {practice} practice",
     "notFoundTitle": "Not found",
-    "notFoundBody": "This item does not exist or is no longer published."
+    "notFoundBody": "This page does not exist or is no longer published."
   }
 }
