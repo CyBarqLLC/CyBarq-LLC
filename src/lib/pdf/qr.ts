@@ -1,4 +1,3 @@
-import "server-only";
 import QRCode from "qrcode";
 
 /** PNG data URL for a QR code in Graphite on white, margin free. */

@@ -5,8 +5,8 @@ import { formatDate, formatNumber } from "@/lib/utils/format";
 import { company } from "@/content/site/company";
 import { CERTIFICATE_TYPE_LABELS, label } from "@/lib/labels";
 import { PDF_FONT_FAMILY } from "./fonts";
-import { PDF_COLORS, alignEnd, alignStart, rowDirection, sx } from "./theme";
-import { BrandLogo, BrandSymbol, CornerMarks } from "./primitives";
+import { FOOTER_RESERVE, PAGE_GRID, PDF_COLORS, TYPE, alignEnd, alignStart, itemsEnd, itemsStart, labelText, labelTracking, rowDirection, sx } from "./theme";
+import { AccentRule, BrandLogo, DocumentFooter, Label, StatusStamp } from "./primitives";
 import type { CertificateDocumentData } from "./types";
 
 const EN = {
@@ -18,11 +18,16 @@ const EN = {
   period: "From {start} to {end}",
   since: "Since {start}",
   hours: "{hours} hours",
+  programme: "Programme",
+  role: "Role",
+  periodLabel: "Period",
+  hoursLabel: "Duration",
   issued: "Issued on",
+  issuedBy: "Issued by",
   number: "Certificate no.",
-  verify: "Verify this certificate at",
-  revoked: "REVOKED",
-  draft: "DRAFT",
+  verify: "Verify this certificate",
+  revoked: "Revoked",
+  draft: "Draft",
 };
 
 const AR: Record<keyof typeof EN, string> = {
@@ -34,7 +39,12 @@ const AR: Record<keyof typeof EN, string> = {
   period: "من {start} إلى {end}",
   since: "منذ {start}",
   hours: "{hours} ساعة",
+  programme: "البرنامج",
+  role: "الدور الوظيفي",
+  periodLabel: "الفترة",
+  hoursLabel: "المدة",
   issued: "تاريخ الإصدار",
+  issuedBy: "صادرة عن",
   number: "رقم الشهادة",
   verify: "للتحقق من هذه الشهادة",
   revoked: "ملغاة",
@@ -43,36 +53,44 @@ const AR: Record<keyof typeof EN, string> = {
 
 const STRINGS: Record<Locale, Record<keyof typeof EN, string>> = { en: EN, ar: AR };
 
-const PAD = 56;
+const PAD = PAGE_GRID.sideWide;
+const TEXT_WIDTH = 600;
 
 const s = StyleSheet.create({
   page: {
     fontFamily: PDF_FONT_FAMILY,
-    fontSize: 11,
+    fontSize: TYPE.body,
     fontWeight: 400,
     color: PDF_COLORS.graphite,
-    paddingTop: 48,
+    paddingTop: PAGE_GRID.top + 4,
     paddingHorizontal: PAD,
-    paddingBottom: 44,
+    paddingBottom: FOOTER_RESERVE,
     lineHeight: 1.4,
   },
-  top: { alignItems: "center" },
-  body: { flexGrow: 1, alignItems: "center", justifyContent: "center", paddingHorizontal: 40 },
-  type: { fontSize: 9.5, fontWeight: 500, letterSpacing: 2.5, color: PDF_COLORS.slate, textAlign: "center", marginTop: 26 },
-  certify: { fontSize: 12, color: PDF_COLORS.slate, textAlign: "center", marginTop: 26 },
-  name: { fontSize: 38, fontWeight: 300, lineHeight: 1.15, textAlign: "center", marginTop: 6 },
-  lead: { fontSize: 12, color: PDF_COLORS.slate, textAlign: "center", marginTop: 16 },
-  title: { fontSize: 18, fontWeight: 500, textAlign: "center", marginTop: 4, maxWidth: 620 },
-  sub: { fontSize: 13, textAlign: "center", marginTop: 4, maxWidth: 620 },
-  desc: { fontSize: 10, color: PDF_COLORS.slate, textAlign: "center", marginTop: 12, maxWidth: 560, lineHeight: 1.5 },
-  facts: { fontSize: 10.5, textAlign: "center", marginTop: 14, color: PDF_COLORS.graphite },
-  bottom: { flexDirection: "row", alignItems: "flex-end", justifyContent: "space-between", marginTop: 16 },
-  col: { width: "32%" },
-  small: { fontSize: 8, color: PDF_COLORS.slate, lineHeight: 1.45 },
-  smallStrong: { fontSize: 9, fontWeight: 500, color: PDF_COLORS.graphite },
-  signLine: { borderTopWidth: 1, borderTopColor: PDF_COLORS.graphite, borderTopStyle: "solid", width: 180, paddingTop: 5 },
-  qr: { width: 58, height: 58 },
-  stamp: { position: "absolute", top: 46, fontSize: 8, fontWeight: 500, letterSpacing: 2, color: PDF_COLORS.slate },
+  header: { justifyContent: "space-between", alignItems: "flex-start" },
+  headerEnd: { paddingTop: 2 },
+  number: { fontSize: TYPE.body, fontWeight: 500, lineHeight: 1.4 },
+  body: { flexGrow: 1, paddingTop: 12 },
+  type: { fontSize: 8.5, fontWeight: 500, color: PDF_COLORS.slate, lineHeight: 1.4 },
+  certify: { fontSize: 11, color: PDF_COLORS.slate, marginTop: 18, lineHeight: 1.4 },
+  name: { fontSize: 32, fontWeight: 300, lineHeight: 1.15, marginTop: 4 },
+  lead: { fontSize: 11, color: PDF_COLORS.slate, marginTop: 10, lineHeight: 1.4 },
+  main: { fontSize: TYPE.title, fontWeight: 500, lineHeight: 1.3, marginTop: 2, maxWidth: TEXT_WIDTH },
+  sub: { fontSize: TYPE.subhead, lineHeight: 1.35, marginTop: 2, maxWidth: TEXT_WIDTH },
+  desc: { fontSize: TYPE.body, color: PDF_COLORS.slate, lineHeight: 1.5, marginTop: 8, maxWidth: TEXT_WIDTH },
+  facts: { marginTop: 16, width: 380 },
+  factRow: { alignItems: "flex-start", paddingVertical: 2.5 },
+  factKey: { width: 104, fontSize: TYPE.label, fontWeight: 500, color: PDF_COLORS.slate, lineHeight: 1.5, paddingTop: 2 },
+  factValue: { flexGrow: 1, flexShrink: 1, flexBasis: 0, fontSize: TYPE.body + 0.5, lineHeight: 1.5 },
+  bottom: { justifyContent: "space-between", alignItems: "flex-end", marginTop: 20 },
+  issuer: { width: "42%" },
+  signLine: { borderTopWidth: 1, borderTopColor: PDF_COLORS.graphite, borderTopStyle: "solid", width: 170, paddingTop: 5 },
+  strong: { fontSize: TYPE.body, fontWeight: 500, lineHeight: 1.45 },
+  small: { fontSize: TYPE.small, color: PDF_COLORS.slate, lineHeight: 1.45 },
+  verify: { alignItems: "flex-end" },
+  verifyText: { justifyContent: "flex-end", marginHorizontal: 10, maxWidth: 260 },
+  url: { fontSize: TYPE.small, color: PDF_COLORS.graphite, lineHeight: 1.45 },
+  qr: { width: 56, height: 56 },
 });
 
 function fill(template: string, values: Record<string, string>): string {
@@ -94,7 +112,7 @@ function leadFor(type: Enums<"certificate_type">, t: Record<keyof typeof EN, str
   }
 }
 
-/** Certificate: landscape A4, generous whitespace, corner marks as the only decoration. */
+/** Certificate: landscape A4, start aligned, generous whitespace. */
 export function CertificateDocument({ data }: { data: CertificateDocumentData }) {
   const locale = data.language;
   const t = STRINGS[locale];
@@ -102,9 +120,11 @@ export function CertificateDocument({ data }: { data: CertificateDocumentData })
   const dir = rowDirection(locale);
   const start = alignStart(locale);
   const end = alignEnd(locale);
+  /* Capped-width blocks sit at the start side; in Arabic that is the right edge. */
+  const endSelf = rtl && { alignSelf: "flex-end" as const };
   const typeLabel = label(CERTIFICATE_TYPE_LABELS, data.type, locale);
   const lead = leadFor(data.type, t);
-  const mainLine = data.type === "experience" ? data.roleTitle ?? data.title : data.programName ?? data.title;
+  const mainLine = data.type === "experience" ? (data.roleTitle ?? data.title) : (data.programName ?? data.title);
   const showTitleSeparately = mainLine !== data.title;
   const periodText = data.startDate && data.endDate
     ? fill(t.period, { start: formatDate(data.startDate, locale, "long"), end: formatDate(data.endDate, locale, "long") })
@@ -112,64 +132,89 @@ export function CertificateDocument({ data }: { data: CertificateDocumentData })
       ? fill(t.since, { start: formatDate(data.startDate, locale, "long") })
       : "";
   const hoursText = data.hours ? fill(t.hours, { hours: formatNumber(data.hours, locale, Number.isInteger(data.hours) ? 0 : 1) }) : "";
-  const facts = [periodText, hoursText].filter(Boolean).join("  ·  ");
   const stamp = data.status === "revoked" ? t.revoked : data.status === "draft" ? t.draft : null;
+
+  const facts: Array<{ label: string; value: string }> = [];
+  if (data.programName && data.programName !== mainLine) facts.push({ label: t.programme, value: data.programName });
+  if (data.roleTitle && data.roleTitle !== mainLine) facts.push({ label: t.role, value: data.roleTitle });
+  if (periodText) facts.push({ label: t.periodLabel, value: periodText });
+  if (hoursText) facts.push({ label: t.hoursLabel, value: hoursText });
+  if (data.issueDate) facts.push({ label: t.issued, value: formatDate(data.issueDate, locale, "long") });
 
   return (
     <Document title={`${typeLabel} ${data.certificateNo ?? ""}`.trim()} author={company.legalName.en} creator="CyBarq Platform" producer="CyBarq Platform">
       <Page size="A4" orientation="landscape" style={s.page}>
-        <CornerMarks inset={26} size={14} />
-        {stamp ? <Text style={sx(s.stamp, rtl ? { left: PAD } : { right: PAD })}>{stamp}</Text> : null}
-
-        <View style={s.top}>
-          <BrandLogo width={124} />
-          <Text style={s.type}>{rtl ? typeLabel : typeLabel.toUpperCase()}</Text>
-        </View>
-
-        <View style={s.body}>
-          <Text style={s.certify}>{t.certify}</Text>
-          <Text style={s.name}>{data.recipientName}</Text>
-          {lead ? <Text style={s.lead}>{lead}</Text> : null}
-          <Text style={s.title}>{mainLine}</Text>
-          {showTitleSeparately ? <Text style={s.sub}>{data.title}</Text> : null}
-          {data.description ? <Text style={s.desc}>{data.description}</Text> : null}
-          {facts ? <Text style={s.facts}>{facts}</Text> : null}
-        </View>
-
-        <View style={sx(s.bottom, { flexDirection: dir })}>
-          {/* Issue details */}
-          <View style={s.col}>
-            <Text style={sx(s.small, { textAlign: start })}>{t.issued}</Text>
-            <Text style={sx(s.smallStrong, { textAlign: start })}>{data.issueDate ? formatDate(data.issueDate, locale, "long") : ""}</Text>
-            <View style={sx({ flexDirection: dir, alignItems: "center", marginTop: 6 })}>
-              <BrandSymbol size={9} />
-              <Text style={sx(s.small, { marginHorizontal: 4, textAlign: start })}>{`${t.number} ${data.certificateNo ?? ""}`.trim()}</Text>
-            </View>
+        {/* Header: logo at the start, certificate number and status at the end */}
+        <View style={sx(s.header, { flexDirection: dir })}>
+          <BrandLogo width={112} />
+          <View style={sx(s.headerEnd, { alignItems: itemsEnd(locale) })}>
+            {data.certificateNo ? (
+              <>
+                <Label locale={locale} align={end} marginBottom={2}>
+                  {t.number}
+                </Label>
+                <Text style={sx(s.number, { textAlign: end })}>{data.certificateNo}</Text>
+              </>
+            ) : null}
+            {stamp ? <StatusStamp locale={locale}>{stamp}</StatusStamp> : null}
           </View>
+        </View>
+        <AccentRule locale={locale} marginTop={18} />
 
-          {/* Signatory */}
-          <View style={sx(s.col, { alignItems: "center" })}>
+        {/* Statement */}
+        <View style={s.body}>
+          <Text style={sx(s.type, { textAlign: start, letterSpacing: rtl ? 0 : 1.2 })}>{labelText(typeLabel, locale)}</Text>
+          <Text style={sx(s.certify, { textAlign: start })}>{t.certify}</Text>
+          <Text style={sx(s.name, { textAlign: start })}>{data.recipientName}</Text>
+          {lead ? <Text style={sx(s.lead, { textAlign: start })}>{lead}</Text> : null}
+          <Text style={sx(s.main, endSelf, { textAlign: start })}>{mainLine}</Text>
+          {showTitleSeparately ? <Text style={sx(s.sub, endSelf, { textAlign: start })}>{data.title}</Text> : null}
+          {data.description ? <Text style={sx(s.desc, endSelf, { textAlign: start })}>{data.description}</Text> : null}
+
+          {facts.length ? (
+            <View style={sx(s.facts, endSelf)}>
+              {facts.map((fact, i) => (
+                <View key={i} style={sx(s.factRow, { flexDirection: dir })}>
+                  <Text style={sx(s.factKey, { textAlign: start, letterSpacing: labelTracking(locale) })}>{labelText(fact.label, locale)}</Text>
+                  <Text style={sx(s.factValue, { textAlign: start })}>{fact.value}</Text>
+                </View>
+              ))}
+            </View>
+          ) : null}
+        </View>
+
+        {/* Issuer or signatory at the start, verification at the end */}
+        <View style={sx(s.bottom, { flexDirection: dir })}>
+          <View style={sx(s.issuer, { alignItems: itemsStart(locale) })}>
             {data.signatoryName ? (
               <View style={s.signLine}>
-                <Text style={sx(s.smallStrong, { textAlign: "center" })}>{data.signatoryName}</Text>
-                {data.signatoryTitle ? <Text style={sx(s.small, { textAlign: "center" })}>{data.signatoryTitle}</Text> : null}
-                <Text style={sx(s.small, { textAlign: "center" })}>{company.legalName[locale]}</Text>
+                <Text style={sx(s.strong, { textAlign: start })}>{data.signatoryName}</Text>
+                {data.signatoryTitle ? <Text style={sx(s.small, { textAlign: start })}>{data.signatoryTitle}</Text> : null}
+                <Text style={sx(s.small, { textAlign: start })}>{company.legalName[locale]}</Text>
               </View>
             ) : (
-              <View style={s.signLine}>
-                <Text style={sx(s.small, { textAlign: "center" })}>{company.legalName[locale]}</Text>
-                <Text style={sx(s.small, { textAlign: "center" })}>{company.city[locale]}</Text>
+              <View>
+                <Label locale={locale} marginBottom={3}>
+                  {t.issuedBy}
+                </Label>
+                <Text style={sx(s.strong, { textAlign: start })}>{company.legalName[locale]}</Text>
+                <Text style={sx(s.small, { textAlign: start })}>{company.city[locale]}</Text>
               </View>
             )}
           </View>
 
-          {/* Verification */}
-          <View style={sx(s.col, { alignItems: rtl ? "flex-start" : "flex-end" })}>
+          <View style={sx(s.verify, { flexDirection: dir })}>
+            <View style={s.verifyText}>
+              <Label locale={locale} align={end} marginBottom={3}>
+                {t.verify}
+              </Label>
+              <Text style={sx(s.url, { textAlign: end })}>{data.verificationUrl}</Text>
+            </View>
             <PdfImage src={data.qrDataUrl} style={s.qr} />
-            <Text style={sx(s.small, { marginTop: 4, textAlign: end })}>{t.verify}</Text>
-            <Text style={sx(s.small, { textAlign: end, color: PDF_COLORS.graphite })}>{data.verificationUrl}</Text>
           </View>
         </View>
+
+        <DocumentFooter locale={locale} data={data.footer} inset={PAD} />
       </Page>
     </Document>
   );

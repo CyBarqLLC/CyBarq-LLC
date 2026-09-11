@@ -17,6 +17,23 @@ export type CommercialItem = {
   amount: number;
 };
 
+/** Everything the fixed page footer prints, already localised. */
+export type DocumentFooterData = {
+  /** Website as printed (cybarq.com). */
+  website: string;
+  /** Website as encoded in the QR code (https://cybarq.com). */
+  websiteUrl: string;
+  /** General, sales and support addresses, in print order. */
+  emails: string[];
+  /**
+   * Legal line: the localised legal name first, then the Jordan registered
+   * name on commercial documents and the registration number once known.
+   */
+  legalLines: string[];
+  /** PNG data URL of a QR code that opens the website. */
+  websiteQrDataUrl: string;
+};
+
 /** Everything the invoice and quote templates need, already localised. */
 export type CommercialDocumentData = {
   kind: "invoice" | "quote";
@@ -45,7 +62,10 @@ export type CommercialDocumentData = {
   replacesNumber?: string | null;
   /** Invoice: number of the quote it came from. */
   quoteNumber?: string | null;
+  /** Code of the project the document belongs to, when linked. */
+  projectCode?: string | null;
   voidReason?: string | null;
+  footer: DocumentFooterData;
 };
 
 export type CertificateDocumentData = {
@@ -65,6 +85,7 @@ export type CertificateDocumentData = {
   signatoryName: string | null;
   signatoryTitle: string | null;
   verificationUrl: string;
-  /** PNG data URL. */
+  /** PNG data URL of the verification QR code. */
   qrDataUrl: string;
+  footer: DocumentFooterData;
 };

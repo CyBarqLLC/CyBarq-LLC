@@ -1,10 +1,10 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
 import type { Locale } from "@/i18n/routing";
-import { formatDate, formatMoney, formatNumber } from "@/lib/utils/format";
+import { currencyName, formatDate, formatMoney, formatNumber } from "@/lib/utils/format";
 import { company } from "@/content/site/company";
 import { PDF_FONT_FAMILY } from "./fonts";
-import { A4, PDF_COLORS, alignEnd, alignStart, rowDirection, sx } from "./theme";
-import { BrandLogo, DocumentFooter, Rule } from "./primitives";
+import { FOOTER_RESERVE, PAGE_GRID, PDF_COLORS, TYPE, alignEnd, alignStart, itemsEnd, rowDirection, sx } from "./theme";
+import { AccentRule, BrandLogo, DocumentFooter, ItemsTable, Label, MetaList, PartyDetails, SectionBlock, StatusStamp, TotalsBlock, type MetaRow, type TotalRow } from "./primitives";
 import type { CommercialDocumentData } from "./types";
 
 const EN = {
@@ -19,6 +19,8 @@ const EN = {
   dueDate: "Due date",
   validUntil: "Valid until",
   currency: "Currency",
+  project: "Project",
+  subject: "Subject",
   description: "Description",
   quantity: "Qty",
   unitPrice: "Unit price",
@@ -34,7 +36,6 @@ const EN = {
   replaces: "Replaces",
   fromQuote: "Quote reference",
   voidReason: "Void reason",
-  from: "From",
 };
 
 const AR: Record<keyof typeof EN, string> = {
@@ -49,6 +50,8 @@ const AR: Record<keyof typeof EN, string> = {
   dueDate: "تاريخ الاستحقاق",
   validUntil: "صالح حتى",
   currency: "العملة",
+  project: "المشروع",
+  subject: "الموضوع",
   description: "البيان",
   quantity: "الكمية",
   unitPrice: "سعر الوحدة",
@@ -64,186 +67,111 @@ const AR: Record<keyof typeof EN, string> = {
   replaces: "تحل محل",
   fromQuote: "مرجع عرض السعر",
   voidReason: "سبب الإلغاء",
-  from: "من",
 };
 
 const STRINGS: Record<Locale, Record<keyof typeof EN, string>> = { en: EN, ar: AR };
 
-const PAGE_PADDING_X = 44;
-const CONTENT_WIDTH = A4.width - PAGE_PADDING_X * 2;
-
 const s = StyleSheet.create({
   page: {
     fontFamily: PDF_FONT_FAMILY,
-    fontSize: 9.5,
+    fontSize: TYPE.body,
     fontWeight: 400,
     color: PDF_COLORS.graphite,
-    paddingTop: 44,
-    paddingHorizontal: PAGE_PADDING_X,
-    paddingBottom: 112,
+    paddingTop: PAGE_GRID.top,
+    paddingHorizontal: PAGE_GRID.side,
+    paddingBottom: FOOTER_RESERVE,
     lineHeight: 1.45,
   },
-  header: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
-  docTitle: { fontSize: 22, fontWeight: 300, lineHeight: 1.1 },
-  docNumber: { fontSize: 10, fontWeight: 500, marginTop: 4 },
-  stamp: { fontSize: 8, fontWeight: 500, color: PDF_COLORS.slate, marginTop: 2, letterSpacing: 1 },
-  meta: { flexDirection: "row", justifyContent: "space-between", marginTop: 22 },
-  metaCol: { width: "48%" },
-  label: { fontSize: 7.5, fontWeight: 500, color: PDF_COLORS.slate, letterSpacing: 0.6, marginBottom: 3 },
-  partyName: { fontSize: 11, fontWeight: 500 },
-  partyLine: { fontSize: 9, color: PDF_COLORS.slate },
-  kvRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 2 },
-  kvKey: { fontSize: 8.5, color: PDF_COLORS.slate },
-  kvVal: { fontSize: 9, fontWeight: 500 },
-  title: { fontSize: 12, fontWeight: 500, marginTop: 20 },
-  table: { marginTop: 14 },
-  tr: { flexDirection: "row", alignItems: "flex-start", paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: PDF_COLORS.fog, borderBottomStyle: "solid" },
-  th: { fontSize: 7.5, fontWeight: 500, color: PDF_COLORS.slate, letterSpacing: 0.4 },
-  cDesc: { flexGrow: 1, flexShrink: 1, flexBasis: 0, paddingHorizontal: 4 },
-  cQty: { width: 58, paddingHorizontal: 4 },
-  cPrice: { width: 92, paddingHorizontal: 4 },
-  cAmount: { width: 100, paddingHorizontal: 4 },
-  totals: { flexDirection: "row", marginTop: 10 },
-  totalsBox: { width: 250 },
-  totalRow: { flexDirection: "row", justifyContent: "space-between", paddingVertical: 3 },
-  totalKey: { fontSize: 9, color: PDF_COLORS.slate },
-  totalVal: { fontSize: 9.5 },
-  grand: { borderTopWidth: 1, borderTopColor: PDF_COLORS.graphite, borderTopStyle: "solid", marginTop: 3, paddingTop: 6 },
-  grandText: { fontSize: 11.5, fontWeight: 500 },
-  block: { marginTop: 18 },
-  blockText: { fontSize: 9, color: PDF_COLORS.graphite },
+  header: { justifyContent: "space-between", alignItems: "flex-start" },
+  docTitle: { fontSize: TYPE.headline, fontWeight: 300, lineHeight: 1.15 },
+  docNumber: { fontSize: TYPE.body, fontWeight: 500, color: PDF_COLORS.graphite, marginTop: 3, lineHeight: 1.4 },
+  meta: { justifyContent: "space-between", alignItems: "flex-start", marginTop: 26 },
+  party: { width: "50%", paddingTop: 2 },
+  metaList: { width: "42%" },
+  subject: { marginTop: 22 },
+  subjectText: { fontSize: TYPE.subhead, fontWeight: 500, lineHeight: 1.35 },
 });
-
-function KeyValue({ k, v, locale }: { k: string; v: string; locale: Locale }) {
-  return (
-    <View style={sx(s.kvRow, { flexDirection: rowDirection(locale) })}>
-      <Text style={sx(s.kvKey, { textAlign: alignStart(locale) })}>{k}</Text>
-      <Text style={sx(s.kvVal, { textAlign: alignEnd(locale) })}>{v}</Text>
-    </View>
-  );
-}
 
 /** Invoice and quotation template. One layout, mirrored for Arabic. */
 export function CommercialDocument({ data }: { data: CommercialDocumentData }) {
   const locale = data.language;
   const t = STRINGS[locale];
-  const rtl = locale === "ar";
   const dir = rowDirection(locale);
   const start = alignStart(locale);
   const end = alignEnd(locale);
   const isInvoice = data.kind === "invoice";
+  const isVoid = data.status === "void";
+  const isDraft = !data.number;
   const docName = isInvoice ? t.invoice : t.quote;
   const number = data.number ?? t.draft;
   const money = (n: number) => formatMoney(n, data.currency, locale);
-  const stamp = data.status === "void" ? t.void : data.number ? null : t.draft;
+  const plain = (n: number) => formatNumber(n, locale, Number.isInteger(n) ? 0 : 2);
   const balance = Math.max(0, data.total - (data.amountPaid ?? 0));
+
   const partyLines = [data.client.legalName, data.client.address, [data.client.city, data.client.country].filter(Boolean).join(", ")].filter((v): v is string => Boolean(v && v.trim()));
+  if (data.client.taxNumber) partyLines.push(`${t.taxNumber}: ${data.client.taxNumber}`);
+
+  const metaRows: MetaRow[] = [{ label: t.number, value: number }];
+  if (data.issueDate) metaRows.push({ label: t.issueDate, value: formatDate(data.issueDate, locale, "long") });
+  if (isInvoice && data.dueDate) metaRows.push({ label: t.dueDate, value: formatDate(data.dueDate, locale, "long") });
+  if (!isInvoice && data.validUntil) metaRows.push({ label: t.validUntil, value: formatDate(data.validUntil, locale, "long") });
+  const currencyLabel = currencyName(data.currency, locale);
+  metaRows.push({ label: t.currency, value: currencyLabel === data.currency ? data.currency : `${data.currency} · ${currencyLabel}` });
+  if (data.quoteNumber) metaRows.push({ label: t.fromQuote, value: data.quoteNumber });
+  if (data.replacesNumber) metaRows.push({ label: t.replaces, value: data.replacesNumber });
+  if (data.projectCode) metaRows.push({ label: t.project, value: data.projectCode });
+
+  const totalRows: TotalRow[] = [
+    { label: t.subtotal, value: money(data.subtotal) },
+    { label: `${t.tax} (${plain(data.taxRate)}%)`, value: money(data.taxAmount) },
+    { label: t.total, value: money(data.total), emphasis: "grand" },
+  ];
+  if (isInvoice && data.number) {
+    totalRows.push({ label: t.paid, value: money(data.amountPaid ?? 0) });
+    totalRows.push({ label: t.balance, value: money(balance), emphasis: "strong" });
+  }
 
   return (
     <Document title={`${docName} ${number}`} author={company.legalName.en} creator="CyBarq Platform" producer="CyBarq Platform">
       <Page size="A4" style={s.page}>
-        {/* Header */}
+        {/* Header: logo at the start, document type and number at the end */}
         <View style={sx(s.header, { flexDirection: dir })}>
-          <BrandLogo width={104} />
-          <View style={{ alignItems: rtl ? "flex-start" : "flex-end" }}>
+          <BrandLogo width={96} />
+          <View style={{ alignItems: itemsEnd(locale) }}>
             <Text style={sx(s.docTitle, { textAlign: end })}>{docName}</Text>
-            <Text style={sx(s.docNumber, { textAlign: end })}>{number}</Text>
-            {stamp ? <Text style={sx(s.stamp, { textAlign: end })}>{stamp.toUpperCase()}</Text> : null}
+            {data.number ? <Text style={sx(s.docNumber, { textAlign: end })}>{data.number}</Text> : null}
+            {isVoid ? <StatusStamp locale={locale}>{t.void}</StatusStamp> : isDraft ? <StatusStamp locale={locale}>{t.draft}</StatusStamp> : null}
           </View>
         </View>
-        <Rule marginTop={16} />
+        <AccentRule locale={locale} marginTop={18} />
 
-        {/* Parties and meta */}
+        {/* Party and document details */}
         <View style={sx(s.meta, { flexDirection: dir })}>
-          <View style={s.metaCol}>
-            <Text style={sx(s.label, { textAlign: start })}>{isInvoice ? t.billTo : t.preparedFor}</Text>
-            <Text style={sx(s.partyName, { textAlign: start })}>{data.client.name}</Text>
-            {partyLines.map((line, i) => (
-              <Text key={i} style={sx(s.partyLine, { textAlign: start })}>{line}</Text>
-            ))}
-            {data.client.taxNumber ? <Text style={sx(s.partyLine, { textAlign: start })}>{`${t.taxNumber}: ${data.client.taxNumber}`}</Text> : null}
+          <View style={s.party}>
+            <PartyDetails locale={locale} label={isInvoice ? t.billTo : t.preparedFor} name={data.client.name} lines={partyLines} />
           </View>
-          <View style={s.metaCol}>
-            <KeyValue k={t.number} v={number} locale={locale} />
-            {data.issueDate ? <KeyValue k={t.issueDate} v={formatDate(data.issueDate, locale, "long")} locale={locale} /> : null}
-            {isInvoice && data.dueDate ? <KeyValue k={t.dueDate} v={formatDate(data.dueDate, locale, "long")} locale={locale} /> : null}
-            {!isInvoice && data.validUntil ? <KeyValue k={t.validUntil} v={formatDate(data.validUntil, locale, "long")} locale={locale} /> : null}
-            <KeyValue k={t.currency} v={data.currency} locale={locale} />
-            {data.quoteNumber ? <KeyValue k={t.fromQuote} v={data.quoteNumber} locale={locale} /> : null}
-            {data.replacesNumber ? <KeyValue k={t.replaces} v={data.replacesNumber} locale={locale} /> : null}
+          <View style={s.metaList}>
+            <MetaList locale={locale} rows={metaRows} />
           </View>
         </View>
 
-        {data.title ? <Text style={sx(s.title, { textAlign: start })}>{data.title}</Text> : null}
-
-        {/* Items */}
-        <View style={s.table}>
-          <View style={sx(s.tr, { flexDirection: dir, borderBottomColor: PDF_COLORS.graphite })}>
-            <Text style={sx(s.th, s.cDesc, { textAlign: start })}>{t.description}</Text>
-            <Text style={sx(s.th, s.cQty, { textAlign: end })}>{t.quantity}</Text>
-            <Text style={sx(s.th, s.cPrice, { textAlign: end })}>{t.unitPrice}</Text>
-            <Text style={sx(s.th, s.cAmount, { textAlign: end })}>{t.amount}</Text>
-          </View>
-          {data.items.map((item, i) => (
-            <View key={i} wrap={false} style={sx(s.tr, { flexDirection: dir })}>
-              <Text style={sx(s.cDesc, { textAlign: start })}>{item.description}</Text>
-              <Text style={sx(s.cQty, { textAlign: end })}>{formatNumber(item.quantity, locale, Number.isInteger(item.quantity) ? 0 : 2)}</Text>
-              <Text style={sx(s.cPrice, { textAlign: end })}>{money(item.unitPrice)}</Text>
-              <Text style={sx(s.cAmount, { textAlign: end })}>{money(item.amount)}</Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Totals */}
-        <View wrap={false} style={sx(s.totals, { justifyContent: rtl ? "flex-start" : "flex-end" })}>
-          <View style={s.totalsBox}>
-            <View style={sx(s.totalRow, { flexDirection: dir })}>
-              <Text style={sx(s.totalKey, { textAlign: start })}>{t.subtotal}</Text>
-              <Text style={sx(s.totalVal, { textAlign: end })}>{money(data.subtotal)}</Text>
-            </View>
-            <View style={sx(s.totalRow, { flexDirection: dir })}>
-              <Text style={sx(s.totalKey, { textAlign: start })}>{`${t.tax} (${formatNumber(data.taxRate, locale, Number.isInteger(data.taxRate) ? 0 : 2)}%)`}</Text>
-              <Text style={sx(s.totalVal, { textAlign: end })}>{money(data.taxAmount)}</Text>
-            </View>
-            <View style={sx(s.totalRow, s.grand, { flexDirection: dir })}>
-              <Text style={sx(s.grandText, { textAlign: start })}>{t.total}</Text>
-              <Text style={sx(s.grandText, { textAlign: end })}>{money(data.total)}</Text>
-            </View>
-            {isInvoice && data.number ? (
-              <>
-                <View style={sx(s.totalRow, { flexDirection: dir })}>
-                  <Text style={sx(s.totalKey, { textAlign: start })}>{t.paid}</Text>
-                  <Text style={sx(s.totalVal, { textAlign: end })}>{money(data.amountPaid ?? 0)}</Text>
-                </View>
-                <View style={sx(s.totalRow, { flexDirection: dir })}>
-                  <Text style={sx(s.totalKey, { textAlign: start, fontWeight: 500 })}>{t.balance}</Text>
-                  <Text style={sx(s.totalVal, { textAlign: end, fontWeight: 500 })}>{money(balance)}</Text>
-                </View>
-              </>
-            ) : null}
-          </View>
-        </View>
-
-        {data.voidReason ? (
-          <View style={s.block}>
-            <Text style={sx(s.label, { textAlign: start })}>{t.voidReason}</Text>
-            <Text style={sx(s.blockText, { textAlign: start })}>{data.voidReason}</Text>
-          </View>
-        ) : null}
-        {data.notes ? (
-          <View style={s.block}>
-            <Text style={sx(s.label, { textAlign: start })}>{t.notes}</Text>
-            <Text style={sx(s.blockText, { textAlign: start })}>{data.notes}</Text>
-          </View>
-        ) : null}
-        {data.terms ? (
-          <View style={s.block}>
-            <Text style={sx(s.label, { textAlign: start })}>{t.terms}</Text>
-            <Text style={sx(s.blockText, { textAlign: start })}>{data.terms}</Text>
+        {data.title ? (
+          <View style={s.subject}>
+            <Label locale={locale} marginBottom={3}>
+              {t.subject}
+            </Label>
+            <Text style={sx(s.subjectText, { textAlign: start })}>{data.title}</Text>
           </View>
         ) : null}
 
-        <DocumentFooter locale={locale} contentWidth={CONTENT_WIDTH} legalSmallPrint />
+        <ItemsTable locale={locale} items={data.items} labels={{ description: t.description, quantity: t.quantity, unitPrice: t.unitPrice, amount: t.amount }} money={money} quantity={plain} />
+        <TotalsBlock locale={locale} rows={totalRows} />
+
+        {data.voidReason ? <SectionBlock locale={locale} heading={t.voidReason} text={data.voidReason} marginTop={24} /> : null}
+        {data.notes ? <SectionBlock locale={locale} heading={t.notes} text={data.notes} marginTop={24} /> : null}
+        {data.terms ? <SectionBlock locale={locale} heading={t.terms} text={data.terms} /> : null}
+
+        <DocumentFooter locale={locale} data={data.footer} inset={PAGE_GRID.side} />
       </Page>
     </Document>
   );

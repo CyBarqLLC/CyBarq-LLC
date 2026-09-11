@@ -32,11 +32,13 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
       storePath: `quotes/${quote.id}.pdf`,
       render: async () => {
         const admin = createAdminClient();
-        const [{ data: items }, { data: client }] = await Promise.all([
+        const [{ data: items }, { data: client }, { data: project }] = await Promise.all([
           admin.from("quote_items").select("description_en, description_ar, quantity, unit_price, amount").eq("quote_id", quote.id).order("position"),
           admin.from("clients").select("name_en, name_ar, legal_name, tax_number, address, city, country").eq("id", quote.client_id).maybeSingle(),
+          quote.project_id ? admin.from("projects").select("code").eq("id", quote.project_id).maybeSingle() : Promise.resolve({ data: null }),
         ]);
-        return renderCommercialPdf(quoteDocumentData(quote, items ?? [], client ?? null));
+        const data = await quoteDocumentData(quote, items ?? [], client ?? null, { projectCode: project?.code ?? null });
+        return renderCommercialPdf(data);
       },
     });
     await audit("document.downloaded", "quote", quote.id, { number: quote.number, source }, quote.client_id);

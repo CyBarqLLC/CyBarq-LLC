@@ -1,14 +1,68 @@
-import "server-only";
 import type { Tables } from "@/lib/supabase/database.types";
+import type { Locale } from "@/i18n/routing";
 import { pick } from "@/i18n/bilingual";
 import { publicEnv } from "@/lib/env";
+import { company } from "@/content/site/company";
 import { qrDataUrl } from "./qr";
-import type { CertificateDocumentData, CommercialDocumentData, PartyBlock } from "./types";
+import type { CertificateDocumentData, CommercialDocumentData, DocumentFooterData, PartyBlock } from "./types";
 
 type ClientRow = Pick<Tables<"clients">, "name_en" | "name_ar" | "legal_name" | "tax_number" | "address" | "city" | "country">;
 type ItemRow = Pick<Tables<"invoice_items">, "description_en" | "description_ar" | "quantity" | "unit_price" | "amount">;
 
-function party(client: ClientRow | null, language: "en" | "ar"): PartyBlock {
+/** Numbers of related records, looked up by the caller. */
+export type CommercialRefs = {
+  /** Invoice: number of the invoice this one replaces. */
+  replacesNumber?: string | null;
+  /** Invoice: number of the quote it came from. */
+  quoteNumber?: string | null;
+  /** Code of the linked project, if any. */
+  projectCode?: string | null;
+};
+
+/** The company facts the footer prints. Defaults to the site's company file. */
+export type CompanyFacts = {
+  url: string;
+  domain: string;
+  emails: { general: string; sales: string; support: string };
+  legalName: Record<Locale, string>;
+  jordanLegalName: string;
+  registrationNumber: string | null;
+};
+
+const REGISTRATION_LABEL: Record<Locale, string> = { en: "Registration No.", ar: "رقم التسجيل" };
+
+/** Website QR, generated once per process and URL (it never changes between renders). */
+const websiteQrCache = new Map<string, Promise<string>>();
+function websiteQrDataUrl(url: string): Promise<string> {
+  let pending = websiteQrCache.get(url);
+  if (!pending) {
+    pending = qrDataUrl(url).catch((error: unknown) => {
+      websiteQrCache.delete(url);
+      throw error;
+    });
+    websiteQrCache.set(url, pending);
+  }
+  return pending;
+}
+
+/**
+ * Footer contents for one document. The Jordan registered name is legal and
+ * tax material, so it goes on invoices and quotations only.
+ */
+export async function documentFooterData(locale: Locale, options: { jordanLegalName: boolean }, facts: CompanyFacts = company): Promise<DocumentFooterData> {
+  const legalLines = [facts.legalName[locale]];
+  if (options.jordanLegalName) legalLines.push(facts.jordanLegalName);
+  if (facts.registrationNumber) legalLines.push(`${REGISTRATION_LABEL[locale]} ${facts.registrationNumber}`);
+  return {
+    website: facts.domain,
+    websiteUrl: facts.url,
+    emails: [facts.emails.general, facts.emails.sales, facts.emails.support],
+    legalLines,
+    websiteQrDataUrl: await websiteQrDataUrl(facts.url),
+  };
+}
+
+function party(client: ClientRow | null, language: Locale): PartyBlock {
   if (!client) return { name: "" };
   return {
     name: pick(client, "name", language),
@@ -20,7 +74,7 @@ function party(client: ClientRow | null, language: "en" | "ar"): PartyBlock {
   };
 }
 
-function items(rows: ItemRow[], language: "en" | "ar"): CommercialDocumentData["items"] {
+function items(rows: ItemRow[], language: Locale): CommercialDocumentData["items"] {
   return rows.map((r) => ({
     description: pick(r, "description", language),
     quantity: Number(r.quantity),
@@ -30,12 +84,7 @@ function items(rows: ItemRow[], language: "en" | "ar"): CommercialDocumentData["
 }
 
 /** Maps an invoice row plus its items and client to the template input. */
-export function invoiceDocumentData(
-  invoice: Tables<"invoices">,
-  itemRows: ItemRow[],
-  client: ClientRow | null,
-  refs: { replacesNumber?: string | null; quoteNumber?: string | null } = {},
-): CommercialDocumentData {
+export async function invoiceDocumentData(invoice: Tables<"invoices">, itemRows: ItemRow[], client: ClientRow | null, refs: CommercialRefs = {}): Promise<CommercialDocumentData> {
   const language = invoice.language;
   return {
     kind: "invoice",
@@ -57,12 +106,14 @@ export function invoiceDocumentData(
     terms: pick(invoice, "terms", language) || null,
     replacesNumber: refs.replacesNumber ?? null,
     quoteNumber: refs.quoteNumber ?? null,
+    projectCode: refs.projectCode ?? null,
     voidReason: invoice.status === "void" ? invoice.void_reason : null,
+    footer: await documentFooterData(language, { jordanLegalName: true }),
   };
 }
 
 /** Maps a quote row plus its items and client to the template input. */
-export function quoteDocumentData(quote: Tables<"quotes">, itemRows: ItemRow[], client: ClientRow | null): CommercialDocumentData {
+export async function quoteDocumentData(quote: Tables<"quotes">, itemRows: ItemRow[], client: ClientRow | null, refs: Pick<CommercialRefs, "projectCode"> = {}): Promise<CommercialDocumentData> {
   const language = quote.language;
   return {
     kind: "quote",
@@ -81,6 +132,8 @@ export function quoteDocumentData(quote: Tables<"quotes">, itemRows: ItemRow[], 
     total: Number(quote.total),
     notes: pick(quote, "notes", language) || null,
     terms: pick(quote, "terms", language) || null,
+    projectCode: refs.projectCode ?? null,
+    footer: await documentFooterData(language, { jordanLegalName: true }),
   };
 }
 
@@ -90,11 +143,11 @@ export function certificateVerificationUrl(certificate: Pick<Tables<"certificate
   return `${base}/${certificate.language}/verify/${certificate.verification_code}`;
 }
 
-/** Maps a certificate row to the template input, generating the QR code. */
+/** Maps a certificate row to the template input, generating the QR codes. */
 export async function certificateDocumentData(certificate: Tables<"certificates">): Promise<CertificateDocumentData> {
   const language = certificate.language;
   const verificationUrl = certificateVerificationUrl(certificate);
-  const qr = await qrDataUrl(verificationUrl);
+  const [qr, footer] = await Promise.all([qrDataUrl(verificationUrl), documentFooterData(language, { jordanLegalName: false })]);
   return {
     language,
     type: certificate.type,
@@ -113,5 +166,6 @@ export async function certificateDocumentData(certificate: Tables<"certificates"
     signatoryTitle: pick(certificate, "signatory_title", language) || null,
     verificationUrl,
     qrDataUrl: qr,
+    footer,
   };
 }
