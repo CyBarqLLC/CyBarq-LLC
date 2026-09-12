@@ -62,7 +62,9 @@ Public site: full-bleed live Stream hero (always moving, mouse and touch, denser
 
 Platform: quieter sidebar, table rows as real links, numeric columns, status badges with meaning-based tones, empty states, button states, upload button label, real file names, user detail with account state and "Resend invitation", audit page with human sentences and entity links, activity feed sentences, dashboard greeting fallback.
 
-PDFs: shared A4 grid, fixed footer on every page (website, three emails, legal line with Jordan legal name and registration number when set, website QR, page x of y), header with logo and document number, meta lists, items table with repeated header, totals block, draft/void stamps, tidier certificate with signatory block and verification QR.
+PDFs: shared A4 grid, fixed footer on every page (website, three emails, legal block with the Jordan registered name and the national establishment number, website QR, page x of y), header with logo and document number, meta lists, items table with repeated header, totals block, draft/void stamps, tidier certificate with signatory block and verification QR.
+
+Invoices and quotations are now issued as **one bilingual file**: English leads, Arabic follows, and the client is never asked to choose a language. No text run mixes the two scripts — captions share a line (English at the start, Arabic at the end) or stack in narrow cells, and each party name, subject, line item and paragraph prints its Arabic reading under the English one. Figures, dates and numbers are written once. Where only one wording was recorded, it is printed alone rather than duplicated. The record's `language` column stays as the correspondence language (covering email, draft file name) and the finance form says so. Every commercial document closes, in small type and in both languages, with the statement that it was issued electronically by the registered company and is valid without a signature or a stamp.
 
 ## F. Language (AR/EN)
 
@@ -74,14 +76,18 @@ Central typed label maps for every enum, audit action (55), entity type, role, p
 2. **`RESEND_API_KEY`** is blank in Vercel: invitations, password resets, invoice emails and contact form notifications are logged as skipped. Set it (Production), then use "Resend invitation" for anyone invited meanwhile.
 3. **`CRON_SECRET`** is not set: `/api/cron/publish` answers 503 "Cron is not configured" (scheduled publishing and finance status sweeps do not run). Set it in Vercel; Vercel sends it automatically to the cron.
 4. **`RATE_LIMIT_SALT`** is missing (a salt is now derived from the service key, so limits work); set a 32+ character value to make it explicit. **`CONTACT_INBOX`** was blank: set it or leave it unset (falls back to info@cybarq.com).
-5. Registration number: set `company.registrationNumber` in `src/content/site/company.ts` when you have it; the footer and PDFs pick it up.
+5. ~~Registration number~~: the national establishment number **200201310** is now in `src/content/site/company.ts` as `nationalNumber`; the site footer, the registration block and every document footer print it under both labels.
 6. GitHub Pages: the legacy `pages-build-deployment` workflow still runs on every push; disable Pages in the repository settings.
 7. `.DS_Store` is modified in the device repo; add it to the ignore and untrack it.
 8. The brand guide says the symbol is never scaled unevenly; the two stretched corner marks were made 4× wider on your instruction.
 
 ## H. Migrations created and applied
 
-`20260912000100_identity_hardening`, `…000200_business_time`, `…000300_finance_workflows`, `…000400_workflow_integrity`, `…000500_platform_ops`, `…000600_audit_refinements`, `…000700_provisioning_metadata` — all applied to production through the SQL editor and recorded in `supabase_migrations.schema_migrations`; local migrations, remote schema, generated types and app code are in sync.
+`20260912000100_identity_hardening`, `…000200_business_time`, `…000300_finance_workflows`, `…000400_workflow_integrity`, `…000500_platform_ops`, `…000600_audit_refinements`, `…000700_provisioning_metadata` — all applied to production through the SQL editor and recorded in `supabase_migrations.schema_migrations`.
+
+`…000800_reference_numbers` is **written and tested but not yet applied**: it needs to go through the SQL editor with the rest of the push. It renumbers existing records, so apply it once and in order.
+
+Since the last report a Postgres 16 cluster runs in this workspace, so the whole database suite — the Supabase shim, every migration in order, the RLS scenarios and the hardening tests — is executed locally before anything is committed, and `src/lib/supabase/database.types.ts` is regenerated from that database rather than edited by hand. Two real defects in the new migration were caught this way (an ambiguous `kind` reference inside the counter, and a hand-typed code colliding with a generated one).
 
 ## I. Environment variables (names only)
 
@@ -90,7 +96,15 @@ Central typed label maps for every enum, audit action (55), entity type, role, p
 ## J. Commits
 
 Deployed: `7cfbcf2`, `78632dd`, `f166776`, `a8f4a89`, `ba5b0a7`, `e85cd7c` (production).
-Committed, not pushed (in order, authored as Claude so they carry no unverified badge): `2a543fb`, `d5e7fc1`, `144e03c`, `39d8765`, `fd337b9`, `ff82636`, `7ef7813`, `691e2fe`, `816dcba`, `20d1e85`, `fb6ad7e`, `42eeeec`, `ad35160`, `f4113a1`, `e795144`, `702feed`, `702f9c4`, `cd606f3`, `0669eed`, `768c7b4`, then this report as the tip of `main` (also the head of the device repo).
+Committed, not pushed (in order, authored as Claude so they carry no unverified badge): `2a543fb`, `d5e7fc1`, `144e03c`, `39d8765`, `fd337b9`, `ff82636`, `7ef7813`, `691e2fe`, `816dcba`, `20d1e85`, `fb6ad7e`, `42eeeec`, `ad35160`, `f4113a1`, `e795144`, `702feed`, `702f9c4`, `cd606f3`, `0669eed`, `768c7b4`, this report, `078ac9d` (bilingual invoices and quotations), `97d4cef` (the reference scheme), and the revision of this report at the tip of `main`.
+
+## K. Reference numbers
+
+Everything a person may need to quote back to us carries a reference in one shape: `CyB-INV-000050`, `CyB-CLT-000012`, `CyB-SUP-000004`. Twelve kinds — invoice, quotation, payment, certificate, project, engagement, report, client, employee, task, support request, website enquiry — three letters each, six digits, one continuous series per kind rather than one per year, so a reference identifies a record for good and never repeats when a new year starts.
+
+The database owns the scheme: `private.next_reference()` takes the counter in a single statement so parallel callers cannot be handed the same number, `private.next_free_reference()` skips a value a hand-typed code already holds, and one trigger function fills the column on insert for every table that needs it. Documents still take their number at the moment they are issued, never when the draft is created, but the number no longer depends on the issue date. `src/lib/references.ts` mirrors the list of kinds and a test reads the migration to keep the two from drifting.
+
+Existing records are renumbered in creation order, so nothing is left in the old `INV-2026-0001` scheme. Projects and engagements keep an editable code; a blank field is now filled from the series instead of the random suffix the forms used to suggest. The reference shows on the client, task, support request and payment views, and in the subject line of a website enquiry.
 
 ## PERFORMANCE & INFRASTRUCTURE
 
