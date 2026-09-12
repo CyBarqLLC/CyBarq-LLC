@@ -34,10 +34,11 @@ export const company = {
     ar: "سايبرق شركة مسجلة رسمياً لدى دائرة مراقبة الشركات في المملكة الأردنية الهاشمية، واستكملت إجراءات الترخيص وفق الموافقات النظامية الصادرة عن وزارة الاقتصاد الرقمي والريادة والمركز الوطني للأمن السيبراني.",
   },
   /**
-   * Official registration number in Jordan. Shown publicly ("Registration No.")
-   * only once it is set here; until then nothing is rendered in its place.
+   * National establishment number (الرقم الوطني للمنشأة) issued in Jordan. It
+   * identifies the company in official and tax records, so it is printed on
+   * the site and in the footer of every document. `null` renders nothing.
    */
-  registrationNumber: null as string | null,
+  nationalNumber: "200201310" as string | null,
   /** Figures carried over from the existing site. Update here only. */
   stats: [
     { value: "2024", label: { en: "Officially registered", ar: "تاريخ التسجيل الرسمي" } },

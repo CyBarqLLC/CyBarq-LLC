@@ -2,7 +2,7 @@ import { View, Text, Svg, Path, Polygon, Image as PdfImage, StyleSheet } from "@
 import { PRIMARY_PATHS, PRIMARY_VIEWBOX, SYMBOL_PATHS, SYMBOL_VIEWBOX } from "@/components/brand/logo-paths";
 import { computeStream } from "@/components/brand/stream-math";
 import type { Locale } from "@/i18n/routing";
-import { PAGE_GRID, PDF_COLORS, TYPE, alignEnd, alignStart, itemsEnd, labelText, labelTracking, rowDirection, sx, type PdfStyle } from "./theme";
+import { PAGE_GRID, PDF_COLORS, TYPE, alignStart, itemsEnd, labelText, labelTracking, rowDirection, sx, type PdfStyle } from "./theme";
 import type { CommercialItem, DocumentFooterData } from "./types";
 
 /* Aspect ratios from the master view boxes. */
@@ -118,40 +118,82 @@ export function StatusStamp({ locale, children }: { locale: Locale; children: st
   );
 }
 
-export type MetaRow = { label: string; value: string };
+/**
+ * A caption in both languages. Bilingual documents never mix scripts inside a
+ * single text run: English and Arabic always sit in their own `Text`.
+ */
+export type BiCaption = { en: string; ar: string };
 
-const meta = StyleSheet.create({
-  row: { justifyContent: "space-between", alignItems: "flex-start", paddingVertical: 3.5, borderBottomWidth: 1, borderBottomColor: PDF_COLORS.fog, borderBottomStyle: "solid" },
-  key: { width: 88, fontSize: TYPE.small, color: PDF_COLORS.slate, lineHeight: 1.5, paddingTop: 0.5 },
-  value: { flexGrow: 1, flexShrink: 1, flexBasis: 0, fontSize: TYPE.body, fontWeight: 500, lineHeight: 1.5 },
+const bi = StyleSheet.create({
+  headingRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "baseline" },
+  arLabel: { fontSize: TYPE.label, fontWeight: 500, color: PDF_COLORS.slate, lineHeight: 1.5, textAlign: "right" },
+  arBody: { fontSize: TYPE.small, color: PDF_COLORS.slate, lineHeight: 1.6, textAlign: "right" },
+  arStack: { fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.4, marginTop: 0.5 },
 });
 
-/** Labelled key/value list separated by hairlines; keys at the start, values at the end. */
-export function MetaList({ locale, rows }: { locale: Locale; rows: MetaRow[] }) {
-  const dir = rowDirection(locale);
+/**
+ * Section caption of a bilingual document: the English small-caps label at the
+ * start of the line and its Arabic counterpart at the end, so the two readings
+ * share one line without the scripts ever meeting inside a run.
+ */
+export function BiSectionLabel({ label, marginBottom = 5 }: { label: BiCaption; marginBottom?: number }) {
+  return (
+    <View style={sx(bi.headingRow, { marginBottom })}>
+      <Label locale="en">{label.en}</Label>
+      <Text style={bi.arLabel}>{label.ar}</Text>
+    </View>
+  );
+}
+
+/** English over Arabic, for narrow cells where the two cannot share a line. */
+export function BiStackedLabel({ label, align = "left" }: { label: BiCaption; align?: "left" | "right" }) {
+  return (
+    <View>
+      <Label locale="en" align={align}>
+        {label.en}
+      </Label>
+      <Text style={sx(bi.arStack, { textAlign: align })}>{label.ar}</Text>
+    </View>
+  );
+}
+
+export type MetaRow = { label: BiCaption; value: string };
+
+const meta = StyleSheet.create({
+  row: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", paddingVertical: 4, borderBottomWidth: 1, borderBottomColor: PDF_COLORS.fog, borderBottomStyle: "solid" },
+  key: { width: 96 },
+  value: { flexGrow: 1, flexShrink: 1, flexBasis: 0, fontSize: TYPE.body, fontWeight: 500, lineHeight: 1.5, textAlign: "right" },
+});
+
+/**
+ * Labelled key/value list separated by hairlines: the bilingual caption at the
+ * start, the value — a number, a date or a code, the same in both readings —
+ * at the end.
+ */
+export function MetaList({ rows }: { rows: MetaRow[] }) {
   return (
     <View>
       {rows.map((row, i) => (
-        <View key={i} wrap={false} style={sx(meta.row, { flexDirection: dir })}>
-          <Text style={sx(meta.key, { textAlign: alignStart(locale) })}>{row.label}</Text>
-          <Text style={sx(meta.value, { textAlign: alignEnd(locale) })}>{row.value}</Text>
+        <View key={i} wrap={false} style={meta.row}>
+          <View style={meta.key}>
+            <BiStackedLabel label={row.label} />
+          </View>
+          <Text style={meta.value}>{row.value}</Text>
         </View>
       ))}
     </View>
   );
 }
 
-/** Party block: label, name and address lines. */
-export function PartyDetails({ locale, label, name, lines }: { locale: Locale; label: string; name: string; lines: string[] }) {
-  const align = alignStart(locale);
+/** Party block: bilingual caption, the name in both languages, then the postal details. */
+export function PartyDetails({ label, name, nameAr, lines }: { label: BiCaption; name: string; nameAr?: string | null; lines: string[] }) {
   return (
     <View>
-      <Label locale={locale} marginBottom={5}>
-        {label}
-      </Label>
-      <Text style={{ fontSize: TYPE.subhead, fontWeight: 500, lineHeight: 1.35, textAlign: align }}>{name}</Text>
+      <BiSectionLabel label={label} />
+      <Text style={{ fontSize: TYPE.subhead, fontWeight: 500, lineHeight: 1.35 }}>{name}</Text>
+      {nameAr ? <Text style={{ fontSize: TYPE.body, fontWeight: 500, color: PDF_COLORS.slate, lineHeight: 1.5, textAlign: "right" }}>{nameAr}</Text> : null}
       {lines.map((line, i) => (
-        <Text key={i} style={sx(shared.body, { color: PDF_COLORS.slate, textAlign: align })}>
+        <Text key={i} style={sx(shared.body, { color: PDF_COLORS.slate })}>
           {line}
         </Text>
       ))}
@@ -161,89 +203,135 @@ export function PartyDetails({ locale, label, name, lines }: { locale: Locale; l
 
 const table = StyleSheet.create({
   wrap: { marginTop: 22 },
-  tr: { alignItems: "flex-start", paddingVertical: 7, borderBottomWidth: 1, borderBottomColor: PDF_COLORS.fog, borderBottomStyle: "solid" },
+  tr: { flexDirection: "row", alignItems: "flex-start", paddingVertical: 7, borderBottomWidth: 1, borderBottomColor: PDF_COLORS.fog, borderBottomStyle: "solid" },
   th: { paddingVertical: 5, borderBottomColor: PDF_COLORS.graphite },
-  cIndex: { width: 22, fontSize: TYPE.small, color: PDF_COLORS.slate, lineHeight: 1.5, paddingTop: 0.5 },
-  cDesc: { flexGrow: 1, flexShrink: 1, flexBasis: 0, paddingHorizontal: 6, fontSize: TYPE.body, lineHeight: 1.5 },
-  cQty: { width: 52, paddingHorizontal: 4, fontSize: TYPE.body, lineHeight: 1.5 },
-  cPrice: { width: 92, paddingHorizontal: 4, fontSize: TYPE.body, lineHeight: 1.5 },
-  cAmount: { width: 104, paddingHorizontal: 4, fontSize: TYPE.body, lineHeight: 1.5 },
+  cIndex: { width: 20 },
+  cDesc: { flexGrow: 1, flexShrink: 1, flexBasis: 0, paddingHorizontal: 6 },
+  cQty: { width: 48, paddingHorizontal: 4 },
+  cPrice: { width: 88, paddingHorizontal: 4 },
+  cAmount: { width: 98, paddingHorizontal: 4 },
+  index: { fontSize: TYPE.small, color: PDF_COLORS.slate, lineHeight: 1.5, paddingTop: 0.5 },
+  desc: { fontSize: TYPE.body, lineHeight: 1.5 },
+  descAr: { fontSize: TYPE.small, color: PDF_COLORS.slate, lineHeight: 1.6, textAlign: "right", marginTop: 1 },
+  figure: { fontSize: TYPE.body, lineHeight: 1.5, textAlign: "right" },
 });
 
-export type ItemsTableLabels = { description: string; quantity: string; unitPrice: string; amount: string };
+export type ItemsTableLabels = { description: BiCaption; quantity: BiCaption; unitPrice: BiCaption; amount: BiCaption };
 
 /**
  * Items table: fixed column widths so figures line up without tabular
  * numerals, hairlines between rows, rows never split across pages and the
- * header row repeated when the table continues on a new page.
+ * header row repeated when the table continues on a new page. Each heading
+ * carries its Arabic reading underneath, and a line's Arabic wording sits
+ * under the English one, set towards the right so the column stays readable
+ * in both directions.
  */
-export function ItemsTable({ locale, items, labels, money, quantity }: { locale: Locale; items: CommercialItem[]; labels: ItemsTableLabels; money: (n: number) => string; quantity: (n: number) => string }) {
-  const dir = rowDirection(locale);
-  const start = alignStart(locale);
-  const end = alignEnd(locale);
-  const head = (text: string, style: PdfStyle, align: "left" | "right") => (
-    <Text style={sx(style, shared.label, { textAlign: align, letterSpacing: labelTracking(locale), paddingTop: 0 })}>{labelText(text, locale)}</Text>
+export function ItemsTable({ items, labels, money, quantity }: { items: CommercialItem[]; labels: ItemsTableLabels; money: (n: number) => string; quantity: (n: number) => string }) {
+  const head = (label: BiCaption, style: PdfStyle, align: "left" | "right") => (
+    <View style={style}>
+      <BiStackedLabel label={label} align={align} />
+    </View>
   );
   return (
     <View style={table.wrap}>
-      <View fixed style={sx(table.tr, table.th, { flexDirection: dir })}>
-        {head("#", table.cIndex, start)}
-        {head(labels.description, table.cDesc, start)}
-        {head(labels.quantity, table.cQty, end)}
-        {head(labels.unitPrice, table.cPrice, end)}
-        {head(labels.amount, table.cAmount, end)}
+      <View fixed style={sx(table.tr, table.th)}>
+        {head({ en: "#", ar: "م" }, table.cIndex, "left")}
+        {head(labels.description, table.cDesc, "left")}
+        {head(labels.quantity, table.cQty, "right")}
+        {head(labels.unitPrice, table.cPrice, "right")}
+        {head(labels.amount, table.cAmount, "right")}
       </View>
       {items.map((item, i) => (
-        <View key={i} wrap={false} style={sx(table.tr, { flexDirection: dir })}>
-          <Text style={sx(table.cIndex, { textAlign: start })}>{String(i + 1)}</Text>
-          <Text style={sx(table.cDesc, { textAlign: start })}>{item.description}</Text>
-          <Text style={sx(table.cQty, { textAlign: end })}>{quantity(item.quantity)}</Text>
-          <Text style={sx(table.cPrice, { textAlign: end })}>{money(item.unitPrice)}</Text>
-          <Text style={sx(table.cAmount, { textAlign: end })}>{money(item.amount)}</Text>
+        <View key={i} wrap={false} style={table.tr}>
+          <Text style={sx(table.cIndex, table.index)}>{String(i + 1)}</Text>
+          <View style={table.cDesc}>
+            <Text style={table.desc}>{item.description.en}</Text>
+            {item.description.ar ? <Text style={table.descAr}>{item.description.ar}</Text> : null}
+          </View>
+          <Text style={sx(table.cQty, table.figure)}>{quantity(item.quantity)}</Text>
+          <Text style={sx(table.cPrice, table.figure)}>{money(item.unitPrice)}</Text>
+          <Text style={sx(table.cAmount, table.figure)}>{money(item.amount)}</Text>
         </View>
       ))}
     </View>
   );
 }
 
-export type TotalRow = { label: string; value: string; emphasis?: "grand" | "strong" };
+export type TotalRow = { label: BiCaption; value: string; emphasis?: "grand" | "strong" };
 
 const totals = StyleSheet.create({
-  wrap: { marginTop: 4 },
-  box: { width: 252 },
-  row: { justifyContent: "space-between", alignItems: "flex-start", paddingVertical: 4 },
-  key: { fontSize: TYPE.body, color: PDF_COLORS.slate, lineHeight: 1.5 },
-  value: { fontSize: TYPE.body, lineHeight: 1.5 },
+  wrap: { flexDirection: "row", justifyContent: "flex-end", marginTop: 4 },
+  box: { width: 268 },
+  row: { flexDirection: "row", alignItems: "baseline", paddingVertical: 4 },
+  key: { flexGrow: 1, flexShrink: 1, flexBasis: 0, fontSize: TYPE.body, color: PDF_COLORS.slate, lineHeight: 1.5 },
+  keyAr: { width: 86, fontSize: TYPE.small, color: PDF_COLORS.slate, lineHeight: 1.5, textAlign: "right", paddingHorizontal: 4 },
+  value: { width: 98, fontSize: TYPE.body, lineHeight: 1.5, textAlign: "right" },
   strong: { fontWeight: 500, color: PDF_COLORS.graphite },
   grand: { borderTopWidth: 1, borderTopColor: PDF_COLORS.graphite, borderTopStyle: "solid", marginTop: 3, paddingTop: 7, paddingBottom: 6 },
   grandText: { fontSize: TYPE.subhead, fontWeight: 500, color: PDF_COLORS.graphite },
+  grandAr: { fontSize: TYPE.body, fontWeight: 500, color: PDF_COLORS.graphite },
 });
 
-/** Totals aligned to the end side of the page: subtotal, tax, total, then payments. */
-export function TotalsBlock({ locale, rows }: { locale: Locale; rows: TotalRow[] }) {
-  const dir = rowDirection(locale);
+/**
+ * Totals at the end side of the page: subtotal, tax, total, then payments.
+ * Three columns — the English caption, its Arabic reading, and the figure —
+ * so both readings line up down the page.
+ */
+export function TotalsBlock({ rows }: { rows: TotalRow[] }) {
   return (
-    <View wrap={false} style={sx(totals.wrap, { flexDirection: dir, justifyContent: "flex-end" })}>
+    <View wrap={false} style={totals.wrap}>
       <View style={totals.box}>
-        {rows.map((row, i) => (
-          <View key={i} style={sx(totals.row, { flexDirection: dir }, row.emphasis === "grand" && totals.grand)}>
-            <Text style={sx(totals.key, row.emphasis === "strong" && totals.strong, row.emphasis === "grand" && totals.grandText, { textAlign: alignStart(locale) })}>{row.label}</Text>
-            <Text style={sx(totals.value, row.emphasis === "strong" && totals.strong, row.emphasis === "grand" && totals.grandText, { textAlign: alignEnd(locale) })}>{row.value}</Text>
-          </View>
-        ))}
+        {rows.map((row, i) => {
+          const strong = row.emphasis === "strong" && totals.strong;
+          const grand = row.emphasis === "grand";
+          return (
+            <View key={i} style={sx(totals.row, grand && totals.grand)}>
+              <Text style={sx(totals.key, strong, grand && totals.grandText)}>{row.label.en}</Text>
+              <Text style={sx(totals.keyAr, strong, grand && totals.grandAr)}>{row.label.ar}</Text>
+              <Text style={sx(totals.value, strong, grand && totals.grandText)}>{row.value}</Text>
+            </View>
+          );
+        })}
       </View>
     </View>
   );
 }
 
-/** Small heading over a paragraph; short blocks stay on one page. */
-export function SectionBlock({ locale, heading, text, marginTop = 20 }: { locale: Locale; heading: string; text: string; marginTop?: number }) {
+/**
+ * Bilingual heading over a paragraph in each language. The Arabic paragraph is
+ * set towards the right under the English one, which keeps both comfortable to
+ * read without a second column.
+ */
+export function SectionBlock({ heading, text, marginTop = 20 }: { heading: BiCaption; text: { en: string; ar: string | null }; marginTop?: number }) {
+  const long = text.en.length + (text.ar?.length ?? 0) > 700;
   return (
-    <View wrap={text.length > 700} style={{ marginTop }}>
-      <Label locale={locale} marginBottom={4}>
-        {heading}
-      </Label>
-      <Text style={sx(shared.body, { textAlign: alignStart(locale) })}>{text}</Text>
+    <View wrap={long} style={{ marginTop }}>
+      <BiSectionLabel label={heading} marginBottom={4} />
+      {text.en ? <Text style={shared.body}>{text.en}</Text> : null}
+      {text.ar ? <Text style={sx(bi.arBody, { color: PDF_COLORS.graphite, marginTop: text.en ? 3 : 0 })}>{text.ar}</Text> : null}
+    </View>
+  );
+}
+
+const issuance = StyleSheet.create({
+  wrap: { marginTop: 26 },
+  line: { fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.5 },
+  ar: { fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.6, textAlign: "right", marginTop: 1.5 },
+});
+
+/**
+ * The closing statement of an electronic document, in small type: issued by
+ * the company's system, valid without a signature or a stamp. English first,
+ * Arabic underneath.
+ */
+export function IssuanceNote({ en, ar }: { en: string; ar: string }) {
+  return (
+    <View wrap={false} style={issuance.wrap}>
+      <Rule />
+      <View style={{ marginTop: 6 }}>
+        <Text style={issuance.line}>{en}</Text>
+        <Text style={issuance.ar}>{ar}</Text>
+      </View>
     </View>
   );
 }
@@ -258,8 +346,8 @@ const QR_SIZE = 44;
 const footer = StyleSheet.create({
   wrap: { position: "absolute", bottom: PAGE_GRID.footerBottom },
   row: { justifyContent: "space-between", alignItems: "flex-start", marginTop: 10 },
-  contact: { width: "30%" },
-  legal: { width: "38%", paddingHorizontal: 8 },
+  contact: { width: "27%" },
+  legal: { width: "41%", paddingHorizontal: 8 },
   site: { fontSize: TYPE.small, fontWeight: 500, color: PDF_COLORS.graphite, lineHeight: 1.45 },
   legalName: { fontSize: TYPE.small, fontWeight: 500, color: PDF_COLORS.graphite, lineHeight: 1.45 },
   end: { alignItems: "flex-start" },

@@ -26,9 +26,9 @@ export function JordanLegalName({ label, className }: { label: string; className
   );
 }
 
-/** "Registration No. …" once `company.registrationNumber` is set; nothing at all until then. */
+/** "National Establishment No. …" once `company.nationalNumber` is set; nothing at all until then. */
 export function RegistrationNumber({ format, className }: { format: (number: string) => string; className?: string }) {
-  const number = company.registrationNumber;
+  const number = company.nationalNumber;
   if (!number) return null;
   return <p className={className}>{format(number)}</p>;
 }

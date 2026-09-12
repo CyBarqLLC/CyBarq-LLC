@@ -1,8 +1,15 @@
 import type { Locale } from "@/i18n/routing";
 import type { Enums } from "@/lib/supabase/database.types";
 
+/**
+ * One value in both languages. Commercial documents print English first and
+ * Arabic underneath; `ar` is null when only one wording was recorded, and then
+ * nothing is printed in its place.
+ */
+export type BiText = { en: string; ar: string | null };
+
 export type PartyBlock = {
-  name: string;
+  name: BiText;
   legalName?: string | null;
   taxNumber?: string | null;
   address?: string | null;
@@ -11,7 +18,7 @@ export type PartyBlock = {
 };
 
 export type CommercialItem = {
-  description: string;
+  description: BiText;
   quantity: number;
   unitPrice: number;
   amount: number;
@@ -26,22 +33,33 @@ export type DocumentFooterData = {
   /** General, sales and support addresses, in print order. */
   emails: string[];
   /**
-   * Legal line: the localised legal name first, then the Jordan registered
-   * name on commercial documents and the registration number once known.
+   * Legal block, printed in order: the legal name first (set in the heavier
+   * weight), then the Jordan registered name on commercial documents and the
+   * national establishment number. Each line holds a single script so the
+   * bilingual footer never mixes English and Arabic inside one run.
    */
   legalLines: string[];
   /** PNG data URL of a QR code that opens the website. */
   websiteQrDataUrl: string;
 };
 
-/** Everything the invoice and quote templates need, already localised. */
+/**
+ * Everything the invoice and quote templates need. These documents are always
+ * bilingual: English leads and Arabic follows, in one file, so the client
+ * never has to choose a language to download.
+ */
 export type CommercialDocumentData = {
   kind: "invoice" | "quote";
+  /**
+   * Correspondence language recorded on the record. It decides the file name
+   * of an unnumbered draft and the covering email — never the document, which
+   * carries both languages.
+   */
   language: Locale;
   /** Assigned number, or null for drafts. */
   number: string | null;
   status: string;
-  title: string | null;
+  title: BiText | null;
   issueDate: string | null;
   /** Invoice due date. */
   dueDate?: string | null;
@@ -56,8 +74,8 @@ export type CommercialDocumentData = {
   total: number;
   /** Invoice only. */
   amountPaid?: number;
-  notes: string | null;
-  terms: string | null;
+  notes: BiText | null;
+  terms: BiText | null;
   /** Invoice: number of the invoice this one replaces. */
   replacesNumber?: string | null;
   /** Invoice: number of the quote it came from. */

@@ -135,8 +135,12 @@ const facts = {
   emails: { general: "info@cybarq.com", sales: "sales@cybarq.com", support: "support@cybarq.com" },
   legalName: { en: "CyBarq Technology LLC", ar: "سايبرق للتكنولوجيا" },
   jordanLegalName: "برق الفضاء لتكنولوجيا وأمن المعلومات ذ.م.م",
-  registrationNumber: null,
+  nationalNumber: null,
 };
+
+/** The national establishment number lines the real company facts add to every footer. */
+const nationalLines = (locale: "en" | "ar") =>
+  company.nationalNumber ? [`${locale === "ar" ? "الرقم الوطني للمنشأة" : "National Establishment No."} ${company.nationalNumber}`] : [];
 
 describe("document footer data", () => {
   beforeEach(() => {
@@ -159,13 +163,20 @@ describe("document footer data", () => {
     expect(ar.legalLines).toEqual(["سايبرق للتكنولوجيا"]);
   });
 
-  it("prints the registration number only once it is known", async () => {
+  it("prints the national establishment number only once it is known", async () => {
     const without = await documentFooterData("en", { jordanLegalName: false }, facts);
-    expect(without.legalLines.join(" ")).not.toMatch(/Registration/);
-    const withNumber = await documentFooterData("en", { jordanLegalName: false }, { ...facts, registrationNumber: "200123456" });
-    expect(withNumber.legalLines).toContain("Registration No. 200123456");
-    const arabic = await documentFooterData("ar", { jordanLegalName: false }, { ...facts, registrationNumber: "200123456" });
-    expect(arabic.legalLines).toContain("رقم التسجيل 200123456");
+    expect(without.legalLines.join(" ")).not.toMatch(/National Establishment/);
+    const withNumber = await documentFooterData("en", { jordanLegalName: false }, { ...facts, nationalNumber: "200123456" });
+    expect(withNumber.legalLines).toContain("National Establishment No. 200123456");
+    const arabic = await documentFooterData("ar", { jordanLegalName: false }, { ...facts, nationalNumber: "200123456" });
+    expect(arabic.legalLines).toContain("الرقم الوطني للمنشأة 200123456");
+  });
+
+  it("gives a bilingual footer the English legal name and both national number labels", async () => {
+    const both = await documentFooterData("en", { jordanLegalName: true, bilingual: true }, { ...facts, nationalNumber: "200123456" });
+    expect(both.legalLines).toEqual([facts.legalName.en, facts.jordanLegalName, "National Establishment No. 200123456", "الرقم الوطني للمنشأة 200123456"]);
+    /* Every line holds one script: the bilingual footer never mixes them in a run. */
+    expect(both.legalLines.filter((line) => /[؀-ۿ]/.test(line) && /[A-Za-z]/.test(line))).toEqual([]);
   });
 
   it("generates the website QR once per URL", async () => {
@@ -188,16 +199,16 @@ describe("invoice document data", () => {
     expect(data.total).toBe(1160);
     expect(data.amountPaid).toBe(500);
     expect(data.items).toEqual([
-      { description: "Consulting day", quantity: 2, unitPrice: 400, amount: 800 },
-      { description: "Report", quantity: 1, unitPrice: 200, amount: 200 },
+      { description: { en: "Consulting day", ar: "يوم استشاري" }, quantity: 2, unitPrice: 400, amount: 800 },
+      { description: { en: "Report", ar: null }, quantity: 1, unitPrice: 200, amount: 200 },
     ]);
-    expect(data.client).toEqual({ name: "Acme Holdings", legalName: "Acme Holdings Ltd", taxNumber: "TX-1", address: "12 King Hussein St", city: "Amman", country: "Jordan" });
+    expect(data.client).toEqual({ name: { en: "Acme Holdings", ar: "شركة أكمي" }, legalName: "Acme Holdings Ltd", taxNumber: "TX-1", address: "12 King Hussein St", city: "Amman", country: "Jordan" });
     expect(data.quoteNumber).toBe("QUO-2026-0007");
     expect(data.replacesNumber).toBeNull();
     expect(data.projectCode).toBe("CYB-0101");
-    expect(data.title).toBe("Security assessment, phase one");
-    expect(data.notes).toBe("Thank you.");
-    expect(data.terms).toBe("Net 30.");
+    expect(data.title).toEqual({ en: "Security assessment, phase one", ar: "تقييم أمني، المرحلة الأولى" });
+    expect(data.notes).toEqual({ en: "Thank you.", ar: null });
+    expect(data.terms).toEqual({ en: "Net 30.", ar: "30 يوماً." });
     expect(data.voidReason).toBeNull();
     expect(data.dueDate).toBe("2026-09-30");
   });
@@ -206,19 +217,22 @@ describe("invoice document data", () => {
     const data = await invoiceDocumentData(invoiceRow(), [], null);
     expect(data.footer.legalLines[0]).toBe(company.legalName.en);
     expect(data.footer.legalLines).toContain(company.jordanLegalName);
+    expect(data.footer.legalLines).toEqual([company.legalName.en, company.jordanLegalName, ...nationalLines("en"), ...nationalLines("ar")]);
     expect(data.footer.websiteQrDataUrl).toMatch(DATA_URL);
-    expect(data.client).toEqual({ name: "" });
+    expect(data.client).toEqual({ name: { en: "", ar: null } });
   });
 
-  it("uses the Arabic columns and falls back to English when they are empty", async () => {
+  it("carries both languages whatever the correspondence language of the record", async () => {
     const data = await invoiceDocumentData(invoiceRow({ language: "ar" }), items, client);
     expect(data.language).toBe("ar");
-    expect(data.client.name).toBe("شركة أكمي");
-    expect(data.title).toBe("تقييم أمني، المرحلة الأولى");
-    expect(data.notes).toBe("Thank you.");
-    expect(data.terms).toBe("30 يوماً.");
-    expect(data.items.map((i) => i.description)).toEqual(["يوم استشاري", "Report"]);
-    expect(data.footer.legalLines[0]).toBe(company.legalName.ar);
+    expect(data.client.name).toEqual({ en: "Acme Holdings", ar: "شركة أكمي" });
+    expect(data.title).toEqual({ en: "Security assessment, phase one", ar: "تقييم أمني، المرحلة الأولى" });
+    /* Only one wording recorded: printed once, never duplicated. */
+    expect(data.notes).toEqual({ en: "Thank you.", ar: null });
+    expect(data.terms).toEqual({ en: "Net 30.", ar: "30 يوماً." });
+    expect(data.items.map((i) => i.description)).toEqual([{ en: "Consulting day", ar: "يوم استشاري" }, { en: "Report", ar: null }]);
+    /* The footer of a bilingual document always leads with the English name. */
+    expect(data.footer.legalLines[0]).toBe(company.legalName.en);
   });
 
   it("keeps drafts unnumbered and exposes the void reason only when void", async () => {
@@ -242,10 +256,11 @@ describe("quote document data", () => {
     expect(data.currency).toBe("USD");
     expect(data.total).toBe(250.5);
     expect(data.projectCode).toBe("CYB-0102");
-    expect(data.title).toBe("Penetration test");
-    expect(data.terms).toBe("Valid for 30 days.");
+    /* `title_ar` is empty on this row: the English wording stands alone. */
+    expect(data.title).toEqual({ en: "Penetration test", ar: null });
+    expect(data.terms).toEqual({ en: "Valid for 30 days.", ar: null });
     expect(data.notes).toBeNull();
-    expect(data.footer.legalLines).toEqual([company.legalName.ar, company.jordanLegalName]);
+    expect(data.footer.legalLines).toEqual([company.legalName.en, company.jordanLegalName, ...nationalLines("en"), ...nationalLines("ar")]);
   });
 });
 
@@ -271,7 +286,7 @@ describe("certificate document data", () => {
     expect(Buffer.from(data.qrDataUrl.split(",")[1] ?? "", "base64").toString("utf8")).toBe(data.verificationUrl);
     expect(data.footer.websiteQrDataUrl).toMatch(DATA_URL);
     expect(data.footer.websiteQrDataUrl).not.toBe(data.qrDataUrl);
-    expect(data.footer.legalLines).toEqual([company.legalName.en]);
+    expect(data.footer.legalLines).toEqual([company.legalName.en, ...nationalLines("en")]);
   });
 
   it("localises to Arabic with the English fallback", async () => {
@@ -281,6 +296,6 @@ describe("certificate document data", () => {
     expect(data.title).toBe("أساسيات الاستجابة للحوادث");
     expect(data.programName).toBe("Blue team programme");
     expect(data.hours).toBeNull();
-    expect(data.footer.legalLines).toEqual([company.legalName.ar]);
+    expect(data.footer.legalLines).toEqual([company.legalName.ar, ...nationalLines("ar")]);
   });
 });

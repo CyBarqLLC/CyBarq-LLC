@@ -4,7 +4,7 @@ import { pick } from "@/i18n/bilingual";
 import { publicEnv } from "@/lib/env";
 import { company } from "@/content/site/company";
 import { qrDataUrl } from "./qr";
-import type { CertificateDocumentData, CommercialDocumentData, DocumentFooterData, PartyBlock } from "./types";
+import type { BiText, CertificateDocumentData, CommercialDocumentData, DocumentFooterData, PartyBlock } from "./types";
 
 type ClientRow = Pick<Tables<"clients">, "name_en" | "name_ar" | "legal_name" | "tax_number" | "address" | "city" | "country">;
 type ItemRow = Pick<Tables<"invoice_items">, "description_en" | "description_ar" | "quantity" | "unit_price" | "amount">;
@@ -26,10 +26,10 @@ export type CompanyFacts = {
   emails: { general: string; sales: string; support: string };
   legalName: Record<Locale, string>;
   jordanLegalName: string;
-  registrationNumber: string | null;
+  nationalNumber: string | null;
 };
 
-const REGISTRATION_LABEL: Record<Locale, string> = { en: "Registration No.", ar: "رقم التسجيل" };
+const NATIONAL_NUMBER_LABEL: Record<Locale, string> = { en: "National Establishment No.", ar: "الرقم الوطني للمنشأة" };
 
 /** Website QR, generated once per process and URL (it never changes between renders). */
 const websiteQrCache = new Map<string, Promise<string>>();
@@ -47,12 +47,20 @@ function websiteQrDataUrl(url: string): Promise<string> {
 
 /**
  * Footer contents for one document. The Jordan registered name is legal and
- * tax material, so it goes on invoices and quotations only.
+ * tax material, so it goes on invoices and quotations only. `bilingual` prints
+ * the English legal name, the Arabic registered name and the national
+ * establishment number under both labels — one script per line.
  */
-export async function documentFooterData(locale: Locale, options: { jordanLegalName: boolean }, facts: CompanyFacts = company): Promise<DocumentFooterData> {
-  const legalLines = [facts.legalName[locale]];
+export async function documentFooterData(locale: Locale, options: { jordanLegalName: boolean; bilingual?: boolean }, facts: CompanyFacts = company): Promise<DocumentFooterData> {
+  const legalLines = options.bilingual ? [facts.legalName.en] : [facts.legalName[locale]];
   if (options.jordanLegalName) legalLines.push(facts.jordanLegalName);
-  if (facts.registrationNumber) legalLines.push(`${REGISTRATION_LABEL[locale]} ${facts.registrationNumber}`);
+  if (facts.nationalNumber) {
+    if (options.bilingual) {
+      legalLines.push(`${NATIONAL_NUMBER_LABEL.en} ${facts.nationalNumber}`, `${NATIONAL_NUMBER_LABEL.ar} ${facts.nationalNumber}`);
+    } else {
+      legalLines.push(`${NATIONAL_NUMBER_LABEL[locale]} ${facts.nationalNumber}`);
+    }
+  }
   return {
     website: facts.domain,
     websiteUrl: facts.url,
@@ -62,10 +70,29 @@ export async function documentFooterData(locale: Locale, options: { jordanLegalN
   };
 }
 
-function party(client: ClientRow | null, language: Locale): PartyBlock {
-  if (!client) return { name: "" };
+/**
+ * Both wordings of a `_en` / `_ar` pair, for documents that print the two
+ * languages together. Only one recorded wording is printed alone rather than
+ * duplicated, and an Arabic line identical to the English one is dropped.
+ */
+function both<T extends Record<string, unknown>>(row: T, key: string): BiText | null {
+  const value = (suffix: "en" | "ar") => {
+    const v = row[`${key}_${suffix}`];
+    return typeof v === "string" ? v.trim() : "";
+  };
+  const en = value("en");
+  const ar = value("ar");
+  if (!en && !ar) return null;
+  if (!en) return { en: ar, ar: null };
+  return { en, ar: ar && ar !== en ? ar : null };
+}
+
+const EMPTY: BiText = { en: "", ar: null };
+
+function party(client: ClientRow | null): PartyBlock {
+  if (!client) return { name: EMPTY };
   return {
-    name: pick(client, "name", language),
+    name: both(client, "name") ?? EMPTY,
     legalName: client.legal_name,
     taxNumber: client.tax_number,
     address: client.address,
@@ -74,66 +101,67 @@ function party(client: ClientRow | null, language: Locale): PartyBlock {
   };
 }
 
-function items(rows: ItemRow[], language: Locale): CommercialDocumentData["items"] {
+function items(rows: ItemRow[]): CommercialDocumentData["items"] {
   return rows.map((r) => ({
-    description: pick(r, "description", language),
+    description: both(r, "description") ?? EMPTY,
     quantity: Number(r.quantity),
     unitPrice: Number(r.unit_price),
     amount: r.amount === null ? Number(r.quantity) * Number(r.unit_price) : Number(r.amount),
   }));
 }
 
-/** Maps an invoice row plus its items and client to the template input. */
+/**
+ * Maps an invoice row plus its items and client to the template input. The
+ * document itself is bilingual whatever the recorded correspondence language.
+ */
 export async function invoiceDocumentData(invoice: Tables<"invoices">, itemRows: ItemRow[], client: ClientRow | null, refs: CommercialRefs = {}): Promise<CommercialDocumentData> {
-  const language = invoice.language;
   return {
     kind: "invoice",
-    language,
+    language: invoice.language,
     number: invoice.number,
     status: invoice.status,
-    title: pick(invoice, "title", language) || null,
+    title: both(invoice, "title"),
     issueDate: invoice.issue_date,
     dueDate: invoice.due_date,
     currency: invoice.currency,
-    client: party(client, language),
-    items: items(itemRows, language),
+    client: party(client),
+    items: items(itemRows),
     subtotal: Number(invoice.subtotal),
     taxRate: Number(invoice.tax_rate),
     taxAmount: Number(invoice.tax_amount),
     total: Number(invoice.total),
     amountPaid: Number(invoice.amount_paid),
-    notes: pick(invoice, "notes", language) || null,
-    terms: pick(invoice, "terms", language) || null,
+    notes: both(invoice, "notes"),
+    terms: both(invoice, "terms"),
     replacesNumber: refs.replacesNumber ?? null,
     quoteNumber: refs.quoteNumber ?? null,
     projectCode: refs.projectCode ?? null,
     voidReason: invoice.status === "void" ? invoice.void_reason : null,
-    footer: await documentFooterData(language, { jordanLegalName: true }),
+    footer: await documentFooterData("en", { jordanLegalName: true, bilingual: true }),
   };
 }
 
 /** Maps a quote row plus its items and client to the template input. */
 export async function quoteDocumentData(quote: Tables<"quotes">, itemRows: ItemRow[], client: ClientRow | null, refs: Pick<CommercialRefs, "projectCode"> = {}): Promise<CommercialDocumentData> {
-  const language = quote.language;
   return {
     kind: "quote",
-    language,
+    language: quote.language,
     number: quote.number,
     status: quote.status,
-    title: pick(quote, "title", language) || null,
+    title: both(quote, "title"),
     issueDate: quote.issue_date,
     validUntil: quote.valid_until,
     currency: quote.currency,
-    client: party(client, language),
-    items: items(itemRows, language),
+    client: party(client),
+    items: items(itemRows),
     subtotal: Number(quote.subtotal),
     taxRate: Number(quote.tax_rate),
     taxAmount: Number(quote.tax_amount),
     total: Number(quote.total),
-    notes: pick(quote, "notes", language) || null,
-    terms: pick(quote, "terms", language) || null,
+    notes: both(quote, "notes"),
+    terms: both(quote, "terms"),
     projectCode: refs.projectCode ?? null,
-    footer: await documentFooterData(language, { jordanLegalName: true }),
+    footer: await documentFooterData("en", { jordanLegalName: true, bilingual: true }),
   };
 }
 

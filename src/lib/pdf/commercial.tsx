@@ -1,75 +1,77 @@
 import { Document, Page, View, Text, StyleSheet } from "@react-pdf/renderer";
-import type { Locale } from "@/i18n/routing";
 import { currencyName, formatDate, formatMoney, formatNumber } from "@/lib/utils/format";
 import { company } from "@/content/site/company";
 import { PDF_FONT_FAMILY } from "./fonts";
-import { FOOTER_RESERVE, PAGE_GRID, PDF_COLORS, TYPE, alignEnd, alignStart, itemsEnd, rowDirection, sx } from "./theme";
-import { AccentRule, BrandLogo, DocumentFooter, ItemsTable, Label, MetaList, PartyDetails, SectionBlock, StatusStamp, TotalsBlock, type MetaRow, type TotalRow } from "./primitives";
+import { FOOTER_RESERVE, PAGE_GRID, PDF_COLORS, TYPE } from "./theme";
+import {
+  AccentRule,
+  BiSectionLabel,
+  BrandLogo,
+  DocumentFooter,
+  IssuanceNote,
+  ItemsTable,
+  MetaList,
+  PartyDetails,
+  SectionBlock,
+  StatusStamp,
+  TotalsBlock,
+  type BiCaption,
+  type MetaRow,
+  type TotalRow,
+} from "./primitives";
 import type { CommercialDocumentData } from "./types";
 
-const EN = {
-  invoice: "Invoice",
-  quote: "Quotation",
-  draft: "Draft",
-  void: "Void",
-  billTo: "Bill to",
-  preparedFor: "Prepared for",
-  number: "Number",
-  issueDate: "Issue date",
-  dueDate: "Due date",
-  validUntil: "Valid until",
-  currency: "Currency",
-  project: "Project",
-  subject: "Subject",
-  description: "Description",
-  quantity: "Qty",
-  unitPrice: "Unit price",
-  amount: "Amount",
-  subtotal: "Subtotal",
-  tax: "Tax",
-  total: "Total",
-  paid: "Paid",
-  balance: "Balance due",
-  notes: "Notes",
-  terms: "Terms",
-  taxNumber: "Tax number",
-  replaces: "Replaces",
-  fromQuote: "Quote reference",
-  voidReason: "Void reason",
-};
+/**
+ * Every caption of the document in both languages. Invoices and quotations are
+ * issued as one bilingual file: English leads, Arabic follows, and no text run
+ * ever mixes the two scripts.
+ */
+const T = {
+  invoice: { en: "Invoice", ar: "فاتورة" },
+  quote: { en: "Quotation", ar: "عرض سعر" },
+  draft: { en: "Draft", ar: "مسودة" },
+  void: { en: "Void", ar: "ملغاة" },
+  billTo: { en: "Bill to", ar: "الفاتورة إلى" },
+  preparedFor: { en: "Prepared for", ar: "مقدّم إلى" },
+  number: { en: "Number", ar: "الرقم" },
+  issueDate: { en: "Issue date", ar: "تاريخ الإصدار" },
+  dueDate: { en: "Due date", ar: "تاريخ الاستحقاق" },
+  validUntil: { en: "Valid until", ar: "صالح حتى" },
+  currency: { en: "Currency", ar: "العملة" },
+  project: { en: "Project", ar: "المشروع" },
+  subject: { en: "Subject", ar: "الموضوع" },
+  description: { en: "Description", ar: "البيان" },
+  quantity: { en: "Qty", ar: "الكمية" },
+  unitPrice: { en: "Unit price", ar: "سعر الوحدة" },
+  amount: { en: "Amount", ar: "المبلغ" },
+  subtotal: { en: "Subtotal", ar: "المجموع الفرعي" },
+  tax: { en: "Tax", ar: "الضريبة" },
+  total: { en: "Total", ar: "الإجمالي" },
+  paid: { en: "Paid", ar: "المدفوع" },
+  balance: { en: "Balance due", ar: "الرصيد المستحق" },
+  notes: { en: "Notes", ar: "ملاحظات" },
+  terms: { en: "Terms", ar: "الشروط" },
+  taxNumber: { en: "Tax number", ar: "الرقم الضريبي" },
+  replaces: { en: "Replaces", ar: "تحل محل" },
+  fromQuote: { en: "Quote reference", ar: "مرجع عرض السعر" },
+  voidReason: { en: "Void reason", ar: "سبب الإلغاء" },
+} satisfies Record<string, BiCaption>;
 
-const AR: Record<keyof typeof EN, string> = {
-  invoice: "فاتورة",
-  quote: "عرض سعر",
-  draft: "مسودة",
-  void: "ملغاة",
-  billTo: "الفاتورة إلى",
-  preparedFor: "مقدّم إلى",
-  number: "الرقم",
-  issueDate: "تاريخ الإصدار",
-  dueDate: "تاريخ الاستحقاق",
-  validUntil: "صالح حتى",
-  currency: "العملة",
-  project: "المشروع",
-  subject: "الموضوع",
-  description: "البيان",
-  quantity: "الكمية",
-  unitPrice: "سعر الوحدة",
-  amount: "المبلغ",
-  subtotal: "المجموع الفرعي",
-  tax: "الضريبة",
-  total: "الإجمالي",
-  paid: "المدفوع",
-  balance: "الرصيد المستحق",
-  notes: "ملاحظات",
-  terms: "الشروط",
-  taxNumber: "الرقم الضريبي",
-  replaces: "تحل محل",
-  fromQuote: "مرجع عرض السعر",
-  voidReason: "سبب الإلغاء",
+/**
+ * The closing statement: the document comes from the company's system, so no
+ * signature or stamp is needed. The Arabic sentence names the Jordan
+ * registered company, the English one the legal name used in correspondence.
+ */
+const ISSUANCE: Record<"invoice" | "quote", { en: string; ar: string }> = {
+  invoice: {
+    en: `This invoice was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp.`,
+    ar: `صدرت هذه الفاتورة إلكترونياً عن شركة ${company.jordanLegalName}، وهي معتمدة دون توقيع أو ختم.`,
+  },
+  quote: {
+    en: `This quotation was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp.`,
+    ar: `صدر عرض السعر هذا إلكترونياً عن شركة ${company.jordanLegalName}، وهو معتمد دون توقيع أو ختم.`,
+  },
 };
-
-const STRINGS: Record<Locale, Record<keyof typeof EN, string>> = { en: EN, ar: AR };
 
 const s = StyleSheet.create({
   page: {
@@ -82,97 +84,103 @@ const s = StyleSheet.create({
     paddingBottom: FOOTER_RESERVE,
     lineHeight: 1.45,
   },
-  header: { justifyContent: "space-between", alignItems: "flex-start" },
-  docTitle: { fontSize: TYPE.headline, fontWeight: 300, lineHeight: 1.15 },
-  docNumber: { fontSize: TYPE.body, fontWeight: 500, color: PDF_COLORS.graphite, marginTop: 3, lineHeight: 1.4 },
-  meta: { justifyContent: "space-between", alignItems: "flex-start", marginTop: 26 },
+  header: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start" },
+  headEnd: { alignItems: "flex-end" },
+  docTitle: { fontSize: TYPE.headline, fontWeight: 300, lineHeight: 1.15, textAlign: "right" },
+  docTitleAr: { fontSize: TYPE.subhead, fontWeight: 400, color: PDF_COLORS.slate, lineHeight: 1.3, textAlign: "right" },
+  docNumber: { fontSize: TYPE.body, fontWeight: 500, color: PDF_COLORS.graphite, marginTop: 4, lineHeight: 1.4, textAlign: "right" },
+  meta: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginTop: 26 },
   party: { width: "50%", paddingTop: 2 },
-  metaList: { width: "42%" },
+  metaList: { width: "44%" },
   subject: { marginTop: 22 },
   subjectText: { fontSize: TYPE.subhead, fontWeight: 500, lineHeight: 1.35 },
+  subjectAr: { fontSize: TYPE.body, fontWeight: 500, color: PDF_COLORS.slate, lineHeight: 1.5, textAlign: "right", marginTop: 2 },
 });
 
-/** Invoice and quotation template. One layout, mirrored for Arabic. */
+/**
+ * Invoice and quotation template. One bilingual layout: the page reads
+ * left to right with English leading, and every caption, party name, line item
+ * and paragraph carries its Arabic reading alongside. Figures, dates and
+ * document numbers are written once — they read the same in both languages.
+ */
 export function CommercialDocument({ data }: { data: CommercialDocumentData }) {
-  const locale = data.language;
-  const t = STRINGS[locale];
-  const dir = rowDirection(locale);
-  const start = alignStart(locale);
-  const end = alignEnd(locale);
   const isInvoice = data.kind === "invoice";
   const isVoid = data.status === "void";
   const isDraft = !data.number;
-  const docName = isInvoice ? t.invoice : t.quote;
-  const number = data.number ?? t.draft;
-  const money = (n: number) => formatMoney(n, data.currency, locale);
-  const plain = (n: number) => formatNumber(n, locale, Number.isInteger(n) ? 0 : 2);
+  const docName = isInvoice ? T.invoice : T.quote;
+  const number = data.number ?? T.draft.en;
+  const money = (n: number) => formatMoney(n, data.currency, "en");
+  const plain = (n: number) => formatNumber(n, "en", Number.isInteger(n) ? 0 : 2);
+  const date = (v: string) => formatDate(v, "en", "long");
   const balance = Math.max(0, data.total - (data.amountPaid ?? 0));
 
   const partyLines = [data.client.legalName, data.client.address, [data.client.city, data.client.country].filter(Boolean).join(", ")].filter((v): v is string => Boolean(v && v.trim()));
-  if (data.client.taxNumber) partyLines.push(`${t.taxNumber}: ${data.client.taxNumber}`);
+  if (data.client.taxNumber) partyLines.push(`${T.taxNumber.en} · ${data.client.taxNumber}`);
 
-  const metaRows: MetaRow[] = [{ label: t.number, value: number }];
-  if (data.issueDate) metaRows.push({ label: t.issueDate, value: formatDate(data.issueDate, locale, "long") });
-  if (isInvoice && data.dueDate) metaRows.push({ label: t.dueDate, value: formatDate(data.dueDate, locale, "long") });
-  if (!isInvoice && data.validUntil) metaRows.push({ label: t.validUntil, value: formatDate(data.validUntil, locale, "long") });
-  /* Code with its name in English; the Arabic name alone so the line stays one script. */
-  const currencyLabel = currencyName(data.currency, locale);
-  metaRows.push({ label: t.currency, value: currencyLabel === data.currency ? data.currency : locale === "ar" ? currencyLabel : `${data.currency} · ${currencyLabel}` });
-  if (data.quoteNumber) metaRows.push({ label: t.fromQuote, value: data.quoteNumber });
-  if (data.replacesNumber) metaRows.push({ label: t.replaces, value: data.replacesNumber });
-  if (data.projectCode) metaRows.push({ label: t.project, value: data.projectCode });
+  const metaRows: MetaRow[] = [{ label: T.number, value: number }];
+  if (data.issueDate) metaRows.push({ label: T.issueDate, value: date(data.issueDate) });
+  if (isInvoice && data.dueDate) metaRows.push({ label: T.dueDate, value: date(data.dueDate) });
+  if (!isInvoice && data.validUntil) metaRows.push({ label: T.validUntil, value: date(data.validUntil) });
+  /* Code with its English name; the name is dropped when it is the code itself. */
+  const currencyLabel = currencyName(data.currency, "en");
+  metaRows.push({ label: T.currency, value: currencyLabel === data.currency ? data.currency : `${data.currency} · ${currencyLabel}` });
+  if (data.quoteNumber) metaRows.push({ label: T.fromQuote, value: data.quoteNumber });
+  if (data.replacesNumber) metaRows.push({ label: T.replaces, value: data.replacesNumber });
+  if (data.projectCode) metaRows.push({ label: T.project, value: data.projectCode });
 
   const totalRows: TotalRow[] = [
-    { label: t.subtotal, value: money(data.subtotal) },
-    { label: `${t.tax} (${plain(data.taxRate)}%)`, value: money(data.taxAmount) },
-    { label: t.total, value: money(data.total), emphasis: "grand" },
+    { label: T.subtotal, value: money(data.subtotal) },
+    { label: { en: `${T.tax.en} (${plain(data.taxRate)}%)`, ar: T.tax.ar }, value: money(data.taxAmount) },
+    { label: T.total, value: money(data.total), emphasis: "grand" },
   ];
   if (isInvoice && data.number) {
-    totalRows.push({ label: t.paid, value: money(data.amountPaid ?? 0) });
-    totalRows.push({ label: t.balance, value: money(balance), emphasis: "strong" });
+    totalRows.push({ label: T.paid, value: money(data.amountPaid ?? 0) });
+    totalRows.push({ label: T.balance, value: money(balance), emphasis: "strong" });
   }
 
   return (
-    <Document title={`${docName} ${number}`} author={company.legalName.en} creator="CyBarq Platform" producer="CyBarq Platform">
+    <Document title={`${docName.en} ${number}`} author={company.legalName.en} creator="CyBarq Platform" producer="CyBarq Platform">
       <Page size="A4" style={s.page}>
         {/* Header: logo at the start, document type and number at the end */}
-        <View style={sx(s.header, { flexDirection: dir })}>
+        <View style={s.header}>
           <BrandLogo width={96} />
-          <View style={{ alignItems: itemsEnd(locale) }}>
-            <Text style={sx(s.docTitle, { textAlign: end })}>{docName}</Text>
-            {data.number ? <Text style={sx(s.docNumber, { textAlign: end })}>{data.number}</Text> : null}
-            {isVoid ? <StatusStamp locale={locale}>{t.void}</StatusStamp> : isDraft ? <StatusStamp locale={locale}>{t.draft}</StatusStamp> : null}
+          <View style={s.headEnd}>
+            <Text style={s.docTitle}>{docName.en}</Text>
+            <Text style={s.docTitleAr}>{docName.ar}</Text>
+            {data.number ? <Text style={s.docNumber}>{data.number}</Text> : null}
+            {isVoid ? <StatusStamp locale="en">{T.void.en}</StatusStamp> : isDraft ? <StatusStamp locale="en">{T.draft.en}</StatusStamp> : null}
           </View>
         </View>
-        <AccentRule locale={locale} marginTop={18} />
+        <AccentRule locale="en" marginTop={18} />
 
         {/* Party and document details */}
-        <View style={sx(s.meta, { flexDirection: dir })}>
+        <View style={s.meta}>
           <View style={s.party}>
-            <PartyDetails locale={locale} label={isInvoice ? t.billTo : t.preparedFor} name={data.client.name} lines={partyLines} />
+            <PartyDetails label={isInvoice ? T.billTo : T.preparedFor} name={data.client.name.en} nameAr={data.client.name.ar} lines={partyLines} />
           </View>
           <View style={s.metaList}>
-            <MetaList locale={locale} rows={metaRows} />
+            <MetaList rows={metaRows} />
           </View>
         </View>
 
         {data.title ? (
           <View style={s.subject}>
-            <Label locale={locale} marginBottom={3}>
-              {t.subject}
-            </Label>
-            <Text style={sx(s.subjectText, { textAlign: start })}>{data.title}</Text>
+            <BiSectionLabel label={T.subject} marginBottom={3} />
+            <Text style={s.subjectText}>{data.title.en}</Text>
+            {data.title.ar ? <Text style={s.subjectAr}>{data.title.ar}</Text> : null}
           </View>
         ) : null}
 
-        <ItemsTable locale={locale} items={data.items} labels={{ description: t.description, quantity: t.quantity, unitPrice: t.unitPrice, amount: t.amount }} money={money} quantity={plain} />
-        <TotalsBlock locale={locale} rows={totalRows} />
+        <ItemsTable items={data.items} labels={{ description: T.description, quantity: T.quantity, unitPrice: T.unitPrice, amount: T.amount }} money={money} quantity={plain} />
+        <TotalsBlock rows={totalRows} />
 
-        {data.voidReason ? <SectionBlock locale={locale} heading={t.voidReason} text={data.voidReason} marginTop={24} /> : null}
-        {data.notes ? <SectionBlock locale={locale} heading={t.notes} text={data.notes} marginTop={24} /> : null}
-        {data.terms ? <SectionBlock locale={locale} heading={t.terms} text={data.terms} /> : null}
+        {data.voidReason ? <SectionBlock heading={T.voidReason} text={{ en: data.voidReason, ar: null }} marginTop={24} /> : null}
+        {data.notes ? <SectionBlock heading={T.notes} text={data.notes} marginTop={24} /> : null}
+        {data.terms ? <SectionBlock heading={T.terms} text={data.terms} /> : null}
 
-        <DocumentFooter locale={locale} data={data.footer} inset={PAGE_GRID.side} />
+        <IssuanceNote en={ISSUANCE[data.kind].en} ar={ISSUANCE[data.kind].ar} />
+
+        <DocumentFooter locale="en" data={data.footer} inset={PAGE_GRID.side} />
       </Page>
     </Document>
   );

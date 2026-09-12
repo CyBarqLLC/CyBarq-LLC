@@ -69,7 +69,7 @@
     "selectClient": "Select a client",
     "project": "Project",
     "noProject": "No project",
-    "language": "Document language",
+    "language": "Correspondence language",
     "currency": "Currency",
     "taxRate": "Tax rate (%)",
     "validUntil": "Valid until",
@@ -82,7 +82,7 @@
     "notesAr": "Notes (Arabic)",
     "termsEn": "Terms (English)",
     "termsAr": "Terms (Arabic)",
-    "languageHint": "The language the PDF is rendered in.",
+    "languageHint": "Used for the covering email and the file name. The PDF itself is always issued in English and Arabic together.",
     "saved": "Saved",
     "cancel": "Cancel"
   },
