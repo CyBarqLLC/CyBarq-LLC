@@ -3,7 +3,6 @@ import { Link } from "@/i18n/navigation";
 import { requirePermission } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { createEngagement } from "@/lib/actions/security";
-import { defaultEngagementCode } from "@/lib/validation/security";
 import { PageHeader } from "@/components/ui/page-header";
 import { EngagementForm } from "@/components/security/engagement-form";
 import { loadEngagementFormOptions } from "@/components/security/data";
@@ -21,7 +20,7 @@ export default async function NewEngagementPage() {
         title={t("new")}
         description={t("form.newDescription")}
       />
-      <EngagementForm action={createEngagement} defaults={{ code: defaultEngagementCode() }} mode="create" {...options} />
+      <EngagementForm action={createEngagement} defaults={{ code: "" }} mode="create" {...options} />
     </div>
   );
 }

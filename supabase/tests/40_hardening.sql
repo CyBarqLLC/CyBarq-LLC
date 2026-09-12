@@ -206,3 +206,24 @@ do $$ begin
   if private.business_today() <> (now() at time zone 'Asia/Amman')::date then raise exception 'business_today is not the Amman date'; end if;
   raise notice 'ok  business time: today is the Amman calendar date';
 end $$;
+
+-- =============================================================================
+-- Reference numbers
+-- =============================================================================
+begin;
+-- A record that arrives without one is given the next reference of its kind.
+insert into public.clients (id, name_en, status) values ('00000000-0000-0000-0000-0000000000cc', 'Reference Co', 'active');
+select tests.expect_rows('select 1 from public.clients where id = ''00000000-0000-0000-0000-0000000000cc'' and reference ~ ''^CyB-CLT-[0-9]{6}$''', 1, 'reference: a new client is numbered');
+insert into public.tasks (id, project_id, title, created_by) values ('00000000-0000-0000-0000-0000000012a9', '00000000-0000-0000-0000-00000000e0a1', 'Referenced task', '00000000-0000-0000-0000-00000000a005');
+select tests.expect_rows('select 1 from public.tasks where id = ''00000000-0000-0000-0000-0000000012a9'' and reference ~ ''^CyB-TSK-[0-9]{6}$''', 1, 'reference: a new task is numbered');
+-- Two records of the same kind never share a reference.
+insert into public.clients (id, name_en, status) values ('00000000-0000-0000-0000-0000000000cd', 'Second Co', 'active');
+select tests.expect_rows('select 1 from public.clients where id in (''00000000-0000-0000-0000-0000000000cc'', ''00000000-0000-0000-0000-0000000000cd'') group by reference having count(*) > 1', 0, 'reference: the series never repeats');
+-- A code typed by hand is respected.
+insert into public.projects (id, code, name_en, created_by) values ('00000000-0000-0000-0000-00000000e0c9', 'ATLAS', 'Named by the team', '00000000-0000-0000-0000-00000000a005');
+select tests.expect_rows('select 1 from public.projects where id = ''00000000-0000-0000-0000-00000000e0c9'' and code = ''ATLAS''', 1, 'reference: a code supplied by hand is kept');
+-- A blank one is filled from the series.
+insert into public.projects (id, code, name_en, created_by) values ('00000000-0000-0000-0000-00000000e0ca', '   ', 'Left to the platform', '00000000-0000-0000-0000-00000000a005');
+select tests.expect_rows('select 1 from public.projects where id = ''00000000-0000-0000-0000-00000000e0ca'' and code ~ ''^CyB-PRJ-[0-9]{6}$''', 1, 'reference: a blank code is assigned');
+select tests.expect_error('select private.next_reference(''nonsense'')', 'reference: an unknown kind is refused');
+rollback;

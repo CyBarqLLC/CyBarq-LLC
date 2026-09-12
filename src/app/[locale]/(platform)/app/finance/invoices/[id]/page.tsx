@@ -15,11 +15,12 @@ import { DetailList, ImmutableNotice, Section } from "@/components/finance/detai
 import { HistoryList } from "@/components/finance/history-list";
 import { InvoiceActions } from "@/components/finance/invoice-actions";
 import { PaymentRemove } from "@/components/finance/payment-remove";
+import { Reference } from "@/components/platform/reference";
 import { documentHistory, invoiceItems, todayIso } from "../../_lib/data";
 
 const UUID = /^[0-9a-f-]{36}$/i;
 
-type PaymentRow = { id: string; amount: number; paid_at: string; method: string; reference: string | null; notes: string | null };
+type PaymentRow = { id: string; receipt_no: string | null; amount: number; paid_at: string; method: string; reference: string | null; notes: string | null };
 
 export default async function InvoiceDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -37,7 +38,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
     invoiceItems(supabase, invoice.id),
     supabase.from("clients").select("id, name_en, name_ar").eq("id", invoice.client_id).maybeSingle(),
     invoice.project_id ? supabase.from("projects").select("id, code, name_en, name_ar").eq("id", invoice.project_id).maybeSingle() : Promise.resolve({ data: null }),
-    supabase.from("payments").select("id, amount, paid_at, method, reference, notes").eq("invoice_id", invoice.id).order("paid_at", { ascending: false }),
+    supabase.from("payments").select("id, receipt_no, amount, paid_at, method, reference, notes").eq("invoice_id", invoice.id).order("paid_at", { ascending: false }),
     invoice.replaces_invoice_id ? supabase.from("invoices").select("id, number").eq("id", invoice.replaces_invoice_id).maybeSingle() : Promise.resolve({ data: null }),
     supabase.from("invoices").select("id, number").eq("replaces_invoice_id", invoice.id).order("created_at", { ascending: false }).limit(1).maybeSingle(),
     invoice.quote_id ? supabase.from("quotes").select("id, number").eq("id", invoice.quote_id).maybeSingle() : Promise.resolve({ data: null }),
@@ -49,6 +50,7 @@ export default async function InvoiceDetailPage({ params }: { params: Promise<{ 
   const paymentRows: PaymentRow[] = payments ?? [];
 
   const paymentColumns: Column<PaymentRow>[] = [
+    { key: "receipt", header: t("payment.receiptNo"), cell: (r) => <Reference value={r.receipt_no} className="text-small" /> },
     { key: "date", header: t("payment.paidAt"), primary: true, cell: (r) => formatDate(r.paid_at, locale, "long") },
     { key: "amount", header: t("payment.amount"), numeric: true, cell: (r) => <span className="tabular-nums">{formatMoney(r.amount, invoice.currency, locale)}</span> },
     { key: "method", header: t("payment.method"), cell: (r) => labelOf(PAYMENT_METHOD_LABELS, r.method, locale) },

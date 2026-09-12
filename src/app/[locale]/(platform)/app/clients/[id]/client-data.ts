@@ -10,7 +10,7 @@ export const getClientRecord = cache(async (id: string) => {
   const supabase = await createClient();
   const { data } = await supabase
     .from("clients")
-    .select("id, name_en, name_ar, legal_name, country, city, address, tax_number, website, primary_contact_name, primary_contact_email, phone, status, notes, created_at, updated_at")
+    .select("id, reference, name_en, name_ar, legal_name, country, city, address, tax_number, website, primary_contact_name, primary_contact_email, phone, status, notes, created_at, updated_at")
     .eq("id", id)
     .maybeSingle();
   return data;

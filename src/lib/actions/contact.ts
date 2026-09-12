@@ -46,7 +46,7 @@ export async function submitContact(_prev: ContactResult | null, formData: FormD
         locale,
         ip_hash: ipHash,
       })
-      .select("id")
+      .select("id, reference")
       .single();
     if (error) throw error;
 
@@ -58,6 +58,7 @@ export async function submitContact(_prev: ContactResult | null, formData: FormD
       ["Country", input.country ?? null],
       ["Service", serviceTitle],
       ["Language", locale === "ar" ? "Arabic" : "English"],
+      ["Reference", data.reference],
     ];
     const rows = details.filter((r): r is [string, string] => typeof r[1] === "string" && r[1] !== "");
     const table = `<table role="presentation" cellpadding="0" cellspacing="0" style="font-size:15px;margin:0 0 16px 0">${rows
@@ -72,7 +73,7 @@ export async function submitContact(_prev: ContactResult | null, formData: FormD
     });
     await sendMail({
       to: env.CONTACT_INBOX,
-      subject: `Website enquiry: ${input.name}${input.company ? ` (${input.company})` : ""}`,
+      subject: `Website enquiry${data.reference ? ` ${data.reference}` : ""}: ${input.name}${input.company ? ` (${input.company})` : ""}`,
       html,
       text: `${rows.map(([k, v]) => `${k}: ${v}`).join("\n")}\n\nMessage:\n${input.message}\n\n${text}`,
       replyTo: input.email,

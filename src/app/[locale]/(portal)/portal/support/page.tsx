@@ -12,9 +12,11 @@ import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
 import { Status } from "@/components/ui/status";
 import { EmptyState } from "@/components/ui/states";
+import { Reference } from "@/components/platform/reference";
 
 type Row = {
   id: string;
+  reference: string | null;
   subject: string;
   body: string;
   status: Enums<"support_status">;
@@ -30,7 +32,7 @@ export default async function PortalSupportPage() {
   const supabase = await createClient();
   const { data } = await supabase
     .from("support_requests")
-    .select("id, subject, body, status, created_at, updated_at, project:projects(id, code, name_en, name_ar)")
+    .select("id, reference, subject, body, status, created_at, updated_at, project:projects(id, code, name_en, name_ar)")
     .order("created_at", { ascending: false });
   const rows: Row[] = data ?? [];
 
@@ -64,6 +66,8 @@ export default async function PortalSupportPage() {
                 <Status value={r.status} label={label(SUPPORT_STATUS_LABELS, r.status, locale)} />
               </div>
               <div className="flex flex-wrap gap-x-4 gap-y-1 text-small text-slate">
+                {/* The reference the client quotes when they write to us about this request. */}
+                <Reference value={r.reference} />
                 <span>{t("support.createdAt", { date: formatDateTime(r.created_at, locale) })}</span>
                 {r.project ? <Link href={`/portal/projects/${r.project.id}`} className="text-azure hover:underline">{pick(r.project, "name", locale)}</Link> : null}
               </div>

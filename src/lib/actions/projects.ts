@@ -21,11 +21,11 @@ import {
 import type { UploadTicket } from "@/components/ui/file-upload";
 import type { Enums } from "@/lib/supabase/database.types";
 
-type ProjectRef = { id: string; name_en: string; name_ar: string | null; manager_user_id: string | null; status: Enums<"project_status"> };
+type ProjectRef = { id: string; code: string; name_en: string; name_ar: string | null; manager_user_id: string | null; status: Enums<"project_status"> };
 
 /** Loads a project through the caller's RLS scoped client. Null when invisible or missing. */
 async function loadProject(supabase: SupabaseServerClient, projectId: string): Promise<ProjectRef | null> {
-  const { data } = await supabase.from("projects").select("id, name_en, name_ar, manager_user_id, status").eq("id", projectId).maybeSingle();
+  const { data } = await supabase.from("projects").select("id, code, name_en, name_ar, manager_user_id, status").eq("id", projectId).maybeSingle();
   return data;
 }
 
@@ -96,7 +96,8 @@ export async function updateProject(projectId: string, _prev: ActionResult<{ id:
     const { error } = await supabase
       .from("projects")
       .update({
-        code: input.code,
+        // An emptied field keeps the code it already has; only the database assigns one, and only on insert.
+        code: input.code || project.code,
         name_en: input.name_en,
         name_ar: emptyToNull(input.name_ar),
         client_id: emptyToNull(input.client_id),

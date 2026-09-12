@@ -47,8 +47,8 @@ export function EngagementForm({ action, defaults, clients, projects, employees,
       <section className="flex flex-col gap-5">
         <h2 className="text-h3">{t("sections.basics")}</h2>
         <div className="grid gap-5 md:grid-cols-2">
-          <Field label={t("code")} htmlFor="code" hint={t("codeHint")} error={fieldError(result, "code")} required>
-            <Input id="code" name="code" defaultValue={defaults.code} required maxLength={40} aria-invalid={invalid("code")} className="uppercase" />
+          <Field label={t("code")} htmlFor="code" hint={t("codeHint")} error={fieldError(result, "code")}>
+            <Input id="code" name="code" defaultValue={defaults.code} maxLength={40} aria-invalid={invalid("code")} className="uppercase" />
           </Field>
           <Field label={t("type")} htmlFor="type" error={fieldError(result, "type")} required>
             <NativeSelect id="type" name="type" defaultValue={defaults.type ?? "penetration_test"} aria-invalid={invalid("type")}>

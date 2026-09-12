@@ -36,7 +36,7 @@
   },
   "fields": {
     "code": "Project code",
-    "codeHint": "Letters, digits and dashes. Must be unique.",
+    "codeHint": "Leave empty and the platform assigns the next one (CyB-PRJ-000001). Letters, digits and dashes; must be unique.",
     "nameEn": "Name (English)",
     "nameAr": "Name (Arabic)",
     "client": "Client",

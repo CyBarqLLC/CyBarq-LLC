@@ -68,7 +68,7 @@ select tests.expect_error('insert into public.user_roles (user_id, role_key) val
 select tests.expect_error('update public.profiles set kind = ''client'' where id = ''00000000-0000-0000-0000-00000000a009''', 'employee: cannot change own kind');
 select tests.expect_ok('update public.profiles set locale = ''ar'' where id = ''00000000-0000-0000-0000-00000000a009''', 'employee: can change own locale');
 select tests.expect_no_effect('update public.profiles set full_name = ''hacked'' where id = ''00000000-0000-0000-0000-00000000a007''', 'employee: cannot edit another profile');
-select tests.expect_error('select private.next_document_number(''invoice'')', 'employee: cannot call numbering function');
+select tests.expect_error('select private.next_reference(''invoice'')', 'employee: cannot call numbering function');
 select tests.expect_rows('select 1 from storage.objects where bucket_id in (''private-project-documents'', ''private-security-reports'', ''private-hr-documents'', ''private-finance-documents'', ''private-certificates'')', 0, 'employee: no private files');
 rollback;
 
@@ -190,7 +190,7 @@ select tests.expect_rows('select 1 from public.invoices where id = ''00000000-00
 -- Issue with a stale updated_at fails, with the current one succeeds.
 select tests.expect_error('select public.issue_invoice(''00000000-0000-0000-0000-0000000030a2'', now() - interval ''1 hour'')', 'finance: issue with stale version is rejected');
 select tests.expect_rows('select public.issue_invoice(''00000000-0000-0000-0000-0000000030a2'', (select updated_at from public.invoices where id = ''00000000-0000-0000-0000-0000000030a2''))', 1, 'finance: issue succeeds with the expected version');
-select tests.expect_rows('select 1 from public.invoices where id = ''00000000-0000-0000-0000-0000000030a2'' and status = ''issued'' and number like ''INV-%''', 1, 'finance: invoice numbered and issued');
+select tests.expect_rows('select 1 from public.invoices where id = ''00000000-0000-0000-0000-0000000030a2'' and status = ''issued'' and number like ''CyB-INV-%''', 1, 'finance: invoice numbered and issued');
 select tests.expect_error('select public.issue_invoice(''00000000-0000-0000-0000-0000000030a2'', (select updated_at from public.invoices where id = ''00000000-0000-0000-0000-0000000030a2''))', 'finance: cannot issue twice');
 select tests.expect_error('insert into public.payments (invoice_id, amount, recorded_by) values (''00000000-0000-0000-0000-0000000030a1'', 400, ''00000000-0000-0000-0000-00000000a003'')', 'finance: payments are not inserted directly');
 select tests.expect_ok('select public.record_payment(''00000000-0000-0000-0000-0000000030a1'', 400, current_date - 1, ''bank_transfer'')', 'finance: can record a payment');
@@ -217,7 +217,7 @@ select tests.expect_rows('select 1 from public.certificates', 2, 'hr: sees certi
 select tests.expect_ok('insert into public.certificates (type, recipient_name_en, title_en, created_by) values (''training'', ''Student'', ''Course'', ''00000000-0000-0000-0000-00000000a004'')', 'hr: can draft a certificate');
 select tests.expect_error('select public.issue_certificate(''00000000-0000-0000-0000-0000000040a2'', now() - interval ''1 day'')', 'hr: stale issue rejected');
 select tests.expect_rows('select public.issue_certificate(''00000000-0000-0000-0000-0000000040a2'', (select updated_at from public.certificates where id = ''00000000-0000-0000-0000-0000000040a2''))', 1, 'hr: can issue a certificate');
-select tests.expect_rows('select 1 from public.certificates where id = ''00000000-0000-0000-0000-0000000040a2'' and status = ''issued'' and certificate_no like ''CERT-%''', 1, 'hr: certificate numbered');
+select tests.expect_rows('select 1 from public.certificates where id = ''00000000-0000-0000-0000-0000000040a2'' and status = ''issued'' and certificate_no like ''CyB-CRT-%''', 1, 'hr: certificate numbered');
 select tests.expect_error('update public.certificates set recipient_name_en = ''Other'' where id = ''00000000-0000-0000-0000-0000000040a1''', 'hr: issued certificate is immutable');
 select tests.expect_rows('select public.revoke_certificate(''00000000-0000-0000-0000-0000000040a1'', ''issued in error'')', 1, 'hr: can revoke');
 select tests.expect_rows('select 1 from public.audit_logs', 0, 'hr: no audit read');

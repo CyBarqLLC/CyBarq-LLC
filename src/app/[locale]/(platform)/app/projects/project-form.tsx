@@ -57,8 +57,8 @@ export function ProjectForm({ mode, action, defaults, clients, managers, practic
       <section className="flex flex-col gap-5">
         <h2 className="text-h3">{t("form.basics")}</h2>
         <div className="grid gap-5 sm:grid-cols-2">
-          <Field label={t("fields.code")} htmlFor="code" hint={t("fields.codeHint")} error={fieldError(result, "code")} required>
-            <Input id="code" name="code" defaultValue={defaults.code} required maxLength={32} autoComplete="off" className="uppercase" aria-invalid={!!fieldError(result, "code")} />
+          <Field label={t("fields.code")} htmlFor="code" hint={t("fields.codeHint")} error={fieldError(result, "code")}>
+            <Input id="code" name="code" defaultValue={defaults.code} maxLength={32} autoComplete="off" className="uppercase" aria-invalid={!!fieldError(result, "code")} />
           </Field>
           <Field label={t("fields.practice")} htmlFor="practice" error={fieldError(result, "practice")} required>
             <NativeSelect id="practice" name="practice" defaultValue={defaults.practice}>

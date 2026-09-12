@@ -60,8 +60,18 @@ const optionalCvss = z.preprocess(
   z.number().min(0).max(10).optional(),
 );
 
+/**
+ * Engagement code. Left empty, the platform assigns the next reference
+ * (CyB-SEC-000001); a code agreed with the client can be typed instead.
+ */
+export const engagementCode = z
+  .string()
+  .trim()
+  .toUpperCase()
+  .refine((v) => v === "" || /^[A-Z0-9][A-Z0-9-]{2,39}$/.test(v), "Use letters, digits and dashes only.");
+
 export const engagementSchema = z.object({
-  code: requiredString(40),
+  code: engagementCode,
   client_id: optionalUuid,
   project_id: optionalUuid,
   title: requiredString(200),
@@ -162,8 +172,4 @@ export function nextRefCode(existing: { ref_code: string }[]): string {
   return `F-${max + 1}`;
 }
 
-/** Default engagement code: SEC-<year>-<4 digits>. */
-export function defaultEngagementCode(now = new Date()): string {
-  const n = Math.floor(1000 + Math.random() * 9000);
-  return `SEC-${now.getFullYear()}-${n}`;
-}
+

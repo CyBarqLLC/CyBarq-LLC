@@ -15,6 +15,7 @@ import { Status } from "@/components/ui/status";
 import { Badge } from "@/components/ui/badge";
 import { SectionCard } from "@/components/platform/section-card";
 import { DetailList } from "@/components/platform/detail-list";
+import { Reference } from "@/components/platform/reference";
 import { Person, personName } from "@/components/platform/person";
 import { StatusSelectForm } from "@/components/platform/status-select-form";
 import { ConfirmAction } from "@/components/platform/confirm-action";
@@ -38,13 +39,14 @@ export default async function TaskDetailPage({ params }: { params: Promise<{ id:
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations("projects.tasks");
   const tp = await getTranslations("projects");
+  const tc = await getTranslations("common");
   const supabase = await createClient();
 
   const [{ data: task }, { data: comments }] = await Promise.all([
     supabase
       .from("tasks")
       .select(
-        "id, title, description, status, priority, due_date, created_at, updated_at, assignee:profiles!tasks_assignee_user_id_fkey(id, full_name, full_name_ar, email, avatar_path), creator:profiles!tasks_created_by_fkey(full_name, full_name_ar), milestone:milestones(id, title_en, title_ar)",
+        "id, reference, title, description, status, priority, due_date, created_at, updated_at, assignee:profiles!tasks_assignee_user_id_fkey(id, full_name, full_name_ar, email, avatar_path), creator:profiles!tasks_created_by_fkey(full_name, full_name_ar), milestone:milestones(id, title_en, title_ar)",
       )
       .eq("id", taskId)
       .eq("project_id", project.id)
@@ -154,6 +156,7 @@ export default async function TaskDetailPage({ params }: { params: Promise<{ id:
           <DetailList
             columns={1}
             items={[
+              { label: tc("reference"), value: <Reference value={task.reference} /> },
               { label: t("project"), value: <Link href={`/app/projects/${project.id}`} className="text-azure hover:underline">{pick(project, "name", locale)}</Link> },
               { label: t("fields.assignee"), value: task.assignee ? <Person person={task.assignee} locale={locale} /> : t("fields.unassigned") },
               { label: t("fields.milestone"), value: task.milestone ? pick(task.milestone, "title", locale) : t("fields.noMilestone") },

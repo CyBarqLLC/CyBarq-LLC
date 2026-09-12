@@ -147,6 +147,7 @@
     "paidAt": "Paid on",
     "method": "Method",
     "reference": "Reference",
+    "receiptNo": "Receipt no.",
     "notes": "Notes",
     "empty": "No payments recorded.",
     "recorded": "Payment recorded.",

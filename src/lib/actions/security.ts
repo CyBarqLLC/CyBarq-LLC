@@ -80,7 +80,8 @@ async function assertEngagementWriter(viewer: Viewer, engagementId: string): Pro
 
 function engagementRow(input: ReturnType<typeof engagementSchema.parse>) {
   return {
-    code: input.code.toUpperCase(),
+    // An emptied field keeps the code the engagement already has; only the database assigns one, and only on insert.
+    ...(input.code ? { code: input.code.toUpperCase() } : {}),
     client_id: nul(input.client_id),
     project_id: nul(input.project_id),
     title: input.title,

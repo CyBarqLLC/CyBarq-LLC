@@ -34,7 +34,7 @@
       "authorisation": "Authorisation"
     },
     "code": "Code",
-    "codeHint": "Generated automatically. You can change it, but it must be unique.",
+    "codeHint": "Leave empty and the platform assigns the next one (CyB-SEC-000001). You can type a code agreed with the client instead; it must be unique.",
     "type": "Type",
     "title": "Title",
     "client": "Client",

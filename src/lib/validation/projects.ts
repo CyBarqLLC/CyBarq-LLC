@@ -13,12 +13,16 @@ export const memberRoleEnum = z.enum(MEMBER_ROLES);
 export const milestoneStatusEnum = z.enum(MILESTONE_STATUSES);
 export const documentCategoryEnum = z.enum(DOCUMENT_CATEGORIES);
 
-/** Project code: letters, digits and dashes, e.g. PRJ-2026-0421. */
+/**
+ * Project code. Left empty, the platform assigns the next reference
+ * (CyB-PRJ-000001); a team that already calls a piece of work something else
+ * can type that instead.
+ */
 export const projectCode = z
   .string()
   .trim()
   .toUpperCase()
-  .regex(/^[A-Z0-9][A-Z0-9-]{2,30}$/, "Use letters, digits and dashes only.");
+  .refine((v) => v === "" || /^[A-Z0-9][A-Z0-9-]{2,30}$/.test(v), "Use letters, digits and dashes only.");
 
 export const projectSchema = z
   .object({
@@ -77,12 +81,6 @@ export const uploadRequestSchema = z.object({
   size: z.number().int().nonnegative().max(50 * 1024 * 1024),
   type: z.string().max(200),
 });
-
-/** Suggests a code for a new project; uniqueness is enforced by the database. */
-export function suggestProjectCode(now = new Date()): string {
-  const digits = String(Math.floor(Math.random() * 10000)).padStart(4, "0");
-  return `PRJ-${now.getFullYear()}-${digits}`;
-}
 
 export function isProjectStatus(value: string | undefined): value is (typeof PROJECT_STATUSES)[number] {
   return (PROJECT_STATUSES as readonly string[]).includes(value ?? "");

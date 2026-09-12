@@ -6,7 +6,7 @@ import { pick } from "@/i18n/bilingual";
 import { requirePermission } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
 import { PRACTICE_LABELS, PROJECT_STATUS_LABELS } from "@/lib/labels";
-import { suggestProjectCode, PRACTICES, PROJECT_STATUSES } from "@/lib/validation/projects";
+import { PRACTICES, PROJECT_STATUSES } from "@/lib/validation/projects";
 import { createProject } from "@/lib/actions/projects";
 import { PageHeader } from "@/components/ui/page-header";
 import { Button } from "@/components/ui/button";
@@ -46,7 +46,7 @@ export default async function NewProjectPage() {
           mode="create"
           action={createProject}
           defaults={{
-            code: suggestProjectCode(),
+            code: "",
             name_en: "",
             name_ar: null,
             client_id: null,

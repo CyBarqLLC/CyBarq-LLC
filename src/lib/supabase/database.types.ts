@@ -578,6 +578,7 @@ export type Database = {
           created_by: string | null;
           created_at: string;
           updated_at: string;
+          reference: string | null;
         };
         Insert: {
           id?: string;
@@ -597,6 +598,7 @@ export type Database = {
           created_by?: string | null;
           created_at?: string;
           updated_at?: string;
+          reference?: string | null;
         };
         Update: {
           id?: string;
@@ -616,6 +618,7 @@ export type Database = {
           created_by?: string | null;
           created_at?: string;
           updated_at?: string;
+          reference?: string | null;
         };
         Relationships: [
           { foreignKeyName: "clients_created_by_fkey"; columns: ["created_by"]; isOneToOne: false; referencedRelation: "profiles"; referencedColumns: ["id"] }
@@ -635,6 +638,7 @@ export type Database = {
           status: string;
           handled_by: string | null;
           created_at: string;
+          reference: string | null;
         };
         Insert: {
           id?: string;
@@ -649,6 +653,7 @@ export type Database = {
           status?: string;
           handled_by?: string | null;
           created_at?: string;
+          reference?: string | null;
         };
         Update: {
           id?: string;
@@ -663,6 +668,7 @@ export type Database = {
           status?: string;
           handled_by?: string | null;
           created_at?: string;
+          reference?: string | null;
         };
         Relationships: [
           { foreignKeyName: "contact_submissions_handled_by_fkey"; columns: ["handled_by"]; isOneToOne: false; referencedRelation: "profiles"; referencedColumns: ["id"] }
@@ -689,24 +695,6 @@ export type Database = {
           name_ar?: string;
           position?: number;
           created_at?: string;
-        };
-        Relationships: [];
-      };
-      document_sequences: {
-        Row: {
-          key: string;
-          year: number;
-          next_value: number;
-        };
-        Insert: {
-          key: string;
-          year: number;
-          next_value?: number;
-        };
-        Update: {
-          key?: string;
-          year?: number;
-          next_value?: number;
         };
         Relationships: [];
       };
@@ -878,6 +866,7 @@ export type Database = {
           issued_by: string | null;
           uploaded_by: string | null;
           created_at: string;
+          reference: string | null;
         };
         Insert: {
           id?: string;
@@ -891,6 +880,7 @@ export type Database = {
           issued_by?: string | null;
           uploaded_by?: string | null;
           created_at?: string;
+          reference?: string | null;
         };
         Update: {
           id?: string;
@@ -904,6 +894,7 @@ export type Database = {
           issued_by?: string | null;
           uploaded_by?: string | null;
           created_at?: string;
+          reference?: string | null;
         };
         Relationships: [
           { foreignKeyName: "engagement_reports_engagement_id_fkey"; columns: ["engagement_id"]; isOneToOne: false; referencedRelation: "security_engagements"; referencedColumns: ["id"] },
@@ -1359,6 +1350,7 @@ export type Database = {
           notes: string | null;
           recorded_by: string | null;
           created_at: string;
+          receipt_no: string | null;
         };
         Insert: {
           id?: string;
@@ -1370,6 +1362,7 @@ export type Database = {
           notes?: string | null;
           recorded_by?: string | null;
           created_at?: string;
+          receipt_no?: string | null;
         };
         Update: {
           id?: string;
@@ -1381,6 +1374,7 @@ export type Database = {
           notes?: string | null;
           recorded_by?: string | null;
           created_at?: string;
+          receipt_no?: string | null;
         };
         Relationships: [
           { foreignKeyName: "payments_invoice_id_fkey"; columns: ["invoice_id"]; isOneToOne: false; referencedRelation: "invoices"; referencedColumns: ["id"] },
@@ -1830,6 +1824,24 @@ export type Database = {
           { foreignKeyName: "quotes_project_id_fkey"; columns: ["project_id"]; isOneToOne: false; referencedRelation: "projects"; referencedColumns: ["id"] }
         ];
       };
+      reference_sequences: {
+        Row: {
+          kind: string;
+          next_value: number;
+          updated_at: string;
+        };
+        Insert: {
+          kind: string;
+          next_value?: number;
+          updated_at?: string;
+        };
+        Update: {
+          kind?: string;
+          next_value?: number;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
       role_permissions: {
         Row: {
           role_key: string;
@@ -1955,6 +1967,7 @@ export type Database = {
           assigned_to: string | null;
           created_at: string;
           updated_at: string;
+          reference: string | null;
         };
         Insert: {
           id?: string;
@@ -1967,6 +1980,7 @@ export type Database = {
           assigned_to?: string | null;
           created_at?: string;
           updated_at?: string;
+          reference?: string | null;
         };
         Update: {
           id?: string;
@@ -1979,6 +1993,7 @@ export type Database = {
           assigned_to?: string | null;
           created_at?: string;
           updated_at?: string;
+          reference?: string | null;
         };
         Relationships: [
           { foreignKeyName: "support_requests_assigned_to_fkey"; columns: ["assigned_to"]; isOneToOne: false; referencedRelation: "profiles"; referencedColumns: ["id"] },
@@ -2053,6 +2068,7 @@ export type Database = {
           created_by: string | null;
           created_at: string;
           updated_at: string;
+          reference: string | null;
         };
         Insert: {
           id?: string;
@@ -2068,6 +2084,7 @@ export type Database = {
           created_by?: string | null;
           created_at?: string;
           updated_at?: string;
+          reference?: string | null;
         };
         Update: {
           id?: string;
@@ -2083,6 +2100,7 @@ export type Database = {
           created_by?: string | null;
           created_at?: string;
           updated_at?: string;
+          reference?: string | null;
         };
         Relationships: [
           { foreignKeyName: "tasks_assignee_user_id_fkey"; columns: ["assignee_user_id"]; isOneToOne: false; referencedRelation: "profiles"; referencedColumns: ["id"] },

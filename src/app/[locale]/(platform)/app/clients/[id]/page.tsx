@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/routing";
 import { pick } from "@/i18n/bilingual";
 import { requireEmployee } from "@/lib/auth/session";
 import { createClient } from "@/lib/supabase/server";
+import { Reference } from "@/components/platform/reference";
 import { CLIENT_STATUS_LABELS, label, labelOf, PRACTICE_LABELS, PROJECT_STATUS_LABELS } from "@/lib/labels";
 import { formatDate, formatDateTime } from "@/lib/utils/format";
 import { createContact, updateContact, deleteContact, inviteClientUser, resendClientInvitation, setClientUserActive } from "@/lib/actions/clients";
@@ -38,6 +39,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
   const locale = (await getLocale()) as Locale;
   const t = await getTranslations("platform.clients");
   const tp = await getTranslations("projects");
+  const tc = await getTranslations("common");
   const supabase = await createClient();
   const canWrite = viewer.can("clients.write");
 
@@ -136,6 +138,7 @@ export default async function ClientDetailPage({ params }: { params: Promise<{ i
           <SectionCard title={t("detail.info")}>
             <DetailList
               items={[
+                { label: tc("reference"), value: <Reference value={client.reference} /> },
                 { label: t("fields.nameEn"), value: <span dir="ltr">{client.name_en}</span> },
                 { label: t("fields.nameAr"), value: client.name_ar ? <span dir="rtl">{client.name_ar}</span> : "" },
                 { label: t("fields.legalName"), value: client.legal_name },

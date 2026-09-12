@@ -57,9 +57,9 @@ insert into public.client_contacts (client_id, name, email) values
 --   e0b1: client B, active, client visible, no members
 --   e0a2: client A, draft, hidden
 insert into public.projects (id, code, client_id, name_en, practice, status, manager_user_id, client_visible) values
-  ('00000000-0000-0000-0000-00000000e0a1', 'PRJ-2026-0001', '00000000-0000-0000-0000-0000000000aa', 'Portal A', 'development', 'active', '00000000-0000-0000-0000-00000000a005', true),
-  ('00000000-0000-0000-0000-00000000e0b1', 'PRJ-2026-0002', '00000000-0000-0000-0000-0000000000bb', 'Platform B', 'ai', 'active', null, true),
-  ('00000000-0000-0000-0000-00000000e0a2', 'PRJ-2026-0003', '00000000-0000-0000-0000-0000000000aa', 'Hidden A', 'infrastructure', 'draft', null, false);
+  ('00000000-0000-0000-0000-00000000e0a1', 'CyB-PRJ-000001', '00000000-0000-0000-0000-0000000000aa', 'Portal A', 'development', 'active', '00000000-0000-0000-0000-00000000a005', true),
+  ('00000000-0000-0000-0000-00000000e0b1', 'CyB-PRJ-000002', '00000000-0000-0000-0000-0000000000bb', 'Platform B', 'ai', 'active', null, true),
+  ('00000000-0000-0000-0000-00000000e0a2', 'CyB-PRJ-000003', '00000000-0000-0000-0000-0000000000aa', 'Hidden A', 'infrastructure', 'draft', null, false);
 insert into public.project_members (project_id, user_id, role) values
   ('00000000-0000-0000-0000-00000000e0a1', '00000000-0000-0000-0000-00000000a007', 'member');
 
@@ -84,7 +84,7 @@ insert into public.project_documents (id, project_id, title, storage_path, clien
 
 -- Security engagement on client A, project e0a1, lead sec (a006). sec2 (a010) is not a member.
 insert into public.security_engagements (id, code, client_id, project_id, title, type, status, lead_user_id) values
-  ('00000000-0000-0000-0000-0000000020a1', 'SEC-2026-0001', '00000000-0000-0000-0000-0000000000aa', '00000000-0000-0000-0000-00000000e0a1', 'Web app test A', 'penetration_test', 'active', '00000000-0000-0000-0000-00000000a006');
+  ('00000000-0000-0000-0000-0000000020a1', 'CyB-SEC-000001', '00000000-0000-0000-0000-0000000000aa', '00000000-0000-0000-0000-00000000e0a1', 'Web app test A', 'penetration_test', 'active', '00000000-0000-0000-0000-00000000a006');
 insert into public.engagement_assets (id, engagement_id, name, type, identifier) values
   ('00000000-0000-0000-0000-0000000021a1', '00000000-0000-0000-0000-0000000020a1', 'Portal', 'web_app', 'https://portal.client-a.local');
 insert into public.findings (id, engagement_id, asset_id, ref_code, title, severity, created_by) values
@@ -106,16 +106,16 @@ insert into public.invoice_items (invoice_id, description_en, quantity, unit_pri
   ('00000000-0000-0000-0000-0000000030b1', 'Consulting', 1, 500);
 insert into public.invoice_items (invoice_id, description_en, quantity, unit_price) values
   ('00000000-0000-0000-0000-0000000030a2', 'Draft line', 2, 250);
-update public.invoices set status = 'issued', number = 'INV-2025-0001', issue_date = '2026-09-01', due_date = '2026-10-01', issued_at = now()
+update public.invoices set status = 'issued', number = 'CyB-INV-000001', issue_date = '2026-09-01', due_date = '2026-10-01', issued_at = now()
   where id = '00000000-0000-0000-0000-0000000030a1';
-update public.invoices set status = 'issued', number = 'INV-2025-0002', issue_date = '2026-09-01', due_date = '2026-10-01', issued_at = now()
+update public.invoices set status = 'issued', number = 'CyB-INV-000002', issue_date = '2026-09-01', due_date = '2026-10-01', issued_at = now()
   where id = '00000000-0000-0000-0000-0000000030b1';
 insert into public.quotes (id, number, client_id, status, issue_date, subtotal, total, created_by) values
-  ('00000000-0000-0000-0000-0000000031a1', 'QT-2025-0001', '00000000-0000-0000-0000-0000000000aa', 'sent', '2026-09-01', 900, 900, '00000000-0000-0000-0000-00000000a003');
+  ('00000000-0000-0000-0000-0000000031a1', 'CyB-QTE-000001', '00000000-0000-0000-0000-0000000000aa', 'sent', '2026-09-01', 900, 900, '00000000-0000-0000-0000-00000000a003');
 
 -- Certificates: one issued (recipient dev), one draft.
 insert into public.certificates (id, certificate_no, verification_code, type, status, recipient_name_en, recipient_user_id, title_en, issue_date, created_by) values
-  ('00000000-0000-0000-0000-0000000040a1', 'CERT-2025-0001', 'abc123abc123abc123', 'training', 'issued', 'Developer', '00000000-0000-0000-0000-00000000a007', 'Secure coding', '2026-08-01', '00000000-0000-0000-0000-00000000a004'),
+  ('00000000-0000-0000-0000-0000000040a1', 'CyB-CRT-000001', 'abc123abc123abc123', 'training', 'issued', 'Developer', '00000000-0000-0000-0000-00000000a007', 'Secure coding', '2026-08-01', '00000000-0000-0000-0000-00000000a004'),
   ('00000000-0000-0000-0000-0000000040a2', null, 'draft0draft0draft0', 'experience', 'draft', 'Someone', null, 'Experience letter', null, '00000000-0000-0000-0000-00000000a004');
 
 -- Content: one published article, one draft; one published news; one public project with internal link.
