@@ -52,7 +52,7 @@ export const TYPE = {
   label: 7,
   caption: 6.5,
   /** Small print: the closing statement, which must hold one line per language. */
-  fine: 5.2,
+  fine: 4.8,
 } as const;
 
 /** Single style object accepted by react-pdf (the array form removed). */

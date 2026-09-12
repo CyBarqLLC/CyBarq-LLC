@@ -323,8 +323,8 @@ const footer = StyleSheet.create({
   issuance: { justifyContent: "space-between", alignItems: "flex-start", marginBottom: 7 },
   /* The English sentence sets more type in the same words, so it takes the
      wider half; Arabic finishes well inside the rest. */
-  issuanceEn: { width: "54%", fontSize: TYPE.fine, color: PDF_COLORS.slate, lineHeight: 1.4 },
-  issuanceAr: { width: "44%", fontSize: TYPE.fine, color: PDF_COLORS.slate, lineHeight: 1.7, textAlign: "right" },
+  issuanceEn: { width: "52%", fontSize: TYPE.fine, color: PDF_COLORS.slate, lineHeight: 1.4 },
+  issuanceAr: { width: "46%", fontSize: TYPE.fine, color: PDF_COLORS.slate, lineHeight: 1.7, textAlign: "right" },
   row: { justifyContent: "space-between", alignItems: "flex-start", marginTop: 10 },
   contact: { width: "27%" },
   legal: { width: "41%", paddingHorizontal: 8 },
