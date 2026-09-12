@@ -160,15 +160,17 @@ export function BiStackedLabel({ label, align = "left" }: { label: BiCaption; al
 export type MetaRow = { label: BiCaption; value: string };
 
 const meta = StyleSheet.create({
-  row: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", paddingVertical: 4, borderBottomWidth: 1, borderBottomColor: PDF_COLORS.fog, borderBottomStyle: "solid" },
-  key: { width: 96 },
-  value: { flexGrow: 1, flexShrink: 1, flexBasis: 0, fontSize: TYPE.body, fontWeight: 500, lineHeight: 1.5, textAlign: "right" },
+  row: { flexDirection: "row", alignItems: "baseline", paddingVertical: 4.5, borderBottomWidth: 1, borderBottomColor: PDF_COLORS.fog, borderBottomStyle: "solid" },
+  key: { flexGrow: 1, flexShrink: 1, flexBasis: 0 },
+  keyAr: { width: 62, fontSize: TYPE.label, fontWeight: 500, color: PDF_COLORS.slate, lineHeight: 1.4, textAlign: "right", paddingHorizontal: 3 },
+  value: { width: 104, fontSize: TYPE.body, fontWeight: 500, lineHeight: 1.4, textAlign: "right" },
 });
 
 /**
- * Labelled key/value list separated by hairlines: the bilingual caption at the
- * start, the value — a number, a date or a code, the same in both readings —
- * at the end.
+ * Labelled key/value list separated by hairlines. Three columns — the English
+ * caption, its Arabic reading, and the value, which is a number, a date or a
+ * code and reads the same in both languages — so each entry stays one line and
+ * the two readings line up down the block.
  */
 export function MetaList({ rows }: { rows: MetaRow[] }) {
   return (
@@ -176,8 +178,9 @@ export function MetaList({ rows }: { rows: MetaRow[] }) {
       {rows.map((row, i) => (
         <View key={i} wrap={false} style={meta.row}>
           <View style={meta.key}>
-            <BiStackedLabel label={row.label} />
+            <Label locale="en">{row.label.en}</Label>
           </View>
+          <Text style={meta.keyAr}>{row.label.ar}</Text>
           <Text style={meta.value}>{row.value}</Text>
         </View>
       ))}
@@ -202,9 +205,9 @@ export function PartyDetails({ label, name, nameAr, lines }: { label: BiCaption;
 }
 
 const table = StyleSheet.create({
-  wrap: { marginTop: 22 },
-  tr: { flexDirection: "row", alignItems: "flex-start", paddingVertical: 7, borderBottomWidth: 1, borderBottomColor: PDF_COLORS.fog, borderBottomStyle: "solid" },
-  th: { paddingVertical: 5, borderBottomColor: PDF_COLORS.graphite },
+  wrap: { marginTop: 18 },
+  tr: { flexDirection: "row", alignItems: "flex-start", paddingVertical: 6, borderBottomWidth: 1, borderBottomColor: PDF_COLORS.fog, borderBottomStyle: "solid" },
+  th: { paddingVertical: 4, borderBottomColor: PDF_COLORS.graphite },
   cIndex: { width: 20 },
   cDesc: { flexGrow: 1, flexShrink: 1, flexBasis: 0, paddingHorizontal: 6 },
   cQty: { width: 48, paddingHorizontal: 4 },
@@ -262,7 +265,7 @@ export type TotalRow = { label: BiCaption; value: string; emphasis?: "grand" | "
 const totals = StyleSheet.create({
   wrap: { flexDirection: "row", justifyContent: "flex-end", marginTop: 4 },
   box: { width: 268 },
-  row: { flexDirection: "row", alignItems: "baseline", paddingVertical: 4 },
+  row: { flexDirection: "row", alignItems: "baseline", paddingVertical: 3.5 },
   key: { flexGrow: 1, flexShrink: 1, flexBasis: 0, fontSize: TYPE.body, color: PDF_COLORS.slate, lineHeight: 1.5 },
   keyAr: { width: 86, fontSize: TYPE.small, color: PDF_COLORS.slate, lineHeight: 1.5, textAlign: "right", paddingHorizontal: 4 },
   value: { width: 98, fontSize: TYPE.body, lineHeight: 1.5, textAlign: "right" },
@@ -302,7 +305,7 @@ export function TotalsBlock({ rows }: { rows: TotalRow[] }) {
  * set towards the right under the English one, which keeps both comfortable to
  * read without a second column.
  */
-export function SectionBlock({ heading, text, marginTop = 20 }: { heading: BiCaption; text: { en: string; ar: string | null }; marginTop?: number }) {
+export function SectionBlock({ heading, text, marginTop = 16 }: { heading: BiCaption; text: { en: string; ar: string | null }; marginTop?: number }) {
   const long = text.en.length + (text.ar?.length ?? 0) > 700;
   return (
     <View wrap={long} style={{ marginTop }}>
@@ -314,7 +317,7 @@ export function SectionBlock({ heading, text, marginTop = 20 }: { heading: BiCap
 }
 
 const issuance = StyleSheet.create({
-  wrap: { marginTop: 26 },
+  wrap: { marginTop: 18 },
   line: { fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.5 },
   ar: { fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.6, textAlign: "right", marginTop: 1.5 },
 });
@@ -336,12 +339,7 @@ export function IssuanceNote({ en, ar }: { en: string; ar: string }) {
   );
 }
 
-const PAGE_LABEL: Record<Locale, (page: number, total: number) => string> = {
-  en: (page, total) => `Page ${page} of ${total}`,
-  ar: (page, total) => `صفحة ${page} من ${total}`,
-};
-
-const QR_SIZE = 44;
+const QR_SIZE = 38;
 
 const footer = StyleSheet.create({
   wrap: { position: "absolute", bottom: PAGE_GRID.footerBottom },
@@ -350,19 +348,22 @@ const footer = StyleSheet.create({
   legal: { width: "41%", paddingHorizontal: 8 },
   site: { fontSize: TYPE.small, fontWeight: 500, color: PDF_COLORS.graphite, lineHeight: 1.45 },
   legalName: { fontSize: TYPE.small, fontWeight: 500, color: PDF_COLORS.graphite, lineHeight: 1.45 },
-  end: { alignItems: "flex-start" },
-  signatureCol: { height: QR_SIZE, justifyContent: "flex-end", marginHorizontal: 10 },
-  signature: { alignItems: "center" },
-  pageNo: { fontSize: TYPE.small, color: PDF_COLORS.graphite, marginHorizontal: 4, lineHeight: 1.2 },
-  qrCol: { width: QR_SIZE, alignItems: "center" },
+  /* The page label is drawn after the page has been laid out, so its box must
+     be given a size: an empty box measures zero in a centred row and is never
+     painted. Its whole branch is also written with plain style objects and
+     spacer views rather than shared styles and margins — with either of those
+     in the chain the late text is laid out but never reaches the page. */
+  qrCol: { width: QR_SIZE + 10, alignItems: "center" },
+  /* The page's quietest piece of colour: a hairline of CyBarq Blue around the code. */
+  qrFrame: { borderWidth: 0.75, borderColor: PDF_COLORS.blue, borderStyle: "solid", borderRadius: 2, padding: 3 },
   qr: { width: QR_SIZE, height: QR_SIZE },
   caption: { fontSize: TYPE.caption, color: PDF_COLORS.slate, marginTop: 3, lineHeight: 1.2, textAlign: "center" },
 });
 
 /**
  * Fixed page footer: a hairline, then website and emails at the start, the
- * legal line in the middle, and the website QR with the page signature
- * (symbol and page number) at the end. Mirrored for Arabic.
+ * legal block in the middle and the framed website QR at the end, with the
+ * symbol and the document's reference under it all. Mirrored for Arabic.
  */
 export function DocumentFooter({ locale, data, inset }: { locale: Locale; data: DocumentFooterData; inset: number }) {
   const dir = rowDirection(locale);
@@ -386,18 +387,21 @@ export function DocumentFooter({ locale, data, inset }: { locale: Locale; data: 
             </Text>
           ))}
         </View>
-        <View style={sx(footer.end, { flexDirection: dir })}>
-          <View style={footer.signatureCol}>
-            <View style={sx(footer.signature, { flexDirection: dir })}>
-              <BrandSymbol size={8} />
-              <Text style={footer.pageNo} render={({ pageNumber, totalPages }) => PAGE_LABEL[locale](pageNumber, totalPages)} />
-            </View>
-          </View>
-          <View style={footer.qrCol}>
+        <View style={footer.qrCol}>
+          <View style={footer.qrFrame}>
             <PdfImage src={data.websiteQrDataUrl} style={footer.qr} />
-            <Text style={footer.caption}>{data.website}</Text>
           </View>
+          <Text style={footer.caption}>{data.website}</Text>
         </View>
+      </View>
+      {/* Page signature, below the footer: the symbol and the document's own
+          reference, so a page separated from the rest still says what it
+          belongs to. Written as plain text rather than a "page x of y"
+          counter, which react-pdf lays out here but never paints. */}
+      <View fixed style={{ position: "absolute", bottom: 11 - PAGE_GRID.footerBottom, left: 0, right: 0, flexDirection: dir, alignItems: "center" }}>
+        <BrandSymbol size={7} color={PDF_COLORS.grey} />
+        {data.reference ? <View style={{ width: 5 }} /> : null}
+        {data.reference ? <Text style={{ fontSize: TYPE.caption, color: PDF_COLORS.slate }}>{data.reference}</Text> : null}
       </View>
     </View>
   );

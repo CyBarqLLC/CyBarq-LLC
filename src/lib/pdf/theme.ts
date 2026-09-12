@@ -31,11 +31,11 @@ export const PAGE_GRID = {
   /** Distance from the page edge to the bottom of the footer. */
   footerBottom: 28,
   /** Height of the footer block (rule, gap, three columns). */
-  footerHeight: 66,
+  footerHeight: 60,
 } as const;
 
 /** Page `paddingBottom` that keeps content clear of the footer. */
-export const FOOTER_RESERVE = PAGE_GRID.footerBottom + PAGE_GRID.footerHeight + 14;
+export const FOOTER_RESERVE = PAGE_GRID.footerBottom + PAGE_GRID.footerHeight + 10;
 
 /**
  * Type scale in points, after the brand sheet: Light for display, Regular for

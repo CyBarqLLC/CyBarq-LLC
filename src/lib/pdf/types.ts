@@ -41,6 +41,8 @@ export type DocumentFooterData = {
   legalLines: string[];
   /** PNG data URL of a QR code that opens the website. */
   websiteQrDataUrl: string;
+  /** The document's own reference, repeated under the footer of every page. */
+  reference?: string | null;
 };
 
 /**

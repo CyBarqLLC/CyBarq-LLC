@@ -53,7 +53,7 @@ const T = {
   terms: { en: "Terms", ar: "الشروط" },
   taxNumber: { en: "Tax number", ar: "الرقم الضريبي" },
   replaces: { en: "Replaces", ar: "تحل محل" },
-  fromQuote: { en: "Quote reference", ar: "مرجع عرض السعر" },
+  fromQuote: { en: "Quote ref.", ar: "مرجع عرض السعر" },
   voidReason: { en: "Void reason", ar: "سبب الإلغاء" },
 } satisfies Record<string, BiCaption>;
 
@@ -89,10 +89,10 @@ const s = StyleSheet.create({
   docTitle: { fontSize: TYPE.headline, fontWeight: 300, lineHeight: 1.15, textAlign: "right" },
   docTitleAr: { fontSize: TYPE.subhead, fontWeight: 400, color: PDF_COLORS.slate, lineHeight: 1.3, textAlign: "right" },
   docNumber: { fontSize: TYPE.body, fontWeight: 500, color: PDF_COLORS.graphite, marginTop: 4, lineHeight: 1.4, textAlign: "right" },
-  meta: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginTop: 26 },
+  meta: { flexDirection: "row", justifyContent: "space-between", alignItems: "flex-start", marginTop: 22 },
   party: { width: "50%", paddingTop: 2 },
-  metaList: { width: "44%" },
-  subject: { marginTop: 22 },
+  metaList: { width: "46%" },
+  subject: { marginTop: 18 },
   subjectText: { fontSize: TYPE.subhead, fontWeight: 500, lineHeight: 1.35 },
   subjectAr: { fontSize: TYPE.body, fontWeight: 500, color: PDF_COLORS.slate, lineHeight: 1.5, textAlign: "right", marginTop: 2 },
 });
@@ -174,8 +174,8 @@ export function CommercialDocument({ data }: { data: CommercialDocumentData }) {
         <ItemsTable items={data.items} labels={{ description: T.description, quantity: T.quantity, unitPrice: T.unitPrice, amount: T.amount }} money={money} quantity={plain} />
         <TotalsBlock rows={totalRows} />
 
-        {data.voidReason ? <SectionBlock heading={T.voidReason} text={{ en: data.voidReason, ar: null }} marginTop={24} /> : null}
-        {data.notes ? <SectionBlock heading={T.notes} text={data.notes} marginTop={24} /> : null}
+        {data.voidReason ? <SectionBlock heading={T.voidReason} text={{ en: data.voidReason, ar: null }} marginTop={18} /> : null}
+        {data.notes ? <SectionBlock heading={T.notes} text={data.notes} marginTop={18} /> : null}
         {data.terms ? <SectionBlock heading={T.terms} text={data.terms} /> : null}
 
         <IssuanceNote en={ISSUANCE[data.kind].en} ar={ISSUANCE[data.kind].ar} />

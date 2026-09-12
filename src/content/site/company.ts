@@ -34,7 +34,7 @@ export const company = {
     ar: "سايبرق شركة مسجلة رسمياً لدى دائرة مراقبة الشركات في المملكة الأردنية الهاشمية، واستكملت إجراءات الترخيص وفق الموافقات النظامية الصادرة عن وزارة الاقتصاد الرقمي والريادة والمركز الوطني للأمن السيبراني.",
   },
   /**
-   * National establishment number (الرقم الوطني للمنشأة) issued in Jordan. It
+   * Jordanian national establishment number (الرقم الوطني الأردني للمنشأة). It
    * identifies the company in official and tax records, so it is printed on
    * the site and in the footer of every document. `null` renders nothing.
    */

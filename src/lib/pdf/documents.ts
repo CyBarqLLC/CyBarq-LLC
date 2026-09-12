@@ -29,7 +29,7 @@ export type CompanyFacts = {
   nationalNumber: string | null;
 };
 
-const NATIONAL_NUMBER_LABEL: Record<Locale, string> = { en: "National Establishment No.", ar: "الرقم الوطني للمنشأة" };
+const NATIONAL_NUMBER_LABEL: Record<Locale, string> = { en: "Jordanian National Establishment No.", ar: "الرقم الوطني الأردني للمنشأة" };
 
 /** Website QR, generated once per process and URL (it never changes between renders). */
 const websiteQrCache = new Map<string, Promise<string>>();
@@ -51,7 +51,7 @@ function websiteQrDataUrl(url: string): Promise<string> {
  * the English legal name, the Arabic registered name and the national
  * establishment number under both labels — one script per line.
  */
-export async function documentFooterData(locale: Locale, options: { jordanLegalName: boolean; bilingual?: boolean }, facts: CompanyFacts = company): Promise<DocumentFooterData> {
+export async function documentFooterData(locale: Locale, options: { jordanLegalName: boolean; bilingual?: boolean; reference?: string | null }, facts: CompanyFacts = company): Promise<DocumentFooterData> {
   const legalLines = options.bilingual ? [facts.legalName.en] : [facts.legalName[locale]];
   if (options.jordanLegalName) legalLines.push(facts.jordanLegalName);
   if (facts.nationalNumber) {
@@ -67,6 +67,7 @@ export async function documentFooterData(locale: Locale, options: { jordanLegalN
     emails: [facts.emails.general, facts.emails.sales, facts.emails.support],
     legalLines,
     websiteQrDataUrl: await websiteQrDataUrl(facts.url),
+    reference: options.reference ?? null,
   };
 }
 
@@ -137,7 +138,7 @@ export async function invoiceDocumentData(invoice: Tables<"invoices">, itemRows:
     quoteNumber: refs.quoteNumber ?? null,
     projectCode: refs.projectCode ?? null,
     voidReason: invoice.status === "void" ? invoice.void_reason : null,
-    footer: await documentFooterData("en", { jordanLegalName: true, bilingual: true }),
+    footer: await documentFooterData("en", { jordanLegalName: true, bilingual: true, reference: invoice.number }),
   };
 }
 
@@ -161,7 +162,7 @@ export async function quoteDocumentData(quote: Tables<"quotes">, itemRows: ItemR
     notes: both(quote, "notes"),
     terms: both(quote, "terms"),
     projectCode: refs.projectCode ?? null,
-    footer: await documentFooterData("en", { jordanLegalName: true, bilingual: true }),
+    footer: await documentFooterData("en", { jordanLegalName: true, bilingual: true, reference: quote.number }),
   };
 }
 
@@ -175,7 +176,7 @@ export function certificateVerificationUrl(certificate: Pick<Tables<"certificate
 export async function certificateDocumentData(certificate: Tables<"certificates">): Promise<CertificateDocumentData> {
   const language = certificate.language;
   const verificationUrl = certificateVerificationUrl(certificate);
-  const [qr, footer] = await Promise.all([qrDataUrl(verificationUrl), documentFooterData(language, { jordanLegalName: false })]);
+  const [qr, footer] = await Promise.all([qrDataUrl(verificationUrl), documentFooterData(language, { jordanLegalName: false, reference: certificate.certificate_no })]);
   return {
     language,
     type: certificate.type,

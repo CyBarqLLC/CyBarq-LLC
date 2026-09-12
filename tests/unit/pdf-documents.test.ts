@@ -140,7 +140,7 @@ const facts = {
 
 /** The national establishment number lines the real company facts add to every footer. */
 const nationalLines = (locale: "en" | "ar") =>
-  company.nationalNumber ? [`${locale === "ar" ? "الرقم الوطني للمنشأة" : "National Establishment No."} ${company.nationalNumber}`] : [];
+  company.nationalNumber ? [`${locale === "ar" ? "الرقم الوطني الأردني للمنشأة" : "Jordanian National Establishment No."} ${company.nationalNumber}`] : [];
 
 describe("document footer data", () => {
   beforeEach(() => {
@@ -167,14 +167,14 @@ describe("document footer data", () => {
     const without = await documentFooterData("en", { jordanLegalName: false }, facts);
     expect(without.legalLines.join(" ")).not.toMatch(/National Establishment/);
     const withNumber = await documentFooterData("en", { jordanLegalName: false }, { ...facts, nationalNumber: "200123456" });
-    expect(withNumber.legalLines).toContain("National Establishment No. 200123456");
+    expect(withNumber.legalLines).toContain("Jordanian National Establishment No. 200123456");
     const arabic = await documentFooterData("ar", { jordanLegalName: false }, { ...facts, nationalNumber: "200123456" });
-    expect(arabic.legalLines).toContain("الرقم الوطني للمنشأة 200123456");
+    expect(arabic.legalLines).toContain("الرقم الوطني الأردني للمنشأة 200123456");
   });
 
   it("gives a bilingual footer the English legal name and both national number labels", async () => {
     const both = await documentFooterData("en", { jordanLegalName: true, bilingual: true }, { ...facts, nationalNumber: "200123456" });
-    expect(both.legalLines).toEqual([facts.legalName.en, facts.jordanLegalName, "National Establishment No. 200123456", "الرقم الوطني للمنشأة 200123456"]);
+    expect(both.legalLines).toEqual([facts.legalName.en, facts.jordanLegalName, "Jordanian National Establishment No. 200123456", "الرقم الوطني الأردني للمنشأة 200123456"]);
     /* Every line holds one script: the bilingual footer never mixes them in a run. */
     expect(both.legalLines.filter((line) => /[؀-ۿ]/.test(line) && /[A-Za-z]/.test(line))).toEqual([]);
   });
