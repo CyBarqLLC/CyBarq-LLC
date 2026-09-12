@@ -321,8 +321,10 @@ const QR_SIZE = 38;
 const footer = StyleSheet.create({
   wrap: { position: "absolute", bottom: PAGE_GRID.footerBottom },
   issuance: { justifyContent: "space-between", alignItems: "flex-start", marginBottom: 7 },
-  issuanceEn: { width: "49%", fontSize: TYPE.fine, color: PDF_COLORS.slate, lineHeight: 1.4 },
-  issuanceAr: { width: "49%", fontSize: TYPE.fine, color: PDF_COLORS.slate, lineHeight: 1.7, textAlign: "right" },
+  /* The English sentence sets more type in the same words, so it takes the
+     wider half; Arabic finishes well inside the rest. */
+  issuanceEn: { width: "54%", fontSize: TYPE.fine, color: PDF_COLORS.slate, lineHeight: 1.4 },
+  issuanceAr: { width: "44%", fontSize: TYPE.fine, color: PDF_COLORS.slate, lineHeight: 1.7, textAlign: "right" },
   row: { justifyContent: "space-between", alignItems: "flex-start", marginTop: 10 },
   contact: { width: "27%" },
   legal: { width: "41%", paddingHorizontal: 8 },
@@ -343,7 +345,7 @@ const footer = StyleSheet.create({
 /**
  * Fixed page footer: a hairline, then website and emails at the start, the
  * legal block in the middle and the framed website QR at the end, with the
- * symbol and the document's reference under it all. Mirrored for Arabic.
+ * closing statement in small print above the rule. Mirrored for Arabic.
  */
 export function DocumentFooter({ locale, data, inset }: { locale: Locale; data: DocumentFooterData; inset: number }) {
   const dir = rowDirection(locale);
@@ -384,15 +386,6 @@ export function DocumentFooter({ locale, data, inset }: { locale: Locale; data: 
           </View>
           <Text style={footer.caption}>{data.website}</Text>
         </View>
-      </View>
-      {/* Page signature, below the footer: the symbol and the document's own
-          reference, so a page separated from the rest still says what it
-          belongs to. Written as plain text rather than a "page x of y"
-          counter, which react-pdf lays out here but never paints. */}
-      <View fixed style={{ position: "absolute", bottom: 11 - PAGE_GRID.footerBottom, left: 0, right: 0, flexDirection: dir, alignItems: "center" }}>
-        <BrandSymbol size={7} color={PDF_COLORS.grey} />
-        {data.reference ? <View style={{ width: 5 }} /> : null}
-        {data.reference ? <Text style={{ fontSize: TYPE.caption, color: PDF_COLORS.slate }}>{data.reference}</Text> : null}
       </View>
     </View>
   );

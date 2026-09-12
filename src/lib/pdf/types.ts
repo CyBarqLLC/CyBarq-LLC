@@ -41,8 +41,6 @@ export type DocumentFooterData = {
   legalLines: string[];
   /** PNG data URL of a QR code that opens the website. */
   websiteQrDataUrl: string;
-  /** The document's own reference, repeated under the footer of every page. */
-  reference?: string | null;
   /**
    * The electronic-issuance statement, printed in small type directly above
    * the footer rule: English at the start of the line, Arabic at the end.
