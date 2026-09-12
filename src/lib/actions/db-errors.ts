@@ -91,6 +91,11 @@ export const DB_MESSAGE_KEYS: Record<string, string> = {
   "only project administrators can change the client or code of a project": "projectClientChange",
   "the client and authorisation of an authorised engagement can only be changed by a security manager": "engagementLocked",
   "audit logs are append only": "forbidden",
+  /* Reference faults are programming errors, never something a person did: the
+     kind comes from the code, not from a form. There is nothing specific to
+     tell them, so they get the general message and we get the log line. */
+  "unknown reference kind %": "generic",
+  "no free reference for kind % in %": "generic",
 };
 
 /** `<something> must be an employee account` (the roster guard names the field). */
