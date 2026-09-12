@@ -55,7 +55,7 @@ supabase/
 Identity: `profiles`, `roles`, `permissions`, `role_permissions`, `user_roles`, `client_users`.
 Organisation and HR: `departments`, `teams`, `team_members`, `employees`, `employee_documents`.
 Clients and projects: `clients`, `client_contacts`, `projects`, `project_members`, `milestones`, `tasks`, `task_comments`, `project_updates`, `project_documents`, `support_requests`, `activity`.
-Finance: `document_sequences`, `quotes`, `quote_items`, `invoices`, `invoice_items`, `payments`.
+Finance: `reference_sequences`, `quotes`, `quote_items`, `invoices`, `invoice_items`, `payments`.
 Security: `security_engagements`, `engagement_members`, `engagement_assets`, `findings`, `finding_evidence`, `engagement_reports`.
 Content (public CMS): `authors`, `categories`, `tags`, `news_posts`, `news_tags`, `articles`, `article_tags`, `public_projects`, `case_studies`.
 Certificates: `certificates`.
@@ -95,7 +95,7 @@ Client > Project (practice, status, manager) > Milestones > Tasks (assignee, sta
 
 ## 11. Finance model
 
-Numbered documents via `document_sequences` and `private.next_document_number()` (atomic `UPDATE ... RETURNING`). Quotes and invoices with line items, currency, tax, status, notes in two languages and a document language. Issuing is an RPC that checks `status = 'draft'` and the expected `updated_at` in the `WHERE` clause (optimistic, no explicit lock). Issued invoices are immutable except status, payments and `pdf_path`; a trigger enforces this. Corrections are done by voiding and issuing a replacement (`replaces_invoice_id`). PDFs are rendered on demand from the stored rows, never from the browser.
+Numbered documents via `reference_sequences` and `private.next_reference()` (atomic upsert `RETURNING`), in the platform-wide `CyB-INV-000050` scheme. Quotes and invoices with line items, currency, tax, status and notes in two languages; the `language` column records the correspondence language, while the PDF itself is always bilingual. Issuing is an RPC that checks `status = 'draft'` and the expected `updated_at` in the `WHERE` clause (optimistic, no explicit lock). Issued invoices are immutable except status, payments and `pdf_path`; a trigger enforces this. Corrections are done by voiding and issuing a replacement (`replaces_invoice_id`). PDFs are rendered on demand from the stored rows, never from the browser, with English leading and Arabic following in the same file.
 
 ## 12. Cybersecurity engagement model
 

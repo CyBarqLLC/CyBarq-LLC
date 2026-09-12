@@ -16,7 +16,7 @@ const DATA_URL = /^data:image\/png;base64,[A-Za-z0-9+/]+=*$/;
 function invoiceRow(overrides: Partial<Tables<"invoices">> = {}): Tables<"invoices"> {
   return {
     id: "3f2a6b7e-1c4d-4e5f-8a9b-0c1d2e3f4a5b",
-    number: "INV-2026-0042",
+    number: "CyB-INV-000042",
     client_id: "c1",
     project_id: null,
     quote_id: null,
@@ -52,7 +52,7 @@ function invoiceRow(overrides: Partial<Tables<"invoices">> = {}): Tables<"invoic
 function quoteRow(overrides: Partial<Tables<"quotes">> = {}): Tables<"quotes"> {
   return {
     id: "8b1c2d3e-4f5a-4b6c-9d7e-8f9a0b1c2d3e",
-    number: "QUO-2026-0007",
+    number: "CyB-QTE-000007",
     client_id: "c1",
     project_id: null,
     language: "ar",
@@ -83,7 +83,7 @@ function quoteRow(overrides: Partial<Tables<"quotes">> = {}): Tables<"quotes"> {
 function certificateRow(overrides: Partial<Tables<"certificates">> = {}): Tables<"certificates"> {
   return {
     id: "5d6e7f8a-9b0c-4d1e-8f2a-3b4c5d6e7f8a",
-    certificate_no: "CERT-2026-0003",
+    certificate_no: "CyB-CRT-000003",
     verification_code: "abcdef0123456789",
     type: "training",
     status: "issued",
@@ -189,10 +189,10 @@ describe("document footer data", () => {
 
 describe("invoice document data", () => {
   it("maps totals, items, party and references", async () => {
-    const data = await invoiceDocumentData(invoiceRow({ project_id: "p1", quote_id: "q1" }), items, client, { quoteNumber: "QUO-2026-0007", projectCode: "CYB-0101" });
+    const data = await invoiceDocumentData(invoiceRow({ project_id: "p1", quote_id: "q1" }), items, client, { quoteNumber: "CyB-QTE-000007", projectCode: "CyB-PRJ-000101" });
     expect(data.kind).toBe("invoice");
     expect(data.language).toBe("en");
-    expect(data.number).toBe("INV-2026-0042");
+    expect(data.number).toBe("CyB-INV-000042");
     expect(data.subtotal).toBe(1000);
     expect(data.taxRate).toBe(16);
     expect(data.taxAmount).toBe(160);
@@ -203,9 +203,9 @@ describe("invoice document data", () => {
       { description: { en: "Report", ar: null }, quantity: 1, unitPrice: 200, amount: 200 },
     ]);
     expect(data.client).toEqual({ name: { en: "Acme Holdings", ar: "شركة أكمي" }, legalName: "Acme Holdings Ltd", taxNumber: "TX-1", address: "12 King Hussein St", city: "Amman", country: "Jordan" });
-    expect(data.quoteNumber).toBe("QUO-2026-0007");
+    expect(data.quoteNumber).toBe("CyB-QTE-000007");
     expect(data.replacesNumber).toBeNull();
-    expect(data.projectCode).toBe("CYB-0101");
+    expect(data.projectCode).toBe("CyB-PRJ-000101");
     expect(data.title).toEqual({ en: "Security assessment, phase one", ar: "تقييم أمني، المرحلة الأولى" });
     expect(data.notes).toEqual({ en: "Thank you.", ar: null });
     expect(data.terms).toEqual({ en: "Net 30.", ar: "30 يوماً." });
@@ -247,7 +247,7 @@ describe("invoice document data", () => {
 
 describe("quote document data", () => {
   it("maps validity, currency and the project code", async () => {
-    const data = await quoteDocumentData(quoteRow(), items, client, { projectCode: "CYB-0102" });
+    const data = await quoteDocumentData(quoteRow(), items, client, { projectCode: "CyB-PRJ-000102" });
     expect(data.kind).toBe("quote");
     expect(data.language).toBe("ar");
     expect(data.validUntil).toBe("2026-10-11");
@@ -255,7 +255,7 @@ describe("quote document data", () => {
     expect(data.amountPaid).toBeUndefined();
     expect(data.currency).toBe("USD");
     expect(data.total).toBe(250.5);
-    expect(data.projectCode).toBe("CYB-0102");
+    expect(data.projectCode).toBe("CyB-PRJ-000102");
     /* `title_ar` is empty on this row: the English wording stands alone. */
     expect(data.title).toEqual({ en: "Penetration test", ar: null });
     expect(data.terms).toEqual({ en: "Valid for 30 days.", ar: null });
