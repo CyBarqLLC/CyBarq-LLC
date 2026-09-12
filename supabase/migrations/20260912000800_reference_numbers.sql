@@ -13,9 +13,10 @@
 -- line stays a line number. Everything that stands on its own gets a
 -- reference.
 --
--- This replaces the per-year document numbers (INV-2026-0001). Existing
--- records are renumbered in the order they were created, so the platform ends
--- up with a single scheme and no record is left behind in the old one.
+-- This replaces the per-year document numbers (INV-2026-0001) from here on.
+-- Nothing already issued is rewritten: a number a client and an accountant
+-- already hold is theirs, not ours to restate. The new series simply continues
+-- the count, so the invoice after INV-2026-0003 is CyB-INV-000004.
 
 -- ---------------------------------------------------------------------------
 -- The counters
@@ -162,31 +163,53 @@ comment on column public.contact_submissions.reference is 'CyB-MSG-000000. Assig
 comment on column public.payments.receipt_no is 'CyB-PAY-000000. Assigned on insert; payments.reference stays the payer''s own reference.';
 
 -- ---------------------------------------------------------------------------
--- Renumbering what is already there
+-- Starting the series where the books already are
 -- ---------------------------------------------------------------------------
 
-/* Renumbers one table in the order its records were created and moves the
-   counter past the last one. Numbers only what is empty unless `_renumber` is
-   set, which is how the old per-year document numbers are replaced. */
-create or replace function private.backfill_references(_kind text, _table text, _column text, _key text, _order text, _renumber boolean default false)
+/* Nothing that already carries a number is rewritten. An invoice, a quotation
+   or a certificate that has been issued is in someone else's records too: its
+   number is what the client, the accountant and the tax file already know, and
+   a platform that quietly restates it is worse than one with two formats in
+   its history. Project and engagement codes are printed on those documents, so
+   they stay as well.
+
+   The new series therefore starts where the old count ended: with three
+   invoices already issued, the next one is CyB-INV-000004. Records that never
+   had a reference of their own — clients, tasks, payments, enquiries — are
+   given one now, in the order they were created. */
+create or replace function private.seed_reference_sequence(_kind text, _table text, _column text)
+returns void
+language plpgsql
+set search_path = ''
+as $$
+declare
+  _taken bigint;
+begin
+  execute format('select count(*) from public.%I where coalesce(btrim(%I::text), '''') <> ''''', _table, _column) into _taken;
+  insert into public.reference_sequences (kind, next_value)
+  values (_kind, _taken + 1)
+  on conflict (kind) do update set next_value = greatest(public.reference_sequences.next_value, excluded.next_value), updated_at = now();
+end;
+$$;
+
+/* Gives every record that has no reference one, continuing past the records
+   that already carry something, then moves the counter past them all. */
+create or replace function private.backfill_references(_kind text, _table text, _column text, _key text, _order text)
 returns void
 language plpgsql
 set search_path = ''
 as $$
 declare
   _code text := private.reference_code(_kind);
-  _count bigint;
+  _offset bigint;
 begin
+  execute format('select count(*) from public.%I where coalesce(btrim(%I::text), '''') <> ''''', _table, _column) into _offset;
   execute format(
-    'with numbered as (select %I as k, row_number() over (order by %s) as n from public.%I where %s)'
+    'with numbered as (select %I as k, %s + row_number() over (order by %s) as n from public.%I where coalesce(btrim(%I::text), '''') = '''')'
     ' update public.%I t set %I = %L || lpad(numbered.n::text, 6, ''0'') from numbered where numbered.k = t.%I',
-    _key, _order, _table,
-    case when _renumber then format('%I is not null', _column) else format('coalesce(btrim(%I), '''') = ''''', _column) end,
+    _key, _offset::text, _order, _table, _column,
     _table, _column, 'CyB-' || _code || '-', _key);
-  get diagnostics _count = row_count;
-  insert into public.reference_sequences (kind, next_value)
-  values (_kind, _count + 1)
-  on conflict (kind) do update set next_value = greatest(public.reference_sequences.next_value, excluded.next_value), updated_at = now();
+  perform private.seed_reference_sequence(_kind, _table, _column);
 end;
 $$;
 
@@ -197,13 +220,17 @@ select private.backfill_references('report', 'engagement_reports', 'reference', 
 select private.backfill_references('enquiry', 'contact_submissions', 'reference', 'id', 'created_at, id');
 select private.backfill_references('payment', 'payments', 'receipt_no', 'id', 'paid_at, created_at, id');
 select private.backfill_references('employee', 'employees', 'employee_no', 'user_id', 'created_at, user_id');
-select private.backfill_references('project', 'projects', 'code', 'id', 'created_at, id', true);
-select private.backfill_references('engagement', 'security_engagements', 'code', 'id', 'created_at, id', true);
-select private.backfill_references('invoice', 'invoices', 'number', 'id', 'issue_date, created_at, id', true);
-select private.backfill_references('quote', 'quotes', 'number', 'id', 'issue_date, created_at, id', true);
-select private.backfill_references('certificate', 'certificates', 'certificate_no', 'id', 'issue_date, created_at, id', true);
+select private.backfill_references('project', 'projects', 'code', 'id', 'created_at, id');
+select private.backfill_references('engagement', 'security_engagements', 'code', 'id', 'created_at, id');
 
-drop function private.backfill_references(text, text, text, text, text, boolean);
+/* Documents keep the numbers they were issued under; only the counter moves,
+   so the next one issued carries on from where the old series stopped. An
+   unissued draft is not counted: it has no number to keep. */
+select private.seed_reference_sequence('invoice', 'invoices', 'number');
+select private.seed_reference_sequence('quote', 'quotes', 'number');
+select private.seed_reference_sequence('certificate', 'certificates', 'certificate_no');
+
+drop function private.backfill_references(text, text, text, text, text);
 
 -- ---------------------------------------------------------------------------
 -- Uniqueness, then assignment on insert

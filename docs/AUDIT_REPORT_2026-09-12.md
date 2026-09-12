@@ -85,7 +85,7 @@ Central typed label maps for every enum, audit action (55), entity type, role, p
 
 `20260912000100_identity_hardening`, `…000200_business_time`, `…000300_finance_workflows`, `…000400_workflow_integrity`, `…000500_platform_ops`, `…000600_audit_refinements`, `…000700_provisioning_metadata` — all applied to production through the SQL editor and recorded in `supabase_migrations.schema_migrations`.
 
-`…000800_reference_numbers` is **written and tested but not yet applied**: it needs to go through the SQL editor with the rest of the push. It renumbers existing records, so apply it once and in order.
+`…000800_reference_numbers` is **written and tested but not yet applied to production**, which is why documents still carry `INV-2026-…`: the numbering lives in the database, so until this migration runs, `issue_invoice` keeps calling the old per-year counter. It rewrites nothing that already has a number.
 
 Since the last report a Postgres 16 cluster runs in this workspace, so the whole database suite — the Supabase shim, every migration in order, the RLS scenarios and the hardening tests — is executed locally before anything is committed, and `src/lib/supabase/database.types.ts` is regenerated from that database rather than edited by hand. Two real defects in the new migration were caught this way (an ambiguous `kind` reference inside the counter, and a hand-typed code colliding with a generated one).
 
@@ -104,7 +104,7 @@ Everything a person may need to quote back to us carries a reference in one shap
 
 The database owns the scheme: `private.next_reference()` takes the counter in a single statement so parallel callers cannot be handed the same number, `private.next_free_reference()` skips a value a hand-typed code already holds, and one trigger function fills the column on insert for every table that needs it. Documents still take their number at the moment they are issued, never when the draft is created, but the number no longer depends on the issue date. `src/lib/references.ts` mirrors the list of kinds and a test reads the migration to keep the two from drifting.
 
-Existing records are renumbered in creation order, so nothing is left in the old `INV-2026-0001` scheme. Projects and engagements keep an editable code; a blank field is now filled from the series instead of the random suffix the forms used to suggest. The reference shows on the client, task, support request and payment views, and in the subject line of a website enquiry.
+Nothing already issued is rewritten. An invoice, a quotation or a certificate that has gone out is in the client's records and the tax file too, so its number stays what it was; project and engagement codes are printed on those documents, so they stay as well. The new series continues the count instead: after `INV-2026-0003` the next invoice is `CyB-INV-000004`. Records that never had a reference — clients, tasks, payments, support requests, enquiries — are given one now, in the order they were created. Projects and engagements keep an editable code; a blank field is filled from the series instead of the random suffix the forms used to suggest. The reference shows on the client, task, support request and payment views, and in the subject line of a website enquiry.
 
 ## PERFORMANCE & INFRASTRUCTURE
 

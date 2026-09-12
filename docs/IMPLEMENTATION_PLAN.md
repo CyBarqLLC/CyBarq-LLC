@@ -95,7 +95,7 @@ Client > Project (practice, status, manager) > Milestones > Tasks (assignee, sta
 
 ## 11. Finance model
 
-Numbered documents via `reference_sequences` and `private.next_reference()` (atomic upsert `RETURNING`), in the platform-wide `CyB-INV-000050` scheme. Quotes and invoices with line items, currency, tax, status and notes in two languages; the `language` column records the correspondence language, while the PDF itself is always bilingual. Issuing is an RPC that checks `status = 'draft'` and the expected `updated_at` in the `WHERE` clause (optimistic, no explicit lock). Issued invoices are immutable except status, payments and `pdf_path`; a trigger enforces this. Corrections are done by voiding and issuing a replacement (`replaces_invoice_id`). PDFs are rendered on demand from the stored rows, never from the browser, with English leading and Arabic following in the same file.
+Numbered documents via `reference_sequences` and `private.next_reference()` (atomic upsert `RETURNING`), in the platform-wide `CyB-INV-000050` scheme; a number already issued is never restated. Quotes and invoices with line items, currency, tax, status and notes in two languages; the `language` column records the correspondence language, while the PDF itself is always bilingual. Issuing is an RPC that checks `status = 'draft'` and the expected `updated_at` in the `WHERE` clause (optimistic, no explicit lock). Issued invoices are immutable except status, payments and `pdf_path`; a trigger enforces this. Corrections are done by voiding and issuing a replacement (`replaces_invoice_id`). PDFs are rendered on demand from the stored rows, never from the browser, with English leading and Arabic following in the same file.
 
 ## 12. Cybersecurity engagement model
 
