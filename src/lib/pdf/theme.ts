@@ -31,8 +31,8 @@ export const PAGE_GRID = {
   /** Distance from the page edge to the bottom of the footer. */
   footerBottom: 28,
   /** Height of the footer block (rule, gap, three columns). */
-  /** Rule, three columns, and the two-line issuance statement above them. */
-  footerHeight: 82,
+  /** Rule, three columns, and the one-line issuance statement above them. */
+  footerHeight: 70,
 } as const;
 
 /** Page `paddingBottom` that keeps content clear of the footer. */
@@ -51,6 +51,8 @@ export const TYPE = {
   small: 7.5,
   label: 7,
   caption: 6.5,
+  /** Small print: the closing statement, which must hold one line per language. */
+  fine: 5.2,
 } as const;
 
 /** Single style object accepted by react-pdf (the array form removed). */

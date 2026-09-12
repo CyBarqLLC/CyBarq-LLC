@@ -36,16 +36,16 @@ const NATIONAL_NUMBER_LABEL: Record<Locale, string> = { en: "Jordanian National 
  * system, so it needs no signature and no stamp. The Arabic sentence names the
  * Jordan registered company, the English one the legal name used in
  * correspondence. It is printed at the foot of every page, above the footer
- * rule, in both languages on one line.
+ * rule, in both languages on one line each, and with no closing full stop.
  */
 const ISSUANCE: Record<"invoice" | "quote", { en: string; ar: string }> = {
   invoice: {
-    en: `This invoice was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp.`,
-    ar: `صدرت هذه الفاتورة إلكترونياً عن شركة ${company.jordanLegalName}، وهي معتمدة دون توقيع أو ختم.`,
+    en: `This invoice was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp`,
+    ar: `صدرت هذه الفاتورة إلكترونياً عن شركة ${company.jordanLegalName}، وهي معتمدة دون توقيع أو ختم`,
   },
   quote: {
-    en: `This quotation was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp.`,
-    ar: `صدر عرض السعر هذا إلكترونياً عن شركة ${company.jordanLegalName}، وهو معتمد دون توقيع أو ختم.`,
+    en: `This quotation was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp`,
+    ar: `صدر عرض السعر هذا إلكترونياً عن شركة ${company.jordanLegalName}، وهو معتمد دون توقيع أو ختم`,
   },
 };
 

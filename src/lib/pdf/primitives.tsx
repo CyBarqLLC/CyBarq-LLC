@@ -321,8 +321,8 @@ const QR_SIZE = 38;
 const footer = StyleSheet.create({
   wrap: { position: "absolute", bottom: PAGE_GRID.footerBottom },
   issuance: { justifyContent: "space-between", alignItems: "flex-start", marginBottom: 7 },
-  issuanceEn: { width: "49%", fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.45 },
-  issuanceAr: { width: "49%", fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.6, textAlign: "right" },
+  issuanceEn: { width: "49%", fontSize: TYPE.fine, color: PDF_COLORS.slate, lineHeight: 1.4 },
+  issuanceAr: { width: "49%", fontSize: TYPE.fine, color: PDF_COLORS.slate, lineHeight: 1.7, textAlign: "right" },
   row: { justifyContent: "space-between", alignItems: "flex-start", marginTop: 10 },
   contact: { width: "27%" },
   legal: { width: "41%", paddingHorizontal: 8 },
@@ -353,7 +353,8 @@ export function DocumentFooter({ locale, data, inset }: { locale: Locale; data: 
       {/* The electronic-issuance statement belongs with the footer, not with
           the flowing text: it must sit at the foot of the page whether the
           document fills it or ends halfway. Both readings share one line
-          across the footer's width, each in its own run. */}
+          across the footer's width, each in its own run and each on a single
+          line — which is what sets the size of this small print. */}
       {data.issuance ? (
         <View style={sx(footer.issuance, { flexDirection: dir })}>
           <Text style={footer.issuanceEn}>{data.issuance.en}</Text>
