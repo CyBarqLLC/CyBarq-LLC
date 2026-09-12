@@ -31,6 +31,24 @@ export type CompanyFacts = {
 
 const NATIONAL_NUMBER_LABEL: Record<Locale, string> = { en: "Jordanian National Establishment No.", ar: "الرقم الوطني الأردني للمنشأة" };
 
+/**
+ * The closing statement of a commercial document: it came from the company's
+ * system, so it needs no signature and no stamp. The Arabic sentence names the
+ * Jordan registered company, the English one the legal name used in
+ * correspondence. It is printed at the foot of every page, above the footer
+ * rule, in both languages on one line.
+ */
+const ISSUANCE: Record<"invoice" | "quote", { en: string; ar: string }> = {
+  invoice: {
+    en: `This invoice was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp.`,
+    ar: `صدرت هذه الفاتورة إلكترونياً عن شركة ${company.jordanLegalName}، وهي معتمدة دون توقيع أو ختم.`,
+  },
+  quote: {
+    en: `This quotation was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp.`,
+    ar: `صدر عرض السعر هذا إلكترونياً عن شركة ${company.jordanLegalName}، وهو معتمد دون توقيع أو ختم.`,
+  },
+};
+
 /** Website QR, generated once per process and URL (it never changes between renders). */
 const websiteQrCache = new Map<string, Promise<string>>();
 function websiteQrDataUrl(url: string): Promise<string> {
@@ -51,7 +69,7 @@ function websiteQrDataUrl(url: string): Promise<string> {
  * the English legal name, the Arabic registered name and the national
  * establishment number under both labels — one script per line.
  */
-export async function documentFooterData(locale: Locale, options: { jordanLegalName: boolean; bilingual?: boolean; reference?: string | null }, facts: CompanyFacts = company): Promise<DocumentFooterData> {
+export async function documentFooterData(locale: Locale, options: { jordanLegalName: boolean; bilingual?: boolean; reference?: string | null; issuance?: { en: string; ar: string } | null }, facts: CompanyFacts = company): Promise<DocumentFooterData> {
   const legalLines = options.bilingual ? [facts.legalName.en] : [facts.legalName[locale]];
   if (options.jordanLegalName) legalLines.push(facts.jordanLegalName);
   if (facts.nationalNumber) {
@@ -68,6 +86,7 @@ export async function documentFooterData(locale: Locale, options: { jordanLegalN
     legalLines,
     websiteQrDataUrl: await websiteQrDataUrl(facts.url),
     reference: options.reference ?? null,
+    issuance: options.issuance ?? null,
   };
 }
 
@@ -138,7 +157,7 @@ export async function invoiceDocumentData(invoice: Tables<"invoices">, itemRows:
     quoteNumber: refs.quoteNumber ?? null,
     projectCode: refs.projectCode ?? null,
     voidReason: invoice.status === "void" ? invoice.void_reason : null,
-    footer: await documentFooterData("en", { jordanLegalName: true, bilingual: true, reference: invoice.number }),
+    footer: await documentFooterData("en", { jordanLegalName: true, bilingual: true, reference: invoice.number, issuance: ISSUANCE.invoice }),
   };
 }
 
@@ -162,7 +181,7 @@ export async function quoteDocumentData(quote: Tables<"quotes">, itemRows: ItemR
     notes: both(quote, "notes"),
     terms: both(quote, "terms"),
     projectCode: refs.projectCode ?? null,
-    footer: await documentFooterData("en", { jordanLegalName: true, bilingual: true, reference: quote.number }),
+    footer: await documentFooterData("en", { jordanLegalName: true, bilingual: true, reference: quote.number, issuance: ISSUANCE.quote }),
   };
 }
 

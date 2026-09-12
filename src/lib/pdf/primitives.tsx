@@ -316,33 +316,13 @@ export function SectionBlock({ heading, text, marginTop = 16 }: { heading: BiCap
   );
 }
 
-const issuance = StyleSheet.create({
-  wrap: { marginTop: 18 },
-  line: { fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.5 },
-  ar: { fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.6, textAlign: "right", marginTop: 1.5 },
-});
-
-/**
- * The closing statement of an electronic document, in small type: issued by
- * the company's system, valid without a signature or a stamp. English first,
- * Arabic underneath.
- */
-export function IssuanceNote({ en, ar }: { en: string; ar: string }) {
-  return (
-    <View wrap={false} style={issuance.wrap}>
-      <Rule />
-      <View style={{ marginTop: 6 }}>
-        <Text style={issuance.line}>{en}</Text>
-        <Text style={issuance.ar}>{ar}</Text>
-      </View>
-    </View>
-  );
-}
-
 const QR_SIZE = 38;
 
 const footer = StyleSheet.create({
   wrap: { position: "absolute", bottom: PAGE_GRID.footerBottom },
+  issuance: { justifyContent: "space-between", alignItems: "flex-start", marginBottom: 7 },
+  issuanceEn: { width: "49%", fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.45 },
+  issuanceAr: { width: "49%", fontSize: TYPE.caption, color: PDF_COLORS.slate, lineHeight: 1.6, textAlign: "right" },
   row: { justifyContent: "space-between", alignItems: "flex-start", marginTop: 10 },
   contact: { width: "27%" },
   legal: { width: "41%", paddingHorizontal: 8 },
@@ -370,6 +350,16 @@ export function DocumentFooter({ locale, data, inset }: { locale: Locale; data: 
   const start = alignStart(locale);
   return (
     <View fixed style={sx(footer.wrap, { left: inset, right: inset })}>
+      {/* The electronic-issuance statement belongs with the footer, not with
+          the flowing text: it must sit at the foot of the page whether the
+          document fills it or ends halfway. Both readings share one line
+          across the footer's width, each in its own run. */}
+      {data.issuance ? (
+        <View style={sx(footer.issuance, { flexDirection: dir })}>
+          <Text style={footer.issuanceEn}>{data.issuance.en}</Text>
+          <Text style={footer.issuanceAr}>{data.issuance.ar}</Text>
+        </View>
+      ) : null}
       <Rule />
       <View style={sx(footer.row, { flexDirection: dir })}>
         <View style={footer.contact}>

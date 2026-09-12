@@ -8,7 +8,6 @@ import {
   BiSectionLabel,
   BrandLogo,
   DocumentFooter,
-  IssuanceNote,
   ItemsTable,
   MetaList,
   PartyDetails,
@@ -56,22 +55,6 @@ const T = {
   fromQuote: { en: "Quote ref.", ar: "مرجع عرض السعر" },
   voidReason: { en: "Void reason", ar: "سبب الإلغاء" },
 } satisfies Record<string, BiCaption>;
-
-/**
- * The closing statement: the document comes from the company's system, so no
- * signature or stamp is needed. The Arabic sentence names the Jordan
- * registered company, the English one the legal name used in correspondence.
- */
-const ISSUANCE: Record<"invoice" | "quote", { en: string; ar: string }> = {
-  invoice: {
-    en: `This invoice was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp.`,
-    ar: `صدرت هذه الفاتورة إلكترونياً عن شركة ${company.jordanLegalName}، وهي معتمدة دون توقيع أو ختم.`,
-  },
-  quote: {
-    en: `This quotation was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp.`,
-    ar: `صدر عرض السعر هذا إلكترونياً عن شركة ${company.jordanLegalName}، وهو معتمد دون توقيع أو ختم.`,
-  },
-};
 
 const s = StyleSheet.create({
   page: {
@@ -177,8 +160,6 @@ export function CommercialDocument({ data }: { data: CommercialDocumentData }) {
         {data.voidReason ? <SectionBlock heading={T.voidReason} text={{ en: data.voidReason, ar: null }} marginTop={18} /> : null}
         {data.notes ? <SectionBlock heading={T.notes} text={data.notes} marginTop={18} /> : null}
         {data.terms ? <SectionBlock heading={T.terms} text={data.terms} /> : null}
-
-        <IssuanceNote en={ISSUANCE[data.kind].en} ar={ISSUANCE[data.kind].ar} />
 
         <DocumentFooter locale="en" data={data.footer} inset={PAGE_GRID.side} />
       </Page>

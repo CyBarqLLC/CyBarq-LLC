@@ -31,7 +31,8 @@ export const PAGE_GRID = {
   /** Distance from the page edge to the bottom of the footer. */
   footerBottom: 28,
   /** Height of the footer block (rule, gap, three columns). */
-  footerHeight: 60,
+  /** Rule, three columns, and the two-line issuance statement above them. */
+  footerHeight: 82,
 } as const;
 
 /** Page `paddingBottom` that keeps content clear of the footer. */
