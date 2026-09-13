@@ -9,7 +9,7 @@ export function Stats({ locale, className }: { locale: Locale; className?: strin
       {company.stats.map((s) => (
         <div key={s.value} className="flex flex-col gap-2 bg-white p-6 sm:p-8">
           <dt className="order-2 text-small text-slate">{s.label[locale]}</dt>
-          <dd className="order-1 text-h1 tabular-nums">{s.value}</dd>
+          <dd className="order-1 s-title tabular-nums">{s.value}</dd>
         </div>
       ))}
     </dl>

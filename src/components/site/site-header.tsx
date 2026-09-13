@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { Logo, Symbol } from "@/components/brand/logo";
 import { practices } from "@/content/services/registry";
 import { LanguageSwitch } from "./language-switch";
 import { NavLink } from "./nav-link";
@@ -10,13 +10,16 @@ import { resolveLocale } from "./metadata";
 
 type NavItem = { href: string; label: string; children?: { href: string; label: string; short: string }[] };
 
-const linkClass = "touch inline-flex items-center px-3 text-graphite transition-colors duration-(--duration-state) hover:text-azure";
-
 /**
- * Public site header. Rendered on the server; only the scroll state, the
- * mobile disclosure (SiteHeaderShell) and the current page marker (NavLink)
- * run on the client. At the top of a page the bar is transparent and sits on
- * the page grid; once the page scrolls it floats as a glass bar.
+ * Public site header. Rendered on the server; only the condensed state, the
+ * menu disclosure (SiteHeaderShell) and the current page marker (NavLink) run
+ * on the client.
+ *
+ * The bar is square and flush with the page, as the identity is: no rounded
+ * pill, no floating card. Once the page moves it condenses, the wordmark hands
+ * over to the symbol, and a Graphite hairline along the bottom edge reports
+ * how far down the page the visitor has read. The marker under the current
+ * item is a hairline that draws from the start side.
  */
 export async function SiteHeader() {
   const locale = resolveLocale(await getLocale());
@@ -36,19 +39,23 @@ export async function SiteHeader() {
     { href: "/about", label: t("about") },
   ];
 
+  /* The menu sheet: the same index, set large and numbered, as a page of its own. */
   const menu = (
-    <nav aria-label={t("mobileLabel")}>
+    <nav aria-label={t("mobileLabel")} className="container-page flex h-full flex-col">
       <ul className="flex flex-col">
-        {items.map((item) => (
-          <li key={item.href} className="border-b border-fog/80">
-            <NavLink href={item.href} className="touch flex items-center py-2 text-lg text-graphite hover:text-azure">
-              {item.label}
+        {[...items, { href: "/contact", label: t("contact") } as NavItem].map((item, i) => (
+          <li key={item.href} className="border-b border-fog">
+            <NavLink href={item.href} className="flex items-baseline gap-4 py-4 text-graphite transition-colors duration-(--s-fast) hover:text-azure" activeClassName="text-azure">
+              <span aria-hidden className="s-meta text-grey">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <span className="s-sub">{item.label}</span>
             </NavLink>
             {item.children ? (
-              <ul className="-mt-1 pb-3">
+              <ul className="-mt-1 flex flex-wrap gap-x-5 gap-y-1 ps-9 pb-4">
                 {item.children.map((c) => (
                   <li key={c.href}>
-                    <NavLink href={c.href} className="touch flex items-center ps-4 text-slate hover:text-azure" activeClassName="text-azure">
+                    <NavLink href={c.href} className="inline-flex min-h-9 items-center text-small text-slate transition-colors duration-(--s-fast) hover:text-azure" activeClassName="text-azure">
                       {c.label}
                     </NavLink>
                   </li>
@@ -57,22 +64,19 @@ export async function SiteHeader() {
             ) : null}
           </li>
         ))}
-        <li className="border-b border-fog/80">
-          <NavLink href="/contact" className="touch flex items-center py-2 text-lg text-graphite hover:text-azure">
-            {t("contact")}
-          </NavLink>
-        </li>
       </ul>
-      {/* From sm up the bar itself shows the language switch and the call to action. */}
-      <div className="mt-3 flex items-center justify-between gap-4">
-        <LanguageSwitch className="-ms-2 sm:hidden" />
-        <Link href="/login" className="touch -me-2 inline-flex items-center px-2 text-small text-slate transition-colors duration-(--duration-state) hover:text-azure sm:me-0 sm:-ms-2">
-          {tc("footer.signIn")}
-        </Link>
+
+      <div className="mt-auto flex flex-col gap-4 pt-8">
+        <SiteCta href="/contact" size="md" className="flex w-full sm:hidden">
+          {t("talk")}
+        </SiteCta>
+        <div className="flex items-center justify-between gap-4">
+          <LanguageSwitch className="-ms-2 sm:hidden" />
+          <Link href="/login" className="touch -me-2 inline-flex items-center px-2 text-small text-slate transition-colors duration-(--s-fast) hover:text-azure sm:me-0 sm:-ms-2">
+            {tc("footer.signIn")}
+          </Link>
+        </div>
       </div>
-      <SiteCta href="/contact" size="md" className="mt-3 flex w-full sm:hidden">
-        {t("talk")}
-      </SiteCta>
     </nav>
   );
 
@@ -83,24 +87,32 @@ export async function SiteHeader() {
       </a>
       <SiteHeaderShell menu={menu} menuLabel={tc("menu")}>
         <div className="flex flex-1 items-center">
-          <Link href="/" aria-label={t("homeLabel")} className="-my-2 inline-flex items-center py-2 text-graphite">
-            <Image src="/brand/logo/primary-graphite.svg" alt="" width={132} height={32} priority unoptimized className="h-7 w-auto sm:h-8" />
+          <Link href="/" aria-label={t("homeLabel")} className="site-brand text-graphite">
+            <Logo className="site-brand__full h-7 w-auto sm:h-[1.875rem]" />
+            <Symbol className="site-brand__mark size-6" />
           </Link>
         </div>
 
         <nav aria-label={t("primaryLabel")} className="hidden lg:block">
-          <ul className="flex items-center gap-1">
+          <ul className="flex items-center">
             {items.map((item) =>
               item.children ? (
                 <li key={item.href} className="group relative">
-                  <NavLink href={item.href} className={linkClass}>
+                  <NavLink href={item.href} className="site-nav-link text-small" activeClassName="text-graphite">
                     {item.label}
                   </NavLink>
-                  <div className="invisible absolute start-0 top-full pt-3 opacity-0 transition-opacity duration-(--duration-state) group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
-                    <ul className="site-glass site-rounded grid w-[36rem] grid-cols-2 gap-1 p-2">
-                      {item.children.map((c) => (
-                        <li key={c.href}>
-                          <NavLink href={c.href} className="flex h-full flex-col gap-0.5 px-3 py-3 transition-colors duration-(--duration-state) hover:bg-ice/80 focus-visible:bg-ice/80" activeClassName="bg-ice/60">
+                  <div className="invisible absolute start-0 top-full pt-2 opacity-0 transition-opacity duration-(--s-fast) group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
+                    <ul className="site-panel-menu grid w-[34rem] grid-cols-2 gap-px bg-fog p-px">
+                      {item.children.map((c, i) => (
+                        <li key={c.href} className="bg-white">
+                          <NavLink
+                            href={c.href}
+                            className="flex h-full flex-col gap-1 px-4 py-4 transition-colors duration-(--s-fast) hover:bg-ice/70 focus-visible:bg-ice/70"
+                            activeClassName="bg-ice/50"
+                          >
+                            <span aria-hidden className="s-meta text-grey">
+                              {String(i + 1).padStart(2, "0")}
+                            </span>
                             <span className="text-body font-medium text-graphite">{c.label}</span>
                             <span className="text-small text-slate">{c.short}</span>
                           </NavLink>
@@ -111,7 +123,7 @@ export async function SiteHeader() {
                 </li>
               ) : (
                 <li key={item.href}>
-                  <NavLink href={item.href} className={linkClass}>
+                  <NavLink href={item.href} className="site-nav-link text-small" activeClassName="text-graphite">
                     {item.label}
                   </NavLink>
                 </li>

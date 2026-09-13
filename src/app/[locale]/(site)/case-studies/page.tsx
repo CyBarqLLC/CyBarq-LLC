@@ -5,6 +5,7 @@ import { label, PRACTICE_LABELS } from "@/lib/labels";
 import { listCaseStudies, coverImage } from "@/lib/data/public-content";
 import { EmptyState } from "@/components/ui/states";
 import { PageIntro } from "@/components/site/page-intro";
+import { mirror } from "@/components/site/sheet";
 import { ContentCard, ContentGrid } from "@/components/site/content-card";
 import { pageMetadata, resolveLocale } from "@/components/site/metadata";
 
@@ -23,11 +24,12 @@ export default async function CaseStudiesPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("site.content.caseStudies");
   const tn = await getTranslations("site.nav");
+  const tMirror = await mirror(locale, "site.nav");
   const items = await listCaseStudies();
 
   return (
     <>
-      <PageIntro title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: tn("caseStudies") }]} />
+      <PageIntro mirrorLabel={tMirror("caseStudies")} title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: tn("caseStudies") }]} />
       <div className="container-page pb-16 sm:pb-24">
         {items.length === 0 ? (
           <EmptyState title={t("empty")} />

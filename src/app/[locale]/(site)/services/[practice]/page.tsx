@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
 import { Pictogram } from "@/components/brand/pictogram";
 import { PageIntro } from "@/components/site/page-intro";
+import { mirror } from "@/components/site/sheet";
 import { SectionHeading } from "@/components/site/section-heading";
 import { PracticeGrid } from "@/components/site/practice-grid";
 import { ServiceCard, ServiceGrid } from "@/components/site/service-card";
@@ -35,6 +36,7 @@ export default async function PracticePage({ params }: Props) {
 
   const t = await getTranslations("site.services");
   const tn = await getTranslations("site.nav");
+  const tMirror = await mirror(locale, "site.nav");
   const th = await getTranslations("site.home");
   const list = servicesByPractice(practice.slug);
 
@@ -51,7 +53,7 @@ export default async function PracticePage({ params }: Props) {
   return (
     <>
       <JsonLd data={breadcrumbs} />
-      <PageIntro
+      <PageIntro mirrorLabel={tMirror("services")}
         title={practice.title[locale]}
         lead={practice.intro[locale]}
         crumbs={[{ href: "/", label: tn("home") }, { href: "/services", label: tn("services") }, { label: practice.title[locale] }]}

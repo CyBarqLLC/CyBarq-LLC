@@ -27,7 +27,7 @@ export function StatementPanel({ statement, body, tone = "blue", children, class
   return (
     <section className={cn("relative overflow-hidden", tones[tone], className)}>
       <Reveal className="container-page flex flex-col items-center gap-6 py-24 text-center sm:py-32">
-        <p className="text-display max-w-4xl">{statement}</p>
+        <p className="s-display max-w-4xl">{statement}</p>
         {body ? <p className={cn("max-w-2xl text-lg", dark ? "text-white/80" : "text-graphite/80")}>{body}</p> : null}
         {children}
       </Reveal>

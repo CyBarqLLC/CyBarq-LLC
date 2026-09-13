@@ -27,7 +27,7 @@ export function PracticeGrid({ locale, linkLabel, exclude, className }: Practice
           >
             <Pictogram name={p.pictogram} className="size-12 text-graphite" />
             <div className="flex flex-1 flex-col gap-2">
-              <h3 className="text-h3">{p.title[locale]}</h3>
+              <h3 className="s-h3">{p.title[locale]}</h3>
               <p className="text-slate">{p.short[locale]}</p>
             </div>
             <span className="text-small text-azure underline-offset-4 group-hover:underline">{linkLabel}</span>

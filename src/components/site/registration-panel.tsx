@@ -18,7 +18,7 @@ export async function RegistrationPanel({ locale, title, className }: Registrati
     <section aria-labelledby="registration-title" className={cn("container-page", className)}>
       <Reveal className="grid gap-8 border border-fog p-6 sm:p-10 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-16">
         <div className="max-w-2xl">
-          <h2 id="registration-title" className="text-h2">
+          <h2 id="registration-title" className="s-sub">
             {title}
           </h2>
           <p className="mt-4 text-slate">

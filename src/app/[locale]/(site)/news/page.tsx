@@ -5,6 +5,7 @@ import { formatDate } from "@/lib/utils/format";
 import { listNews, coverImage } from "@/lib/data/public-content";
 import { EmptyState } from "@/components/ui/states";
 import { PageIntro } from "@/components/site/page-intro";
+import { mirror } from "@/components/site/sheet";
 import { ContentCard, ContentGrid } from "@/components/site/content-card";
 import { pageMetadata, resolveLocale } from "@/components/site/metadata";
 
@@ -23,11 +24,12 @@ export default async function NewsPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("site.content.news");
   const tn = await getTranslations("site.nav");
+  const tMirror = await mirror(locale, "site.nav");
   const posts = await listNews();
 
   return (
     <>
-      <PageIntro title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: tn("news") }]} />
+      <PageIntro mirrorLabel={tMirror("news")} title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: tn("news") }]} />
       <div className="container-page pb-16 sm:pb-24">
         {posts.length === 0 ? (
           <EmptyState title={t("empty")} />

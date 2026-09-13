@@ -108,7 +108,7 @@ export function PracticePanels({ panels, linkLabel }: PracticePanelsProps) {
                 {String(index + 1).padStart(2, "0")}
               </span>
               <span className="shrink-0 text-graphite">{panel.icon}</span>
-              <span className="text-h3 lg:text-h2">{panel.title}</span>
+              <span className="s-sub">{panel.title}</span>
             </button>
             <div id={regionId} role="region" aria-labelledby={tabId} className="site-panel__body">
               <div>

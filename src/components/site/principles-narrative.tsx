@@ -49,12 +49,12 @@ export function PrinciplesNarrative({ steps }: { steps: NarrativeStep[] }) {
     <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
       <div className="hidden lg:block" aria-hidden>
         <div className="sticky top-[calc(var(--site-header-offset)+3rem)]">
-          <p className="text-small tabular-nums text-slate">
+          <p className="s-meta text-slate">
             {pad(active + 1)} / {pad(steps.length)}
           </p>
           <div className="mt-6 grid">
             {steps.map((step, index) => (
-              <p key={step.key} className="site-steps__title text-display" data-active={index === active ? "" : undefined}>
+              <p key={step.key} className="site-steps__title s-title" data-active={index === active ? "" : undefined}>
                 {step.title}
               </p>
             ))}
@@ -74,8 +74,8 @@ export function PrinciplesNarrative({ steps }: { steps: NarrativeStep[] }) {
             <article className="flex gap-5 sm:gap-7">
               <span className="shrink-0 text-graphite">{step.icon}</span>
               <div className="min-w-0">
-                <h3 className="text-h2">{step.title}</h3>
-                <p className="mt-4 max-w-prose text-lg text-slate">{step.body}</p>
+                <h3 className="s-sub">{step.title}</h3>
+                <p className="s-lede mt-4 max-w-prose">{step.body}</p>
               </div>
             </article>
           </li>

@@ -4,9 +4,11 @@ import { Link } from "@/i18n/navigation";
 import { Pictogram } from "@/components/brand/pictogram";
 import { Button } from "@/components/ui/button";
 import { Hero } from "@/components/site/hero";
+import { Sheet, mirror } from "@/components/site/sheet";
+import { IndexRail } from "@/components/site/index-rail";
 import { SectionHeading } from "@/components/site/section-heading";
-import { Reveal } from "@/components/site/reveal";
-import { PracticePanels } from "@/components/site/practice-panels";
+import { Settle } from "@/components/site/reveal";
+import { SpecimenGrid } from "@/components/site/specimens";
 import { PrinciplesNarrative } from "@/components/site/principles-narrative";
 import { StatementBand } from "@/components/site/statement-band";
 import { ServiceStrip } from "@/components/site/service-strip";
@@ -32,12 +34,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return pageMetadata({ locale, path: "/", title: t("seoTitle"), description: t("seoDescription"), absoluteTitle: true });
 }
 
+/**
+ * The home page, composed as a document rather than a landing page: an opening
+ * field with one statement, then numbered sheets — each one a rule, a number,
+ * and the same label in both languages — with a single contained Graphite
+ * chapter carrying the slogan and the figures. On very wide screens a live
+ * index of those sheets sits in the start margin, the way the brand book
+ * carries its contents column.
+ */
 export default async function HomePage({ params }: Props) {
   const locale = resolveLocale((await params).locale);
   setRequestLocale(locale);
   const t = await getTranslations("site.home");
   const ts = await getTranslations("site.services");
   const tn = await getTranslations("site.nav");
+  /* The same labels in the language the visitor is not reading, for the rules. */
+  const tm = await mirror(locale, "site.home");
 
   const [news, articles, caseStudies] = await Promise.all([listNews(2), listArticles(2), listCaseStudies(2)]);
   const featured = featuredServices();
@@ -57,13 +69,12 @@ export default async function HomePage({ params }: Props) {
     sameAs: Object.values(company.social),
   };
 
-  const panels = practices.map((p) => ({
+  const specimens = practices.map((p) => ({
     key: p.slug,
     href: `/services/${p.slug}`,
     title: p.title[locale],
     short: p.short[locale],
-    intro: p.intro[locale],
-    icon: <Pictogram name={p.pictogram} className="size-8 sm:size-10 lg:size-12" />,
+    icon: <Pictogram name={p.pictogram} className="size-9 sm:size-10" />,
   }));
 
   const steps = principles.map((p) => ({
@@ -73,65 +84,91 @@ export default async function HomePage({ params }: Props) {
     icon: <Pictogram name={p.pictogram} className="size-9 sm:size-11" />,
   }));
 
+  const hasLatest = news.length + articles.length + caseStudies.length > 0;
+
+  const rail = [
+    { id: "practices", label: t("sheets.practices") },
+    { id: "approach", label: t("sheets.approach") },
+    { id: "selected", label: t("sheets.services") },
+    ...(hasLatest ? [{ id: "latest", label: t("sheets.latest") }] : []),
+    { id: "trust", label: t("sheets.trust") },
+  ];
+
   return (
     <>
       <JsonLd data={organization} />
+      <IndexRail items={rail} label={t("railLabel")} />
 
-      <Hero locale={locale} title={t("title")} lead={t("lead")} primary={{ href: "/contact", label: t("primaryCta") }} secondary={{ href: "/services", label: t("secondaryCta") }} />
+      <Hero
+        locale={locale}
+        title={t("title")}
+        lead={t("lead")}
+        primary={{ href: "/contact", label: t("primaryCta") }}
+        secondary={{ href: "/services", label: t("secondaryCta") }}
+        ledger={practices.map((p) => ({ href: `/services/${p.slug}`, label: p.title[locale] }))}
+        ledgerLabel={t("ledgerLabel")}
+      />
 
-      {/* One system: the four practices */}
-      <section className="container-page section" aria-labelledby="practices-title">
+      {/* 01 — One system: the four practices, set as specimens. */}
+      <section id="practices" className="container-page section scroll-mt-24" aria-labelledby="practices-title">
+        <Sheet index={1} label={t("sheets.practices")} mirrorLabel={tm("sheets.practices")} className="mb-12 sm:mb-16" />
         <SectionHeading id="practices-title" title={t("practicesTitle")} lead={t("practicesLead")} />
-        <PracticePanels panels={panels} linkLabel={ts("explore")} />
+        <SpecimenGrid items={specimens} linkLabel={ts("explore")} />
       </section>
 
-      {/* How we work: pinned narrative */}
-      <section className="border-t border-fog" aria-labelledby="how-title">
-        <div className="container-page section">
-          <SectionHeading id="how-title" title={t("howTitle")} />
-          <PrinciplesNarrative steps={steps} />
-        </div>
+      {/* 02 — How the work is done. */}
+      <section id="approach" className="container-page section scroll-mt-24" aria-labelledby="approach-title">
+        <Sheet index={2} label={t("sheets.approach")} mirrorLabel={tm("sheets.approach")} className="mb-12 sm:mb-16" />
+        <SectionHeading id="approach-title" title={t("howTitle")} />
+        <PrinciplesNarrative steps={steps} />
       </section>
 
-      <StatementBand statement={company.slogan[locale]} body={t("statementBody")} />
+      {/* The one dark chapter: the slogan and the figures. */}
+      <StatementBand locale={locale} statement={company.slogan[locale]} body={t("statementBody")} figures={company.stats} />
 
-      {/* Selected services: a row that scrolls sideways */}
-      <section className="container-page section" aria-labelledby="selected-title">
-        <SectionHeading id="selected-title" title={t("selectedTitle")} lead={t("selectedLead")} className="mb-6 sm:mb-8" />
+      {/* 03 — Where clients usually start. */}
+      <section id="selected" className="container-page section scroll-mt-24" aria-labelledby="selected-title">
+        <Sheet index={3} label={t("sheets.services")} mirrorLabel={tm("sheets.services")} className="mb-12 sm:mb-16" />
+        <SectionHeading id="selected-title" title={t("selectedTitle")} lead={t("selectedLead")} className="mb-8 sm:mb-10" />
         <ServiceStrip labelledBy="selected-title" controls={{ previous: t("stripPrevious"), next: t("stripNext") }}>
           {featured.map((s) => (
             <ServiceStripCard key={s.slug} service={s} locale={locale} practiceLabel={getPractice(s.practice)?.title[locale]} />
           ))}
         </ServiceStrip>
-        <Reveal className="mt-8">
+        <Settle className="mt-10">
           <Button asChild variant="outline" size="lg">
             <Link href="/services">{t("allServices")}</Link>
           </Button>
-        </Reveal>
+        </Settle>
       </section>
 
-      {news.length + articles.length + caseStudies.length > 0 ? (
-        <section className="border-t border-fog" aria-labelledby="latest-title">
-          <div className="container-page section">
-            <SectionHeading id="latest-title" title={t("latestTitle")} />
-            <LatestContent
-              locale={locale}
-              news={news}
-              articles={articles}
-              caseStudies={caseStudies}
-              labels={{ news: tn("news"), articles: tn("articles"), caseStudies: tn("caseStudies"), allNews: t("viewAllNews"), allArticles: t("viewAllArticles"), allCaseStudies: t("viewAllCaseStudies") }}
-            />
-          </div>
+      {/* 04 — News, articles and work. */}
+      {hasLatest ? (
+        <section id="latest" className="container-page section scroll-mt-24" aria-labelledby="latest-title">
+          <Sheet index={4} label={t("sheets.latest")} mirrorLabel={tm("sheets.latest")} className="mb-12 sm:mb-16" />
+          <SectionHeading id="latest-title" title={t("latestTitle")} />
+          <LatestContent
+            locale={locale}
+            news={news}
+            articles={articles}
+            caseStudies={caseStudies}
+            labels={{ news: tn("news"), articles: tn("articles"), caseStudies: tn("caseStudies"), allNews: t("viewAllNews"), allArticles: t("viewAllArticles"), allCaseStudies: t("viewAllCaseStudies") }}
+          />
         </section>
       ) : null}
 
-      <div className="border-t border-fog">
-        <div className="section flex flex-col gap-20 sm:gap-24 lg:gap-28">
+      {/* 05 — Who we work with, and the official registration. */}
+      <section id="trust" className="container-page section scroll-mt-24" aria-labelledby="trust-title">
+        <Sheet index={hasLatest ? 5 : 4} label={t("sheets.trust")} mirrorLabel={tm("sheets.trust")} className="mb-12 sm:mb-16" />
+        <h2 id="trust-title" className="sr-only">
+          {t("sheets.trust")}
+        </h2>
+        <div className="flex flex-col gap-20 sm:gap-24">
           <LogoMarquee id="partners" title={t("partnersTitle")} items={company.partners} labels={{ pause: t("logosPause"), play: t("logosPlay"), subject: t("logosSubject") }} />
           <LogoGrid id="certifications" title={t("certificationsTitle")} items={company.certifications} />
           <RegistrationPanel locale={locale} title={t("registrationTitle")} />
         </div>
-      </div>
+      </section>
 
       <ClosingCta title={t("ctaTitle")} body={t("ctaBody")} primary={{ href: "/contact", label: t("ctaButton") }} secondary={{ href: "/about", label: tn("about") }} />
     </>

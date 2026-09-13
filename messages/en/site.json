@@ -46,7 +46,17 @@
     "ctaBody": "A short message is enough. We reply with questions, not a sales pitch, and we tell you honestly whether we are the right team for it. Remote, on site, or both: we work the way your project calls for.",
     "ctaButton": "Talk to us",
     "seoTitle": "CyBarq Technology LLC. Technology, done properly.",
-    "seoDescription": "CyBarq is a technology company registered in Jordan and the United States. Technology engineering, cybersecurity and AI from a local team, working remotely and on site."
+    "seoDescription": "CyBarq is a technology company registered in Jordan and the United States. Technology engineering, cybersecurity and AI from a local team, working remotely and on site.",
+    "railLabel": "Page sections",
+    "ledgerLabel": "Practices",
+    "sheets": {
+      "practices": "Practices",
+      "approach": "How we work",
+      "statement": "Statement",
+      "services": "Services",
+      "latest": "Latest",
+      "trust": "Partners and registration"
+    }
   },
   "services": {
     "title": "Services",

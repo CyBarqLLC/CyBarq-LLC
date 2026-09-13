@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Pictogram } from "@/components/brand/pictogram";
 import { PageIntro } from "@/components/site/page-intro";
+import { mirror } from "@/components/site/sheet";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { PracticeGrid } from "@/components/site/practice-grid";
@@ -29,17 +30,18 @@ export default async function AboutPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("site.about");
   const tn = await getTranslations("site.nav");
+  const tMirror = await mirror(locale, "site.nav");
   const th = await getTranslations("site.home");
   const ts = await getTranslations("site.services");
 
   return (
     <>
-      <PageIntro title={about.title[locale]} lead={about.lead[locale]} crumbs={[{ href: "/", label: tn("home") }, { label: tn("about") }]} />
+      <PageIntro mirrorLabel={tMirror("about")} title={about.title[locale]} lead={about.lead[locale]} crumbs={[{ href: "/", label: tn("home") }, { label: tn("about") }]} />
 
       <section className="border-t border-fog">
         <Reveal className="container-page section grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
-          <h2 className="text-h2">{t("storyTitle")}</h2>
-          <div className="flex max-w-prose flex-col gap-6 text-lg leading-relaxed">
+          <h2 className="s-sub">{t("storyTitle")}</h2>
+          <div className="flex max-w-prose flex-col gap-6 s-lede text-graphite">
             {about.story.map((p, i) => (
               <p key={i}>{p[locale]}</p>
             ))}
@@ -80,7 +82,7 @@ export default async function AboutPage({ params }: Props) {
             {principles.map((p) => (
               <article key={p.key} className="flex flex-col gap-4 bg-white p-6 sm:p-10">
                 <Pictogram name={p.pictogram} className="size-10 text-graphite" />
-                <h3 className="text-h3">{p.title[locale]}</h3>
+                <h3 className="s-h3">{p.title[locale]}</h3>
                 <p className="text-slate">{p.body[locale]}</p>
               </article>
             ))}

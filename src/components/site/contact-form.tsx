@@ -45,7 +45,7 @@ function ContactFormInner({ serviceGroups, defaultService, onReset }: ContactFor
   if (result?.ok) {
     return (
       <div role="status" aria-live="polite" className="flex flex-col gap-4 border border-fog bg-ice p-6 sm:p-8">
-        <h3 className="text-h2">{t("successTitle")}</h3>
+        <h3 className="s-sub">{t("successTitle")}</h3>
         <p className="text-slate">{t("successBody")}</p>
         <div>
           <Button variant="outline" onClick={onReset}>{t("sendAnother")}</Button>

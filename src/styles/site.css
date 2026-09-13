@@ -1,0 +1,1302 @@
+/* ===========================================================================
+   CyBarq — public site design layer
+   ---------------------------------------------------------------------------
+   Scope: everything here is scoped by `.site` (the wrapper of the public
+   layout) or by a `site-` class. The platform and the client portal are
+   untouched.
+
+   The composition follows the Mini Brand Guidelines 2026 rather than a generic
+   website: whitespace first, one field per layout, one stream per layout,
+   square corners, hairlines in Fog, sentence case with no letter spacing, and
+   the four blades of the symbol opened to the corners of a panel. Sections are
+   set like the sheets of the brand book — a rule, a number, and the same label
+   in English at the start and Arabic at the end.
+   =========================================================================== */
+
+.site {
+  /* ---- rhythm ---------------------------------------------------------- */
+  --s-rhythm: clamp(4.5rem, 2rem + 8vw, 10rem);
+  --spacing-section: var(--s-rhythm);
+  --s-rail: 0px;
+
+  /* ---- motion ---------------------------------------------------------- */
+  /* Precise, never bouncy: a long tail, no overshoot. */
+  --s-ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --s-ease-inout: cubic-bezier(0.65, 0, 0.35, 1);
+  --s-fast: 240ms;
+  --s-mid: 620ms;
+  --s-slow: 1100ms;
+
+  /* ---- editorial type scale (public site only) ------------------------- */
+  --s-display: clamp(2.5rem, 0.9rem + 5.6vw, 5.5rem);
+  --s-display-lh: 1;
+  --s-title: clamp(1.875rem, 1.05rem + 3vw, 3.25rem);
+  --s-title-lh: 1.08;
+  --s-sub: clamp(1.25rem, 1.05rem + 0.9vw, 1.75rem);
+  --s-sub-lh: 1.25;
+  --s-lede: clamp(1.0625rem, 0.98rem + 0.5vw, 1.375rem);
+  --s-lede-lh: 1.55;
+  --s-meta: 0.6875rem;
+  --s-meta-lh: 1.2;
+  --s-figure: clamp(2.75rem, 1rem + 6.5vw, 6.5rem);
+
+  /* ---- surfaces -------------------------------------------------------- */
+  --s-hair: var(--color-fog);
+  --s-hair-strong: color-mix(in srgb, var(--color-graphite) 22%, transparent);
+  --s-ink-soft: var(--color-slate);
+}
+
+/* Arabic sets wider and needs air above the letterforms: the display scale is
+   the same, the leading is not. */
+.site:lang(ar),
+[dir="rtl"] .site {
+  --s-display-lh: 1.16;
+  --s-title-lh: 1.22;
+  --s-sub-lh: 1.4;
+  --s-lede-lh: 1.75;
+}
+
+/* On very wide screens the page carries a numbered index on the start side,
+   exactly as the brand book carries its contents column. */
+@media (min-width: 90rem) {
+  .site {
+    --s-rail: 9.5rem;
+  }
+}
+
+/* ===========================================================================
+   1. Type utilities
+   =========================================================================== */
+
+@layer components {
+  .s-display {
+    font-size: var(--s-display);
+    line-height: var(--s-display-lh);
+    font-weight: 300;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+  .s-title {
+    font-size: var(--s-title);
+    line-height: var(--s-title-lh);
+    font-weight: 300;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+  .s-sub {
+    font-size: var(--s-sub);
+    line-height: var(--s-sub-lh);
+    font-weight: 300;
+    letter-spacing: 0;
+  }
+  .s-h3 {
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+    line-height: 1.35;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  .s-lede {
+    font-size: var(--s-lede);
+    line-height: var(--s-lede-lh);
+    font-weight: 400;
+    color: var(--s-ink-soft);
+    text-wrap: pretty;
+  }
+  /* The metadata layer: labels, numbers, section indices. Medium weight,
+     sentence case, tabular numerals, and — per the guidelines — no tracking. */
+  .s-meta {
+    font-size: var(--s-meta);
+    line-height: var(--s-meta-lh);
+    font-weight: 500;
+    letter-spacing: 0;
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  /* Large specification figures. */
+  .s-figure {
+    font-size: var(--s-figure);
+    line-height: 0.9;
+    font-weight: 300;
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: 0;
+  }
+  .s-num {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+}
+
+/* ===========================================================================
+   2. The sheet: how every section opens
+   ---------------------------------------------------------------------------
+   A hairline across the full measure, the section number at the start, the
+   English label beside it and the Arabic label at the end. Nothing else ever
+   sits above a title.
+   =========================================================================== */
+
+@layer components {
+  .s-sheet {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    border-top: 1px solid var(--s-hair);
+    padding-top: 0.875rem;
+    color: var(--s-ink-soft);
+  }
+  .s-sheet__index {
+    flex-shrink: 0;
+    color: var(--color-graphite);
+  }
+  .s-sheet__label {
+    flex: 1;
+    min-width: 0;
+  }
+  .s-sheet__mirror {
+    flex-shrink: 0;
+    color: var(--color-grey);
+  }
+  /* The rule draws itself from the start side as the sheet arrives. */
+  .s-sheet::before {
+    content: "";
+    position: absolute;
+  }
+}
+
+/* ===========================================================================
+   3. The frame: the four blades opened to the corners of a panel
+   ---------------------------------------------------------------------------
+   Each blade grows out of its own corner. The mark is the brand's, the motion
+   is what makes a panel feel built rather than drawn.
+   =========================================================================== */
+
+@layer components {
+  /* The blades are simply there. Inside a block that reveals itself they grow
+     out of their own corners as it arrives; everywhere else they are placed
+     from the first paint, so a panel is never seen unframed. */
+  .s-frame__blade {
+    position: absolute;
+    fill: currentColor;
+    pointer-events: none;
+    transition:
+      opacity var(--s-mid) var(--s-ease),
+      transform var(--s-mid) var(--s-ease),
+      color var(--s-mid) var(--s-ease);
+  }
+  /* Right to left: each blade still points into the corner it sits in. */
+  [dir="rtl"] .s-frame__blade {
+    scale: -1 1;
+  }
+}
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  .s-settle:not([data-inview]) .s-frame__blade,
+  .s-settle-group:not([data-inview]) .s-frame__blade,
+  .s-rise:not([data-inview]) .s-frame__blade {
+    opacity: 0;
+  }
+  .s-settle:not([data-inview]) .s-frame__blade[data-corner="top-start"],
+  .s-settle-group:not([data-inview]) .s-frame__blade[data-corner="top-start"] {
+    transform: translate3d(-0.5rem, -0.5rem, 0) scale(0.4);
+    transform-origin: top left;
+  }
+  .s-settle:not([data-inview]) .s-frame__blade[data-corner="top-end"],
+  .s-settle-group:not([data-inview]) .s-frame__blade[data-corner="top-end"] {
+    transform: translate3d(0.5rem, -0.5rem, 0) scale(0.4);
+    transform-origin: top right;
+  }
+  .s-settle:not([data-inview]) .s-frame__blade[data-corner="bottom-start"],
+  .s-settle-group:not([data-inview]) .s-frame__blade[data-corner="bottom-start"] {
+    transform: translate3d(-0.5rem, 0.5rem, 0) scale(0.4);
+    transform-origin: bottom left;
+  }
+  .s-settle:not([data-inview]) .s-frame__blade[data-corner="bottom-end"],
+  .s-settle-group:not([data-inview]) .s-frame__blade[data-corner="bottom-end"] {
+    transform: translate3d(0.5rem, 0.5rem, 0) scale(0.4);
+    transform-origin: bottom right;
+  }
+  .s-frame__blade:nth-of-type(2) {
+    transition-delay: 70ms;
+  }
+  .s-frame__blade:nth-of-type(3) {
+    transition-delay: 140ms;
+  }
+  .s-frame__blade:nth-of-type(4) {
+    transition-delay: 210ms;
+  }
+}
+
+/* ===========================================================================
+   4. Reveals
+   ---------------------------------------------------------------------------
+   Type does not fade in. It rises from behind its own baseline, clipped, the
+   way a line of metal type comes up into the bed. Blocks that are not type get
+   a plain settle. Everything is off unless scripts run and the visitor has not
+   asked for less motion.
+   =========================================================================== */
+
+@media (scripting: enabled) and (prefers-reduced-motion: no-preference) {
+  /* Type: clipped rise. */
+  .s-rise,
+  .s-rise-group > * {
+    clip-path: inset(-30% -12% 100% -12%);
+    transform: translate3d(0, 0.5em, 0);
+    opacity: 0;
+    transition:
+      clip-path var(--s-slow) var(--s-ease),
+      transform var(--s-slow) var(--s-ease),
+      opacity var(--s-mid) var(--s-ease);
+    will-change: clip-path, transform;
+  }
+  .s-rise[data-inview],
+  .s-rise-group[data-inview] > * {
+    clip-path: inset(-30% -12% -30% -12%);
+    transform: none;
+    opacity: 1;
+  }
+
+  /* Blocks: a shorter settle, no clip (a clip would cut shadows and marks). */
+  .s-settle,
+  .s-settle-group > * {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+    transition:
+      opacity var(--s-mid) var(--s-ease),
+      transform var(--s-mid) var(--s-ease);
+  }
+  .s-settle[data-inview],
+  .s-settle-group[data-inview] > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hairlines draw themselves from the start side. */
+  .s-draw {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--s-slow) var(--s-ease);
+  }
+  [dir="rtl"] .s-draw {
+    transform-origin: right center;
+  }
+  .s-draw[data-inview] {
+    transform: none;
+  }
+
+  /* Sequencing inside a group. */
+  .s-rise-group > :nth-child(2),
+  .s-settle-group > :nth-child(2) {
+    transition-delay: 70ms;
+  }
+  .s-rise-group > :nth-child(3),
+  .s-settle-group > :nth-child(3) {
+    transition-delay: 140ms;
+  }
+  .s-rise-group > :nth-child(4),
+  .s-settle-group > :nth-child(4) {
+    transition-delay: 210ms;
+  }
+  .s-rise-group > :nth-child(5),
+  .s-settle-group > :nth-child(5) {
+    transition-delay: 280ms;
+  }
+  .s-rise-group > :nth-child(6),
+  .s-settle-group > :nth-child(6) {
+    transition-delay: 350ms;
+  }
+  .s-rise-group > :nth-child(7),
+  .s-settle-group > :nth-child(7) {
+    transition-delay: 420ms;
+  }
+  .s-rise-group > :nth-child(n + 8),
+  .s-settle-group > :nth-child(n + 8) {
+    transition-delay: 490ms;
+  }
+
+  /* The legacy names keep working while every page moves across. */
+  .site-reveal,
+  .site-reveal-stagger > * {
+    transition:
+      opacity var(--s-mid) var(--s-ease),
+      transform var(--s-mid) var(--s-ease);
+  }
+  .site-reveal:not([data-inview]),
+  .site-reveal-stagger:not([data-inview]) > * {
+    opacity: 0;
+    transform: translate3d(0, 1.25rem, 0);
+  }
+  .site-reveal-stagger > :nth-child(2) {
+    transition-delay: 70ms;
+  }
+  .site-reveal-stagger > :nth-child(3) {
+    transition-delay: 140ms;
+  }
+  .site-reveal-stagger > :nth-child(4) {
+    transition-delay: 210ms;
+  }
+  .site-reveal-stagger > :nth-child(5) {
+    transition-delay: 280ms;
+  }
+  .site-reveal-stagger > :nth-child(6) {
+    transition-delay: 350ms;
+  }
+  .site-reveal-stagger > :nth-child(7) {
+    transition-delay: 420ms;
+  }
+  .site-reveal-stagger > :nth-child(n + 8) {
+    transition-delay: 490ms;
+  }
+}
+
+/* ===========================================================================
+   5. Header
+   ---------------------------------------------------------------------------
+   The identity is square and whitespace first, so the bar is flush with the
+   page and sits on a hairline. It does not float, and it is not a rounded
+   pill. On scroll it condenses: the row loses height, the wordmark hands over
+   to the symbol, and a Graphite hairline underneath reports how far down the
+   page the visitor is.
+   =========================================================================== */
+
+:root {
+  --site-header-offset: calc(var(--nav-height) + var(--safe-top));
+}
+
+html:has(.site-header) {
+  scroll-padding-top: calc(var(--nav-height) + 2rem);
+}
+
+@layer components {
+  .site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 40;
+    padding-top: var(--safe-top);
+  }
+  /* The ground is a separate layer on purpose: a backdrop filter on the header
+     itself would become the containing block for the fixed menu sheet. */
+  .site-header__ground {
+    position: absolute;
+    inset: 0;
+    background: color-mix(in srgb, var(--color-white) 78%, transparent);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    backdrop-filter: blur(18px) saturate(150%);
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color var(--s-fast) var(--s-ease),
+      border-color var(--s-fast) var(--s-ease);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .site-header__ground {
+      background: var(--color-white);
+    }
+  }
+  .site-header[data-floating] .site-header__ground,
+  .site-header[data-open] .site-header__ground {
+    background: var(--color-white);
+    border-bottom-color: var(--s-hair);
+  }
+  .site-header-spacer {
+    position: relative;
+    flex-shrink: 0;
+    height: calc(var(--nav-height) + var(--safe-top));
+  }
+  .site-header-sentinel {
+    position: absolute;
+    top: 24px;
+    inset-inline-start: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+  .site-header__bar {
+    position: relative;
+    z-index: 1;
+  }
+  .site-header__row {
+    display: flex;
+    height: var(--nav-height);
+    align-items: center;
+    gap: 0.5rem;
+    transition: height var(--s-mid) var(--s-ease);
+  }
+  .site-header[data-floating] .site-header__row {
+    height: 3.25rem;
+  }
+
+  /* Reading progress: one Graphite hairline on the bottom edge of the bar. */
+  .site-header__progress {
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 1px;
+    background: var(--color-graphite);
+    transform: scaleX(0);
+    transform-origin: left center;
+    opacity: 0;
+    transition: opacity var(--s-fast) var(--s-ease);
+  }
+  [dir="rtl"] .site-header__progress {
+    transform-origin: right center;
+  }
+  .site-header[data-floating] .site-header__progress {
+    opacity: 1;
+  }
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .site-header__progress {
+        animation: s-progress linear both;
+        animation-timeline: scroll(root block);
+      }
+    }
+  }
+
+  /* The wordmark gives way to the symbol as the bar condenses. */
+  .site-brand {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: 2rem;
+  }
+  .site-brand__full,
+  .site-brand__mark {
+    transition:
+      opacity var(--s-mid) var(--s-ease),
+      transform var(--s-mid) var(--s-ease);
+  }
+  .site-brand__mark {
+    position: absolute;
+    inset-inline-start: 0;
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  @media (min-width: 64rem) {
+    .site-header[data-floating] .site-brand__full {
+      opacity: 0;
+      transform: translate3d(0, 0, 0) scale(0.92);
+    }
+    .site-header[data-floating] .site-brand__mark {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Navigation. The marker under the current item is a blade, not a bar. */
+  .site-nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    color: var(--color-graphite);
+    transition: color var(--s-fast) var(--s-ease);
+  }
+  .site-nav-link:hover {
+    color: var(--color-azure);
+  }
+  .site-nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0.75rem;
+    bottom: 0.55rem;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform var(--s-fast) var(--s-ease);
+  }
+  [dir="rtl"] .site-nav-link::after {
+    transform-origin: right center;
+  }
+  .site-nav-link:hover::after,
+  .site-nav-link:focus-visible::after,
+  .site-nav-link[aria-current="page"]::after {
+    transform: none;
+  }
+
+  /* The services panel: a flat sheet, square, on a hairline. No glass, no radius. */
+  .site-panel-menu {
+    border: 1px solid var(--s-hair);
+    background: var(--color-white);
+    box-shadow: 0 24px 48px -32px rgb(13 14 19 / 0.26);
+  }
+
+  .site-skip-link {
+    position: fixed;
+    top: calc(var(--safe-top) + 0.75rem);
+    inset-inline-start: 1rem;
+    z-index: 60;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-graphite);
+    color: var(--color-white);
+    font-size: var(--text-small);
+    transform: translateY(calc(-100% - 2rem - var(--safe-top)));
+  }
+  .site-skip-link:focus {
+    transform: none;
+  }
+
+  /* Mobile disclosure. Two hairlines that cross. */
+  .site-menu-toggle {
+    display: inline-flex;
+    min-width: 4.5rem;
+    align-items: center;
+    justify-content: flex-end;
+    margin-inline-end: -0.5rem;
+    color: var(--color-graphite);
+  }
+  .site-menu-toggle__lines {
+    position: relative;
+    display: block;
+    /* A wide mark: two long hairlines, three times the usual width. */
+    width: 3.75rem;
+    height: 0.5rem;
+  }
+  .site-menu-toggle__lines::before,
+  .site-menu-toggle__lines::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    height: 1px;
+    background: currentColor;
+    transition: transform var(--s-mid) var(--s-ease);
+  }
+  .site-menu-toggle__lines::before {
+    top: 0;
+  }
+  .site-menu-toggle__lines::after {
+    bottom: 0;
+  }
+  .site-menu-toggle[aria-expanded="true"] .site-menu-toggle__lines::before {
+    transform: translateY(calc(0.25rem - 0.5px)) rotate(45deg) scaleX(0.3333);
+  }
+  .site-menu-toggle[aria-expanded="true"] .site-menu-toggle__lines::after {
+    transform: translateY(calc(-0.25rem + 0.5px)) rotate(-45deg) scaleX(0.3333);
+  }
+
+  /* The menu is a full sheet, not a dropdown card. */
+  .site-menu {
+    position: fixed;
+    inset-inline: 0;
+    top: calc(var(--nav-height) + var(--safe-top));
+    bottom: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--color-white);
+    border-top: 1px solid var(--s-hair);
+    padding: 1.5rem max(var(--spacing-gutter), var(--safe-left)) max(2rem, var(--safe-bottom));
+    transition:
+      opacity var(--s-mid) var(--s-ease),
+      transform var(--s-mid) var(--s-ease);
+  }
+  @starting-style {
+    .site-menu {
+      opacity: 0;
+      transform: translateY(-0.75rem);
+    }
+  }
+  .site-scrim {
+    display: none;
+  }
+}
+
+@keyframes s-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ===========================================================================
+   6. The index rail
+   ---------------------------------------------------------------------------
+   The contents column of the brand book, made live. Only on screens wide
+   enough to carry it without stealing from the measure.
+   =========================================================================== */
+
+@layer components {
+  /* The rail is a set of marks in the margin, never a sidebar: at most screen
+     sizes it is a number and a tick, and the label is only drawn where the
+     margin is genuinely wide enough to hold it outside the measure.
+
+     Its colour is inverted against whatever it sits over, so the same marks
+     read on the white sheets and on the Graphite chapter without the page
+     having to tell it which is which. */
+  .s-rail {
+    display: none;
+  }
+  @media (min-width: 90rem) {
+    .s-rail {
+      position: fixed;
+      inset-inline-start: clamp(1rem, calc((100vw - var(--container-page)) / 2 - 3.75rem), 6rem);
+      top: 50%;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+      transform: translateY(-50%);
+      mix-blend-mode: difference;
+      opacity: 0;
+      visibility: hidden;
+      transition:
+        opacity var(--s-mid) var(--s-ease),
+        visibility 0s linear var(--s-mid);
+    }
+    .s-rail[data-visible] {
+      opacity: 1;
+      visibility: visible;
+      transition-delay: 0s;
+    }
+  }
+  /* Only once the margin can hold the words without crowding the measure. */
+  @media (min-width: 115rem) {
+    .s-rail {
+      inset-inline-start: calc((100vw - var(--container-page)) / 2 - 15rem);
+      width: 14rem;
+    }
+    .s-rail__label {
+      position: static;
+      width: auto;
+      height: auto;
+      margin: 0;
+      overflow: visible;
+      clip-path: none;
+      white-space: nowrap;
+    }
+  }
+  .s-rail__num {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  .s-rail__item {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    color: #7a7a7a;
+    transition: color var(--s-fast) var(--s-ease);
+  }
+  .s-rail__item:hover,
+  .s-rail__item:focus-visible {
+    color: #b4b4b4;
+  }
+  .s-rail__item[data-active] {
+    color: #ffffff;
+  }
+  /* A hairline that only reaches full length for the section being read. */
+  .s-rail__tick {
+    width: 1.25rem;
+    height: 1px;
+    flex-shrink: 0;
+    background: currentColor;
+    transform: scaleX(0.45);
+    transform-origin: left center;
+    transition: transform var(--s-mid) var(--s-ease);
+  }
+  [dir="rtl"] .s-rail__tick {
+    transform-origin: right center;
+  }
+  .s-rail__item[data-active] .s-rail__tick,
+  .s-rail__item:hover .s-rail__tick {
+    transform: none;
+  }
+  /* Hidden from sight, never from assistive technology: the number alone is
+     not a usable name for a link. */
+  .s-rail__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* ===========================================================================
+   7. Hero
+   ---------------------------------------------------------------------------
+   One field, one statement. The Stream ("opening") is the whole surface and
+   never stops. The statement holds while the field keeps moving under it, then
+   the page hands over to the first sheet.
+   =========================================================================== */
+
+@layer components {
+  .site-hero {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: clip;
+    margin-top: calc(-1 * (var(--nav-height) + var(--safe-top)));
+    padding-top: calc(var(--nav-height) + var(--safe-top));
+    min-height: 92svh;
+    border-bottom: 1px solid var(--s-hair);
+  }
+  .site-hero__field {
+    position: absolute;
+    inset: 0;
+  }
+  @media (max-width: 63.99rem) {
+    .site-hero__field img {
+      object-position: 0% 0%;
+    }
+    [dir="rtl"] .site-hero__field img {
+      object-position: 100% 0%;
+    }
+  }
+  /* The scrim keeps the statement fully legible without hiding the field. */
+  .site-hero__scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(to top, #fff 0%, #fff 56%, rgb(255 255 255 / 0.72) 72%, rgb(255 255 255 / 0) 92%);
+  }
+  .site-hero__content {
+    position: relative;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding-block: clamp(5rem, 14svh, 8rem) 4.5rem;
+    pointer-events: none;
+  }
+  .site-hero__content a,
+  .site-hero__content button {
+    pointer-events: auto;
+  }
+  @media (min-width: 64rem) {
+    .site-hero__scrim {
+      background: linear-gradient(to right, #fff 0%, #fff 30%, rgb(255 255 255 / 0.88) 46%, rgb(255 255 255 / 0.32) 62%, rgb(255 255 255 / 0) 76%);
+    }
+    [dir="rtl"] .site-hero__scrim {
+      background: linear-gradient(to left, #fff 0%, #fff 30%, rgb(255 255 255 / 0.88) 46%, rgb(255 255 255 / 0.32) 62%, rgb(255 255 255 / 0) 76%);
+    }
+    .site-hero__content {
+      justify-content: center;
+      padding-block: 4rem 6rem;
+    }
+  }
+
+  /* The opening statement arrives line by line, clipped, not faded. */
+  .site-enter > * {
+    animation: s-enter var(--s-slow) var(--s-ease) both;
+  }
+  .site-enter > :nth-child(2) {
+    animation-delay: 120ms;
+  }
+  .site-enter > :nth-child(3) {
+    animation-delay: 240ms;
+  }
+  .site-enter > :nth-child(4) {
+    animation-delay: 360ms;
+  }
+
+  /* The hero footer: a hairline carrying the four practice names, so the page
+     states what it is about before a single scroll. */
+  .site-hero__ledger {
+    position: relative;
+    border-top: 1px solid var(--s-hair);
+    background: color-mix(in srgb, var(--color-white) 86%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+
+  .site-scroll-cue {
+    position: absolute;
+    bottom: clamp(1.25rem, 3vh, 2.5rem);
+    inset-inline-start: 50%;
+    width: 1px;
+    height: 3.5rem;
+    background: linear-gradient(to bottom, var(--color-graphite), transparent);
+    transform-origin: top;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: s-breathe 2.8s ease-in-out infinite;
+    transition: opacity var(--s-fast) var(--s-ease);
+  }
+  .site-scroll-cue[data-hidden] {
+    opacity: 0;
+  }
+  @media (min-width: 64rem) {
+    .site-scroll-cue {
+      inset-inline-start: max(var(--spacing-gutter), calc((100% - var(--container-page)) / 2));
+    }
+  }
+}
+
+@keyframes s-enter {
+  from {
+    clip-path: inset(-30% -12% 100% -12%);
+    transform: translate3d(0, 0.45em, 0);
+    opacity: 0;
+  }
+  to {
+    clip-path: inset(-30% -12% -30% -12%);
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes s-breathe {
+  0%,
+  100% {
+    transform: scaleY(0.45);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+/* ===========================================================================
+   8. Specimen grid — the four practices
+   ---------------------------------------------------------------------------
+   Not an accordion. Four numbered specimens on a hairline grid, each framed by
+   the blades of the symbol, each opening into Ice when it is pointed at.
+   =========================================================================== */
+
+@layer components {
+  .s-specimens {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1px;
+    background: var(--s-hair);
+    border-block: 1px solid var(--s-hair);
+  }
+  @media (min-width: 40rem) {
+    .s-specimens {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 64rem) {
+    .s-specimens {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .s-specimen {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-white);
+    color: var(--color-graphite);
+    transition: background-color var(--s-mid) var(--s-ease);
+  }
+  .s-specimen__link {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: clamp(1.375rem, 2.4vw, 2.125rem);
+  }
+  @media (min-width: 40rem) {
+    .s-specimen {
+      min-height: 21rem;
+    }
+  }
+  .s-specimen:hover,
+  .s-specimen:focus-visible,
+  .s-specimen:focus-within {
+    background: color-mix(in srgb, var(--color-ice) 52%, var(--color-white));
+  }
+  /* The blades sit quiet and open out when the specimen is pointed at. */
+  .s-specimen .s-frame__blade {
+    color: var(--color-grey);
+    transition:
+      color var(--s-mid) var(--s-ease),
+      opacity var(--s-mid) var(--s-ease),
+      transform var(--s-mid) var(--s-ease);
+  }
+  .s-specimen:hover .s-frame__blade,
+  .s-specimen:focus-within .s-frame__blade {
+    color: var(--color-azure);
+  }
+  .s-specimen__rule {
+    height: 1px;
+    background: var(--s-hair);
+    transition: background-color var(--s-mid) var(--s-ease);
+  }
+  .s-specimen:hover .s-specimen__rule {
+    background: var(--color-graphite);
+  }
+  /* The pictogram lifts a hair, never more. */
+  .s-specimen__mark {
+    transition: transform var(--s-mid) var(--s-ease);
+  }
+  .s-specimen:hover .s-specimen__mark {
+    transform: translateY(-0.25rem);
+  }
+}
+
+/* ===========================================================================
+   9. The graphite chapter
+   ---------------------------------------------------------------------------
+   The one dark application on the page, contained and flat, at roughly the
+   fourteen parts of Graphite the colour ratio allows. It carries the statement
+   and the figures, with the Stream running through it.
+   =========================================================================== */
+
+@layer components {
+  .s-dark {
+    position: relative;
+    overflow: clip;
+    background: var(--color-graphite);
+    color: var(--color-white);
+    --s-hair: color-mix(in srgb, var(--color-white) 16%, transparent);
+    --s-ink-soft: color-mix(in srgb, var(--color-white) 72%, transparent);
+  }
+  .s-dark .s-sheet {
+    color: color-mix(in srgb, var(--color-white) 66%, transparent);
+  }
+  .s-dark .s-sheet__index {
+    color: var(--color-white);
+  }
+  .s-dark .s-sheet__mirror {
+    color: color-mix(in srgb, var(--color-white) 42%, transparent);
+  }
+  .s-dark ::selection {
+    background: var(--color-blue);
+    color: var(--color-graphite);
+  }
+
+  /* The figures: one row of specifications, tabular, on hairlines. */
+  .s-figures {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--s-hair);
+    border-block: 1px solid var(--s-hair);
+  }
+  @media (min-width: 64rem) {
+    .s-figures {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .s-figures > * {
+    background: var(--color-graphite);
+    padding-block: clamp(1.75rem, 3vw, 2.75rem);
+    padding-inline: clamp(1rem, 2vw, 1.75rem);
+  }
+}
+
+/* ===========================================================================
+   10. Cards, strips, marquee, panels (kept, refined)
+   =========================================================================== */
+
+@layer components {
+  /* A card is a field with a hairline. It does not float and it does not grow;
+     its rule turns Graphite and its blades open. */
+  .s-card {
+    position: relative;
+    background: var(--color-white);
+    transition:
+      background-color var(--s-fast) var(--s-ease),
+      box-shadow var(--s-fast) var(--s-ease);
+  }
+  .s-card:hover,
+  .s-card:focus-within {
+    background: color-mix(in srgb, var(--color-ice) 50%, var(--color-white));
+    box-shadow: inset 0 0 0 1px var(--color-graphite);
+  }
+  .s-card .s-frame__blade {
+    color: transparent;
+    transition: color var(--s-fast) var(--s-ease);
+  }
+  .s-card:hover .s-frame__blade,
+  .s-card:focus-within .s-frame__blade {
+    color: var(--color-azure);
+  }
+
+  /* Horizontal strip: snaps card by card, edges faded. */
+  .site-strip {
+    display: flex;
+    gap: 1px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--spacing-gutter);
+    padding-inline: var(--spacing-gutter);
+    margin-inline: calc(-1 * var(--spacing-gutter));
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--spacing-gutter), #000 calc(100% - var(--spacing-gutter)), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 var(--spacing-gutter), #000 calc(100% - var(--spacing-gutter)), transparent);
+  }
+  .site-strip::-webkit-scrollbar {
+    display: none;
+  }
+  .site-strip > * {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  /* Partner logos. */
+  .site-marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  }
+  .site-marquee__track {
+    display: flex;
+    width: max-content;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .site-marquee__track {
+      animation: site-marquee 56s linear infinite;
+    }
+    [dir="rtl"] .site-marquee__track {
+      animation-name: site-marquee-rtl;
+    }
+  }
+  .site-marquee__group {
+    display: flex;
+    flex-shrink: 0;
+  }
+  .site-marquee__item {
+    display: flex;
+    flex-shrink: 0;
+    width: 11rem;
+    height: 5rem;
+    align-items: center;
+    justify-content: center;
+  }
+  .site-marquee-root[data-paused] .site-marquee__track,
+  .site-marquee-root:not([data-playing]):focus-within .site-marquee__track,
+  .site-marquee:hover .site-marquee__track {
+    animation-play-state: paused;
+  }
+  .site-logo {
+    opacity: 0.55;
+    filter: grayscale(1);
+    transition:
+      opacity var(--s-fast) var(--s-ease),
+      filter var(--s-fast) var(--s-ease);
+  }
+  .site-marquee__item:hover .site-logo,
+  .site-logo-cell:hover .site-logo {
+    opacity: 1;
+    filter: none;
+  }
+
+  /* The principles narrative keeps its pinned title and dimmed steps. */
+  .site-steps__title {
+    grid-area: 1 / 1;
+    transition:
+      opacity var(--s-mid) var(--s-ease),
+      transform var(--s-mid) var(--s-ease);
+  }
+  .site-steps__title:not([data-active]) {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  .site-step {
+    transition: opacity var(--s-mid) var(--s-ease);
+  }
+  @media (min-width: 64rem) {
+    .site-step:not([data-active]) {
+      opacity: 0.3;
+    }
+  }
+
+  /* Legacy practice panels, still used by the services pages. */
+  .site-panels {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    border-block: 1px solid var(--s-hair);
+  }
+  .site-panel {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    background: var(--color-white);
+    transition: background-color var(--s-mid) var(--s-ease);
+  }
+  .site-panel + .site-panel {
+    border-top: 1px solid var(--s-hair);
+  }
+  .site-panel[data-active] {
+    background: color-mix(in srgb, var(--color-ice) 55%, var(--color-white));
+  }
+  .site-panel__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      grid-template-rows 500ms var(--s-ease),
+      opacity 320ms var(--s-ease),
+      visibility 0s linear 500ms;
+  }
+  .site-panel__body > * {
+    min-height: 0;
+    overflow: hidden;
+  }
+  .site-panel[data-active] .site-panel__body {
+    grid-template-rows: 1fr;
+    opacity: 1;
+    visibility: visible;
+    transition:
+      grid-template-rows 500ms var(--s-ease),
+      opacity 400ms var(--s-ease) 160ms,
+      visibility 0s linear 0s;
+  }
+  @media (scripting: none) {
+    .site-panel__body {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+  @media (min-width: 64rem) {
+    .site-panels {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      min-height: 30rem;
+      transition: grid-template-columns 600ms var(--s-ease);
+    }
+    .site-panels[data-active="0"] {
+      grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .site-panels[data-active="1"] {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2.4fr) minmax(0, 1fr) minmax(0, 1fr);
+    }
+    .site-panels[data-active="2"] {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2.4fr) minmax(0, 1fr);
+    }
+    .site-panels[data-active="3"] {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2.4fr);
+    }
+    .site-panel {
+      overflow: hidden;
+    }
+    .site-panel + .site-panel {
+      border-top: 0;
+      border-inline-start: 1px solid var(--s-hair);
+    }
+    .site-panel__body > * {
+      width: max(100%, 22rem);
+    }
+  }
+}
+
+@keyframes site-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+@keyframes site-marquee-rtl {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(50%, 0, 0);
+  }
+}
+
+/* ===========================================================================
+   11. Micro-interactions
+   ---------------------------------------------------------------------------
+   Unlayered on purpose: these refine properties that utilities on the same
+   elements also set, and must win over them.
+   =========================================================================== */
+
+/* Text links: the underline grows from the start side. */
+.site-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-size: 0% 1px;
+  background-position: 0% 100%;
+  transition:
+    background-size var(--s-mid) var(--s-ease),
+    color var(--s-fast) var(--s-ease);
+}
+[dir="rtl"] .site-link {
+  background-position: 100% 100%;
+}
+.site-link:hover,
+.site-link:focus-visible {
+  background-size: 100% 1px;
+}
+
+/* Buttons are square and flat. They do not lift and they do not cast a
+   shadow: the state change is the colour and a hairline that fills. */
+.site [data-slot="button"] {
+  position: relative;
+  transition:
+    color var(--s-fast) var(--s-ease),
+    background-color var(--s-fast) var(--s-ease),
+    border-color var(--s-fast) var(--s-ease);
+}
+.site [data-slot="button"]:active {
+  transform: none;
+}
+
+/* Standalone cards (the strip): the rule turns Graphite, nothing moves. */
+.site-card {
+  transition:
+    border-color var(--s-fast) var(--s-ease),
+    background-color var(--s-fast) var(--s-ease);
+}
+.site-card:hover,
+.site-card:focus-within {
+  border-color: var(--color-graphite);
+  background: color-mix(in srgb, var(--color-ice) 46%, var(--color-white));
+}
+
+/* ===========================================================================
+   12. Reduced motion
+   =========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .site-enter > *,
+  .site-scroll-cue {
+    animation: none;
+  }
+  .site-header__progress {
+    animation: none;
+    transform: none;
+  }
+  .site-header,
+  .site-header__row,
+  .site-menu,
+  .site-menu-toggle__lines::before,
+  .site-menu-toggle__lines::after,
+  .site-brand__full,
+  .site-brand__mark,
+  .site-logo,
+  .site-panels,
+  .site-panel,
+  .site-panel__body,
+  .site-steps__title,
+  .site-step,
+  .site-card,
+  .site-link,
+  .site [data-slot="button"],
+  .s-card,
+  .s-specimen,
+  .s-frame__blade,
+  .s-rail,
+  .s-rail__item,
+  .s-rail__tick {
+    transition: none;
+  }
+  .s-frame__blade {
+    opacity: 1;
+    transform: none;
+  }
+  /* No motion: the marquee becomes a static, wrapped row of logos. */
+  .site-marquee {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+  .site-marquee__track {
+    width: auto;
+  }
+  .site-marquee__group {
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+  }
+  .site-marquee__group[aria-hidden="true"],
+  .site-marquee__repeat,
+  .site-marquee__control {
+    display: none;
+  }
+}

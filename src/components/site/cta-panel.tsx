@@ -17,8 +17,8 @@ export function CtaPanel({ title, body, primary, secondary, className }: CtaPane
     <section className={cn("border-t border-fog", className)}>
       <Reveal className="container-page section flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
         <div className="max-w-2xl">
-          <h2 className="text-h1">{title}</h2>
-          {body ? <p className="mt-5 text-lg text-slate">{body}</p> : null}
+          <h2 className="s-title">{title}</h2>
+          {body ? <p className="s-lede mt-5">{body}</p> : null}
         </div>
         <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:flex-wrap">
           <Button asChild size="lg">

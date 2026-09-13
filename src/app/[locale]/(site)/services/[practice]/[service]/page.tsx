@@ -85,7 +85,7 @@ export default async function ServicePage({ params }: Props) {
         />
         <div className="grid gap-8 lg:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] lg:gap-16">
           <div className="site-enter">
-            <h1 className="text-display">{service.title[locale]}</h1>
+            <h1 className="s-display">{service.title[locale]}</h1>
             <p className="mt-6 max-w-2xl text-xl leading-relaxed text-graphite">{service.hero[locale]}</p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg">
@@ -123,8 +123,8 @@ export default async function ServicePage({ params }: Props) {
       <section className="border-t border-fog bg-ice">
         <Reveal className="container-page section flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
-            <h2 className="text-h1">{t("cta.title", { service: service.title[locale] })}</h2>
-            <p className="mt-4 text-lg text-slate">{t("cta.body")}</p>
+            <h2 className="s-title">{t("cta.title", { service: service.title[locale] })}</h2>
+            <p className="s-lede mt-4">{t("cta.body")}</p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button asChild size="lg">

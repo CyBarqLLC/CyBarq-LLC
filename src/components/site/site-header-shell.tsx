@@ -6,7 +6,7 @@ import { usePathname } from "@/i18n/navigation";
 type SiteHeaderShellProps = {
   /** Bar content (logo, primary navigation, actions), rendered on the server. */
   children: React.ReactNode;
-  /** Mobile menu content, rendered on the server. */
+  /** Menu sheet content, rendered on the server. */
   menu: React.ReactNode;
   /** Accessible name of the menu button (its state is carried by aria-expanded). */
   menuLabel: string;
@@ -18,12 +18,15 @@ const DESKTOP = "(min-width: 64rem)";
 
 /**
  * The only client part of the public header. It watches a 1px sentinel with an
- * IntersectionObserver (no scroll handler) to switch the bar between its
- * resting state, integrated with the page, and the floating glass state; and
- * it runs the mobile menu disclosure: aria-expanded and aria-controls, focus
- * moved into the panel and kept inside the header while open, Escape and
- * outside clicks close it, and the page does not scroll behind it. Styling
- * lives in the public site section of globals.css.
+ * IntersectionObserver (no scroll handler) to condense the bar once the page
+ * has moved, and it runs the menu disclosure: aria-expanded and aria-controls,
+ * focus moved into the sheet and kept inside the header while it is open,
+ * Escape and outside clicks close it, and the page does not scroll behind it.
+ *
+ * The bar is flush with the page and square, as the identity is: it sits on a
+ * hairline rather than floating as a rounded pill, and the hairline under it
+ * reports how far down the page the visitor has read. Styling lives in
+ * styles/site.css.
  */
 export function SiteHeaderShell({ children, menu, menuLabel }: SiteHeaderShellProps) {
   const [floating, setFloating] = React.useState(false);
@@ -93,12 +96,12 @@ export function SiteHeaderShell({ children, menu, menuLabel }: SiteHeaderShellPr
       }
     };
 
-    // Anything outside the header (the scrim) closes the menu.
+    // Anything outside the header closes the menu.
     const onPointerDown = (event: PointerEvent) => {
       if (header && event.target instanceof Node && !header.contains(event.target)) closeAndReturnFocus();
     };
 
-    // Following a link inside the panel closes it, even when the link points to the current page.
+    // Following a link inside the sheet closes it, even when the link points to the current page.
     const onPanelClick = (event: MouseEvent) => {
       if (event.target instanceof Element && event.target.closest("a[href]")) setOpen(false);
     };
@@ -126,8 +129,9 @@ export function SiteHeaderShell({ children, menu, menuLabel }: SiteHeaderShellPr
   return (
     <>
       <header ref={headerRef} className="site-header" data-floating={floating || open ? "" : undefined} data-open={open ? "" : undefined}>
+        <span aria-hidden className="site-header__ground" />
+        <span aria-hidden className="site-header__progress" />
         <div className="site-header__bar container-page">
-          <span aria-hidden className="site-header__glass site-glass" />
           <div className="site-header__row">
             {children}
             <button
@@ -142,12 +146,11 @@ export function SiteHeaderShell({ children, menu, menuLabel }: SiteHeaderShellPr
               <span aria-hidden className="site-menu-toggle__lines" />
             </button>
           </div>
-          <div ref={panelRef} id={panelId} className="site-menu site-glass lg:hidden" hidden={!open}>
-            {menu}
-          </div>
+        </div>
+        <div ref={panelRef} id={panelId} className="site-menu lg:hidden" hidden={!open}>
+          {menu}
         </div>
       </header>
-      {open ? <div aria-hidden className="site-scrim lg:hidden" /> : null}
       <div aria-hidden className="site-header-spacer">
         <div ref={sentinelRef} className="site-header-sentinel" />
       </div>

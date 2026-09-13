@@ -29,7 +29,7 @@ export function ContentCard({ href, title, excerpt, category, meta, image, class
           </div>
         ) : null}
         <div className="flex flex-1 flex-col gap-3 p-6">
-          <h3 className="text-h3 underline-offset-4 group-hover:underline">{title}</h3>
+          <h3 className="s-sub underline-offset-4 group-hover:underline">{title}</h3>
           {excerpt ? <p className="text-small text-slate">{excerpt}</p> : null}
           {footer.length > 0 ? (
             <p className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1 pt-2 text-small text-slate">

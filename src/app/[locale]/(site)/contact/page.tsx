@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageIntro } from "@/components/site/page-intro";
+import { mirror } from "@/components/site/sheet";
 import { Reveal } from "@/components/site/reveal";
 import { ContactForm, type ServiceOptionGroup } from "@/components/site/contact-form";
 import { JsonLd } from "@/components/site/json-ld";
@@ -22,6 +23,7 @@ export default async function ContactPage({ params, searchParams }: Props) {
   const { service } = await searchParams;
   const t = await getTranslations("site.contact");
   const tn = await getTranslations("site.nav");
+  const tMirror = await mirror(locale, "site.nav");
 
   const requested = Array.isArray(service) ? service[0] : service;
   const defaultService = requested && getServiceBySlug(requested) ? requested : undefined;
@@ -53,18 +55,18 @@ export default async function ContactPage({ params, searchParams }: Props) {
   return (
     <>
       <JsonLd data={contactPage} />
-      <PageIntro title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: tn("contact") }]} />
+      <PageIntro mirrorLabel={tMirror("contact")} title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: tn("contact") }]} />
 
       <div className="border-t border-fog">
         <div className="container-page section grid gap-14 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-20">
           <Reveal as="section" aria-labelledby="channels-heading" className="flex flex-col gap-8">
-            <h2 id="channels-heading" className="text-h2">
+            <h2 id="channels-heading" className="s-sub">
               {t("channelsTitle")}
             </h2>
             <ul className="flex flex-col divide-y divide-fog border-y border-fog">
               {channels.map((c) => (
                 <li key={c.key} className="flex flex-col gap-1 py-5">
-                  <h3 className="text-h3">{t(`channels.${c.key}.title`)}</h3>
+                  <h3 className="s-h3">{t(`channels.${c.key}.title`)}</h3>
                   <a href={`mailto:${c.email}`} className="site-link self-start text-azure">
                     {c.email}
                   </a>
@@ -76,7 +78,7 @@ export default async function ContactPage({ params, searchParams }: Props) {
           </Reveal>
 
           <Reveal as="section" delay={100} aria-labelledby="form-heading">
-            <h2 id="form-heading" className="mb-8 text-h2">
+            <h2 id="form-heading" className="mb-8 s-sub">
               {t("form.title")}
             </h2>
             <ContactForm serviceGroups={serviceGroups} defaultService={defaultService} />

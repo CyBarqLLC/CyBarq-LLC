@@ -20,9 +20,9 @@ export function NarrativeSection({ id, heading, section, locale, className }: Na
   const title = section.heading ? section.heading[locale] : heading;
   return (
     <section id={id} aria-labelledby={`${id}-heading`} className={cn("grid gap-4 border-t border-fog py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12", className)}>
-      <h2 id={`${id}-heading`} className="text-h2 lg:sticky lg:top-[calc(var(--site-header-offset)+1.5rem)] lg:self-start">{title}</h2>
+      <h2 id={`${id}-heading`} className="s-sub lg:sticky lg:top-[calc(var(--site-header-offset)+1.5rem)] lg:self-start">{title}</h2>
       <div className="max-w-prose">
-        <p className="text-lg leading-relaxed text-graphite">{section.body[locale]}</p>
+        <p className="s-lede text-graphite">{section.body[locale]}</p>
         {section.items && section.items.length > 0 ? (
           <ul className="mt-6 border-t border-fog">
             {section.items.map((item, i) => (

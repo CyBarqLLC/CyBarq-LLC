@@ -19,8 +19,8 @@ export function PostHeader({ crumbs, title, lead, meta, cover, children }: PostH
     <header className="container-page pt-10 sm:pt-14">
       <Breadcrumbs items={crumbs} className="mb-8" />
       <div className="site-enter max-w-3xl">
-        <h1 className="text-display">{title}</h1>
-        {lead ? <p className="mt-5 text-lg text-slate">{lead}</p> : null}
+        <h1 className="s-display">{title}</h1>
+        {lead ? <p className="s-lede mt-5">{lead}</p> : null}
         {metaItems.length > 0 ? (
           <p className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-slate">
             {metaItems.map((m, i) => (

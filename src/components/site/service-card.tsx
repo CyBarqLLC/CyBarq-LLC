@@ -23,7 +23,7 @@ export function ServiceCard({ service, locale, practiceLabel, className }: Servi
       >
         <Pictogram name={service.pictogram} className="size-10 text-graphite" />
         <div className="flex flex-1 flex-col gap-1.5">
-          <h3 className="text-h3">{service.title[locale]}</h3>
+          <h3 className="s-sub">{service.title[locale]}</h3>
           <p className="text-small text-slate">{service.summary[locale]}</p>
           {practiceLabel ? <span className="mt-auto pt-3 text-label text-slate">{practiceLabel}</span> : null}
         </div>
@@ -51,7 +51,7 @@ export function ServiceStripCard({ service, locale, practiceLabel, className }: 
       <Link href={servicePath(service)} className="flex h-full flex-col gap-5 p-6 focus-visible:-outline-offset-2 sm:p-7">
         <Pictogram name={service.pictogram} className="size-10 text-graphite" />
         <div className="flex flex-1 flex-col gap-1.5">
-          <h3 className="text-h3">{service.title[locale]}</h3>
+          <h3 className="s-h3">{service.title[locale]}</h3>
           <p className="text-small text-slate">{service.summary[locale]}</p>
           {practiceLabel ? <span className="mt-auto pt-4 text-label text-slate">{practiceLabel}</span> : null}
         </div>

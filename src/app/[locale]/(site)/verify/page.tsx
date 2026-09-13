@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Pictogram } from "@/components/brand/pictogram";
 import { PageIntro } from "@/components/site/page-intro";
+import { mirror } from "@/components/site/sheet";
 import { VerifyForm, normaliseCode } from "@/components/site/verify-form";
 import { pageMetadata, resolveLocale } from "@/components/site/metadata";
 
@@ -26,10 +27,11 @@ export default async function VerifyPage({ params, searchParams }: Props) {
 
   const t = await getTranslations("site.verify");
   const tn = await getTranslations("site.nav");
+  const tMirror = await mirror(locale, "site.nav");
 
   return (
     <>
-      <PageIntro
+      <PageIntro mirrorLabel={tMirror("verify")}
         title={t("title")}
         lead={t("lead")}
         crumbs={[{ href: "/", label: tn("home") }, { label: tn("verify") }]}
