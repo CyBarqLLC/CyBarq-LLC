@@ -6,13 +6,13 @@ type RegistrationMarkProps = { alt: string; sizes: string; className?: string };
 
 /**
  * The official registration artwork: the National Cyber Security Center and
- * the Companies Control Department marks beside the emblem of the Hashemite
- * Kingdom of Jordan. It appears once, in the colophon, quiet and on its own
- * line. It states where the company is registered and nothing more: no
+ * the Companies Control Department marks. It appears once, in the colophon,
+ * small and on its own line, with the registration number set smaller still
+ * underneath. It says where the company is registered and nothing more: no
  * endorsement is implied.
  */
 export function RegistrationMark({ alt, sizes, className }: RegistrationMarkProps) {
-  return <Image src="/images/registration-jordan-ncsc.png" alt={alt} width={1100} height={72} sizes={sizes} className={cn("h-auto", className)} />;
+  return <Image src="/images/registration-jordan-ncsc.png" alt={alt} width={900} height={74} sizes={sizes} className={cn("h-auto", className)} />;
 }
 
 /** The Jordan registered name, isolated so it reads correctly inside English text. */

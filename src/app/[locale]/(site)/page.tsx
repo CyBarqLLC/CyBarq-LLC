@@ -14,7 +14,7 @@ import { JsonLd } from "@/components/site/json-ld";
 import { pageMetadata, resolveLocale, siteUrl } from "@/components/site/metadata";
 import { company } from "@/content/site/company";
 import { principles } from "@/content/site/principles";
-import { practices, servicesByPractice, servicePath, type PracticeSlug } from "@/content/services";
+import { featuredServices, practices, servicesByPractice, servicePath, type PracticeSlug } from "@/content/services";
 import { listNews, listArticles, listCaseStudies } from "@/lib/data/public-content";
 
 export const revalidate = 300;
@@ -41,6 +41,7 @@ export default async function HomePage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("site.home");
   const tn = await getTranslations("site.nav");
+  const ts = await getTranslations("site.services");
 
   const [news, articles, caseStudies] = await Promise.all([listNews(2), listArticles(2), listCaseStudies(2)]);
 
@@ -59,17 +60,22 @@ export default async function HomePage({ params }: Props) {
     sameAs: Object.values(company.social),
   };
 
-  const columns = practices.map((practice) => ({
-    slug: practice.slug,
-    title: practice.title[locale],
-    short: practice.short[locale],
-    href: `/services/${practice.slug}`,
-    services: servicesByPractice(practice.slug as PracticeSlug).map((service) => ({
-      slug: service.slug,
-      title: service.title[locale],
-      href: servicePath(service),
-    })),
-  }));
+  const columns = practices.map((practice) => {
+    const list = servicesByPractice(practice.slug as PracticeSlug);
+    return {
+      slug: practice.slug,
+      title: practice.title[locale],
+      short: practice.short[locale],
+      href: `/services/${practice.slug}`,
+      countLabel: ts("count", { count: list.length }),
+      services: list.map((service) => ({ slug: service.slug, title: service.title[locale], href: servicePath(service) })),
+    };
+  });
+
+  /* The names that rise off the globe: the work we are asked for most often,
+     dealt out across three anchors on the sphere. */
+  const featured = featuredServices().map((service) => ({ title: service.title[locale], href: servicePath(service) }));
+  const labels = [42, -38, 205].map((angle, i) => ({ angle, items: featured.filter((_, index) => index % 3 === i) })).filter((slot) => slot.items.length > 0);
 
   const steps = principles.map((p) => ({ key: p.key, title: p.title[locale], body: p.body[locale] }));
   const hasLatest = news.length + articles.length + caseStudies.length > 0;
@@ -85,6 +91,7 @@ export default async function HomePage({ params }: Props) {
         secondary={{ href: "#index", label: t("secondaryCta") }}
         ledger={practices.map((p) => ({ href: `/services/${p.slug}`, label: p.title[locale] }))}
         ledgerLabel={t("ledgerLabel")}
+        labels={labels}
       />
 
       {/* 01 — What we do, set out once and in full. */}

@@ -1324,8 +1324,8 @@ html:has(.site-header) {
   .site-opening__globe {
     position: relative;
     order: 2;
-    height: 40svh;
-    margin-inline: -6%;
+    height: 46svh;
+    margin-inline: -2%;
   }
   /* The opening statement is set a step below the display maximum: it is a
      sentence to be read, not a poster. */
@@ -1671,11 +1671,33 @@ html:has(.site-header) {
     line-height: 1.55;
     color: var(--s-ink-soft);
   }
+  /* On a phone the practice stands on its own: name, line, and how many
+     services sit behind it. The list itself waits for a wider screen. */
+  .s-column__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: var(--text-small);
+    color: var(--color-azure);
+    transition: color var(--s-fast) var(--s-ease);
+  }
+  .s-column__more:hover {
+    color: var(--color-graphite);
+  }
   .s-column__list {
+    display: none;
     margin-top: 1.5rem;
-    display: flex;
     flex-direction: column;
     gap: 0.5625rem;
+  }
+  @media (min-width: 40rem) {
+    .s-column__more {
+      display: none;
+    }
+    .s-column__list {
+      display: flex;
+    }
   }
   .s-column__link {
     display: inline-block;
@@ -1692,6 +1714,119 @@ html:has(.site-header) {
 @media (prefers-reduced-motion: reduce) {
   .s-column__title a,
   .s-column__link {
+    transition: none;
+  }
+}
+
+/* ===========================================================================
+   18. Names rising off the globe
+   ---------------------------------------------------------------------------
+   Three anchors on the sphere, each holding one service name at the end of a
+   hairline. The name changes every few seconds and holds still while it is
+   pointed at. The layer is the sphere's own square, centred in the globe box,
+   so a percentage here is a position on the sphere.
+   =========================================================================== */
+
+@layer components {
+  .s-globe-labels {
+    position: absolute;
+    inset-block: 0;
+    left: 50%;
+    direction: ltr;
+    aspect-ratio: 1;
+    height: 100%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+  /* The globe is never mirrored, so neither are its anchors: these are
+     physical positions on the sphere in both languages. Only the side the
+     name reaches out to changes, and that follows the anchor, not the page. */
+  .s-globe-label {
+    position: absolute;
+    left: var(--s-label-x-narrow);
+    top: var(--s-label-y-narrow);
+    display: flex;
+    align-items: center;
+    gap: 0;
+    transform: translateY(-50%);
+    pointer-events: auto;
+  }
+  @media (min-width: 40rem) {
+    .s-globe-label {
+      left: var(--s-label-x);
+      top: var(--s-label-y);
+    }
+  }
+  .s-globe-label[data-side="start"] {
+    flex-direction: row-reverse;
+    transform: translate(-100%, -50%);
+  }
+  .s-globe-label__anchor {
+    width: 5px;
+    height: 5px;
+    flex-shrink: 0;
+    background: var(--color-azure);
+  }
+  .s-globe-label__rule {
+    width: clamp(1.25rem, 3vw, 2.75rem);
+    height: 1px;
+    flex-shrink: 0;
+    background: color-mix(in srgb, var(--color-azure) 45%, transparent);
+  }
+  /* The name sits on its own white ground so it stays legible wherever the
+     sphere has turned to underneath it. Square, hairline, no shadow. */
+  .s-globe-label__text {
+    display: inline-block;
+    max-width: 9.5rem;
+    direction: inherit;
+    unicode-bidi: plaintext;
+    text-align: start;
+    padding: 0.25rem 0.5rem;
+    background: var(--color-white);
+    box-shadow: 0 0 0 1px var(--s-hair);
+    font-size: var(--text-small);
+    line-height: 1.35;
+    color: var(--color-graphite);
+    text-wrap: balance;
+    transition:
+      color var(--s-fast) var(--s-ease),
+      box-shadow var(--s-fast) var(--s-ease);
+    animation: s-label-in 620ms var(--s-ease) both;
+  }
+  .s-globe-label__text:hover,
+  .s-globe-label__text:focus-visible {
+    box-shadow: 0 0 0 1px var(--color-azure);
+  }
+  .s-globe-label__text:hover,
+  .s-globe-label__text:focus-visible {
+    color: var(--color-azure);
+  }
+  @media (max-width: 39.99rem) {
+    .s-globe-label__text {
+      max-width: 7.5rem;
+      padding: 0.1875rem 0.375rem;
+      font-size: 0.6875rem;
+    }
+    .s-globe-label__rule {
+      width: 0.875rem;
+    }
+  }
+}
+
+@keyframes s-label-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.375rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-globe-label__text {
+    animation: none;
     transition: none;
   }
 }

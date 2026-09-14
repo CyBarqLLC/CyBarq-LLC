@@ -2,6 +2,7 @@ import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { Globe } from "@/components/brand/globe";
 import { GlobeStatic } from "@/components/brand/globe-static";
+import { GlobeLabels, type GlobeLabelSlot } from "./globe-labels";
 
 type OpeningProps = {
   title: string;
@@ -11,21 +12,26 @@ type OpeningProps = {
   /** The four practices, printed on the hairline that closes the opening. */
   ledger: { href: string; label: string }[];
   ledgerLabel: string;
+  /** Service names that rise off the globe, three anchors at a time. */
+  labels: GlobeLabelSlot[];
 };
 
 /**
  * The opening of the site. Not a hero with a picture behind it: the globe is
- * the company's own pattern wrapped onto the world, turning slowly, letting
- * blades go into the field around it. The statement sits beside it and says in
- * one breath what the company actually does.
+ * the company's own symbol repeated over the world, turning slowly, with the
+ * names of the work rising off it one at a time. The statement sits beside it
+ * and says in one breath what the company does.
  */
-export function Opening({ title, lead, primary, secondary, ledger, ledgerLabel }: OpeningProps) {
+export function Opening({ title, lead, primary, secondary, ledger, ledgerLabel, labels }: OpeningProps) {
   return (
     <section className="site-opening">
-      <div className="site-opening__globe" aria-hidden>
-        <Globe placement={{ x: 0.5, y: 0.5, size: 0.45 }}>
-          <GlobeStatic width={900} height={900} size={0.45} />
-        </Globe>
+      <div className="site-opening__globe">
+        <div className="absolute inset-0" aria-hidden>
+          <Globe placement={{ x: 0.5, y: 0.5, size: 0.44 }}>
+            <GlobeStatic width={900} height={900} size={0.44} />
+          </Globe>
+        </div>
+        <GlobeLabels slots={labels} />
       </div>
       <div className="site-opening__scrim" aria-hidden />
 

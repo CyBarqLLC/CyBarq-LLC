@@ -30,7 +30,7 @@ export function GlobeStatic({
   y = 0.5,
   size = 0.46,
   ramp = BLUE_RAMP,
-  hair = "#DCEFFA",
+  hair = "#A9DCF7",
   className,
   preserveAspectRatio = "xMidYMid meet",
 }: GlobeStaticProps) {

@@ -62,13 +62,13 @@ export type GlobeParams = {
 export const GLOBE_DEFAULTS: Required<Omit<GlobeParams, "count">> = {
   spin: 0.0055,
   tilt: 0.34,
-  mark: 0.05,
-  alpha: 0.92,
+  mark: 0.082,
+  alpha: 1,
   driftShare: 0.045,
   reach: 0.34,
   driftRate: 0.08,
-  graticule: 0.55,
-  sea: 0.3,
+  graticule: 0.45,
+  sea: 0.15,
   seed: 0,
 };
 
@@ -82,7 +82,7 @@ function hash(i: number, s = 0): number {
 
 /** Lattice point count for a sphere of radius `r`, kept sane on small screens. */
 export function globeCount(r: number): number {
-  return Math.round(Math.min(3600, Math.max(1100, (r * r) / 38)));
+  return Math.round(Math.min(3800, Math.max(1150, (r * r) / 34)));
 }
 
 export type GlobeLean = { x: number; y: number } | null;
@@ -163,13 +163,13 @@ export function computeGlobe(cx: number, cy: number, R: number, params: GlobePar
     const q = place(lat, lon);
     if (q.z <= 0.02) continue;
 
-    const depth = Math.pow(q.z, 0.6);
-    const alpha = p.alpha * (0.2 + 0.8 * depth) * Math.min(1, q.z * 3.4) * (land ? 1 : p.sea);
+    const depth = Math.pow(q.z, 0.5);
+    const alpha = p.alpha * (0.7 + 0.3 * depth) * Math.min(1, q.z * 5) * (land ? 1 : p.sea);
     if (alpha <= 0.02) continue;
     marks.push({
       x: cx + q.x * R,
       y: cy - q.y * R,
-      size: S * (0.55 + 0.45 * depth) * (land ? 1 : 0.62),
+      size: S * (0.55 + 0.45 * depth) * (land ? 1 : 0.5),
       alpha,
       shade: land ? depth : depth * 0.35,
     });
@@ -179,7 +179,7 @@ export function computeGlobe(cx: number, cy: number, R: number, params: GlobePar
     const ph = (t * p.driftRate + hash(i, p.seed + 13)) % 1;
     const rr = 1 + ph * p.reach;
     const fade = Math.min(1, ph * 7) * Math.pow(1 - ph, 1.4);
-    const fa = 0.55 * fade * Math.min(1, q.z * 2.2);
+    const fa = 0.7 * fade * Math.min(1, q.z * 2.2);
     if (fa <= 0.02) continue;
     marks.push({ x: cx + q.x * R * rr, y: cy - q.y * R * rr, size: S * (0.9 + 0.7 * ph), alpha: fa, shade: 0.75 });
   }

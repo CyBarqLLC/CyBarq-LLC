@@ -3,7 +3,7 @@
 import * as React from "react";
 import { computeGlobe, globeCount, shadeIndex, SYMBOL_TRIANGLES, type GlobeLean, type GlobeParams } from "./globe-math";
 
-export const BLUE_RAMP = ["#A9DCF7", "#74C3F2", "#3E9BDD", "#2E86CF"] as const;
+export const BLUE_RAMP = ["#5FB4EC", "#2E86CF", "#1C6EB4", "#145187"] as const;
 
 export type GlobePlacement = {
   /** Centre of the sphere as a fraction of the surface. */
@@ -32,7 +32,7 @@ type GlobeCanvasProps = {
  * screen or the tab is hidden, and settles into a single still frame for
  * anyone who has asked for less motion.
  */
-export function GlobeCanvas({ params, placement, ramp = BLUE_RAMP, hair = "#DCEFFA", mirror = false, interactive = true, className, onReady }: GlobeCanvasProps) {
+export function GlobeCanvas({ params, placement, ramp = BLUE_RAMP, hair = "#A9DCF7", mirror = false, interactive = true, className, onReady }: GlobeCanvasProps) {
   const ref = React.useRef<HTMLCanvasElement>(null);
   const readyRef = React.useRef(false);
 

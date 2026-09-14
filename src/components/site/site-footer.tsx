@@ -138,8 +138,8 @@ export async function SiteFooter() {
           <h2 id="footer-registration" className="sr-only">
             {tr("heading")}
           </h2>
-          <RegistrationMark alt={tr("alt")} sizes="(min-width: 768px) 42rem, 92vw" className="w-full max-w-168" />
-          <RegistrationNumber format={(number) => tr("number", { number })} className="text-small text-slate" />
+          <RegistrationMark alt={tr("alt")} sizes="(min-width: 640px) 22rem, 70vw" className="w-56 sm:w-88" />
+          <RegistrationNumber format={(number) => tr("number", { number })} className="max-w-prose text-[0.6875rem] leading-relaxed text-slate" />
         </section>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-fog pt-6 text-small text-slate lg:flex-row lg:items-center lg:justify-between lg:gap-8">
