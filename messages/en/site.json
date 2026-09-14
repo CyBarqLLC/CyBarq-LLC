@@ -162,9 +162,9 @@
   },
   "registration": {
     "heading": "Official registration",
-    "number": "Jordanian National Establishment No. {number}",
+    "number": "National establishment number with the Companies Control Department and the National Cyber Security Center {number}",
     "legalNameLabel": "Registered in Jordan as",
-    "alt": "The National Cyber Security Center mark and the emblem of the Hashemite Kingdom of Jordan"
+    "alt": "The National Cyber Security Center and Companies Control Department marks with the emblem of the Hashemite Kingdom of Jordan"
   },
   "content": {
     "projects": {
