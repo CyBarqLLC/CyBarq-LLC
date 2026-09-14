@@ -1300,3 +1300,326 @@ html:has(.site-header) {
     display: none;
   }
 }
+
+/* ===========================================================================
+   13. The opening
+   ---------------------------------------------------------------------------
+   The globe is the field: the Flux Field wrapped onto the world, turning, with
+   blades leaving it into the space around. The statement sits beside it on
+   wide screens and above it on a phone, and the opening closes on a hairline
+   carrying the four practices.
+   =========================================================================== */
+
+@layer components {
+  .site-opening {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    overflow: clip;
+    margin-top: calc(-1 * (var(--nav-height) + var(--safe-top)));
+    padding-top: calc(var(--nav-height) + var(--safe-top));
+    min-height: 92svh;
+    border-bottom: 1px solid var(--s-hair);
+  }
+  .site-opening__globe {
+    position: relative;
+    order: 2;
+    height: 40svh;
+    margin-inline: -6%;
+  }
+  /* The opening statement is set a step below the display maximum: it is a
+     sentence to be read, not a poster. */
+  .site-opening .s-display {
+    font-size: clamp(2.125rem, 1rem + 2.9vw, 3.5rem);
+  }
+  /* On a phone the globe sits in the flow under the statement, so nothing is
+     read through it. On wide screens it becomes the field beside the type and
+     the scrim takes over. */
+  .site-opening__scrim {
+    display: none;
+  }
+  .site-opening__content {
+    position: relative;
+    order: 1;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding-block: clamp(2.5rem, 8svh, 4.5rem) 2rem;
+    pointer-events: none;
+  }
+  .site-opening__content a,
+  .site-opening__content button {
+    pointer-events: auto;
+  }
+  @media (min-width: 64rem) {
+    .site-opening__globe {
+      position: absolute;
+      inset-inline-start: 46%;
+      inset-inline-end: 1%;
+      top: 5%;
+      bottom: 9%;
+      height: auto;
+      margin-inline: 0;
+    }
+    .site-opening__scrim {
+      display: block;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(to right, #fff 0%, #fff 24%, rgb(255 255 255 / 0.66) 40%, rgb(255 255 255 / 0) 58%);
+    }
+    [dir="rtl"] .site-opening__scrim {
+      background: linear-gradient(to left, #fff 0%, #fff 24%, rgb(255 255 255 / 0.66) 40%, rgb(255 255 255 / 0) 58%);
+    }
+    .site-opening__content {
+      justify-content: center;
+      padding-block: 4rem 6rem;
+    }
+  }
+  .site-opening__ledger {
+    position: relative;
+    order: 3;
+    border-top: 1px solid var(--s-hair);
+    background: color-mix(in srgb, var(--color-white) 88%, transparent);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
+  .site-opening__ledger-link {
+    display: flex;
+    min-height: 3.5rem;
+    align-items: center;
+    gap: 0.625rem;
+    padding-block: 0.75rem;
+    padding-inline-end: 1.25rem;
+    color: var(--color-graphite);
+    transition: color var(--s-fast) var(--s-ease);
+  }
+  .site-opening__ledger-link:hover {
+    color: var(--color-azure);
+  }
+  .site-opening__ledger-link:hover .s-meta {
+    color: var(--color-azure);
+  }
+}
+
+/* ===========================================================================
+   14. The index
+   ---------------------------------------------------------------------------
+   Everything the company does, in one working list. No cards: a rule between
+   rows, a number, a name, a line of plain language, and the practice at the
+   end. Narrow it by practice or type a word into it.
+   =========================================================================== */
+
+@layer components {
+  .s-index__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1.5rem;
+    padding-block: 1rem;
+    border-block: 1px solid var(--s-hair);
+  }
+  .s-index__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .s-chip {
+    display: inline-flex;
+    min-height: 2.375rem;
+    align-items: center;
+    padding-inline: 0.875rem;
+    border: 1px solid var(--s-hair);
+    background: var(--color-white);
+    color: var(--color-slate);
+    font-size: var(--text-small);
+    transition:
+      color var(--s-fast) var(--s-ease),
+      background-color var(--s-fast) var(--s-ease),
+      border-color var(--s-fast) var(--s-ease);
+  }
+  .s-chip:hover {
+    border-color: var(--color-graphite);
+    color: var(--color-graphite);
+  }
+  .s-chip[data-on] {
+    background: var(--color-blue);
+    border-color: var(--color-blue);
+    color: var(--color-graphite);
+  }
+  .s-index__search {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  .s-index__field {
+    min-height: 2.375rem;
+    width: min(18rem, 100%);
+    border: 0;
+    border-bottom: 1px solid var(--s-hair);
+    background: transparent;
+    color: var(--color-graphite);
+    font-size: var(--text-small);
+    transition: border-color var(--s-fast) var(--s-ease);
+  }
+  .s-index__field::placeholder {
+    color: var(--color-grey);
+  }
+  .s-index__field:focus {
+    outline: none;
+    border-bottom-color: var(--color-azure);
+  }
+  .s-index__count {
+    color: var(--color-slate);
+    white-space: nowrap;
+  }
+  .s-index__list {
+    border-bottom: 1px solid var(--s-hair);
+  }
+  .s-index__row + .s-index__row {
+    border-top: 1px solid var(--s-hair);
+  }
+  .s-index__row {
+    transition: background-color var(--s-fast) var(--s-ease);
+  }
+  .s-index__row:hover,
+  .s-index__row:focus-within {
+    background: color-mix(in srgb, var(--color-ice) 58%, var(--color-white));
+  }
+  .s-index__link {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 0.25rem 0.75rem;
+    padding-block: 0.9375rem;
+    padding-inline: 0.625rem;
+    margin-inline: -0.625rem;
+  }
+  .s-index__num {
+    color: var(--color-grey);
+    transition: color var(--s-fast) var(--s-ease);
+  }
+  .s-index__row:hover .s-index__num {
+    color: var(--color-azure);
+  }
+  .s-index__title {
+    font-size: var(--s-h3-size, 1.0625rem);
+    line-height: 1.35;
+  }
+  .s-index__summary {
+    grid-column: 2;
+    color: var(--s-ink-soft);
+    font-size: var(--text-small);
+    line-height: 1.5;
+  }
+  .s-index__practice {
+    grid-column: 2;
+    color: var(--color-slate);
+  }
+  @media (min-width: 64rem) {
+    .s-index__link {
+      grid-template-columns: 3rem minmax(12rem, 17rem) minmax(0, 1fr) 11rem;
+      gap: 1.25rem;
+      padding-block: 1.0625rem;
+    }
+    .s-index__summary,
+    .s-index__practice {
+      grid-column: auto;
+    }
+    .s-index__practice {
+      text-align: end;
+    }
+  }
+  .s-index__empty {
+    padding-block: 3rem;
+    color: var(--s-ink-soft);
+  }
+}
+
+/* ===========================================================================
+   15. The lime chapter
+   ---------------------------------------------------------------------------
+   The second colour at full strength, flat, with Graphite type on it. It never
+   meets the blue in a gradient: the page simply changes temperature for one
+   chapter and returns.
+   =========================================================================== */
+
+@layer components {
+  .s-lime {
+    position: relative;
+    overflow: clip;
+    background: var(--color-lime);
+    color: var(--color-graphite);
+    --s-hair: color-mix(in srgb, var(--color-graphite) 20%, transparent);
+    --s-ink-soft: color-mix(in srgb, var(--color-graphite) 74%, transparent);
+  }
+  .s-lime .s-figures > * {
+    background: var(--color-lime);
+  }
+  .s-lime ::selection {
+    background: var(--color-graphite);
+    color: var(--color-lime);
+  }
+}
+
+/* ===========================================================================
+   16. Passages
+   ---------------------------------------------------------------------------
+   How the work is done, written rather than tiled: a number, a line and a
+   short paragraph. No icons and no boxes.
+   =========================================================================== */
+
+@layer components {
+  .s-passages__intro {
+    font-size: var(--s-sub);
+    line-height: var(--s-sub-lh);
+    font-weight: 300;
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+  .s-passages__list {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    border-top: 1px solid var(--s-hair);
+  }
+  @media (min-width: 64rem) {
+    .s-passages__list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      column-gap: clamp(2.5rem, 6vw, 6rem);
+    }
+  }
+  .s-passage {
+    padding-block: clamp(1.75rem, 3vw, 2.5rem);
+    border-bottom: 1px solid var(--s-hair);
+  }
+  .s-passage__num {
+    display: block;
+    color: var(--color-azure);
+  }
+  .s-passage__title {
+    margin-top: 0.875rem;
+    font-size: var(--s-sub);
+    line-height: var(--s-sub-lh);
+    font-weight: 300;
+  }
+  .s-passage__body {
+    margin-top: 0.875rem;
+    max-width: 50ch;
+    color: var(--s-ink-soft);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-chip,
+  .s-index__row,
+  .s-index__num,
+  .s-index__field,
+  .site-opening__ledger-link {
+    transition: none;
+  }
+}

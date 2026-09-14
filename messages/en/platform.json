@@ -79,7 +79,30 @@
       "empty": "You are all caught up.",
       "viewAll": "All notifications"
     },
-    "greetingAnonymous": "Welcome back"
+    "greetingAnonymous": "Welcome back",
+    "actions": {
+      "title": "Start something",
+      "project": {
+        "title": "Start a project",
+        "description": "Set up a project, its team and its first milestones."
+      },
+      "client": {
+        "title": "Add a client",
+        "description": "Create the client record and invite their people to the portal."
+      },
+      "invoice": {
+        "title": "Raise an invoice",
+        "description": "Draft an invoice against a project and send it for approval."
+      },
+      "certificate": {
+        "title": "Issue a certificate",
+        "description": "Training, internship or experience, with a verification code."
+      },
+      "engagement": {
+        "title": "Open a security engagement",
+        "description": "Scope a test or an assessment and start recording findings."
+      }
+    }
   },
   "clients": {
     "title": "Clients",
@@ -393,5 +416,13 @@
       "title": "Platform settings",
       "description": "Brand assets, document numbering and integrations are configured in code and deployed with the application. There is nothing to change here yet."
     }
+  },
+  "footer": {
+    "label": "Platform links",
+    "support": "Support",
+    "privacy": "Privacy",
+    "terms": "Terms",
+    "verify": "Verify a certificate",
+    "copyright": "{year} {company}"
   }
 }

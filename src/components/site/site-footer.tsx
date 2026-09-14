@@ -141,7 +141,6 @@ export async function SiteFooter() {
           <RegistrationMark alt={tr("alt")} sizes="144px" className="w-32 shrink-0 sm:w-36" />
           <div className="flex max-w-2xl flex-col gap-1 text-small text-slate">
             <p>{tr("jordan")}</p>
-            <p>{tr("us")}</p>
             <RegistrationNumber format={(number) => tr("number", { number })} />
           </div>
         </section>

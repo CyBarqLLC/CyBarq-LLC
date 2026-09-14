@@ -13,48 +13,48 @@ export const artificialIntelligenceServices: ServiceContent[] = [
     pictogram: "ai",
     featured: true,
     title: bi("AI Solutions", "حلول الذكاء الاصطناعي"),
-    summary: bi("From a business problem to a working, measured AI feature inside your systems.", "من مشكلة عمل إلى ميزة ذكاء اصطناعي عاملة ومقيسة داخل أنظمتك."),
-    hero: bi("We do not train models. We make existing models useful, safe and measurable inside your organisation.", "نحن لا ندرّب النماذج. نجعل النماذج الموجودة مفيدة وآمنة وقابلة للقياس داخل مؤسستك."),
+    summary: bi("We take one business problem and build the AI feature that answers it, inside your own systems.", "نأخذ مشكلة عمل واحدة ونبني ميزة الذكاء الاصطناعي التي تعالجها، داخل أنظمتك أنت."),
+    hero: bi("We do not train models. We take the ones that already exist and make them useful, safe and measurable inside your organisation.", "نحن لا ندرّب النماذج. نأخذ الموجود منها ونجعله مفيداً وآمناً وقابلاً للقياس داخل مؤسستك."),
     seo: {
       title: bi("AI Solutions", "حلول الذكاء الاصطناعي"),
-      description: bi("Practical AI solutions by CyBarq: scoping the right use case, integrating existing language models, retrieval over your own data, evaluation, guardrails, cost control and clear data boundaries.", "حلول ذكاء اصطناعي عملية من سايبرق: تحديد حالة الاستخدام المناسبة، ودمج النماذج اللغوية الموجودة، والاسترجاع من بياناتك، والتقييم، والضوابط، والتحكم في التكلفة، وحدود واضحة للبيانات."),
+      description: bi("We scope the use case, integrate existing language models, ground answers in your own data, and measure quality, cost and data boundaries.", "نحدد حالة الاستخدام، وندمج النماذج الموجودة، ونُسند الإجابات إلى بياناتك، ونقيس الجودة والتكلفة وحدود البيانات."),
     },
     problem: {
       body: bi(
-        "Most organisations have been shown what language models can do in a demo and are unsure what they should do in production. Pilots multiply, few reach users, and the ones that do are hard to trust: answers vary, costs are unpredictable, and nobody can say what data left the building. The technology is capable; the missing part is engineering.",
-        "معظم المؤسسات رأت ما تستطيع النماذج اللغوية فعله في عرض تجريبي، ولا تعرف ما الذي ينبغي أن تفعله في الإنتاج. تتكاثر التجارب، وقليل منها يصل إلى المستخدمين، وما يصل يصعب الوثوق به: الإجابات متفاوتة، والتكاليف غير متوقعة، ولا أحد يستطيع القول أي بيانات خرجت من المؤسسة. التقنية قادرة؛ الجزء الناقص هو الهندسة.",
+        "Most organisations have seen a demo and are unsure what belongs in production. Pilots pile up, few reach real users, and the ones that do are hard to trust: answers vary, costs drift, and nobody can say which data left the building. The models are capable. The missing part is engineering.",
+        "رأت معظم المؤسسات عرضاً تجريبياً، ولا تعرف ما الذي يصلح للإنتاج. تتراكم التجارب، وقليل منها يصل إلى المستخدمين، وما يصل يصعب الوثوق به: الإجابات متفاوتة، والتكلفة غير متوقعة، ولا أحد يعرف أي بيانات خرجت من المؤسسة. النماذج قادرة، والناقص هو الهندسة.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Support and service desks handling repetitive questions, teams that spend hours summarising or classifying documents, processes that need information extracted from forms and emails, and knowledge that exists in files nobody can search. It also appears as staff pasting company data into public tools because nothing internal exists.",
-        "في مكاتب الدعم والخدمة التي تعالج أسئلة متكررة، والفرق التي تقضي ساعات في تلخيص المستندات أو تصنيفها، والإجراءات التي تحتاج إلى استخراج معلومات من النماذج والرسائل، والمعرفة الموجودة في ملفات لا يستطيع أحد البحث فيها. ويظهر أيضاً في موظفين يلصقون بيانات الشركة في أدوات عامة لأن لا بديل داخلياً.",
+        "Service desks answering the same questions every week. Teams that spend afternoons summarising or classifying documents. Information sitting in files nobody can search, and forms and emails someone has to read and retype. It also shows up as staff pasting company data into public tools, because there is nothing internal to use.",
+        "في مكاتب الخدمة التي تجيب عن الأسئلة نفسها كل أسبوع. وفي الفرق التي تقضي ساعات في تلخيص المستندات أو تصنيفها. وفي معلومات حبيسة ملفات لا يبحث فيها أحد، ونماذج ورسائل يقرأها موظف ويعيد كتابتها بيده. ويظهر أيضاً حين يلصق الموظفون بيانات الشركة في أدوات عامة، لأن لا بديل داخلياً.",
       ),
     },
     approach: {
       body: bi(
-        "We start with the problem and decide honestly whether a language model is the right tool; sometimes a rule or a search index is better. When it is, we integrate commercial or open models through their APIs, ground answers in your own data through retrieval, and wrap the whole in evaluation, guardrails and monitoring. Data boundaries are explicit: what is sent to which provider, what is stored, and for how long.",
-        "نبدأ من المشكلة ونقرر بصدق ما إذا كان النموذج اللغوي هو الأداة المناسبة؛ فأحياناً تكون قاعدة أو فهرس بحث أفضل. وحين يكون مناسباً، ندمج نماذج تجارية أو مفتوحة عبر واجهاتها البرمجية، ونُسند الإجابات إلى بياناتك من خلال الاسترجاع، ونحيط النظام كله بالتقييم والضوابط والمراقبة. وحدود البيانات صريحة: ما الذي يُرسل إلى أي مزوّد، وما الذي يُخزَّن، ولأي مدة.",
+        "We start from the problem and say honestly whether a language model is the right tool. Often a rule, a search index or a fixed workflow is better, and we say so. When a model does fit, we integrate a commercial or open one through its API, ground the answers in your own data, and put evaluation, guardrails and monitoring around it. The data boundary is written down: what goes to which provider, what is stored, and for how long.",
+        "نبدأ من المشكلة، ونقول بصراحة إن كان النموذج اللغوي هو الأداة المناسبة. كثيراً ما تكون قاعدة أو فهرس بحث أو سير عمل ثابت أفضل، ونقول ذلك. وحين يكون النموذج مناسباً، ندمج نموذجاً تجارياً أو مفتوحاً عبر واجهته البرمجية، ونُسند الإجابات إلى بياناتك، ونضع حوله التقييم والضوابط والمراقبة. وحدود البيانات مكتوبة: ما الذي يذهب إلى أي مزوّد، وما الذي يُخزَّن، ولأي مدة.",
       ),
     },
     engagement: {
       body: bi(
-        "A short assessment identifies one or two use cases with clear value and measurable success criteria. We build a first version against real data in a few weeks, evaluate it against a test set your team helps define, and only then widen the rollout. Costs and latency are measured from the first week so there are no surprises when usage grows.",
-        "يحدد تقييم قصير حالة استخدام أو اثنتين بقيمة واضحة ومعايير نجاح قابلة للقياس. نبني نسخة أولى على بيانات حقيقية خلال بضعة أسابيع، ونقيّمها مقابل مجموعة اختبار يساعد فريقك في تحديدها، وبعد ذلك فقط نوسّع الإطلاق. وتُقاس التكاليف وزمن الاستجابة منذ الأسبوع الأول حتى لا تكون هناك مفاجآت حين يزداد الاستخدام.",
+        "A short assessment picks one or two use cases with clear value and a success test we both agree on. We build a first version against real data in a few weeks and measure it on an evaluation set your team helps write. Only then do we widen it. Cost and response time are measured from the first week, so nothing surprises you when usage grows.",
+        "يختار تقييم قصير حالة استخدام أو اثنتين بقيمة واضحة ومعيار نجاح نتفق عليه. نبني نسخة أولى على بيانات حقيقية خلال أسابيع، ونقيسها على مجموعة تقييم يشارك فريقك في كتابتها. وبعدها فقط نوسّع الاستخدام. وتُقاس التكلفة وزمن الاستجابة من الأسبوع الأول، فلا تفاجئك الأرقام حين يزيد الاستخدام.",
       ),
     },
     deliverables: {
-      body: bi("A working feature, and the evidence that it works.", "ميزة عاملة، والدليل على أنها تعمل."),
+      body: bi("A feature that works, and the evidence that it does.", "ميزة تعمل، والدليل على أنها تعمل."),
       items: [
-        bi("Use case assessment with success criteria, data boundaries and cost estimate", "تقييم لحالة الاستخدام بمعايير نجاح وحدود بيانات وتقدير للتكلفة"),
-        bi("Integrated AI feature with retrieval, guardrails and monitoring", "ميزة ذكاء اصطناعي مدمجة مع استرجاع وضوابط ومراقبة"),
-        bi("Evaluation set and results, and an operations guide for your team", "مجموعة تقييم ونتائجها، ودليل تشغيل لفريقك"),
+        bi("A use case assessment with the success test, the data boundaries and a cost estimate", "تقييم لحالة الاستخدام، مع معيار النجاح وحدود البيانات وتقدير التكلفة"),
+        bi("The AI feature itself, integrated, with retrieval, guardrails and monitoring", "ميزة الذكاء الاصطناعي نفسها مدمجة، مع الاسترجاع والضوابط والمراقبة"),
+        bi("The evaluation set, its results, and an operations guide your team can work from", "مجموعة التقييم ونتائجها، ودليل تشغيل يعمل به فريقك"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Hours returned to your people on the work that was consuming them, answers that are grounded in your own information, and an AI capability you can explain to a client or a regulator: what it does, what it sees, and how well it performs.",
-        "ساعات تعود إلى فريقك من العمل الذي كان يستهلكه، وإجابات مبنية على معلوماتك أنت، وقدرة ذكاء اصطناعي تستطيع شرحها لعميل أو جهة رقابية: ماذا تفعل، وماذا ترى، وما مستوى أدائها.",
+        "Hours back for the people the work was eating. Answers that come from your own information rather than a model's guess. And a capability you can describe to a client or a regulator: what it does, what it can see, and how well it performs.",
+        "ساعات تعود إلى من كان العمل يستهلك وقتهم. وإجابات تأتي من معلوماتك أنت، لا من تخمين النموذج. وقدرة تستطيع وصفها لعميل أو جهة رقابية: ماذا تفعل، وماذا ترى، وما مستوى أدائها.",
       ),
     },
     related: ["llm-applications", "rag-knowledge-systems", "ai-automation-workflow-integration"],
@@ -64,48 +64,48 @@ export const artificialIntelligenceServices: ServiceContent[] = [
     practice: "artificial-intelligence",
     pictogram: "ai",
     title: bi("LLM Applications", "تطبيقات النماذج اللغوية"),
-    summary: bi("Applications built on large language models, engineered for reliability rather than demos.", "تطبيقات مبنية على النماذج اللغوية الكبيرة، مهندسة للموثوقية لا للعروض التجريبية."),
-    hero: bi("A language model is a component, not a product. We build the product around it.", "النموذج اللغوي مكوّن، لا منتج. نبني المنتج حوله."),
+    summary: bi("Applications built on language models and engineered to behave the same way every day.", "تطبيقات مبنية على النماذج اللغوية، مهندسة لتتصرف بالطريقة نفسها كل يوم."),
+    hero: bi("A language model is a component, not a product. The product is everything we build around it.", "النموذج اللغوي مكوّن، لا منتج. المنتج هو كل ما نبنيه حوله."),
     seo: {
       title: bi("LLM Application Development", "تطوير تطبيقات النماذج اللغوية"),
-      description: bi("Production LLM applications by CyBarq: prompt and context design, structured outputs, evaluation, fallbacks, cost and latency control, and integration with your data and systems.", "تطبيقات نماذج لغوية جاهزة للإنتاج من سايبرق: تصميم التعليمات والسياق، ومخرجات منظمة، وتقييم، وبدائل عند الفشل، وتحكم في التكلفة وزمن الاستجابة، وتكامل مع بياناتك وأنظمتك."),
+      description: bi("Production LLM applications: versioned prompts, structured outputs, evaluation, fallbacks, and control over cost, latency and Arabic quality.", "تطبيقات نماذج لغوية للإنتاج: تعليمات مُدارة الإصدارات، ومخرجات منظمة، وتقييم، وبدائل عند الفشل، وتحكم في التكلفة وزمن الاستجابة وجودة العربية."),
     },
     problem: {
       body: bi(
-        "A prototype that calls a model API takes an afternoon. A production application takes engineering: outputs must be structured and validated, failures must be handled, prompts must be versioned and tested, and every call has a cost and a latency that users and finance both notice. Without that engineering, the application behaves differently every week.",
-        "النموذج الأولي الذي يستدعي واجهة برمجة النموذج يستغرق ظهيرة واحدة. أما التطبيق الإنتاجي فيحتاج إلى هندسة: يجب أن تكون المخرجات منظمة ومتحققاً منها، وأن تُعالج حالات الفشل، وأن تُدار إصدارات التعليمات وتُختبر، ولكل استدعاء تكلفة وزمن استجابة يلاحظهما المستخدمون والمالية معاً. ومن دون هذه الهندسة يتصرف التطبيق بشكل مختلف كل أسبوع.",
+        "Calling a model API takes an afternoon. Running that call in production takes engineering: outputs have to be structured and checked, failures have to be handled, prompts have to be versioned and tested, and every call carries a cost and a delay that users and finance both notice. Skip that work and the application behaves differently every week.",
+        "استدعاء واجهة النموذج يستغرق بعد الظهر. أما تشغيل الاستدعاء نفسه في الإنتاج فيحتاج هندسة: مخرجات منظمة يجري التحقق منها، ومعالجة لحالات الفشل، وتعليمات مُدارة الإصدارات ومختبرة، ولكل استدعاء تكلفة وتأخير يلاحظهما المستخدم والمالية معاً. وإن أُهمل هذا العمل، تصرّف التطبيق بشكل مختلف كل أسبوع.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Document drafting and review tools, summarisation of long records, classification and routing of incoming requests, extraction of structured data from unstructured text, translation between Arabic and English with domain terminology, and conversational interfaces over business functions.",
-        "في أدوات صياغة المستندات ومراجعتها، وتلخيص السجلات الطويلة، وتصنيف الطلبات الواردة وتوجيهها، واستخراج بيانات منظمة من نصوص غير منظمة، والترجمة بين العربية والإنجليزية بمصطلحات المجال، والواجهات الحوارية فوق وظائف الأعمال.",
+        "Drafting and reviewing documents. Summarising long records. Classifying incoming requests and routing them. Pulling structured fields out of free text. Translating between Arabic and English with your own terminology. And chat interfaces sitting over a business function people already use.",
+        "في صياغة المستندات ومراجعتها. وتلخيص السجلات الطويلة. وتصنيف الطلبات الواردة وتوجيهها. واستخراج حقول منظمة من نص حر. والترجمة بين العربية والإنجليزية بمصطلحاتك أنت. وفي واجهات المحادثة فوق وظيفة عمل يستخدمها الناس أصلاً.",
       ),
     },
     approach: {
       body: bi(
-        "We design the application around what the model is reliable at and protect against what it is not. Prompts and context are treated as code: versioned, reviewed and tested against an evaluation set. Outputs are structured and validated before they touch your systems. We select models per task on measured quality, cost and latency, and we keep the option to switch providers. Arabic quality is tested explicitly, not assumed.",
-        "نصمم التطبيق حول ما يُحسنه النموذج بموثوقية، ونحميه مما لا يُحسنه. تُعامل التعليمات والسياق كشيفرة: مُدارة الإصدارات، ومراجَعة، ومختبرة مقابل مجموعة تقييم. وتُنظَّم المخرجات ويُتحقق منها قبل أن تلمس أنظمتك. نختار النموذج لكل مهمة بناءً على جودة وتكلفة وزمن استجابة مقيسة، ونحتفظ بإمكانية تبديل المزوّد. وجودة العربية تُختبر صراحةً، لا تُفترض.",
+        "We design the application around what the model does reliably, and guard the places where it does not. Prompts and context are treated as code: versioned, reviewed, and tested against an evaluation set. Outputs are structured and validated before they reach your systems. We pick a model per task on measured quality, cost and latency, and keep the ability to move to another provider. Arabic quality is tested, not assumed.",
+        "نصمم التطبيق حول ما يُتقنه النموذج، ونضع حماية حيث لا يُتقن. وتُعامل التعليمات والسياق كشيفرة: إصدارات ومراجعة واختبار على مجموعة تقييم. وتُنظَّم المخرجات ويُتحقق منها قبل أن تصل إلى أنظمتك. ونختار النموذج لكل مهمة بجودة وتكلفة وزمن استجابة مقيسة، مع إبقاء إمكانية الانتقال إلى مزوّد آخر. وجودة العربية تُختبر، لا تُفترض.",
       ),
     },
     engagement: {
       body: bi(
-        "We define the task, the inputs, the expected outputs and how quality will be judged, then build an evaluation set with your subject matter experts. The first version is built in short cycles and measured against that set. Rollout starts with a small group and widens as the numbers justify it. Monitoring of quality, cost and latency stays in place after launch.",
-        "نحدد المهمة والمدخلات والمخرجات المتوقعة وكيف ستُقاس الجودة، ثم نبني مجموعة تقييم مع خبراء المجال لديك. تُبنى النسخة الأولى في دورات قصيرة وتُقاس مقابل تلك المجموعة. ويبدأ الإطلاق مع مجموعة صغيرة ويتسع كلما بررت الأرقام ذلك. وتبقى مراقبة الجودة والتكلفة وزمن الاستجابة قائمة بعد الإطلاق.",
+        "We agree the task, the inputs, the expected output and how quality will be judged, then build an evaluation set with the people who know the subject. The first version is built in short cycles and scored against that set every time. Rollout starts with a small group and widens when the numbers say it should. Quality, cost and latency stay monitored after launch.",
+        "نتفق على المهمة والمدخلات والمخرجات المتوقعة وكيف تُحكم الجودة، ثم نبني مجموعة تقييم مع من يعرفون المجال. تُبنى النسخة الأولى في دورات قصيرة وتُقاس على تلك المجموعة في كل دورة. ويبدأ الإطلاق بمجموعة صغيرة ويتسع حين تقول الأرقام ذلك. وتبقى الجودة والتكلفة وزمن الاستجابة تحت المراقبة بعد الإطلاق.",
       ),
     },
     deliverables: {
-      body: bi("An application your users can rely on, with the numbers to prove it.", "تطبيق يستطيع مستخدموك الاعتماد عليه، مع أرقام تثبت ذلك."),
+      body: bi("An application your users can rely on, and the numbers that say why.", "تطبيق يعتمد عليه مستخدموك، والأرقام التي تشرح السبب."),
       items: [
-        bi("Production application with structured outputs, validation and fallbacks", "تطبيق إنتاجي بمخرجات منظمة وتحقق وبدائل عند الفشل"),
-        bi("Versioned prompts, evaluation set and quality reports", "تعليمات مُدارة الإصدارات ومجموعة تقييم وتقارير جودة"),
-        bi("Cost and latency dashboard and a provider switching plan", "لوحة للتكلفة وزمن الاستجابة وخطة لتبديل المزوّد"),
+        bi("The application in production, with structured outputs, validation and fallbacks", "التطبيق في الإنتاج، بمخرجات منظمة وتحقق وبدائل عند الفشل"),
+        bi("Versioned prompts, the evaluation set, and quality reports over time", "تعليمات مُدارة الإصدارات، ومجموعة التقييم، وتقارير جودة على مدى الوقت"),
+        bi("A cost and latency dashboard, and a written plan for switching provider", "لوحة للتكلفة وزمن الاستجابة، وخطة مكتوبة لتبديل المزوّد"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "A capability that behaves the same on Monday as it did on Friday, with a monthly cost you can forecast and a quality level you can state in writing.",
-        "قدرة تتصرف يوم الاثنين كما تصرفت يوم الجمعة، بتكلفة شهرية يمكنك توقعها ومستوى جودة يمكنك ذكره كتابةً.",
+        "A capability that behaves on Monday the way it behaved on Friday, with a monthly cost you can forecast and a quality level you can put in writing.",
+        "قدرة تتصرف يوم الاثنين كما تصرفت يوم الجمعة، بتكلفة شهرية يمكنك توقعها، ومستوى جودة يمكنك كتابته في وثيقة.",
       ),
     },
     related: ["ai-solutions", "ai-api-model-integration", "ai-customer-experiences"],
@@ -115,48 +115,48 @@ export const artificialIntelligenceServices: ServiceContent[] = [
     practice: "artificial-intelligence",
     pictogram: "automation",
     title: bi("AI Agents", "وكلاء الذكاء الاصطناعي"),
-    summary: bi("Agents that complete defined, multi step tasks using your tools, within limits you set.", "وكلاء ينجزون مهاماً محددة متعددة الخطوات باستخدام أدواتك، ضمن حدود تضعها أنت."),
-    hero: bi("An agent should do a job, not have a personality. We build agents with a clear task, clear tools and clear limits.", "الوكيل يجب أن يؤدي مهمة، لا أن يكون له شخصية. نبني وكلاء بمهمة واضحة وأدوات واضحة وحدود واضحة."),
+    summary: bi("Agents that finish a defined, multi step task using your tools, inside limits you set.", "وكلاء ينهون مهمة محددة متعددة الخطوات باستخدام أدواتك، ضمن حدود تضعها أنت."),
+    hero: bi("An agent should do a job, not have a personality. Each one we build has a clear task, a small set of tools, and limits it cannot cross.", "الوكيل يؤدي مهمة، ولا حاجة له بشخصية. لكل وكيل نبنيه مهمة واضحة، وأدوات قليلة، وحدود لا يتجاوزها."),
     seo: {
       title: bi("AI Agents", "وكلاء الذكاء الاصطناعي"),
-      description: bi("Task focused AI agents by CyBarq that use your systems through controlled tools, with permissions, human approval steps, audit logs and evaluation built in.", "وكلاء ذكاء اصطناعي موجهون للمهام من سايبرق يستخدمون أنظمتك عبر أدوات محكومة، مع صلاحيات وخطوات موافقة بشرية وسجلات تدقيق وتقييم مدمج."),
+      description: bi("Task focused AI agents that use your systems through controlled tools, with scoped permissions, human approval steps, audit logs and evaluation.", "وكلاء ذكاء اصطناعي لمهام محددة يستخدمون أنظمتك عبر أدوات محكومة، بصلاحيات مقيّدة وخطوات موافقة بشرية وسجلات تدقيق وتقييم."),
     },
     problem: {
       body: bi(
-        "Many tasks are not one question but a sequence: look something up, check a rule, update a record, notify someone. Language models can now plan and execute such sequences, which is powerful and also risky. An agent with too much access and too little supervision can take wrong actions quickly and at scale.",
-        "كثير من المهام ليست سؤالاً واحداً بل تسلسلاً: ابحث عن شيء، وتحقق من قاعدة، وحدّث سجلاً، وأبلغ شخصاً. تستطيع النماذج اللغوية الآن تخطيط هذه التسلسلات وتنفيذها، وهذا قوي وخطر في آن واحد. فالوكيل الذي يملك صلاحيات واسعة وإشرافاً قليلاً قد يتخذ إجراءات خاطئة بسرعة وعلى نطاق واسع.",
+        "Plenty of work is not one question but a sequence: look something up, check a rule, update a record, tell someone. Language models can now plan and run sequences like that, which is useful and also risky. An agent with wide access and thin supervision can make the wrong move quickly, and then repeat it.",
+        "كثير من العمل ليس سؤالاً واحداً بل سلسلة: تبحث عن معلومة، وتتحقق من قاعدة، وتحدّث سجلاً، وتُبلغ شخصاً. صارت النماذج اللغوية قادرة على تخطيط هذه السلاسل وتنفيذها، وهذا مفيد وخطر معاً. فالوكيل الواسع الصلاحيات قليل الإشراف قد يخطئ بسرعة، ثم يكرر خطأه.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Triage of support tickets that need data from several systems, preparation of reports that pull from multiple sources, first line handling of routine requests such as scheduling or status checks, data quality checks across systems, and internal operations that follow a known procedure but have too many steps to automate with simple rules.",
-        "في فرز تذاكر الدعم التي تحتاج بيانات من عدة أنظمة، وإعداد التقارير التي تجمع من مصادر متعددة، والتعامل الأولي مع الطلبات الروتينية مثل الجدولة أو الاستعلام عن الحالة، وفحوصات جودة البيانات عبر الأنظمة، والعمليات الداخلية التي تتبع إجراءً معروفاً لكن خطواته أكثر من أن تُؤتمت بقواعد بسيطة.",
+        "Triaging support tickets that need data from three systems. Building a report that pulls from several sources. Handling routine requests such as scheduling or a status check. Running data quality checks across systems. In general: procedures everyone knows, with too many steps to write as simple rules.",
+        "في فرز تذاكر الدعم التي تحتاج بيانات من ثلاثة أنظمة. وفي إعداد تقرير يجمع من مصادر عدة. وفي الطلبات الروتينية مثل الجدولة أو الاستعلام عن حالة. وفي فحوصات جودة البيانات بين الأنظمة. وعموماً: إجراءات معروفة للجميع، لكن خطواتها أكثر من أن تُكتب كقواعد بسيطة.",
       ),
     },
     approach: {
       body: bi(
-        "Each agent gets a narrow task, a small set of tools we build and control, and permissions that match the task and nothing more. Actions with consequences require a human approval step until the evidence shows it can be relaxed. Every step is logged. We evaluate agents on real scenarios before rollout and keep measuring afterwards. Where a deterministic workflow does the job, we use that instead.",
-        "يحصل كل وكيل على مهمة ضيقة، ومجموعة صغيرة من الأدوات نبنيها ونتحكم فيها، وصلاحيات تطابق المهمة ولا تزيد عنها. والإجراءات ذات العواقب تتطلب خطوة موافقة بشرية إلى أن تُثبت الأدلة إمكانية تخفيفها. وتُسجَّل كل خطوة. نقيّم الوكلاء على سيناريوهات حقيقية قبل الإطلاق ونستمر في القياس بعده. وحيث يؤدي سير عمل حتمي المهمة، نستخدمه بدلاً من ذلك.",
+        "Each agent gets one narrow task, a small set of tools we build ourselves, and permissions that match the task and nothing beyond it. Anything with consequences waits for a person to approve it, until the record shows that step can be relaxed. Every action is logged. We test agents on real scenarios before rollout and keep measuring after. Where a fixed workflow would do the same job, we build that instead.",
+        "يحصل كل وكيل على مهمة ضيقة، وأدوات قليلة نبنيها بأنفسنا، وصلاحيات بقدر المهمة لا أكثر. وكل إجراء له عواقب ينتظر موافقة شخص، إلى أن يثبت السجل أن هذه الخطوة يمكن تخفيفها. ويُسجَّل كل إجراء. ونختبر الوكلاء على سيناريوهات حقيقية قبل الإطلاق ونواصل القياس بعده. وحيث يكفي سير عمل ثابت، نبنيه بدل الوكيل.",
       ),
     },
     engagement: {
       body: bi(
-        "We select a task with a clear procedure and a measurable outcome, define the tools and permissions with the system owners, and build the agent with a test harness of realistic cases. It runs first in a mode where it proposes and a person approves. As accuracy is demonstrated, approval is relaxed for low risk actions. Reporting on what the agent did, and where it needed help, is part of the delivery.",
-        "نختار مهمة بإجراء واضح ونتيجة قابلة للقياس، ونحدد الأدوات والصلاحيات مع أصحاب الأنظمة، ونبني الوكيل مع بيئة اختبار من حالات واقعية. يعمل أولاً في وضع يقترح فيه ويوافق شخص. ومع إثبات الدقة، تُخفف الموافقة للإجراءات منخفضة المخاطر. والتقارير عمّا فعله الوكيل، وأين احتاج إلى مساعدة، جزء من التسليم.",
+        "We pick a task with a known procedure and a result that can be measured, then agree the tools and the permissions with the people who own those systems. The agent is built with a test set of realistic cases. It runs first in a mode where it proposes and a person approves. As the accuracy holds, approval is dropped for the low risk actions. Reporting on what it did, and where it asked for help, comes with the delivery.",
+        "نختار مهمة بإجراء معروف ونتيجة قابلة للقياس، ثم نتفق على الأدوات والصلاحيات مع أصحاب الأنظمة. ويُبنى الوكيل مع مجموعة اختبار من حالات واقعية. ويعمل أولاً في وضع يقترح فيه ويوافق شخص. ومع ثبات الدقة، تُرفع الموافقة عن الإجراءات قليلة المخاطر. ويأتي مع التسليم تقرير عمّا فعله الوكيل وأين طلب المساعدة.",
       ),
     },
     deliverables: {
-      body: bi("An agent you can supervise, and the record to prove what it did.", "وكيل تستطيع الإشراف عليه، وسجل يثبت ما فعله."),
+      body: bi("An agent you can supervise, and a record of everything it did.", "وكيل تستطيع الإشراف عليه، وسجل بكل ما فعله."),
       items: [
-        bi("Agent with defined task, controlled tools and scoped permissions", "وكيل بمهمة محددة وأدوات محكومة وصلاحيات مقيّدة"),
-        bi("Approval workflow, audit log and evaluation harness", "سير عمل للموافقة وسجل تدقيق وبيئة تقييم"),
-        bi("Operational reporting on actions, accuracy and cost", "تقارير تشغيلية عن الإجراءات والدقة والتكلفة"),
+        bi("An agent with a defined task, tools we control, and scoped permissions", "وكيل بمهمة محددة، وأدوات نتحكم فيها، وصلاحيات مقيّدة"),
+        bi("The approval step, the audit log, and the evaluation harness", "خطوة الموافقة، وسجل التدقيق، وبيئة التقييم"),
+        bi("Operational reporting on actions taken, accuracy and cost", "تقارير تشغيلية عن الإجراءات المنفذة والدقة والتكلفة"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Multi step work that used to wait for a person gets done in minutes, within rules you set, with a full record. Your team supervises outcomes instead of performing every step.",
-        "العمل متعدد الخطوات الذي كان ينتظر شخصاً يُنجز في دقائق، ضمن قواعد تضعها أنت، ومع سجل كامل. يشرف فريقك على النتائج بدلاً من تنفيذ كل خطوة.",
+        "Work that used to sit in a queue waiting for a person now finishes in minutes, inside your rules, with a full record. Your team supervises the outcome instead of typing every step.",
+        "عمل كان ينتظر في الطابور شخصاً يُنجَز الآن في دقائق، ضمن قواعدك، وبسجل كامل. ويشرف فريقك على النتيجة بدل تنفيذ كل خطوة بيده.",
       ),
     },
     related: ["ai-automation-workflow-integration", "enterprise-ai-assistants", "ai-internal-tools"],
@@ -167,48 +167,48 @@ export const artificialIntelligenceServices: ServiceContent[] = [
     pictogram: "support",
     featured: true,
     title: bi("Enterprise AI Assistants", "المساعدون المؤسسيون بالذكاء الاصطناعي"),
-    summary: bi("Assistants for your staff that answer from your own documents, policies and systems, with access control.", "مساعدون لموظفيك يجيبون من وثائقك وسياساتك وأنظمتك، مع تحكم في الصلاحيات."),
-    hero: bi("An assistant that knows your policies, your procedures and your data, and only shows each person what they are allowed to see.", "مساعد يعرف سياساتك وإجراءاتك وبياناتك، ولا يُظهر لكل شخص إلا ما يُسمح له برؤيته."),
+    summary: bi("An assistant for your staff that answers from your own documents, policies and systems, and respects who may see what.", "مساعد لموظفيك يجيب من وثائقك وسياساتك وأنظمتك، ويحترم من يحق له رؤية ماذا."),
+    hero: bi("An assistant that knows your policies, your procedures and your data, and shows each person only what they were already allowed to open.", "مساعد يعرف سياساتك وإجراءاتك وبياناتك، ولا يُظهر لكل شخص إلا ما كان يستطيع فتحه أصلاً."),
     seo: {
       title: bi("Enterprise AI Assistants", "المساعدون المؤسسيون بالذكاء الاصطناعي"),
-      description: bi("Internal AI assistants by CyBarq grounded in your documents and systems, with permission aware retrieval, source citations, Arabic and English support, and no training on your data.", "مساعدون داخليون بالذكاء الاصطناعي من سايبرق مبنيون على وثائقك وأنظمتك، مع استرجاع يراعي الصلاحيات، واستشهاد بالمصادر، ودعم للعربية والإنجليزية، ومن دون تدريب على بياناتك."),
+      description: bi("Internal AI assistants grounded in your documents and systems: permission aware retrieval, source citations, Arabic and English, no training on your data.", "مساعدون داخليون مبنيون على وثائقك وأنظمتك: استرجاع يراعي الصلاحيات، واستشهاد بالمصادر، ودعم العربية والإنجليزية، ولا تدريب على بياناتك."),
     },
     problem: {
       body: bi(
-        "Staff spend a surprising share of their day looking for information that exists: a policy, a procedure, the status of a request, the right template. Public AI tools cannot see that information, and pasting it into them is a data leak. An internal assistant solves this only if it respects who may see what, and only if its answers can be checked.",
-        "يقضي الموظفون جزءاً مفاجئاً من يومهم في البحث عن معلومات موجودة أصلاً: سياسة، أو إجراء، أو حالة طلب، أو النموذج الصحيح. أدوات الذكاء الاصطناعي العامة لا ترى هذه المعلومات، ولصقها فيها تسريب للبيانات. ولا يحل المساعد الداخلي هذه المشكلة إلا إذا احترم من يحق له رؤية ماذا، وإلا إذا كانت إجاباته قابلة للتحقق.",
+        "Staff lose a surprising share of the day looking for things that already exist: a policy, a procedure, the status of a request, the right template. Public AI tools cannot see any of it, and pasting it in is a data leak. An internal assistant only helps if it respects who may see what, and if every answer can be checked against its source.",
+        "يضيع من يوم الموظف وقت كثير في البحث عن أشياء موجودة أصلاً: سياسة، أو إجراء، أو حالة طلب، أو النموذج الصحيح. والأدوات العامة لا ترى شيئاً من ذلك، ولصق المحتوى فيها تسريب. والمساعد الداخلي لا ينفع إلا إذا احترم من يحق له رؤية ماذا، وإلا إذا أمكن التحقق من كل إجابة بالرجوع إلى مصدرها.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "HR and policy questions, IT help desk, onboarding of new employees, sales teams looking for the latest proposal material, operations staff checking procedures, and management asking for a quick summary of a long document. Every organisation with more than a few hundred documents has this problem.",
-        "في أسئلة الموارد البشرية والسياسات، ومكتب مساعدة تقنية المعلومات، وتهيئة الموظفين الجدد، وفرق المبيعات التي تبحث عن أحدث مواد العروض، وموظفي العمليات الذين يتحققون من الإجراءات، والإدارة التي تطلب ملخصاً سريعاً لمستند طويل. كل مؤسسة لديها أكثر من بضع مئات من المستندات تعاني هذه المشكلة.",
+        "Questions about HR and policy. The IT help desk. New employees in their first month. Sales looking for the current version of a proposal. Operations checking a procedure. A manager who needs the gist of a long document before a meeting. Any organisation past a few hundred documents has this.",
+        "في أسئلة الموارد البشرية والسياسات. وفي مكتب مساعدة تقنية المعلومات. وفي الموظف الجديد في شهره الأول. وفي المبيعات التي تبحث عن النسخة الحالية من عرض. وفي العمليات التي تتحقق من إجراء. وفي مدير يريد خلاصة مستند طويل قبل اجتماع. وكل مؤسسة تجاوزت بضع مئات من المستندات تعرف هذا.",
       ),
     },
     approach: {
       body: bi(
-        "The assistant answers from your content through retrieval, and it cites its sources so an answer can be verified. Retrieval respects your existing permissions: a person gets answers only from documents they could open themselves. Your data is not used to train any model. Arabic and English are handled as first class, including documents that mix both. We measure answer quality with your own reviewers before and after launch.",
-        "يجيب المساعد من محتواك عبر الاسترجاع، ويستشهد بمصادره حتى يمكن التحقق من كل إجابة. ويحترم الاسترجاع صلاحياتك الحالية: لا يحصل الشخص على إجابات إلا من مستندات يستطيع فتحها بنفسه. ولا تُستخدم بياناتك لتدريب أي نموذج. وتُعامل العربية والإنجليزية بالمستوى نفسه، بما في ذلك المستندات التي تجمع بينهما. ونقيس جودة الإجابات مع مراجعين من فريقك قبل الإطلاق وبعده.",
+        "The assistant answers from your content through retrieval, and it cites the source so the answer can be checked. Retrieval runs behind your existing permissions: a person gets answers only from documents they could open themselves. Your data is not used to train any model. Arabic and English are treated equally, including documents that mix the two. Answer quality is measured by your own reviewers, before launch and after.",
+        "يجيب المساعد من محتواك عبر الاسترجاع، ويذكر المصدر ليمكن التحقق من الإجابة. ويجري الاسترجاع خلف صلاحياتك القائمة: لا يصل الشخص إلا إلى إجابات من مستندات يستطيع فتحها بنفسه. ولا تُستخدم بياناتك لتدريب أي نموذج. وتُعامل العربية والإنجليزية بالقدر نفسه، بما فيها المستندات التي تخلط بينهما. وتُقاس جودة الإجابات بمراجعين من عندك، قبل الإطلاق وبعده.",
       ),
     },
     engagement: {
       body: bi(
-        "We connect one or two content sources first, such as a document library and a policy repository, and build the assistant for a pilot group. Their questions and ratings shape the next iteration. Sources are added one at a time, each with its permission model verified. Deployment can be inside your existing tools, such as a chat platform or intranet, or as a standalone interface.",
-        "نربط مصدراً أو مصدرين للمحتوى أولاً، مثل مكتبة مستندات ومستودع سياسات، ونبني المساعد لمجموعة تجريبية. تشكّل أسئلتهم وتقييماتهم النسخة التالية. وتُضاف المصادر واحداً تلو الآخر، مع التحقق من نموذج الصلاحيات لكل منها. ويمكن نشر المساعد داخل أدواتك الحالية، مثل منصة محادثة أو شبكة داخلية، أو كواجهة مستقلة.",
+        "We connect one or two sources first, a document library and a policy repository for example, and put the assistant in front of a pilot group. Their questions and ratings shape the next version. Sources are added one at a time, and each one has its permission model checked before it goes live. It can live inside a tool people already use, a chat platform or the intranet, or stand on its own.",
+        "نربط مصدراً أو اثنين في البداية، مكتبة مستندات ومستودع سياسات مثلاً، ونضع المساعد بين يدي مجموعة تجريبية. أسئلتهم وتقييماتهم تصنع النسخة التالية. وتُضاف المصادر واحداً بعد آخر، ويُفحص نموذج الصلاحيات لكل مصدر قبل تشغيله. ويمكن أن يعيش المساعد داخل أداة يستخدمها الناس أصلاً، منصة محادثة أو الشبكة الداخلية، أو أن يعمل وحده.",
       ),
     },
     deliverables: {
       body: bi("An assistant that knows your organisation and keeps its secrets.", "مساعد يعرف مؤسستك ويحفظ أسرارها."),
       items: [
-        bi("Assistant with permission aware retrieval and source citations", "مساعد باسترجاع يراعي الصلاحيات واستشهاد بالمصادر"),
-        bi("Connectors to your document and business systems, added incrementally", "موصلات إلى أنظمة المستندات والأعمال لديك، تُضاف تدريجياً"),
-        bi("Quality measurements, usage reporting and a data handling statement", "قياسات للجودة وتقارير استخدام وبيان لكيفية التعامل مع البيانات"),
+        bi("The assistant, with permission aware retrieval and a citation on every answer", "المساعد، باسترجاع يراعي الصلاحيات واستشهاد بالمصدر في كل إجابة"),
+        bi("Connectors to your document and business systems, added one source at a time", "موصلات إلى أنظمة المستندات والأعمال لديك، تُضاف مصدراً بعد مصدر"),
+        bi("Quality measurements, usage reporting, and a written statement of how data is handled", "قياسات الجودة، وتقارير الاستخدام، وبيان مكتوب لكيفية التعامل مع البيانات"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Faster answers for everyone, fewer interruptions for the people who used to be the answer, and a safe alternative to public tools for company information.",
-        "إجابات أسرع للجميع، ومقاطعات أقل للأشخاص الذين كانوا هم الإجابة، وبديل آمن للأدوات العامة فيما يخص معلومات الشركة.",
+        "Faster answers for everyone, and fewer interruptions for the few people who used to be the answer. And a safe place for company information, so nobody has to reach for a public tool.",
+        "إجابات أسرع للجميع، ومقاطعات أقل لمن كانوا هم الإجابة. ومكان آمن لمعلومات الشركة، فلا يضطر أحد إلى أداة عامة.",
       ),
     },
     related: ["rag-knowledge-systems", "ai-internal-tools", "identity-access-architecture"],
@@ -218,48 +218,48 @@ export const artificialIntelligenceServices: ServiceContent[] = [
     practice: "artificial-intelligence",
     pictogram: "database",
     title: bi("RAG & Knowledge Systems", "أنظمة الاسترجاع المعزز والمعرفة"),
-    summary: bi("Retrieval pipelines that let models answer accurately from your documents and data.", "خطوط استرجاع تتيح للنماذج الإجابة بدقة من مستنداتك وبياناتك."),
-    hero: bi("The model provides the language. Your documents provide the facts. Retrieval is the engineering that connects the two.", "النموذج يوفر اللغة. ومستنداتك توفر الحقائق. والاسترجاع هو الهندسة التي تربط بينهما."),
+    summary: bi("Retrieval pipelines that let a model answer from your documents and data, with a source behind every answer.", "خطوط استرجاع تتيح للنموذج أن يجيب من مستنداتك وبياناتك، مع مصدر خلف كل إجابة."),
+    hero: bi("The model supplies the language. Your documents supply the facts. Retrieval is the engineering between them.", "النموذج يعطي اللغة، ومستنداتك تعطي الحقائق، والاسترجاع هو الهندسة بينهما."),
     seo: {
       title: bi("RAG and Knowledge Systems", "أنظمة الاسترجاع المعزز والمعرفة"),
-      description: bi("Retrieval augmented generation and knowledge systems by CyBarq: document ingestion, chunking, embeddings, hybrid search, permission filtering, citations and evaluation of answer accuracy.", "أنظمة توليد معزز بالاسترجاع وأنظمة معرفة من سايبرق: استيعاب المستندات، والتقطيع، والتضمينات، والبحث الهجين، وتصفية الصلاحيات، والاستشهاد بالمصادر، وتقييم دقة الإجابات."),
+      description: bi("Retrieval augmented generation: document ingestion, chunking, embeddings, hybrid search, permission filtering, citations and measured answer accuracy.", "توليد معزز بالاسترجاع: استيعاب المستندات، والتقطيع، والتضمينات، والبحث الهجين، وتصفية الصلاحيات، والاستشهاد بالمصادر، وقياس دقة الإجابات."),
     },
     problem: {
       body: bi(
-        "A language model on its own does not know your contracts, your procedures or last month's reports, and when asked it will produce something plausible anyway. Retrieval augmented generation fixes this by giving the model the right passages at the right time, but the quality of the result depends entirely on how documents are processed, indexed, filtered and ranked. Most disappointing AI assistants are retrieval problems, not model problems.",
-        "النموذج اللغوي وحده لا يعرف عقودك ولا إجراءاتك ولا تقارير الشهر الماضي، وحين يُسأل سينتج شيئاً يبدو معقولاً على أي حال. التوليد المعزز بالاسترجاع يعالج ذلك بإعطاء النموذج المقاطع الصحيحة في الوقت الصحيح، لكن جودة النتيجة تعتمد كلياً على كيفية معالجة المستندات وفهرستها وتصفيتها وترتيبها. ومعظم المساعدين المخيّبين للآمال مشكلتهم في الاسترجاع لا في النموذج.",
+        "A model on its own does not know your contracts, your procedures or last month's report, and if you ask anyway it will write something that reads well. Retrieval fixes that by handing the model the right passages at the right moment. Whether it works depends entirely on how documents are read, split, indexed, filtered and ranked. Most disappointing assistants have a retrieval problem, not a model problem.",
+        "النموذج وحده لا يعرف عقودك ولا إجراءاتك ولا تقرير الشهر الماضي، وإن سألته فسيكتب نصاً يبدو سليماً. والاسترجاع يعالج ذلك بأن يضع بين يدي النموذج المقاطع الصحيحة في اللحظة الصحيحة. ونجاحه يعتمد كله على كيفية قراءة المستندات وتقسيمها وفهرستها وتصفيتها وترتيبها. ومعظم المساعدين المخيّبين مشكلتهم في الاسترجاع لا في النموذج.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Policy and procedure libraries, contract repositories, technical documentation, regulatory texts, case histories, product manuals, and any archive that mixes PDFs, scans, spreadsheets and email. Arabic documents, scanned documents and tables are where generic solutions fail first.",
-        "في مكتبات السياسات والإجراءات، ومستودعات العقود، والوثائق التقنية، والنصوص التنظيمية، وسجلات الحالات، وأدلة المنتجات، وأي أرشيف يجمع ملفات PDF ومستندات ممسوحة وجداول بيانات وبريداً إلكترونياً. والمستندات العربية والممسوحة والجداول هي أول ما تفشل فيه الحلول العامة.",
+        "Policy and procedure libraries. Contract repositories. Technical documentation, regulatory texts, case histories, product manuals. Any archive that mixes PDFs, scans, spreadsheets and email. Arabic text, scanned pages and tables are where off the shelf tools fail first.",
+        "في مكتبات السياسات والإجراءات. وفي مستودعات العقود. وفي الوثائق التقنية والنصوص التنظيمية وسجلات الحالات وأدلة المنتجات. وفي أي أرشيف يخلط ملفات PDF والمستندات الممسوحة وجداول البيانات والبريد. والنص العربي والصفحات الممسوحة والجداول هي أول ما تتعثر فيه الأدوات الجاهزة.",
       ),
     },
     approach: {
       body: bi(
-        "We build the pipeline deliberately: extraction that handles Arabic, scans and tables; chunking that follows document structure; embeddings chosen for your languages; hybrid search that combines semantic and keyword retrieval; and filtering that enforces permissions before anything reaches the model. Answers carry citations. We evaluate retrieval quality separately from answer quality so problems can be located and fixed.",
-        "نبني خط المعالجة بعناية: استخراج يتعامل مع العربية والمستندات الممسوحة والجداول؛ وتقطيع يتبع بنية المستند؛ وتضمينات مختارة للغاتك؛ وبحث هجين يجمع بين الاسترجاع الدلالي والكلمات المفتاحية؛ وتصفية تفرض الصلاحيات قبل أن يصل أي شيء إلى النموذج. وتحمل الإجابات استشهادات بالمصادر. ونقيّم جودة الاسترجاع بمعزل عن جودة الإجابة حتى يمكن تحديد المشكلات وإصلاحها.",
+        "We build the pipeline on purpose, piece by piece: extraction that handles Arabic, scans and tables; splitting that follows the structure of the document; embeddings chosen for your languages; hybrid search that uses meaning and keywords together; and a filter that applies permissions before anything reaches the model. Every answer carries its citation. We score retrieval separately from the answer, so a problem can be located instead of guessed at.",
+        "نبني خط المعالجة بقصد، قطعة قطعة: استخراج يتعامل مع العربية والمستندات الممسوحة والجداول؛ وتقسيم يتبع بنية المستند؛ وتضمينات مختارة للغاتك؛ وبحث هجين يستخدم المعنى والكلمات المفتاحية معاً؛ وتصفية تطبّق الصلاحيات قبل أن يصل شيء إلى النموذج. وتحمل كل إجابة مصدرها. ونقيس الاسترجاع بمعزل عن الإجابة، ليُحدَّد موضع الخلل بدل تخمينه.",
       ),
     },
     engagement: {
       body: bi(
-        "We start with a representative sample of your documents and a set of real questions with known good answers. The pipeline is built and tuned against that set until retrieval accuracy meets the agreed target. Then we connect the full sources, set up incremental updates so new documents appear within minutes, and hand over the monitoring that shows when quality drifts.",
-        "نبدأ بعيّنة ممثلة من مستنداتك ومجموعة أسئلة حقيقية بإجابات صحيحة معروفة. يُبنى خط المعالجة ويُضبط مقابل تلك المجموعة حتى تبلغ دقة الاسترجاع الهدف المتفق عليه. ثم نربط المصادر كاملة، ونُعدّ التحديث التدريجي بحيث تظهر المستندات الجديدة خلال دقائق، ونسلّمك المراقبة التي تُظهر متى تتراجع الجودة.",
+        "We start with a representative sample of your documents and a list of real questions whose right answers are already known. The pipeline is built and tuned against that list until retrieval reaches the target you agreed. Then we connect the full sources, set up incremental updates so a new document appears within minutes, and hand over the monitoring that shows when quality starts to slip.",
+        "نبدأ بعيّنة تمثل مستنداتك، وقائمة أسئلة حقيقية إجاباتها الصحيحة معروفة سلفاً. ويُبنى خط المعالجة ويُضبط على تلك القائمة حتى يبلغ الاسترجاع الهدف المتفق عليه. ثم نربط المصادر كاملة، ونُعدّ تحديثاً تدريجياً يُظهر المستند الجديد خلال دقائق، ونسلّم المراقبة التي تكشف متى تبدأ الجودة بالتراجع.",
       ),
     },
     deliverables: {
       body: bi("A retrieval system that can be measured, tuned and trusted.", "نظام استرجاع يمكن قياسه وضبطه والوثوق به."),
       items: [
-        bi("Ingestion pipeline for your document types and languages", "خط استيعاب لأنواع مستنداتك ولغاتك"),
-        bi("Search index with hybrid retrieval and permission filtering", "فهرس بحث باسترجاع هجين وتصفية للصلاحيات"),
-        bi("Evaluation set, accuracy reports and drift monitoring", "مجموعة تقييم وتقارير دقة ومراقبة للتراجع"),
+        bi("An ingestion pipeline for your document types and your languages", "خط استيعاب لأنواع مستنداتك وللغاتك"),
+        bi("A search index with hybrid retrieval and permission filtering", "فهرس بحث باسترجاع هجين وتصفية للصلاحيات"),
+        bi("The evaluation set, accuracy reports, and monitoring for drift", "مجموعة التقييم، وتقارير الدقة، ومراقبة لتراجع الجودة"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Answers you can trace to a source, knowledge that stays inside your boundaries, and a foundation every future assistant or agent in the organisation can build on.",
-        "إجابات يمكن تتبعها إلى مصدرها، ومعرفة تبقى داخل حدودك، وأساس يمكن لكل مساعد أو وكيل مستقبلي في المؤسسة أن يبني عليه.",
+        "Answers you can trace back to a document, knowledge that stays inside your own boundary, and a base that every assistant or agent you build later can stand on.",
+        "إجابات يمكن تتبعها إلى مستند، ومعرفة تبقى داخل حدودك، وأساس يقف عليه كل مساعد أو وكيل تبنيه لاحقاً.",
       ),
     },
     related: ["enterprise-ai-assistants", "ai-solutions", "apis-integrations"],
@@ -269,48 +269,48 @@ export const artificialIntelligenceServices: ServiceContent[] = [
     practice: "artificial-intelligence",
     pictogram: "automation",
     title: bi("AI Automation & Workflow Integration", "الأتمتة بالذكاء الاصطناعي وتكامل سير العمل"),
-    summary: bi("Language models placed inside existing workflows to remove manual steps, with humans where they matter.", "نماذج لغوية موضوعة داخل سير العمل القائم لإزالة الخطوات اليدوية، مع بقاء الإنسان حيث يهم."),
-    hero: bi("The best automation is invisible: a step that used to need a person now just happens, and someone checks the ones that matter.", "أفضل أتمتة هي التي لا تُرى: خطوة كانت تحتاج شخصاً تحدث الآن من تلقاء نفسها، ويراجع أحدهم ما يستحق المراجعة."),
+    summary: bi("A model placed inside an existing workflow to take out the manual steps, with a person kept where judgement matters.", "نموذج يوضع داخل سير عمل قائم ليزيل الخطوات اليدوية، مع بقاء إنسان حيث يلزم التقدير."),
+    hero: bi("Good automation is quiet: a step that used to need a person now happens on its own, and someone still checks the cases that matter.", "الأتمتة الجيدة هادئة: خطوة كانت تحتاج شخصاً تجري الآن وحدها، ويبقى من يراجع الحالات التي تستحق."),
     seo: {
       title: bi("AI Automation and Workflow Integration", "الأتمتة بالذكاء الاصطناعي وتكامل سير العمل"),
-      description: bi("AI automation by CyBarq inside your existing workflows: classification, extraction, drafting and routing steps with confidence thresholds, human review and full audit trails.", "أتمتة بالذكاء الاصطناعي من سايبرق داخل سير عملك الحالي: خطوات تصنيف واستخراج وصياغة وتوجيه بعتبات ثقة ومراجعة بشرية وسجلات تدقيق كاملة."),
+      description: bi("AI steps inside your existing workflows: classification, extraction, drafting and routing, with confidence thresholds, human review and full audit trails.", "خطوات ذكاء اصطناعي داخل سير عملك القائم: تصنيف واستخراج وصياغة وتوجيه، بعتبات ثقة ومراجعة بشرية وسجلات تدقيق كاملة."),
     },
     problem: {
       body: bi(
-        "Many workflows contain a few steps that could never be automated with rules because they involve reading and judgement: classifying an incoming request, extracting fields from a scanned form, drafting a standard reply, deciding where a document belongs. Those steps are where queues form and where people spend hours on work that is important but not interesting.",
-        "تحتوي كثير من أسيار العمل على خطوات لم يكن ممكناً أتمتتها بالقواعد لأنها تتطلب قراءة وتقديراً: تصنيف طلب وارد، أو استخراج حقول من نموذج ممسوح، أو صياغة رد قياسي، أو تحديد مكان مستند. عند هذه الخطوات تتشكل طوابير الانتظار، وفيها يقضي الناس ساعات على عمل مهم لكنه غير ممتع.",
+        "Most workflows have two or three steps that rules could never handle, because they need reading and judgement: classifying a request, pulling fields off a scanned form, drafting a standard reply, deciding where a document belongs. Those are the steps where the queue forms. They are also where people spend hours on work that matters and holds nobody's interest.",
+        "في معظم مسارات العمل خطوتان أو ثلاث لا تصلح لها القواعد، لأنها تحتاج قراءة وتقديراً: تصنيف طلب، أو سحب حقول من نموذج ممسوح، أو صياغة رد قياسي، أو تحديد مكان مستند. عند هذه الخطوات يتشكل الطابور. وفيها يقضي الناس ساعات على عمل مهم لا يثير اهتمام أحد.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Invoice and form processing, email and ticket routing, document classification and filing, first draft generation for standard correspondence, data entry from unstructured sources, and quality checks that used to be sampled because nobody could review everything.",
-        "في معالجة الفواتير والنماذج، وتوجيه البريد والتذاكر، وتصنيف المستندات وأرشفتها، وتوليد المسودات الأولى للمراسلات القياسية، وإدخال البيانات من مصادر غير منظمة، وفحوصات الجودة التي كانت تُجرى على عيّنات لأن أحداً لم يستطع مراجعة كل شيء.",
+        "Invoice and form processing. Routing email and tickets. Classifying and filing documents. First drafts of standard correspondence. Data entry out of unstructured sources. And quality checks that used to be done on a sample, because nobody could review everything.",
+        "في معالجة الفواتير والنماذج. وتوجيه البريد والتذاكر. وتصنيف المستندات وأرشفتها. والمسودات الأولى للمراسلات القياسية. وإدخال البيانات من مصادر غير منظمة. وفحوصات الجودة التي كانت تجري على عيّنة، لأن أحداً لا يستطيع مراجعة كل شيء.",
       ),
     },
     approach: {
       body: bi(
-        "We insert the model as one step in the workflow, not as a replacement for it. Each automated step returns a result and a confidence; results above a threshold proceed, the rest go to a person. Everything is logged so decisions can be reviewed and thresholds adjusted from evidence. Integration uses your workflow system, queue or API, and the deterministic parts stay deterministic.",
-        "ندرج النموذج كخطوة واحدة في سير العمل، لا كبديل عنه. تُعيد كل خطوة مؤتمتة نتيجة ودرجة ثقة؛ فتمضي النتائج التي تتجاوز العتبة، ويذهب الباقي إلى شخص. ويُسجَّل كل شيء حتى يمكن مراجعة القرارات وتعديل العتبات بناءً على الأدلة. ويجري التكامل عبر نظام سير العمل أو قائمة الانتظار أو واجهة البرمجة لديك، وتبقى الأجزاء الحتمية حتمية.",
+        "We add the model as one step in the workflow, not as a replacement for it. Each automated step returns a result and a confidence score. Results above the threshold carry on; the rest go to a person. Everything is logged, so decisions can be reviewed and thresholds moved on evidence rather than opinion. We integrate through your workflow system, queue or API, and the deterministic parts stay deterministic.",
+        "نضيف النموذج كخطوة واحدة في سير العمل، لا بديلاً عنه. وتُعيد كل خطوة مؤتمتة نتيجة ودرجة ثقة. فما تجاوز العتبة يمضي، وما دونها يذهب إلى شخص. ويُسجَّل كل شيء، فتُراجع القرارات وتُعدَّل العتبات بالأدلة لا بالانطباع. ويجري التكامل عبر نظام سير العمل أو قائمة الانتظار أو واجهة البرمجة لديك، وتبقى الأجزاء الحتمية حتمية.",
       ),
     },
     engagement: {
       body: bi(
-        "We map the workflow, pick the steps where judgement is the bottleneck and measure their current volume and time. The automation is built and run in shadow mode first, producing results that people compare with their own. Once accuracy is established, it takes over the confident cases. We report monthly on volume handled, accuracy and time saved.",
-        "نرسم سير العمل، ونختار الخطوات التي يكون فيها التقدير البشري عنق الزجاجة، ونقيس حجمها ووقتها الحالي. تُبنى الأتمتة وتعمل أولاً في وضع الظل، فتنتج نتائج يقارنها الناس بنتائجهم. وبعد إثبات الدقة، تتولى الحالات ذات الثقة العالية. ونقدم تقريراً شهرياً عن الحجم المعالج والدقة والوقت الموفَّر.",
+        "We map the workflow, find the steps where judgement is the bottleneck, and measure how much volume and time they take today. The automation then runs in shadow mode, producing results your team compares with their own. Once the accuracy is established it takes the confident cases. Every month you get the volume handled, the accuracy and the time saved.",
+        "نرسم سير العمل، ونحدد الخطوات التي يكون فيها التقدير البشري عنق الزجاجة، ونقيس حجمها ووقتها اليوم. ثم تعمل الأتمتة في وضع الظل، فتنتج نتائج يقارنها فريقك بنتائجه. وحين تثبت الدقة، تتولى الحالات عالية الثقة. وتصلك كل شهر أرقام الحجم المعالج والدقة والوقت الموفَّر.",
       ),
     },
     deliverables: {
       body: bi("Fewer manual steps, and a record of every automated one.", "خطوات يدوية أقل، وسجل لكل خطوة مؤتمتة."),
       items: [
-        bi("Automated workflow steps with confidence thresholds and human review paths", "خطوات سير عمل مؤتمتة بعتبات ثقة ومسارات مراجعة بشرية"),
-        bi("Integration with your workflow, queue or business systems", "تكامل مع سير العمل أو قائمة الانتظار أو أنظمة الأعمال لديك"),
-        bi("Audit log, accuracy monitoring and monthly reporting", "سجل تدقيق ومراقبة للدقة وتقارير شهرية"),
+        bi("Automated steps with confidence thresholds and a human review path", "خطوات مؤتمتة بعتبات ثقة ومسار مراجعة بشرية"),
+        bi("Integration with your workflow system, queue or business applications", "تكامل مع نظام سير العمل أو قائمة الانتظار أو تطبيقات الأعمال لديك"),
+        bi("An audit log, accuracy monitoring and a monthly report", "سجل تدقيق، ومراقبة للدقة، وتقرير شهري"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Queues that clear the same day, people freed for the cases that need them, and consistency in decisions that used to depend on who was on shift.",
-        "طوابير تُصفّى في اليوم نفسه، وأشخاص يتفرغون للحالات التي تحتاجهم، واتساق في القرارات التي كانت تعتمد على من كان في المناوبة.",
+        "Queues that clear the same day. People free for the cases that need them. And decisions that come out the same way whoever is on shift.",
+        "طوابير تُصفّى في يومها. وأشخاص يتفرغون للحالات التي تحتاجهم. وقرارات تخرج بالشكل نفسه أياً كان من في المناوبة.",
       ),
     },
     related: ["ai-agents", "workflow-systems-digital-portals", "ai-api-model-integration"],
@@ -320,48 +320,48 @@ export const artificialIntelligenceServices: ServiceContent[] = [
     practice: "artificial-intelligence",
     pictogram: "integration",
     title: bi("AI API & Model Integration", "دمج واجهات ونماذج الذكاء الاصطناعي"),
-    summary: bi("Connecting commercial and open models to your applications through one controlled, observable layer.", "ربط النماذج التجارية والمفتوحة بتطبيقاتك عبر طبقة واحدة محكومة وقابلة للمراقبة."),
-    hero: bi("Model providers change prices, limits and behaviour. Your applications should not have to notice.", "مزوّدو النماذج يغيّرون الأسعار والحدود والسلوك. ولا ينبغي أن تلاحظ تطبيقاتك ذلك."),
+    summary: bi("One controlled layer between your applications and every model you use, commercial or self hosted.", "طبقة واحدة محكومة بين تطبيقاتك وكل نموذج تستخدمه، تجارياً كان أو مستضافاً عندك."),
+    hero: bi("Model providers change their prices, their limits and their behaviour. Your applications should not have to notice.", "مزوّدو النماذج يغيّرون الأسعار والحدود والسلوك. ولا ينبغي أن تنتبه تطبيقاتك لذلك."),
     seo: {
       title: bi("AI API and Model Integration", "دمج واجهات ونماذج الذكاء الاصطناعي"),
-      description: bi("Integration of AI model APIs and self hosted models into your applications by CyBarq: a gateway layer with authentication, routing, caching, rate limits, cost tracking, logging and provider independence.", "دمج واجهات نماذج الذكاء الاصطناعي والنماذج المستضافة ذاتياً في تطبيقاتك من سايبرق: طبقة بوابة بمصادقة وتوجيه وتخزين مؤقت وحدود معدل وتتبع للتكلفة وسجلات واستقلال عن المزوّد."),
+      description: bi("A gateway between your applications and AI models: credentials, routing, caching, rate limits, cost tracking, logging and provider independence.", "بوابة بين تطبيقاتك ونماذج الذكاء الاصطناعي: مفاتيح وتوجيه وتخزين مؤقت وحدود معدل وتتبع للتكلفة وسجلات واستقلال عن المزوّد."),
     },
     problem: {
       body: bi(
-        "When every application calls model providers directly, the organisation ends up with keys scattered across code, no view of total spend, no consistent logging, and a hard dependency on one vendor's pricing and availability. Data handling becomes impossible to describe, because nobody knows which application sends what where.",
-        "حين يستدعي كل تطبيق مزوّدي النماذج مباشرة، تنتهي المؤسسة بمفاتيح موزعة في الشيفرة، ومن دون رؤية للإنفاق الإجمالي، ولا سجلات متسقة، ومع اعتماد صعب على تسعير مزوّد واحد وتوفره. ويصبح وصف التعامل مع البيانات مستحيلاً، لأن أحداً لا يعرف أي تطبيق يرسل ماذا وإلى أين.",
+        "When every application calls a provider directly, keys end up scattered through the code, nobody can see the total spend, logging is inconsistent, and the organisation is tied to one vendor's prices and uptime. Describing how data is handled becomes impossible, because no one can say which application sends what, and to whom.",
+        "حين يستدعي كل تطبيق المزوّد مباشرة، تتناثر المفاتيح في الشيفرة، ولا أحد يرى الإنفاق الكلي، والسجلات غير متسقة، وترتبط المؤسسة بأسعار مزوّد واحد وبتوفره. ويصبح وصف التعامل مع البيانات مستحيلاً، لأن لا أحد يعرف أي تطبيق يرسل ماذا وإلى من.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Organisations with several AI features built by different teams, products that need to offer a choice of models, regulated environments that must keep some data on self hosted models, and finance teams asking why the AI bill doubled.",
-        "في المؤسسات التي لديها عدة ميزات ذكاء اصطناعي بنتها فرق مختلفة، والمنتجات التي تحتاج إلى تقديم خيار بين النماذج، والبيئات الخاضعة للتنظيم التي يجب أن تُبقي بعض البيانات على نماذج مستضافة ذاتياً، وفرق المالية التي تسأل لماذا تضاعفت فاتورة الذكاء الاصطناعي.",
+        "Organisations with several AI features built by different teams. Products that need to offer a choice of model. Regulated environments where some data must stay on a self hosted model. And the finance team asking why the AI bill doubled this quarter.",
+        "في المؤسسات التي لديها عدة ميزات ذكاء اصطناعي بنتها فرق مختلفة. وفي المنتجات التي تعرض خياراً بين النماذج. وفي البيئات الخاضعة للتنظيم حيث يجب أن تبقى بعض البيانات على نموذج مستضاف عندك. وعند فريق المالية الذي يسأل لماذا تضاعفت فاتورة الذكاء الاصطناعي هذا الربع.",
       ),
     },
     approach: {
       body: bi(
-        "We put one gateway between your applications and the models. It holds the credentials, enforces which data classes may go to which provider, routes requests to the appropriate model, caches where safe, applies rate limits and budgets, and logs every call with cost and latency. Self hosted open models sit behind the same interface for data that must not leave your environment. Switching a provider becomes a configuration change.",
-        "نضع بوابة واحدة بين تطبيقاتك والنماذج. تحتفظ بالمفاتيح، وتفرض أي فئات من البيانات يجوز إرسالها إلى أي مزوّد، وتوجّه الطلبات إلى النموذج المناسب، وتخزّن مؤقتاً حيث يكون ذلك آمناً، وتطبّق حدود المعدل والميزانيات، وتسجّل كل استدعاء مع التكلفة وزمن الاستجابة. وتقف النماذج المفتوحة المستضافة ذاتياً خلف الواجهة نفسها للبيانات التي يجب ألا تغادر بيئتك. ويصبح تبديل المزوّد تغييراً في الإعدادات.",
+        "We put one gateway between your applications and the models. It holds the credentials, enforces which class of data may go to which provider, routes each request to the right model, caches where caching is safe, applies rate limits and budgets, and logs every call with its cost and latency. Self hosted open models sit behind the same interface, for data that must not leave your environment. Changing provider becomes a configuration change.",
+        "نضع بوابة واحدة بين تطبيقاتك والنماذج. تحفظ المفاتيح، وتفرض أي فئة بيانات تذهب إلى أي مزوّد، وتوجّه كل طلب إلى النموذج المناسب، وتخزّن مؤقتاً حيث يكون ذلك آمناً، وتطبّق حدود المعدل والميزانيات، وتسجّل كل استدعاء بتكلفته وزمنه. وتقف النماذج المفتوحة المستضافة عندك خلف الواجهة نفسها، للبيانات التي يجب ألا تغادر بيئتك. ويصير تبديل المزوّد تعديلاً في الإعدادات.",
       ),
     },
     engagement: {
       body: bi(
-        "We inventory the existing AI integrations and data flows, agree on the data classification and routing rules, and deploy the gateway in your environment. Applications are migrated one at a time. Where self hosting is required we size and deploy the model infrastructure with our infrastructure practice. Dashboards for spend and usage are part of the handover.",
-        "نجرد تكاملات الذكاء الاصطناعي وتدفقات البيانات الحالية، ونتفق على تصنيف البيانات وقواعد التوجيه، وننشر البوابة في بيئتك. وتُنقل التطبيقات واحداً تلو الآخر. وحيث تلزم الاستضافة الذاتية نحدد حجم بنية النماذج وننشرها مع فريق البنية التحتية لدينا. ولوحات الإنفاق والاستخدام جزء من التسليم.",
+        "We list the AI integrations and data flows you already have, agree the data classification and the routing rules that follow from it, and deploy the gateway inside your environment. Applications move over one at a time. Where self hosting is required, our infrastructure team sizes and deploys the model servers. Spend and usage dashboards are part of the handover.",
+        "نجرد تكاملات الذكاء الاصطناعي وتدفقات البيانات الموجودة عندك، ونتفق على تصنيف البيانات وقواعد التوجيه المترتبة عليه، وننشر البوابة داخل بيئتك. وتنتقل التطبيقات واحداً بعد آخر. وحيث تلزم الاستضافة الذاتية، يحدد فريق البنية التحتية لدينا حجم خوادم النماذج وينشرها. ولوحات الإنفاق والاستخدام جزء من التسليم.",
       ),
     },
     deliverables: {
       body: bi("One controlled door to every model you use.", "باب واحد محكوم إلى كل نموذج تستخدمه."),
       items: [
-        bi("Model gateway with authentication, routing, caching, limits and logging", "بوابة نماذج بمصادقة وتوجيه وتخزين مؤقت وحدود وسجلات"),
-        bi("Data classification and routing policy, enforced in the gateway", "سياسة تصنيف بيانات وتوجيه، مفروضة في البوابة"),
-        bi("Spend and usage dashboards, and self hosted model deployment where needed", "لوحات إنفاق واستخدام، ونشر لنماذج مستضافة ذاتياً عند الحاجة"),
+        bi("The gateway: authentication, routing, caching, limits and logging", "البوابة: مصادقة وتوجيه وتخزين مؤقت وحدود وسجلات"),
+        bi("A data classification and routing policy, enforced in the gateway itself", "سياسة لتصنيف البيانات والتوجيه، مفروضة داخل البوابة نفسها"),
+        bi("Spend and usage dashboards, and self hosted model deployment where it is needed", "لوحات للإنفاق والاستخدام، ونشر نماذج مستضافة عندك حيث يلزم"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "A single answer to what the organisation spends on AI and where its data goes, resilience against any one provider's outages or price changes, and faster delivery of the next AI feature because the plumbing already exists.",
-        "إجابة واحدة عمّا تنفقه المؤسسة على الذكاء الاصطناعي وأين تذهب بياناتها، ومرونة أمام انقطاع أي مزوّد أو تغيّر أسعاره، وتسليم أسرع للميزة التالية لأن البنية الأساسية موجودة أصلاً.",
+        "One answer to what the organisation spends on AI and where its data goes. Room to survive a provider's outage or price change. And a shorter path to the next AI feature, because the plumbing is already there.",
+        "إجابة واحدة عمّا تنفقه المؤسسة على الذكاء الاصطناعي وأين تذهب بياناتها. ومتسع للنجاة من انقطاع مزوّد أو تغيّر أسعاره. وطريق أقصر إلى الميزة التالية، لأن البنية الأساسية جاهزة.",
       ),
     },
     related: ["llm-applications", "apis-integrations", "cloud-architecture"],
@@ -371,48 +371,48 @@ export const artificialIntelligenceServices: ServiceContent[] = [
     practice: "artificial-intelligence",
     pictogram: "platform",
     title: bi("AI Internal Tools", "أدوات داخلية بالذكاء الاصطناعي"),
-    summary: bi("Small, focused tools that give a team a specific AI capability inside its daily work.", "أدوات صغيرة ومركزة تمنح فريقاً قدرة ذكاء اصطناعي محددة داخل عمله اليومي."),
-    hero: bi("Not every AI need is a platform. Sometimes one team needs one tool that does one thing well.", "ليست كل حاجة إلى الذكاء الاصطناعي منصة. أحياناً يحتاج فريق واحد إلى أداة واحدة تؤدي شيئاً واحداً جيداً."),
+    summary: bi("Small, focused tools that give one team one AI capability inside the work it already does.", "أدوات صغيرة مركزة تمنح فريقاً واحداً قدرة ذكاء اصطناعي واحدة داخل عمله القائم."),
+    hero: bi("Not every AI need is a platform. Often a team needs one tool that does one thing well.", "ليست كل حاجة إلى الذكاء الاصطناعي منصة. كثيراً ما يحتاج فريق أداة واحدة تؤدي عملاً واحداً جيداً."),
     seo: {
       title: bi("AI Internal Tools", "أدوات داخلية بالذكاء الاصطناعي"),
-      description: bi("Focused internal AI tools by CyBarq for specific teams: document review helpers, drafting assistants, data extraction utilities and analysis tools, built quickly and governed properly.", "أدوات ذكاء اصطناعي داخلية مركزة من سايبرق لفرق محددة: مساعدات مراجعة المستندات، ومساعدات الصياغة، وأدوات استخراج البيانات، وأدوات التحليل، تُبنى بسرعة وتُحكم بشكل سليم."),
+      description: bi("Focused internal AI tools for a single team: document review, drafting, extraction and analysis, built in weeks on a governed foundation.", "أدوات ذكاء اصطناعي داخلية مركزة لفريق واحد: مراجعة مستندات وصياغة واستخراج وتحليل، تُبنى خلال أسابيع على أساس محكوم."),
     },
     problem: {
       body: bi(
-        "Teams find their own uses for language models quickly, usually in personal accounts on public tools, with company data and no oversight. The alternative offered is often a large platform project that will arrive next year. What teams actually need is a small, sanctioned tool for the specific task in front of them.",
-        "تجد الفرق استخداماتها الخاصة للنماذج اللغوية بسرعة، وغالباً في حسابات شخصية على أدوات عامة، ببيانات الشركة ومن دون رقابة. والبديل المعروض عادةً مشروع منصة كبير سيصل العام المقبل. وما تحتاجه الفرق فعلاً هو أداة صغيرة معتمدة للمهمة المحددة أمامها.",
+        "Teams find their own uses for language models quickly, usually on personal accounts, with company data, and with no oversight. What they are offered instead is often a large platform project arriving next year. What they actually need is a small, approved tool for the task in front of them this week.",
+        "تجد الفرق استخداماتها للنماذج اللغوية بسرعة، غالباً على حسابات شخصية، ببيانات الشركة، ومن دون رقابة. وما يُعرض عليها بدلاً من ذلك مشروع منصة كبير يصل العام المقبل. وما تحتاجه فعلاً أداة صغيرة معتمدة للمهمة التي أمامها هذا الأسبوع.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "A legal team reviewing contracts against a checklist, a finance team reconciling documents, an HR team screening applications against criteria, a marketing team producing bilingual drafts in the house style, an analyst summarising research, and a security team triaging alerts.",
-        "في فريق قانوني يراجع العقود وفق قائمة تحقق، وفريق مالي يطابق المستندات، وفريق موارد بشرية يفرز الطلبات وفق معايير، وفريق تسويق ينتج مسودات ثنائية اللغة بأسلوب الشركة، ومحلل يلخص الأبحاث، وفريق أمني يفرز التنبيهات.",
+        "A legal team checking contracts against a checklist. Finance reconciling documents. HR screening applications against stated criteria. Marketing producing bilingual drafts in the house style. An analyst summarising research. A security team sorting alerts.",
+        "في فريق قانوني يفحص العقود وفق قائمة تحقق. وفي المالية التي تطابق المستندات. وفي الموارد البشرية التي تفرز الطلبات وفق معايير معلنة. وفي التسويق الذي ينتج مسودات بلغتين بأسلوب الشركة. وفي محلل يلخص أبحاثاً. وفي فريق أمني يرتب التنبيهات.",
       ),
     },
     approach: {
       body: bi(
-        "We build each tool small and specific, on the same governed foundation: the model gateway, the data rules, the logging. The interface is designed for the team's actual workflow, often as a step inside a tool they already use. Prompts are written with the team's experts and tested on their real examples. Because the foundation is shared, the second tool is faster than the first.",
-        "نبني كل أداة صغيرة ومحددة، على الأساس المحكوم نفسه: بوابة النماذج، وقواعد البيانات، والسجلات. وتُصمم الواجهة لسير العمل الفعلي للفريق، وغالباً كخطوة داخل أداة يستخدمها بالفعل. وتُكتب التعليمات مع خبراء الفريق وتُختبر على أمثلتهم الحقيقية. ولأن الأساس مشترك، تكون الأداة الثانية أسرع من الأولى.",
+        "Each tool stays small and specific, and sits on the same governed foundation: the model gateway, the data rules, the logging. The interface follows the team's real workflow, often as one step inside software they already open every day. Prompts are written with the team's own experts and tested on their own examples. Because the foundation is shared, the second tool takes less time than the first.",
+        "تبقى كل أداة صغيرة ومحددة، وتقف على الأساس المحكوم نفسه: بوابة النماذج، وقواعد البيانات، والسجلات. وتتبع الواجهة سير العمل الفعلي للفريق، وغالباً كخطوة داخل برنامج يفتحه كل يوم. وتُكتب التعليمات مع خبراء الفريق وتُختبر على أمثلتهم. ولأن الأساس مشترك، تأخذ الأداة الثانية وقتاً أقل من الأولى.",
       ),
     },
     engagement: {
       body: bi(
-        "A tool starts with a half day session with the team to define the task, the inputs and what a good result looks like. A first version is usually ready to try within two to three weeks. The team uses it, we adjust, and we agree when it is done. Tools are catalogued so the organisation knows what exists and who owns it.",
-        "تبدأ الأداة بجلسة نصف يوم مع الفريق لتحديد المهمة والمدخلات وشكل النتيجة الجيدة. وتكون النسخة الأولى جاهزة للتجربة عادةً خلال أسبوعين إلى ثلاثة. يستخدمها الفريق، ونعدّل، ونتفق متى تكتمل. وتُفهرس الأدوات لتعرف المؤسسة ما الموجود ومن يملكه.",
+        "A tool starts with a half day session with the team: the task, the inputs, and what a good result looks like. A first version is usually ready to try in two to three weeks. They use it, we adjust, and we agree together when it is finished. Every tool is listed in a catalogue, so the organisation knows what exists and who owns it.",
+        "تبدأ الأداة بجلسة نصف يوم مع الفريق: المهمة، والمدخلات، وشكل النتيجة الجيدة. وتكون النسخة الأولى جاهزة للتجربة عادةً خلال أسبوعين إلى ثلاثة. يستخدمونها، ونعدّل، ونتفق معاً متى تنتهي. وتُدرج كل أداة في فهرس، لتعرف المؤسسة ما الموجود ومن يملكه.",
       ),
     },
     deliverables: {
       body: bi("A tool the team actually uses, on a foundation the organisation controls.", "أداة يستخدمها الفريق فعلاً، على أساس تتحكم فيه المؤسسة."),
       items: [
-        bi("Purpose built tool with tested prompts and the team's own examples", "أداة مبنية لغرض محدد بتعليمات مختبرة وأمثلة الفريق نفسه"),
-        bi("Integration with the gateway, logging and data rules", "تكامل مع البوابة والسجلات وقواعد البيانات"),
-        bi("Short user guide and an entry in the organisation's AI tool catalogue", "دليل مستخدم قصير وإدخال في فهرس أدوات الذكاء الاصطناعي في المؤسسة"),
+        bi("The tool itself, with prompts tested on the team's own examples", "الأداة نفسها، بتعليمات مختبرة على أمثلة الفريق"),
+        bi("Integration with the gateway, the logging and the data rules", "تكامل مع البوابة والسجلات وقواعد البيانات"),
+        bi("A short user guide, and an entry in your AI tool catalogue", "دليل مستخدم قصير، وإدخال في فهرس أدوات الذكاء الاصطناعي لديك"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Teams get the capability they were going to find anyway, but inside your boundaries, with your data rules, and in weeks rather than quarters.",
-        "تحصل الفرق على القدرة التي كانت ستجدها على أي حال، لكن داخل حدودك، وبقواعد بياناتك، وخلال أسابيع لا أرباع سنوات.",
+        "Teams get the capability they were going to find one way or another, but inside your boundary, under your data rules, and in weeks rather than quarters.",
+        "تحصل الفرق على القدرة التي كانت ستصل إليها بطريقة أو بأخرى، لكن داخل حدودك، وتحت قواعد بياناتك، وخلال أسابيع لا أرباع سنة.",
       ),
     },
     related: ["ai-api-model-integration", "custom-business-software", "enterprise-ai-assistants"],
@@ -422,48 +422,48 @@ export const artificialIntelligenceServices: ServiceContent[] = [
     practice: "artificial-intelligence",
     pictogram: "web",
     title: bi("AI Customer Experiences", "تجارب العملاء بالذكاء الاصطناعي"),
-    summary: bi("Customer facing assistants and features that are accurate, on brand, bilingual and safe to put in front of the public.", "مساعدون وميزات موجهة للعملاء دقيقة ومتوافقة مع العلامة وثنائية اللغة وآمنة للعرض أمام الجمهور."),
-    hero: bi("Anything you put in front of customers speaks for you. We build AI experiences that can be trusted to do that.", "كل ما تضعه أمام عملائك يتحدث باسمك. نبني تجارب ذكاء اصطناعي يمكن الوثوق بها لتفعل ذلك."),
+    summary: bi("Assistants and features you can put in front of customers: accurate, on brand, bilingual, and tested before launch.", "مساعدون وميزات تصلح للعرض أمام العملاء: دقيقة، وبأسلوب علامتك، وبلغتين، ومختبرة قبل الإطلاق."),
+    hero: bi("Anything you put in front of customers speaks for you. We build AI experiences that can be trusted with that.", "كل ما تضعه أمام عملائك يتحدث باسمك. نبني تجارب ذكاء اصطناعي تصلح لهذه المهمة."),
     seo: {
       title: bi("AI Customer Experiences", "تجارب العملاء بالذكاء الاصطناعي"),
-      description: bi("Customer facing AI by CyBarq: support assistants, guided self service and personalised features grounded in your knowledge base, with guardrails, escalation to humans and Arabic and English support.", "ذكاء اصطناعي موجه للعملاء من سايبرق: مساعدو دعم، وخدمة ذاتية موجهة، وميزات مخصصة مبنية على قاعدة معرفتك، مع ضوابط وتصعيد إلى البشر ودعم للعربية والإنجليزية."),
+      description: bi("Customer facing AI grounded in your knowledge base and account data, with guardrails, escalation to a person, and Arabic and English support.", "ذكاء اصطناعي موجه للعملاء مبني على قاعدة معرفتك وبيانات الحسابات، مع ضوابط وتصعيد إلى موظف ودعم العربية والإنجليزية."),
     },
     problem: {
       body: bi(
-        "Customer facing AI carries the highest stakes: a wrong answer about a price, a policy or a delivery is a complaint at best and a liability at worst. Generic chatbots frustrate customers because they do not know your business, and unrestricted ones embarrass it because they will say anything. Arabic speaking customers are often served worst of all.",
-        "الذكاء الاصطناعي الموجه للعملاء يحمل أعلى المخاطر: إجابة خاطئة عن سعر أو سياسة أو موعد تسليم هي شكوى في أحسن الأحوال ومسؤولية قانونية في أسوئها. روبوتات المحادثة العامة تُحبط العملاء لأنها لا تعرف عملك، وغير المقيدة منها تُحرجه لأنها تقول أي شيء. والعملاء الناطقون بالعربية غالباً هم الأسوأ خدمةً.",
+        "Customer facing AI carries the highest stakes. A wrong answer about a price, a policy or a delivery date is a complaint on a good day and a liability on a bad one. Generic chatbots annoy customers because they know nothing about your business, and unrestricted ones embarrass it because they will say anything. Arabic speaking customers usually get the worst of both.",
+        "الذكاء الاصطناعي الموجه للعملاء أعلى المخاطر. فإجابة خاطئة عن سعر أو سياسة أو موعد تسليم شكوى في أحسن الأحوال، ومسؤولية قانونية في أسوئها. وروبوتات المحادثة العامة تُضجر العملاء لأنها لا تعرف شيئاً عن عملك، وغير المقيدة منها تُحرجه لأنها تقول أي شيء. والعميل الناطق بالعربية ينال عادةً أسوأ ما في الاثنين.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Customer support on websites and messaging channels, order and account self service, product guidance and recommendations, onboarding flows, and after hours coverage where a human team is not available.",
-        "في دعم العملاء على المواقع وقنوات المراسلة، والخدمة الذاتية للطلبات والحسابات، وإرشادات المنتجات والتوصيات، ومسارات تهيئة العملاء الجدد، والتغطية خارج ساعات العمل حين لا يتوفر فريق بشري.",
+        "Support on your website and messaging channels. Self service for orders and accounts. Product guidance and recommendations. Onboarding flows for new customers. And the hours when nobody is on shift.",
+        "في الدعم على موقعك وقنوات المراسلة. وفي الخدمة الذاتية للطلبات والحسابات. وفي إرشاد العملاء إلى المنتج المناسب. وفي مسارات استقبال العملاء الجدد. وفي الساعات التي لا يكون فيها أحد في المناوبة.",
       ),
     },
     approach: {
       body: bi(
-        "Answers are grounded in your approved knowledge base and, where relevant, in the customer's own account data through authenticated integrations. The assistant is constrained to your domain, declines what it should not answer, and hands over to a person with full context when needed. Tone and terminology follow your brand in both languages. We test with adversarial inputs before launch and monitor conversations for quality afterwards.",
-        "تُبنى الإجابات على قاعدة معرفتك المعتمدة، وعند الحاجة على بيانات حساب العميل نفسه عبر تكاملات موثّقة. ويُقيَّد المساعد بمجالك، ويرفض ما لا ينبغي أن يجيب عنه، ويحوّل إلى شخص مع السياق الكامل عند الحاجة. وتتبع النبرة والمصطلحات علامتك في اللغتين. ونختبر بمدخلات عدائية قبل الإطلاق ونراقب المحادثات للجودة بعده.",
+        "Answers come from your approved knowledge base, and where it is relevant from the customer's own account data through an authenticated integration. The assistant stays inside your subject, declines what it should not answer, and hands over to a person with the full conversation attached. Tone and terminology follow your brand in both languages. We attack it with hostile inputs before launch, and read real conversations after.",
+        "تأتي الإجابات من قاعدة معرفتك المعتمدة، وعند الحاجة من بيانات حساب العميل عبر تكامل موثّق. ويبقى المساعد داخل مجالك، ويمتنع عمّا لا ينبغي أن يجيب عنه، ويحوّل إلى موظف ومعه المحادثة كاملة. وتتبع النبرة والمصطلحات علامتك في اللغتين. ونهاجمه بمدخلات عدائية قبل الإطلاق، ونقرأ محادثات حقيقية بعده.",
       ),
     },
     engagement: {
       body: bi(
-        "We start from your existing support data: the questions customers really ask and the answers your team gives. The assistant is built against that, reviewed by your support leads, and launched to a fraction of traffic with clear escalation paths. Coverage widens as resolution rates and satisfaction justify it. Reporting shows what was resolved, what was escalated and why.",
-        "نبدأ من بيانات الدعم الحالية لديك: الأسئلة التي يطرحها العملاء فعلاً والإجابات التي يقدمها فريقك. يُبنى المساعد على هذا الأساس، ويراجعه قادة الدعم لديك، ويُطلق على جزء من الحركة مع مسارات تصعيد واضحة. وتتسع التغطية كلما بررت معدلات الحل ورضا العملاء ذلك. وتُظهر التقارير ما حُل وما صُعّد ولماذا.",
+        "We start from the support data you already have: the questions customers really ask, and the answers your team gives today. The assistant is built against that, reviewed by your support leads, and launched to a small share of traffic with a clear route to a human. Coverage grows as resolution rates and satisfaction allow. Reporting shows what was resolved, what was escalated, and why.",
+        "نبدأ من بيانات الدعم الموجودة عندك: الأسئلة التي يطرحها العملاء فعلاً، والإجابات التي يقدمها فريقك اليوم. يُبنى المساعد على هذا الأساس، ويراجعه مسؤولو الدعم لديك، ويُطلق على جزء صغير من الحركة مع طريق واضح إلى موظف. وتتسع التغطية كلما سمحت معدلات الحل ورضا العملاء. وتبيّن التقارير ما حُلّ وما صُعّد ولماذا.",
       ),
     },
     deliverables: {
-      body: bi("A customer experience you would be comfortable having a journalist test.", "تجربة عملاء لا تمانع أن يختبرها صحفي."),
+      body: bi("A customer experience you would be happy to let a journalist test.", "تجربة عملاء لا تمانع أن يجربها صحفي."),
       items: [
-        bi("Customer facing assistant grounded in your knowledge base and account data", "مساعد موجه للعملاء مبني على قاعدة معرفتك وبيانات الحسابات"),
-        bi("Guardrails, escalation to humans and bilingual brand voice", "ضوابط وتصعيد إلى البشر وصوت علامة ثنائي اللغة"),
-        bi("Adversarial test results, conversation quality monitoring and reporting", "نتائج اختبارات عدائية ومراقبة لجودة المحادثات وتقارير"),
+        bi("A customer facing assistant grounded in your knowledge base and account data", "مساعد للعملاء مبني على قاعدة معرفتك وبيانات الحسابات"),
+        bi("Guardrails, escalation to a person, and a brand voice in Arabic and English", "ضوابط، وتصعيد إلى موظف، وصوت علامة بالعربية والإنجليزية"),
+        bi("Results of the hostile input testing, plus conversation quality monitoring and reporting", "نتائج اختبارات المدخلات العدائية، ومراقبة لجودة المحادثات وتقارير عنها"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Customers get accurate answers at any hour in the language they prefer, your team handles the conversations that need judgement, and the assistant represents your business the way you would.",
-        "يحصل العملاء على إجابات دقيقة في أي ساعة وباللغة التي يفضلونها، ويتولى فريقك المحادثات التي تحتاج إلى تقدير بشري، ويمثّل المساعد عملك كما تفعل أنت.",
+        "Customers get an accurate answer at any hour, in the language they chose. Your team keeps the conversations that need judgement. And the assistant represents the business the way you would.",
+        "يحصل العميل على إجابة دقيقة في أي ساعة، وباللغة التي اختارها. ويحتفظ فريقك بالمحادثات التي تحتاج تقديراً. ويمثّل المساعد عملك كما تمثّله أنت.",
       ),
     },
     related: ["enterprise-ai-assistants", "rag-knowledge-systems", "enterprise-web-platforms"],

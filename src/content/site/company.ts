@@ -10,8 +10,8 @@ export const company = {
   slogan: { en: "Technology, done properly.", ar: "التقنية كما ينبغي." },
   /** Default meta description and the Organization description in structured data. */
   description: {
-    en: "CyBarq is a technology company registered in Jordan and the United States, with a local team and a hybrid way of working that combines remote collaboration with presence on site. Our expertise spans technology engineering, cybersecurity and AI.",
-    ar: "سايبرق شركة تقنية مسجلة في الأردن والولايات المتحدة، بفريق محلي ونموذج عمل هجين يجمع بين العمل عن بُعد والحضور المباشر. تشمل خبرتنا تطوير التقنية والأمن السيبراني والذكاء الاصطناعي.",
+    en: "CyBarq is a Jordanian technology company based in Amman. One team builds software, runs the infrastructure under it and secures both, working remotely and on site as each project calls for.",
+    ar: "سايبرق شركة تقنية أردنية مقرها عمّان. فريق واحد يبني البرمجيات، ويشغّل البنية التي تقوم عليها، ويؤمّن الاثنين، عن بُعد وفي الموقع بحسب ما يحتاجه كل مشروع.",
   },
   /** Registered office city. Used on documents (PDF headers and certificates). */
   city: { en: "Amman, Jordan", ar: "عمّان، الأردن" },

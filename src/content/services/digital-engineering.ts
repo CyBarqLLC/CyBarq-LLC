@@ -12,48 +12,48 @@ export const digitalEngineeringServices: ServiceContent[] = [
     pictogram: "web",
     featured: true,
     title: bi("Enterprise Web Platforms", "منصات الويب المؤسسية"),
-    summary: bi("Large, multi user web platforms built to be operated for years, not demonstrated once.", "منصات ويب كبيرة متعددة المستخدمين مبنية لتُشغَّل لسنوات، لا لتُعرض مرة واحدة."),
-    hero: bi("A platform your organisation will run on for years deserves to be engineered like one.", "المنصة التي ستعمل عليها مؤسستك لسنوات تستحق أن تُهندس على هذا الأساس."),
+    summary: bi("Web platforms that many people use daily, built to be operated for years rather than demonstrated once.", "منصات ويب يستخدمها كثيرون كل يوم، مبنية لتُشغَّل سنوات لا لتُعرض مرة واحدة."),
+    hero: bi("Your organisation will depend on this platform for years. We build it on that assumption.", "ستعتمد مؤسستك على هذه المنصة سنوات. نبنيها على هذا الأساس."),
     seo: {
       title: bi("Enterprise Web Platforms", "منصات الويب المؤسسية"),
-      description: bi("Design and development of enterprise web platforms by CyBarq: multi user, role based, bilingual, secure by design and built to be maintained.", "تصميم وتطوير منصات ويب مؤسسية من سايبرق: متعددة المستخدمين، مبنية على الأدوار، ثنائية اللغة، آمنة بالتصميم، وقابلة للصيانة."),
+      description: bi("CyBarq designs and builds enterprise web platforms: many users and roles, Arabic and English, security in the design, built to be maintained.", "تصميم وبناء منصات ويب مؤسسية من سايبرق: مستخدمون وأدوار متعددة، عربية وإنجليزية، أمان في صميم التصميم، وقابلية للصيانة."),
     },
     problem: {
       body: bi(
-        "Building reliable digital solutions is hard. Tight deadlines, evolving requirements and rising security expectations often force teams to choose between speed and safety. The result is a platform that works on launch day and becomes harder to change every month after, until nobody dares to touch it.",
-        "بناء منتج رقمي موثوق ليس سهلاً. المواعيد الضيقة والمتطلبات المتغيرة والتوقعات الأمنية المتزايدة تدفع الفرق غالباً إلى الاختيار بين السرعة والأمان. والنتيجة منصة تعمل يوم الإطلاق ثم تصبح أصعب في التعديل شهراً بعد شهر، حتى لا يجرؤ أحد على لمسها.",
+        "Deadlines are short, requirements keep moving, and security expectations keep rising. Under that pressure teams give up the parts nobody sees: the data model, the permission rules, the tests. The platform works on launch day, then gets harder to change every month until nobody wants to touch it.",
+        "المواعيد قصيرة، والمتطلبات تتغير، والتوقعات الأمنية ترتفع. وتحت هذا الضغط تتنازل الفرق عمّا لا يراه أحد: نموذج البيانات، وقواعد الصلاحيات، والاختبارات. تعمل المنصة يوم الإطلاق، ثم يصعب تعديلها شهراً بعد شهر حتى لا يرغب أحد في الاقتراب منها.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Customer portals, operations platforms used by hundreds of staff, marketplaces and service platforms, and any system where several kinds of user need different views of the same data. It shows up as slow pages, permissions that are wrong in subtle ways, an Arabic version that lags behind, and releases that everyone fears.",
-        "في بوابات العملاء، ومنصات العمليات التي يستخدمها مئات الموظفين، والأسواق الإلكترونية ومنصات الخدمات، وأي نظام يحتاج فيه عدة أنواع من المستخدمين إلى رؤى مختلفة للبيانات نفسها. ويظهر على شكل صفحات بطيئة، وصلاحيات خاطئة بطرق خفية، ونسخة عربية متأخرة عن الأصل، وإصدارات يخشاها الجميع.",
+        "Customer portals, operations platforms used by hundreds of staff, marketplaces, and any system where different kinds of user need a different view of the same data. You notice it as slow pages, and as permissions that are wrong in ways nobody spots for months. You notice it as an Arabic version that always trails the English one, and as releases the team dreads.",
+        "بوابات العملاء، ومنصات العمليات التي يستخدمها مئات الموظفين، والأسواق الإلكترونية، وكل نظام يحتاج فيه مستخدمون مختلفون إلى رؤية مختلفة للبيانات نفسها. تلاحظه في صفحات بطيئة، وفي صلاحيات خاطئة لا ينتبه إليها أحد شهوراً. وتلاحظه في نسخة عربية متأخرة دائماً عن الإنجليزية، وفي إصدارات يخشاها الفريق.",
       ),
     },
     approach: {
       body: bi(
-        "Our engineers integrate security throughout the development lifecycle, ship dependable architectures and align every release with your goals. We design the data model and permissions first, build Arabic and English as one product rather than a translation, and keep the codebase in a state where a new engineer can understand it. Performance, accessibility and observability are requirements, not polish.",
-        "يدمج مهندسونا الأمان في كل مرحلة من دورة التطوير، ويبنون بنى موثوقة، ويجعلون كل إصدار متوافقاً مع أهدافك. نصمم نموذج البيانات والصلاحيات أولاً، ونبني العربية والإنجليزية كمنتج واحد لا كترجمة، ونبقي الشيفرة في حالة يستطيع فيها مهندس جديد فهمها. الأداء وإمكانية الوصول والمراقبة متطلبات أساسية، لا لمسات أخيرة.",
+        "We design the data model and the permission rules before we build screens, and we enforce those rules in the database as well as in the interface. Arabic and English are built as one product, not a translation added afterwards. Security review happens in every cycle, and we keep the code in a state where a new engineer can read it and understand it. Performance, accessibility and monitoring are requirements we test against, not polish at the end.",
+        "نصمم نموذج البيانات وقواعد الصلاحيات قبل أن نبني الشاشات، ونفرض هذه القواعد في قاعدة البيانات لا في الواجهة وحدها. ونبني العربية والإنجليزية كمنتج واحد، لا كترجمة تُضاف لاحقاً. وتجري المراجعة الأمنية في كل دورة، ونُبقي الشيفرة في حال يقرؤها مهندس جديد فيفهمها. أما الأداء وسهولة الوصول والمراقبة فمتطلبات نختبرها، لا لمسات أخيرة.",
       ),
     },
     engagement: {
       body: bi(
-        "We begin with a discovery phase of two to four weeks that ends in a written scope, an architecture and a plan. Delivery runs in short cycles with a working, reviewable version at the end of each. You see progress in a staging environment, not in slides. After launch we offer a support and improvement arrangement, and we hand over documentation and source in full either way.",
-        "نبدأ بمرحلة استكشاف من أسبوعين إلى أربعة تنتهي بنطاق مكتوب وبنية وخطة. ثم يسير التنفيذ في دورات قصيرة تنتهي كل منها بنسخة عاملة قابلة للمراجعة. ترى التقدم في بيئة تجريبية لا في شرائح عرض. وبعد الإطلاق نقدم ترتيباً للدعم والتحسين، ونسلّمك الوثائق والشيفرة المصدرية كاملة في كل الأحوال.",
+        "We start with a discovery phase of two to four weeks. It ends with a written scope, an architecture and a plan you can read. Delivery then runs in short cycles, each one ending in a working version on a staging environment you open yourself. After launch you can take a support and improvement arrangement, and in either case you receive the documentation and the full source.",
+        "نبدأ باستكشاف من أسبوعين إلى أربعة. ينتهي بنطاق مكتوب وبنية وخطة تستطيع قراءتها. ثم يسير التنفيذ في دورات قصيرة، تنتهي كل دورة بنسخة عاملة على بيئة تجريبية تفتحها بنفسك. وبعد الإطلاق يمكنك الاتفاق على الدعم والتحسين، وفي الحالتين تتسلم الوثائق والشيفرة المصدرية كاملة.",
       ),
     },
     deliverables: {
-      body: bi("A platform you own outright, with everything needed to run and extend it.", "منصة تملكها بالكامل، مع كل ما يلزم لتشغيلها وتوسيعها."),
+      body: bi("A platform you own outright, with everything needed to run it and extend it.", "منصة تملكها بالكامل، ومعها ما يلزم لتشغيلها وتوسيعها."),
       items: [
-        bi("Architecture, data model and permission design, documented", "بنية ونموذج بيانات وتصميم صلاحيات، موثقة جميعها"),
-        bi("Source code, automated tests and deployment pipeline", "الشيفرة المصدرية والاختبارات الآلية وخط النشر"),
-        bi("Bilingual interface, admin tooling and operations runbook", "واجهة ثنائية اللغة وأدوات إدارة ودليل تشغيل"),
+        bi("Architecture, data model and permission design, written down", "البنية ونموذج البيانات وتصميم الصلاحيات، موثقة"),
+        bi("Source code, automated tests and the deployment pipeline", "الشيفرة المصدرية والاختبارات الآلية وخط النشر"),
+        bi("An Arabic and English interface, admin tools and an operations runbook", "واجهة بالعربية والإنجليزية، وأدوات إدارة، ودليل تشغيل"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "A platform that keeps up with your organisation instead of holding it back: new features ship without fear, security is part of the design rather than a separate audit, and you are not locked to any single vendor, including us.",
-        "منصة تواكب مؤسستك بدلاً من أن تعيقها: ميزات جديدة تصدر من دون خوف، وأمان مدمج في التصميم لا في تدقيق منفصل، ومن دون ارتباط بمورّد واحد، بما فينا نحن.",
+        "New features ship without an argument about whether the platform can take them. Security is part of the design, so an audit finds fewer surprises. And because you hold the code and the infrastructure definitions, you are not tied to any vendor, including us.",
+        "تصدر الميزات الجديدة من دون نقاش حول قدرة المنصة على احتمالها. والأمان جزء من التصميم، فيجد التدقيق مفاجآت أقل. ولأنك تملك الشيفرة وتعريفات البنية التحتية، فلست مرتبطاً بأي مورّد، بما فينا.",
       ),
     },
     related: ["internal-business-systems", "apis-integrations", "performance-platform-architecture"],
@@ -63,48 +63,48 @@ export const digitalEngineeringServices: ServiceContent[] = [
     practice: "digital-engineering",
     pictogram: "platform",
     title: bi("Internal Business Systems", "أنظمة الأعمال الداخلية"),
-    summary: bi("The systems your teams use every day: operations, records, approvals and reporting, built around how you actually work.", "الأنظمة التي تستخدمها فرقك يومياً: العمليات والسجلات والموافقات والتقارير، مبنية حول طريقة عملك الفعلية."),
-    hero: bi("Off the shelf software fits the average company. Your operations are not average.", "البرمجيات الجاهزة تناسب الشركة المتوسطة. وعملياتك ليست متوسطة."),
+    summary: bi("The systems your teams use every day: records, approvals, operations and reporting, built around how the work is really done.", "الأنظمة التي تستخدمها فرقك كل يوم: السجلات والموافقات والعمليات والتقارير، مبنية على طريقة العمل الفعلية."),
+    hero: bi("Ready made software is built for the average company. Where your work differs from the average is where it starts to break.", "البرمجيات الجاهزة مصنوعة للشركة المتوسطة. وحيث يختلف عملك عن المتوسط تبدأ الحلول الالتفافية."),
     seo: {
       title: bi("Internal Business Systems", "أنظمة الأعمال الداخلية"),
-      description: bi("Custom internal systems by CyBarq for operations, records, approvals, HR, finance and reporting, replacing spreadsheets and disconnected tools with one secure system.", "أنظمة داخلية مخصصة من سايبرق للعمليات والسجلات والموافقات والموارد البشرية والمالية والتقارير، تستبدل جداول البيانات والأدوات المتفرقة بنظام واحد آمن."),
+      description: bi("Custom internal systems by CyBarq for operations, records, approvals, HR, finance and reporting: one system in place of spreadsheets and scattered tools.", "أنظمة داخلية مخصصة من سايبرق للعمليات والسجلات والموافقات والموارد البشرية والمالية والتقارير: نظام واحد بدل جداول البيانات والأدوات المتفرقة."),
     },
     problem: {
       body: bi(
-        "Most organisations run on a mixture of spreadsheets, email threads, a generic tool that half fits and a lot of memory in a few people's heads. Data is duplicated, approvals get lost, reports take days to assemble, and nobody can say with confidence what the current state of anything is.",
-        "معظم المؤسسات تعمل على خليط من جداول البيانات وسلاسل البريد وأداة عامة تناسب نصف الاحتياج وكثير من المعلومات المحفوظة في رؤوس قلة من الناس. تتكرر البيانات، وتضيع الموافقات، ويستغرق تجميع التقارير أياماً، ولا يستطيع أحد أن يقول بثقة ما الوضع الحالي لأي شيء.",
+        "Most organisations run on spreadsheets, email threads, a generic tool that covers half the need, and a lot of knowledge held in a few people's heads. The same data gets entered twice, approvals sit in an inbox, and a report takes days to assemble. Ask what the current state of anything is and you get an estimate.",
+        "معظم المؤسسات تعمل بجداول بيانات، وسلاسل بريد، وأداة عامة تغطي نصف الحاجة، ومعرفة محفوظة في رؤوس أشخاص قليلين. تُدخل البيانات نفسها مرتين، وتبقى الموافقات في صندوق بريد، ويستغرق إعداد تقرير أياماً. واسأل عن حال أي ملف اليوم، تحصل على تقدير لا على جواب.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Case and request management, inventory and asset tracking, HR and leave processes, procurement and approvals, client records, scheduling, and management reporting. It is usually most visible at month end, during audits, and whenever a key employee is on leave.",
-        "في إدارة الحالات والطلبات، وتتبع المخزون والأصول، وإجراءات الموارد البشرية والإجازات، والمشتريات والموافقات، وسجلات العملاء، والجدولة، والتقارير الإدارية. ويكون أكثر وضوحاً في نهاية الشهر، وخلال التدقيقات، وكلما كان موظف أساسي في إجازة.",
+        "Case and request management, inventory and assets, leave and HR processes, procurement and approvals, client records, scheduling, and management reporting. It is easiest to see at month end, during an audit, and in the week a key employee is on leave.",
+        "في إدارة الحالات والطلبات، والمخزون والأصول، وإجراءات الإجازات والموارد البشرية، والمشتريات والموافقات، وسجلات العملاء، والجدولة، والتقارير الإدارية. وأوضح ما يكون في نهاية الشهر، وأثناء التدقيق، وفي الأسبوع الذي يغيب فيه موظف أساسي.",
       ),
     },
     approach: {
       body: bi(
-        "We start by understanding the process as it is really performed, not as the org chart describes it. Then we build a system around that: clear records, roles and permissions, approvals with an audit trail, and reports that come from the data rather than from someone's weekend. We integrate with the tools you keep, and we design for the people who will use it eight hours a day.",
-        "نبدأ بفهم الإجراء كما يُنفَّذ فعلاً، لا كما يصفه الهيكل التنظيمي. ثم نبني نظاماً حوله: سجلات واضحة، وأدوار وصلاحيات، وموافقات مع سجل تدقيق، وتقارير تأتي من البيانات لا من عطلة نهاية أسبوع أحدهم. نتكامل مع الأدوات التي ستحتفظ بها، ونصمم لمن سيستخدم النظام ثماني ساعات يومياً.",
+        "We start by watching how the process is actually carried out, which is rarely how the written procedure describes it. Then we build around that: clear records, roles and permissions, approvals that leave a trail, and reports that read from the data instead of from someone's weekend. We connect to the tools you are keeping, and we design the screens for the people who will sit in front of them all day.",
+        "نبدأ بمتابعة كيف يُنفَّذ الإجراء فعلاً، وهو نادراً ما يطابق ما تقوله التعليمات المكتوبة. ثم نبني على هذا الأساس: سجلات واضحة، وأدوار وصلاحيات، وموافقات تترك أثراً، وتقارير تقرأ من البيانات لا من عطلة أحدهم. ونربط النظام بالأدوات التي ستبقى عندك، ونصمم الشاشات لمن سيجلس أمامها طوال اليوم.",
       ),
     },
     engagement: {
       body: bi(
-        "A short discovery with the people who do the work produces a scoped first version that replaces the most painful part of the current process. We deliver that first, put it into use, and then extend it in cycles. Data migration from existing spreadsheets and tools is planned as part of the work, not left to the end.",
-        "استكشاف قصير مع من يؤدون العمل ينتج نسخة أولى محددة النطاق تستبدل الجزء الأكثر إيلاماً من الإجراء الحالي. نسلّم هذه النسخة أولاً، ونضعها قيد الاستخدام، ثم نوسعها في دورات. ويُخطط لنقل البيانات من جداول البيانات والأدوات الحالية كجزء من العمل، لا يُترك للنهاية.",
+        "A short discovery with the people who do the work gives us a scoped first version. That version replaces the most painful part of the current process, goes into use, and grows in cycles from there. Moving the data out of the existing spreadsheets and tools is planned with the rest of the work, not left to the last week.",
+        "استكشاف قصير مع من يؤدون العمل يعطينا نسخة أولى محددة النطاق. تعالج هذه النسخة أشد أجزاء الإجراء إيلاماً، ثم تدخل الاستخدام وتتوسع في دورات. ونقل البيانات من جداول البيانات والأدوات الحالية يُخطط له مع بقية العمل، لا في الأسبوع الأخير.",
       ),
     },
     deliverables: {
-      body: bi("One system of record for the process, owned by you.", "نظام واحد مرجعي للإجراء، تملكه أنت."),
+      body: bi("One place where the process lives, owned by you.", "مكان واحد يعيش فيه الإجراء، وتملكه أنت."),
       items: [
-        bi("A bilingual web application with roles, approvals and audit trail", "تطبيق ويب ثنائي اللغة مع أدوار وموافقات وسجل تدقيق"),
-        bi("Migrated data and integrations with the systems you keep", "بيانات منقولة وتكاملات مع الأنظمة التي تحتفظ بها"),
-        bi("Reports and exports, documentation and training for administrators", "تقارير وتصدير للبيانات، ووثائق وتدريب للمسؤولين"),
+        bi("A web application in Arabic and English with roles, approvals and an audit trail", "تطبيق ويب بالعربية والإنجليزية، مع أدوار وموافقات وسجل تدقيق"),
+        bi("Your existing data moved in, and links to the systems you keep", "بياناتك الحالية منقولة إليه، وروابط مع الأنظمة التي تحتفظ بها"),
+        bi("Reports and exports, documentation, and training for the administrators", "تقارير وتصدير للبيانات، ووثائق، وتدريب للمسؤولين"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Less time spent chasing information and more spent using it. Fewer errors, faster approvals, reporting that is current, and a process that keeps running when a key person is away.",
-        "وقت أقل في ملاحقة المعلومات ووقت أكثر في استخدامها. أخطاء أقل، وموافقات أسرع، وتقارير محدّثة، وإجراء يستمر في العمل حين يغيب شخص أساسي.",
+        "Less time spent finding information and more spent using it. Approvals move, reporting is current, and the mistakes that came from copying between files disappear. The process keeps running in the week the person who knows everything is away.",
+        "وقت أقل في البحث عن المعلومة ووقت أكثر في استخدامها. تتحرك الموافقات، وتبقى التقارير محدّثة، وتختفي الأخطاء الناتجة عن النسخ بين الملفات. ويستمر العمل في الأسبوع الذي يغيب فيه الشخص الذي يعرف كل شيء.",
       ),
     },
     related: ["workflow-systems-digital-portals", "custom-business-software", "legacy-modernisation"],
@@ -114,48 +114,48 @@ export const digitalEngineeringServices: ServiceContent[] = [
     practice: "digital-engineering",
     pictogram: "software",
     title: bi("SaaS Platforms", "منصات SaaS"),
-    summary: bi("Multi tenant products built for subscription businesses: isolation, billing, onboarding and scale from the first version.", "منتجات متعددة المستأجرين مبنية لأعمال الاشتراك: العزل والفوترة وتهيئة العملاء والتوسع منذ النسخة الأولى."),
-    hero: bi("A SaaS product is a business and a system at the same time. We build the system so the business can grow.", "منتج SaaS هو عمل تجاري ونظام في آن واحد. نبني النظام ليتمكن العمل من النمو."),
+    summary: bi("Products sold by subscription, with tenant isolation, billing and onboarding built in from the first version.", "منتجات تُباع بالاشتراك، مع عزل المستأجرين والفوترة وتهيئة العملاء منذ النسخة الأولى."),
+    hero: bi("In a SaaS product the business model is written into the code. We build the system so the business can grow without a rewrite.", "في منتج SaaS يكون نموذج العمل مكتوباً داخل الشيفرة. نبني النظام لينمو العمل من دون إعادة كتابته."),
     seo: {
       title: bi("SaaS Platform Development", "تطوير منصات SaaS"),
-      description: bi("Multi tenant SaaS platform engineering by CyBarq: tenant isolation, subscription and billing, onboarding, admin tooling, security and the operations to run it.", "هندسة منصات SaaS متعددة المستأجرين من سايبرق: عزل المستأجرين، والاشتراكات والفوترة، وتهيئة العملاء، وأدوات الإدارة، والأمان، والعمليات اللازمة للتشغيل."),
+      description: bi("CyBarq builds multi tenant SaaS platforms: tenant isolation, subscriptions and billing, onboarding, admin tools, security and the operations to run it.", "نبني في سايبرق منصات SaaS متعددة المستأجرين: عزل المستأجرين، والاشتراكات والفوترة، وتهيئة العملاء، وأدوات الإدارة، والأمان، وتشغيل المنصة."),
     },
     problem: {
       body: bi(
-        "The first version of a SaaS product is usually built to win the first customers. The decisions made then, about how tenants are separated, how billing works and how data is structured, become very expensive to change once there are a hundred customers relying on them. Security incidents in multi tenant systems are also uniquely damaging: one flaw affects everyone.",
-        "النسخة الأولى من منتج SaaS تُبنى عادةً لكسب أول العملاء. والقرارات التي تُتخذ حينها، عن كيفية فصل المستأجرين، وطريقة عمل الفوترة، وبنية البيانات، تصبح مكلفة جداً في التغيير حين يعتمد عليها مئة عميل. والحوادث الأمنية في الأنظمة متعددة المستأجرين مدمّرة بشكل خاص: ثغرة واحدة تصيب الجميع.",
+        "The first version of a SaaS product is built to win the first few customers. How tenants are separated, how billing works and how the data is shaped all get decided in that rush, and they become very expensive to change once 100 customers depend on them. Multi tenant systems also fail in one particular way: a single flaw in the isolation exposes everyone at once.",
+        "النسخة الأولى من منتج SaaS تُبنى لكسب أول العملاء. وفي تلك العجلة تُحسم طريقة فصل المستأجرين، وآلية الفوترة، وشكل البيانات، ويصير تغييرها مكلفاً جداً حين يعتمد عليها 100 عميل. وللأنظمة متعددة المستأجرين عطب من نوع خاص: ثغرة واحدة في العزل تكشف الجميع دفعة واحدة.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Startups moving from a prototype to a product, established companies turning an internal tool into something they sell, and products that have grown to the point where tenant data, billing edge cases and support requests are consuming the engineering team.",
-        "في الشركات الناشئة المنتقلة من نموذج أولي إلى منتج، وفي الشركات القائمة التي تحوّل أداة داخلية إلى منتج تبيعه، وفي المنتجات التي نمت إلى حد صارت فيه بيانات المستأجرين وحالات الفوترة الاستثنائية وطلبات الدعم تستهلك فريق الهندسة.",
+        "A prototype that now has to become a product. An internal tool a company has decided to sell. A product that has grown until questions about tenant data, billing exceptions and support requests take up most of the engineering team's week.",
+        "في نموذج أولي صار عليه أن يصير منتجاً. وفي أداة داخلية قررت الشركة بيعها. وفي منتج نما حتى صارت أسئلة بيانات المستأجرين وحالات الفوترة الاستثنائية وطلبات الدعم تستهلك معظم أسبوع فريق الهندسة.",
       ),
     },
     approach: {
       body: bi(
-        "We design tenancy first: how data is isolated, how it is enforced at the database level rather than only in application code, and how it is tested. Subscriptions, billing, onboarding and admin tooling are built as product features with the same care as the core. We keep the architecture simple enough to operate with a small team and instrumented enough to know what customers are doing and where it hurts.",
-        "نصمم نموذج تعدد المستأجرين أولاً: كيف تُعزل البيانات، وكيف يُفرض العزل على مستوى قاعدة البيانات لا في شيفرة التطبيق فقط، وكيف يُختبر. وتُبنى الاشتراكات والفوترة وتهيئة العملاء وأدوات الإدارة كميزات منتج بالعناية نفسها التي نبني بها الجوهر. ونبقي البنية بسيطة بما يكفي ليشغّلها فريق صغير، ومزوّدة بما يكفي من أدوات القياس لتعرف ماذا يفعل العملاء وأين تؤلمهم.",
+        "We settle the tenancy model first: how data is separated, how that separation is enforced in the database and not only in application code, and how we test that it holds. Subscriptions, billing, onboarding and the admin console are built with the same care as the main product, because a customer meets them first. We keep the architecture small enough for a few people to operate, and measured enough to show what customers do and where they get stuck.",
+        "نحسم نموذج تعدد المستأجرين أولاً: كيف تُفصل البيانات، وكيف يُفرض الفصل في قاعدة البيانات لا في شيفرة التطبيق وحدها، وكيف نتأكد باختبار من أنه صامد. ونبني الاشتراكات والفوترة وتهيئة العملاء ولوحة الإدارة بالعناية نفسها التي نبني بها الجوهر، لأن العميل يلتقي بها أولاً. ونُبقي البنية صغيرة بما يكفي ليشغّلها فريق قليل العدد، ومزوّدة بقياسات تكشف ما يفعله العملاء وأين يتعثرون.",
       ),
     },
     engagement: {
       body: bi(
-        "For a new product we run a focused discovery on the business model and the first customers, then build a first release in a fixed number of cycles. For an existing product we start with an architecture and security review and agree on a sequence of changes that can be shipped without stopping the business. Either way, your team is involved throughout so that they can own the product afterwards.",
-        "للمنتج الجديد نجري استكشافاً مركزاً على نموذج العمل وأول العملاء، ثم نبني الإصدار الأول في عدد محدد من الدورات. وللمنتج القائم نبدأ بمراجعة للبنية والأمان ونتفق على تسلسل تغييرات يمكن إطلاقها من دون إيقاف العمل. وفي الحالتين يشارك فريقك طوال الوقت ليتمكن من امتلاك المنتج بعد ذلك.",
+        "For a new product we run a short discovery on the business model and the first customers, then build a first release in an agreed number of cycles. For a product that already exists we begin with a review of the architecture and the security, then agree a sequence of changes that can ship while you keep selling. Your engineers work alongside ours throughout, so that running the product afterwards is theirs to do.",
+        "للمنتج الجديد نجري استكشافاً قصيراً لنموذج العمل وأول العملاء، ثم نبني الإصدار الأول في عدد متفق عليه من الدورات. وللمنتج القائم نبدأ بمراجعة البنية والأمان، ثم نتفق على تسلسل تغييرات يمكن إطلاقها والبيع مستمر. ويعمل مهندسوك مع مهندسينا طوال الوقت ليصير تشغيل المنتج بأيديهم بعد ذلك.",
       ),
     },
     deliverables: {
-      body: bi("A product platform and the operating knowledge that goes with it.", "منصة منتج، ومعها المعرفة التشغيلية اللازمة."),
+      body: bi("A product platform, and the knowledge needed to operate it.", "منصة منتج، والمعرفة اللازمة لتشغيلها."),
       items: [
-        bi("Multi tenant architecture with isolation enforced and tested", "بنية متعددة المستأجرين مع عزل مفروض ومختبر"),
-        bi("Subscription, billing, onboarding and administration features", "ميزات الاشتراك والفوترة وتهيئة العملاء والإدارة"),
-        bi("Deployment pipeline, monitoring and a security baseline you can show prospects", "خط نشر ومراقبة وخط أساس أمني يمكنك عرضه على العملاء المحتملين"),
+        bi("A multi tenant architecture with isolation enforced and tested", "بنية متعددة المستأجرين بعزل مفروض ومختبر"),
+        bi("Subscriptions, billing, customer onboarding and an admin console", "الاشتراكات والفوترة وتهيئة العملاء ولوحة الإدارة"),
+        bi("Deployment pipeline, monitoring, and a security baseline you can show a prospect", "خط نشر ومراقبة وخط أساس أمني تستطيع عرضه على عميل محتمل"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "You can take on customers without taking on proportionally more risk or cost. Enterprise prospects get credible answers to their security questions, and the engineering team spends its time on the product rather than on tenant emergencies.",
-        "تستطيع استقبال عملاء جدد من دون أن تزداد المخاطر أو التكاليف بالنسبة نفسها. يحصل العملاء المؤسسيون المحتملون على إجابات موثوقة عن أسئلتهم الأمنية، ويقضي فريق الهندسة وقته على المنتج بدلاً من طوارئ المستأجرين.",
+        "You can add customers without adding risk and cost at the same rate. When an enterprise buyer sends a security questionnaire, you have real answers to give. Your engineers spend the week on the product instead of on tenant emergencies.",
+        "تضيف عملاء من دون أن تزيد المخاطر والتكاليف بالوتيرة نفسها. وحين يرسل عميل مؤسسي استبياناً أمنياً تكون لديك إجابات حقيقية. ويقضي مهندسوك أسبوعهم على المنتج بدل طوارئ المستأجرين.",
       ),
     },
     related: ["cloud-applications", "identity-access-architecture", "platform-reliability-devops"],
@@ -165,48 +165,48 @@ export const digitalEngineeringServices: ServiceContent[] = [
     practice: "digital-engineering",
     pictogram: "integration",
     title: bi("APIs & Integrations", "واجهات البرمجة والتكاملات"),
-    summary: bi("Well designed APIs and reliable integrations between the systems you already run.", "واجهات برمجة مصممة جيداً وتكاملات موثوقة بين الأنظمة التي تشغّلها بالفعل."),
-    hero: bi("Your systems already hold the data. The work is making them talk to each other reliably and safely.", "أنظمتك تحتفظ بالبيانات بالفعل. العمل الحقيقي هو جعلها تتحدث مع بعضها بموثوقية وأمان."),
+    summary: bi("APIs designed to be used by other people, and integrations between the systems you already run.", "واجهات برمجة مصممة ليستخدمها غيرك، وتكاملات بين الأنظمة التي تشغّلها الآن."),
+    hero: bi("The data is already in your systems. The work is moving it between them without losing it or exposing it.", "البيانات موجودة في أنظمتك أصلاً. والعمل هو نقلها بينها من دون ضياع ولا انكشاف."),
     seo: {
       title: bi("APIs and Integrations", "واجهات البرمجة والتكاملات"),
-      description: bi("API design and integration engineering by CyBarq: connecting ERP, CRM, payment, government and partner systems with secure, monitored, documented interfaces.", "تصميم واجهات برمجة وهندسة تكاملات من سايبرق: ربط أنظمة ERP وCRM والدفع والأنظمة الحكومية وأنظمة الشركاء بواجهات آمنة ومراقبة وموثقة."),
+      description: bi("API design and integration work by CyBarq: connecting ERP, CRM, payment, government and partner systems with documented, monitored interfaces.", "تصميم واجهات برمجة وهندسة تكاملات من سايبرق: ربط أنظمة ERP وCRM والدفع والأنظمة الحكومية وأنظمة الشركاء بواجهات موثقة ومراقبة."),
     },
     problem: {
       body: bi(
-        "Integrations built in a hurry are the most fragile part of most estates. They fail silently, retry badly, duplicate records, and carry credentials nobody rotates. An API exposed to partners without proper design becomes a permanent liability: hard to change, hard to secure, hard to version.",
-        "التكاملات التي تُبنى على عجل هي الجزء الأكثر هشاشة في معظم البيئات. تفشل بصمت، وتعيد المحاولة بطريقة سيئة، وتكرر السجلات، وتحمل بيانات دخول لا يبدّلها أحد. وواجهة البرمجة التي تُعرض للشركاء من دون تصميم سليم تصبح عبئاً دائماً: يصعب تغييرها وتأمينها وإدارة إصداراتها.",
+        "Integrations built in a hurry are the most fragile part of most estates. They fail quietly, retry in ways that create duplicate records, and run on credentials nobody has changed since the day they were set. An API opened to partners without a design behind it becomes permanent: hard to change, hard to secure, hard to version.",
+        "التكاملات المبنية على عجل هي أهش ما في معظم البيئات التقنية. تفشل بصمت، وتعيد المحاولة بطريقة تُنتج سجلات مكررة، وتعمل ببيانات دخول لم يبدّلها أحد منذ يوم إنشائها. أما واجهة البرمجة التي تُفتح للشركاء بلا تصميم فتصير دائمة: يصعب تغييرها وتأمينها وإدارة إصداراتها.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "ERP and CRM synchronisation, payment gateways, e-invoicing and government platforms, logistics partners, identity providers, and the growing number of SaaS tools each department adopts. It shows up as data that does not match between systems and as manual re-entry that everyone has stopped noticing.",
-        "في مزامنة أنظمة ERP وCRM، وبوابات الدفع، والفوترة الإلكترونية والمنصات الحكومية، وشركاء الخدمات اللوجستية، ومزوّدي الهوية، والعدد المتزايد من أدوات SaaS التي تتبناها كل إدارة. ويظهر على شكل بيانات غير متطابقة بين الأنظمة، وإدخال يدوي متكرر لم يعد أحد يلاحظه.",
+        "ERP and CRM synchronisation, payment gateways, electronic invoicing and government platforms, logistics partners, identity providers, and the SaaS tools each department signs up for on its own. You see it as two systems that disagree about the same customer, and as staff retyping data from one screen into another without noticing it any more.",
+        "في مزامنة ERP وCRM، وبوابات الدفع، والفوترة الإلكترونية والمنصات الحكومية، وشركاء النقل، ومزوّدي الهوية، وأدوات SaaS التي تشترك فيها كل إدارة على حدة. تراه في نظامين يختلفان على العميل نفسه، وفي موظفين ينسخون البيانات من شاشة إلى أخرى ولم يعودوا ينتبهون لذلك.",
       ),
     },
     approach: {
       body: bi(
-        "We design APIs as products: consistent, versioned, documented, authenticated and rate limited from the start. Integrations are built to be idempotent and observable, so a failure is retried safely and visible to someone. We prefer boring, proven patterns over clever ones, and we make sure the credentials and data flows involved are understood and controlled.",
-        "نصمم واجهات البرمجة كمنتجات: متسقة، ومُدارة الإصدارات، وموثقة، ومحمية بالمصادقة وتحديد المعدل منذ البداية. وتُبنى التكاملات لتكون آمنة عند التكرار وقابلة للمراقبة، فيُعاد تنفيذ الفشل بأمان ويراه أحد ما. نفضّل الأنماط البسيطة المثبتة على الذكية، ونتأكد من أن بيانات الدخول وتدفقات البيانات المعنية مفهومة وتحت السيطرة.",
+        "We design an API the way a product is designed: consistent naming, versions, documentation, authentication and rate limits from the first endpoint. Integrations are built so that running the same message twice is safe, and so that a failure is recorded and seen by a person. We choose dull, proven patterns over clever ones, and we write down which credentials exist and what data each flow carries.",
+        "نصمم واجهة البرمجة كما يُصمم المنتج: تسمية متسقة، وإصدارات، ووثائق، ومصادقة، وحدود للمعدل منذ أول نقطة وصول. ونبني التكاملات بحيث يكون تنفيذ الرسالة نفسها مرتين آمناً، ويكون الفشل مسجَّلاً ويراه إنسان. ونختار الأنماط المملة المجرّبة لا الذكية، ونكتب ما لدينا من بيانات دخول وما تحمله كل قناة من بيانات.",
       ),
     },
     engagement: {
       body: bi(
-        "We map the systems, the data that needs to move and the rules that govern it, then agree on interfaces with the owners of each system. Delivery is incremental: one integration at a time, tested against sandbox environments, then cut over with a fallback. For public APIs we produce documentation and a sandbox your partners can use before go live.",
-        "نرسم خريطة للأنظمة، والبيانات التي يجب أن تنتقل، والقواعد التي تحكمها، ثم نتفق على الواجهات مع أصحاب كل نظام. والتسليم تدريجي: تكامل واحد في كل مرة، يُختبر على بيئات تجريبية، ثم يُطلق مع خطة تراجع. ولواجهات البرمجة العامة ننتج وثائق وبيئة تجريبية يستخدمها شركاؤك قبل الإطلاق.",
+        "We map the systems, the data that has to move and the rules that govern it, then agree each interface with the person who owns that system. Delivery is one integration at a time, tested against sandbox environments, then switched over with a way back. For an API your partners will use, we produce the documentation and a sandbox they can work against before launch.",
+        "نرسم خريطة الأنظمة، والبيانات التي يجب أن تنتقل، والقواعد التي تحكمها، ثم نتفق على كل واجهة مع صاحب النظام المعني. والتسليم تكامل واحد في كل مرة، يُختبر على بيئات تجريبية، ثم يُشغَّل مع طريق للعودة. وإن كانت الواجهة للشركاء، نُعدّ لهم الوثائق وبيئة تجريبية يجرّبون عليها قبل الإطلاق.",
       ),
     },
     deliverables: {
-      body: bi("Interfaces that are documented, monitored and safe to depend on.", "واجهات موثقة ومراقبة ويمكن الاعتماد عليها بأمان."),
+      body: bi("Interfaces that are documented, watched, and safe to build on.", "واجهات موثقة ومراقبة يمكن البناء عليها بأمان."),
       items: [
-        bi("API specification, documentation and sandbox", "مواصفة واجهة البرمجة والوثائق والبيئة التجريبية"),
-        bi("Integration services with retries, logging and alerts", "خدمات تكامل مع إعادة محاولة وسجلات وتنبيهات"),
-        bi("A data flow and credentials inventory for your security records", "جرد لتدفقات البيانات وبيانات الدخول لسجلاتك الأمنية"),
+        bi("API specification, documentation and a sandbox", "مواصفة الواجهة والوثائق وبيئة تجريبية"),
+        bi("Integration services with retries, logs and alerts", "خدمات تكامل مع إعادة محاولة وسجلات وتنبيهات"),
+        bi("A written inventory of data flows and credentials for your security records", "جرد مكتوب لتدفقات البيانات وبيانات الدخول لسجلاتك الأمنية"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Data that agrees with itself across systems, processes that run without re-keying, and the ability to add a partner or a tool without a new project each time.",
-        "بيانات متطابقة عبر الأنظمة، وإجراءات تعمل من دون إعادة إدخال، وقدرة على إضافة شريك أو أداة من دون مشروع جديد في كل مرة.",
+        "Systems that agree with each other, work that moves without anyone retyping it, and a new partner or tool added without starting a project each time.",
+        "أنظمة تتفق فيما بينها، وعمل ينتقل من دون إعادة إدخال، وشريك جديد أو أداة جديدة تُضاف من دون مشروع جديد في كل مرة.",
       ),
     },
     related: ["ai-api-model-integration", "internal-business-systems", "identity-access-architecture"],
@@ -216,48 +216,48 @@ export const digitalEngineeringServices: ServiceContent[] = [
     practice: "digital-engineering",
     pictogram: "automation",
     title: bi("Workflow Systems & Digital Portals", "أنظمة سير العمل والبوابات الرقمية"),
-    summary: bi("Portals for clients, citizens or members, and the workflow engines behind them.", "بوابات للعملاء أو المواطنين أو الأعضاء، ومحركات سير العمل التي تقف خلفها."),
-    hero: bi("A good portal is a promise: submit here, and the process will move. We build the part that keeps the promise.", "البوابة الجيدة وعد: قدّم طلبك هنا وسيتحرك الإجراء. نبني الجزء الذي يفي بهذا الوعد."),
+    summary: bi("Portals for clients, citizens or members, and the workflow engine that moves what they submit.", "بوابات للعملاء أو المواطنين أو الأعضاء، ومحرك سير العمل الذي يحرّك ما يقدّمونه."),
+    hero: bi("A portal makes a promise: submit here and the process will move. Most of the work is in keeping that promise.", "البوابة وعد: قدّم طلبك هنا وسيتحرك الإجراء. ومعظم العمل يقع في الوفاء بهذا الوعد."),
     seo: {
       title: bi("Workflow Systems and Digital Portals", "أنظمة سير العمل والبوابات الرقمية"),
-      description: bi("Client, member and service portals with the workflow, case management and notification systems behind them, built by CyBarq in Arabic and English.", "بوابات للعملاء والأعضاء والخدمات مع أنظمة سير العمل وإدارة الحالات والإشعارات التي تقف خلفها، من سايبرق بالعربية والإنجليزية."),
+      description: bi("Client, member and service portals from CyBarq in Arabic and English, with the workflow, case management and notification systems behind them.", "بوابات للعملاء والأعضاء والخدمات من سايبرق بالعربية والإنجليزية، مع أنظمة سير العمل وإدارة الحالات والإشعارات التي تقف خلفها."),
     },
     problem: {
       body: bi(
-        "Many portals are a form in front of an email inbox. The request arrives, and from that moment nobody outside the organisation knows where it is, and often nobody inside does either. Status calls pile up, deadlines are missed, and the portal that was meant to reduce work creates a new kind of it.",
-        "كثير من البوابات ليست سوى نموذج أمام صندوق بريد. يصل الطلب، ومن تلك اللحظة لا يعرف أحد خارج المؤسسة أين هو، وغالباً لا يعرف أحد في داخلها أيضاً. تتراكم مكالمات الاستفسار عن الحالة، وتفوت المواعيد، والبوابة التي كان يُفترض أن تقلل العمل تخلق نوعاً جديداً منه.",
+        "Many portals are a form in front of an inbox. The request arrives, and from that moment nobody outside the organisation knows where it is, and often nobody inside does either. Calls asking for status pile up, deadlines pass, and the portal that was meant to save work has created a new kind of it.",
+        "كثير من البوابات نموذج أمام صندوق بريد. يصل الطلب، ومنذ تلك اللحظة لا يعرف أحد خارج المؤسسة أين صار، وغالباً لا يعرف أحد في الداخل أيضاً. تتراكم مكالمات السؤال عن الحالة، وتمضي المواعيد، وتصنع البوابة التي جاءت لتخفف العمل عملاً من نوع آخر.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Service requests, applications and licensing, onboarding of clients or suppliers, support and ticketing, document submission and approvals across several departments. Anywhere a request has to pass through more than two people before it is done.",
-        "في طلبات الخدمة، والطلبات والتراخيص، وتهيئة العملاء أو المورّدين، والدعم والتذاكر، وتقديم المستندات والموافقات عبر عدة إدارات. في أي مكان يجب أن يمر فيه الطلب بأكثر من شخصين قبل إنجازه.",
+        "Service requests, applications and licensing, onboarding a client or a supplier, support tickets, and document submissions that several departments have to approve. Anywhere a request passes through more than two people before it is finished.",
+        "في طلبات الخدمة، والطلبات والتراخيص، وتهيئة عميل أو مورّد، وتذاكر الدعم، وتقديم مستندات توافق عليها عدة إدارات. في كل موضع يمر فيه الطلب بأكثر من شخصين قبل أن ينتهي.",
       ),
     },
     approach: {
       body: bi(
-        "We model the process explicitly: states, transitions, who can act at each step, what happens on a deadline. The portal shows applicants exactly where their request is and what is needed from them. Staff get a queue, not an inbox. Notifications go out by email or SMS at the right moments, and every step is recorded so the history of a case is never in doubt.",
-        "ننمذج الإجراء بوضوح: الحالات، والانتقالات، ومن يستطيع التصرف في كل خطوة، وما يحدث عند انتهاء المهلة. تُظهر البوابة لمقدّم الطلب بالضبط أين طلبه وما المطلوب منه. ويحصل الموظفون على قائمة انتظار منظمة لا صندوق بريد. وتُرسل الإشعارات بالبريد أو الرسائل النصية في اللحظات المناسبة، وتُسجَّل كل خطوة فلا يكون تاريخ أي حالة موضع شك.",
+        "We write the process down as states: who can act at each one, what moves a request to the next, and what happens when a deadline passes. The applicant sees where the request has reached and what is still needed from them. Staff get a work queue ordered by age and urgency instead of an inbox. Notifications go out by email or SMS at the moments that matter, and every step is recorded, so the history of a case is never argued about.",
+        "نكتب الإجراء على شكل حالات: من يتصرف في كل حالة، وما الذي ينقل الطلب إلى التالية، وماذا يحدث حين تنقضي المهلة. يرى مقدّم الطلب أين وصل طلبه وما بقي مطلوباً منه. ويحصل الموظف على قائمة عمل مرتبة بالأقدم والأكثر إلحاحاً بدل صندوق بريد. وتُرسل الإشعارات بالبريد أو الرسائل النصية في اللحظات المهمة، وتُسجَّل كل خطوة فلا يُختلف على تاريخ أي معاملة.",
       ),
     },
     engagement: {
       body: bi(
-        "We start with the process owners and map the workflow as it should run, including the exceptions that make real processes messy. The first release covers one complete workflow end to end. Subsequent workflows reuse the same engine, so each one is faster than the last. Integration with identity, payment and records systems is scoped explicitly.",
-        "نبدأ مع أصحاب الإجراء ونرسم سير العمل كما ينبغي أن يجري، بما في ذلك الاستثناءات التي تجعل الإجراءات الحقيقية معقدة. يغطي الإصدار الأول سير عمل واحداً كاملاً من البداية إلى النهاية. وتعيد أسيار العمل اللاحقة استخدام المحرك نفسه، فيكون كل منها أسرع من سابقه. ويُحدد التكامل مع أنظمة الهوية والدفع والسجلات بوضوح في النطاق.",
+        "We sit with the people who own the process and map it as it should run, including the exceptions that make real processes untidy. The first release covers one workflow from submission to closure. Each workflow after that reuses the same engine, so it takes less time than the one before. Connections to identity, payment and records systems are agreed in the scope rather than discovered later.",
+        "نجلس مع أصحاب الإجراء ونرسمه كما ينبغي أن يجري، بما فيه الاستثناءات التي تجعل الإجراءات الحقيقية غير مرتبة. ويغطي الإصدار الأول سير عمل واحداً من التقديم إلى الإغلاق. ويستخدم كل سير عمل تالٍ المحرك نفسه، فيأخذ وقتاً أقل مما قبله. ويُتفق على الربط بأنظمة الهوية والدفع والسجلات ضمن النطاق، لا يُكتشف لاحقاً.",
       ),
     },
     deliverables: {
-      body: bi("A portal people can trust and a back office that can keep up with it.", "بوابة يثق بها الناس، ومكتب خلفي قادر على مواكبتها."),
+      body: bi("A portal people can trust, and a back office that can keep up with it.", "بوابة يثق بها الناس، ومكتب خلفي يلحق بها."),
       items: [
-        bi("Public or client portal with accounts, submissions and status tracking", "بوابة عامة أو للعملاء مع حسابات وتقديم طلبات وتتبع للحالة"),
-        bi("Workflow engine with roles, deadlines, escalations and audit history", "محرك سير عمل مع أدوار ومهل وتصعيد وسجل تدقيق"),
-        bi("Staff console, notifications, reporting and integration with your records", "لوحة للموظفين وإشعارات وتقارير وتكامل مع سجلاتك"),
+        bi("A public or client portal with accounts, submissions and status tracking", "بوابة عامة أو للعملاء فيها حسابات وتقديم طلبات وتتبع للحالة"),
+        bi("A workflow engine with roles, deadlines, escalation and a full history", "محرك سير عمل فيه أدوار ومهل وتصعيد وسجل كامل"),
+        bi("A staff console, notifications, reports and links to your records", "لوحة للموظفين وإشعارات وتقارير وروابط مع سجلاتك"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Requests move on time and visibly. Fewer calls asking about status, fewer things lost between departments, and a record you can rely on when a case is questioned.",
-        "تتحرك الطلبات في وقتها وبشكل مرئي. مكالمات أقل للسؤال عن الحالة، وأشياء أقل تضيع بين الإدارات، وسجل يمكنك الاعتماد عليه حين تُطرح أسئلة عن أي حالة.",
+        "Requests move on time, and anyone can see where they are. Fewer calls about status, fewer files lost between departments, and a record you can stand behind when a decision is questioned.",
+        "تتحرك الطلبات في وقتها ويرى الجميع أين هي. مكالمات أقل عن الحالة، ومعاملات أقل تضيع بين الإدارات، وسجل تستند إليه حين يُسأل عن قرار.",
       ),
     },
     related: ["internal-business-systems", "enterprise-web-platforms", "ai-automation-workflow-integration"],
@@ -267,48 +267,48 @@ export const digitalEngineeringServices: ServiceContent[] = [
     practice: "digital-engineering",
     pictogram: "cloud",
     title: bi("Cloud Applications", "التطبيقات السحابية"),
-    summary: bi("Applications designed for the cloud they run in: scalable, resilient and cost aware.", "تطبيقات مصممة للسحابة التي تعمل فيها: قابلة للتوسع، ومرنة، وواعية بالتكلفة."),
-    hero: bi("Running in the cloud is easy. Being designed for it is what makes the difference in cost, reliability and security.", "التشغيل في السحابة سهل. أما التصميم لها فهو ما يصنع الفرق في التكلفة والموثوقية والأمان."),
+    summary: bi("Applications built for the cloud they run in, so scale, recovery and cost are decided in the design.", "تطبيقات مبنية للسحابة التي تعمل فيها، فيُحسم التوسع والاستعادة والتكلفة في التصميم."),
+    hero: bi("Moving an application to the cloud is easy. Designing it for the cloud is what changes the bill and the uptime.", "نقل التطبيق إلى السحابة سهل. أما تصميمه لها فهو ما يغيّر الفاتورة ونسبة التوفر."),
     seo: {
       title: bi("Cloud Application Development", "تطوير التطبيقات السحابية"),
-      description: bi("Cloud native application development by CyBarq on AWS, Azure and Google Cloud: managed services, serverless where it fits, infrastructure as code and security built in.", "تطوير تطبيقات سحابية أصيلة من سايبرق على AWS وAzure وGoogle Cloud: خدمات مُدارة، وحوسبة بلا خوادم حيث تناسب، وبنية تحتية كشيفرة، وأمان مدمج."),
+      description: bi("Cloud application development by CyBarq on AWS, Azure and Google Cloud: managed services, infrastructure as code, cost planning and security by design.", "تطوير تطبيقات سحابية من سايبرق على AWS وAzure وGoogle Cloud: خدمات مُدارة، وبنية تحتية كشيفرة، ونموذج تكلفة، وأمان في التصميم."),
     },
     problem: {
       body: bi(
-        "An application moved to the cloud without being designed for it usually costs more than it did on premises and is no more reliable. Cloud services reward specific patterns and punish others, and the bill arrives monthly either way. Security in the cloud is also different: the perimeter is identity and configuration, not a firewall.",
-        "التطبيق الذي يُنقل إلى السحابة من دون أن يُصمم لها يكلف عادةً أكثر مما كان يكلف محلياً، ولا يكون أكثر موثوقية. الخدمات السحابية تكافئ أنماطاً محددة وتعاقب غيرها، والفاتورة تصل شهرياً في الحالتين. والأمان في السحابة مختلف أيضاً: المحيط هو الهوية والإعدادات، لا جدار الحماية.",
+        "An application lifted into the cloud without being designed for it usually costs more than it did in your own data centre and is no more reliable. Cloud services reward a few specific patterns and charge for everything else, and the invoice arrives every month either way. Security also works differently there: the boundary is identity and configuration, not a firewall at the edge.",
+        "التطبيق الذي يُنقل إلى السحابة كما هو يكلف عادةً أكثر مما كان يكلفه في مركز بياناتك، ولا يكون أكثر موثوقية. الخدمات السحابية تكافئ أنماطاً قليلة محددة وتحاسب على ما عداها، والفاتورة تأتي كل شهر في الحالين. والأمان هناك مختلف: الحد هو الهوية والإعدادات، لا جدار حماية على الأطراف.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "New products that need to scale with demand, applications with uneven load such as seasonal or campaign driven traffic, data processing pipelines, and systems that must be recoverable in a different region. It also appears as the surprise in the second month's cloud invoice.",
-        "في المنتجات الجديدة التي تحتاج إلى التوسع مع الطلب، والتطبيقات ذات الحمل المتفاوت مثل الحركة الموسمية أو المرتبطة بالحملات، وخطوط معالجة البيانات، والأنظمة التي يجب أن تكون قابلة للاستعادة في منطقة أخرى. ويظهر أيضاً كمفاجأة في فاتورة السحابة في الشهر الثاني.",
+        "New products that have to grow with demand, applications with uneven load such as a season or a campaign, data processing that runs in batches, and systems that must come back in another region after a failure. It also appears in the second month's invoice.",
+        "في المنتجات الجديدة التي يجب أن تنمو مع الطلب، والتطبيقات ذات الحمل المتفاوت كموسم أو حملة، ومعالجة البيانات على دفعات، والأنظمة التي يجب أن تعود في منطقة أخرى بعد عطل. ويظهر أيضاً في فاتورة الشهر الثاني.",
       ),
     },
     approach: {
       body: bi(
-        "We choose managed services where they remove operational work and avoid them where they create lock in without benefit. Serverless and containers are tools, not a philosophy; we pick per workload. Infrastructure is defined as code, environments are reproducible, and cost is a design input from the first architecture diagram. Identity, secrets and network boundaries are designed with our security practice.",
-        "نختار الخدمات المُدارة حيث تزيل عملاً تشغيلياً، ونتجنبها حيث تخلق ارتباطاً بمزوّد من دون فائدة. الحوسبة بلا خوادم والحاويات أدوات لا فلسفة؛ نختار لكل حمل عمل ما يناسبه. البنية التحتية معرّفة كشيفرة، والبيئات قابلة لإعادة الإنشاء، والتكلفة مدخل في التصميم منذ أول مخطط للبنية. وتُصمم الهوية والأسرار وحدود الشبكة مع فريقنا الأمني.",
+        "We use managed services where they remove work you would otherwise do by hand, and avoid them where they tie you to one provider for nothing in return. Serverless and containers are tools, and we choose per workload rather than by preference. Infrastructure is written as code so any environment can be rebuilt, and the monthly cost is estimated while the architecture is still a drawing. Identity, secrets and network boundaries are designed together with our security practice.",
+        "نستخدم الخدمات المُدارة حيث توفّر عملاً يدوياً، ونتجنبها حيث تربطك بمزوّد واحد بلا مقابل. والحوسبة بلا خوادم والحاويات أدوات، نختار بينها بحسب حمل العمل لا بحسب التفضيل. ونكتب البنية التحتية كشيفرة ليمكن إعادة بناء أي بيئة، ونقدّر الكلفة الشهرية والبنية ما تزال رسماً على الورق. وتُصمم الهوية والأسرار وحدود الشبكة مع فريقنا الأمني.",
       ),
     },
     engagement: {
       body: bi(
-        "Discovery covers the workload, its growth expectations, its data and its compliance constraints, including where data may reside. We produce an architecture with a cost model before building. Delivery is in cycles with a staging environment identical to production. We hand over infrastructure code, runbooks and a cost dashboard, and we can run the platform for you if you prefer.",
-        "يغطي الاستكشاف حمل العمل، وتوقعات نموه، وبياناته، وقيود الامتثال، بما فيها أين يجوز أن تقيم البيانات. ننتج بنية مع نموذج تكلفة قبل البناء. والتسليم في دورات مع بيئة تجريبية مطابقة للإنتاج. نسلّمك شيفرة البنية التحتية وأدلة التشغيل ولوحة للتكاليف، ويمكننا تشغيل المنصة نيابة عنك إن فضّلت ذلك.",
+        "Discovery covers the workload, how much it is expected to grow, the data it holds and where that data is allowed to live. We produce an architecture with a cost model before anyone writes code. Delivery runs in cycles against a staging environment built the same way as production. You receive the infrastructure code, the runbooks and a cost dashboard, and we can operate the platform for you if you would rather not.",
+        "يغطي الاستكشاف حمل العمل، وتوقع نموه، والبيانات التي يحملها، وأين يجوز أن تُخزَّن. وننتج بنية مع نموذج تكلفة قبل كتابة أي شيفرة. ويسير التنفيذ في دورات على بيئة تجريبية مبنية بالطريقة نفسها التي بُني بها الإنتاج. وتتسلم شيفرة البنية التحتية وأدلة التشغيل ولوحة للتكاليف، ويمكننا تشغيل المنصة عنك إن لم ترغب في تشغيلها.",
       ),
     },
     deliverables: {
-      body: bi("An application and the cloud environment it needs, both under version control.", "تطبيق والبيئة السحابية التي يحتاجها، وكلاهما تحت إدارة الإصدارات."),
+      body: bi("An application and the cloud environment it runs in, both kept in version control.", "تطبيق والبيئة السحابية التي يعمل فيها، وكلاهما محفوظ في إدارة الإصدارات."),
       items: [
-        bi("Application code and infrastructure as code for every environment", "شيفرة التطبيق والبنية التحتية كشيفرة لكل بيئة"),
+        bi("Application code, and infrastructure as code for every environment", "شيفرة التطبيق، والبنية التحتية كشيفرة لكل بيئة"),
         bi("Deployment pipeline, monitoring, backups and a recovery procedure", "خط نشر ومراقبة ونسخ احتياطي وإجراء استعادة"),
         bi("Cost model, security baseline and operations documentation", "نموذج تكلفة وخط أساس أمني ووثائق تشغيل"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Capacity that follows demand, a cloud bill you can explain, and an application that can be rebuilt from code in hours if it ever has to be.",
-        "سعة تتبع الطلب، وفاتورة سحابية يمكنك تفسيرها، وتطبيق يمكن إعادة بنائه من الشيفرة في ساعات إذا اضطررت يوماً إلى ذلك.",
+        "Capacity that follows demand instead of a guess made last year. A cloud bill whose lines you can explain. And an application that can be rebuilt from code in hours if it ever has to be.",
+        "سعة تتبع الطلب بدل تقدير وُضع العام الماضي. وفاتورة سحابية تستطيع تفسير بنودها. وتطبيق يمكن إعادة بنائه من الشيفرة في ساعات إن اضطررت يوماً إلى ذلك.",
       ),
     },
     related: ["cloud-architecture", "application-deployment-infrastructure", "saas-platforms"],
@@ -318,48 +318,48 @@ export const digitalEngineeringServices: ServiceContent[] = [
     practice: "digital-engineering",
     pictogram: "database",
     title: bi("Legacy Modernisation", "تحديث الأنظمة القديمة"),
-    summary: bi("Moving critical systems off ageing technology without stopping the business that depends on them.", "نقل الأنظمة الحرجة عن التقنيات المتقادمة من دون إيقاف العمل الذي يعتمد عليها."),
-    hero: bi("The old system works, and that is exactly why replacing it is delicate. We modernise in steps, with the business running throughout.", "النظام القديم يعمل، وهذا بالضبط ما يجعل استبداله حساساً. نحدّثه على مراحل، والعمل مستمر طوال الوقت."),
+    summary: bi("Moving critical systems off ageing technology while the business that depends on them keeps running.", "نقل الأنظمة الحرجة عن تقنيات متقادمة، والعمل الذي يعتمد عليها مستمر."),
+    hero: bi("The old system still works. That is what makes replacing it delicate, so we replace it one piece at a time.", "النظام القديم ما زال يعمل. وهذا ما يجعل استبداله حساساً، لذلك نستبدله قطعة قطعة."),
     seo: {
       title: bi("Legacy System Modernisation", "تحديث الأنظمة القديمة"),
-      description: bi("Incremental modernisation of legacy applications and databases by CyBarq: assessment, strangler migration, data migration and secure replacement without a big bang cutover.", "تحديث تدريجي للتطبيقات وقواعد البيانات القديمة من سايبرق: تقييم، وترحيل تدريجي، ونقل للبيانات، واستبدال آمن من دون انتقال دفعة واحدة."),
+      description: bi("Incremental legacy modernisation by CyBarq: assessment, staged replacement, data migration and reconciliation, with no big bang cutover.", "تحديث تدريجي للأنظمة القديمة من سايبرق: تقييم، واستبدال على مراحل، ونقل للبيانات ومطابقتها، من دون انتقال دفعة واحدة."),
     },
     problem: {
       body: bi(
-        "Systems built ten or fifteen years ago still run payroll, billing and core operations in many organisations. They depend on unsupported platforms, on one or two people who understand them, and on security assumptions from a different era. Replacing them all at once is the riskiest project most organisations will ever attempt, so it keeps being postponed.",
-        "أنظمة بُنيت قبل عشر أو خمس عشرة سنة ما تزال تشغّل الرواتب والفوترة والعمليات الأساسية في كثير من المؤسسات. تعتمد على منصات لم تعد مدعومة، وعلى شخص أو اثنين يفهمانها، وعلى افتراضات أمنية من عصر آخر. واستبدالها دفعة واحدة هو أخطر مشروع قد تخوضه معظم المؤسسات، ولذلك يُؤجَّل باستمرار.",
+        "Systems written ten or fifteen years ago still run payroll, billing and core operations in many organisations. They sit on platforms that no longer receive updates, depend on one or two people who understand them, and were designed when security meant something else. Replacing all of it at once is the riskiest project the organisation will ever attempt, so the decision keeps being postponed.",
+        "أنظمة كُتبت قبل عشر أو خمس عشرة سنة ما زالت تشغّل الرواتب والفوترة والعمليات الأساسية في مؤسسات كثيرة. تقوم على منصات لم تعد تتلقى تحديثات، وتعتمد على شخص أو اثنين يفهمانها، وصُمّمت يوم كان للأمان معنى آخر. واستبدالها كلها دفعة واحدة أخطر مشروع قد تخوضه المؤسسة، فيُؤجَّل القرار مرة بعد مرة.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Desktop applications on old frameworks, databases with logic in stored procedures nobody dares edit, systems that can no longer be patched, integrations held together by scheduled scripts, and vendors that have gone out of business. The trigger is often an audit finding, a failed hardware component, or the retirement of the one person who knew.",
-        "في تطبيقات سطح المكتب على أطر قديمة، وقواعد بيانات تحمل منطقاً في إجراءات مخزنة لا يجرؤ أحد على تعديلها، وأنظمة لم يعد بالإمكان تحديثها أمنياً، وتكاملات تتماسك بسكربتات مجدولة، ومورّدين خرجوا من السوق. وغالباً ما يكون المحفّز ملاحظة تدقيق، أو عطل في عتاد، أو تقاعد الشخص الوحيد الذي كان يعرف.",
+        "Desktop applications on frameworks that are no longer supported, business rules buried in stored procedures nobody will touch, systems that can no longer be patched, integrations held together by scheduled scripts, and vendors that have closed. The trigger is usually an audit finding, a failed piece of hardware, or the retirement of the one person who knew.",
+        "في تطبيقات سطح مكتب على أطر لم تعد مدعومة، وقواعد عمل مدفونة في إجراءات مخزنة لا يمسّها أحد، وأنظمة لم يعد بالإمكان ترقيعها أمنياً، وتكاملات تتماسك بسكربتات مجدولة، ومورّدين أغلقوا أبوابهم. والمحفّز عادةً ملاحظة تدقيق، أو عطل في عتاد، أو تقاعد الشخص الوحيد الذي كان يعرف.",
       ),
     },
     approach: {
       body: bi(
-        "We begin with an honest assessment: what the system does, what it depends on, what data it holds and what can be retired outright. Then we modernise incrementally, replacing one capability at a time behind a stable interface while the old system keeps running. Data is migrated with reconciliation at every step. Security is improved as we go rather than promised for the end.",
-        "نبدأ بتقييم صادق: ماذا يفعل النظام، وعلى ماذا يعتمد، وما البيانات التي يحتفظ بها، وما الذي يمكن الاستغناء عنه مباشرة. ثم نحدّث تدريجياً، فنستبدل قدرة واحدة في كل مرة خلف واجهة مستقرة بينما يستمر النظام القديم في العمل. وتُنقل البيانات مع مطابقة في كل خطوة. ويتحسن الأمان مع تقدم العمل بدلاً من الوعد به في النهاية.",
+        "We start with an honest assessment: what the system does, what it depends on, what data it holds, and which parts can simply be switched off. Then we replace one capability at a time behind a stable interface, while the old system keeps serving everything else. Data moves with a reconciliation at each step, so you can see for yourself that nothing was lost. Security improves along the way instead of being promised for the end.",
+        "نبدأ بتقييم صريح: ماذا يفعل النظام، وعلى ماذا يعتمد، وما البيانات التي يحتفظ بها، وأي أجزائه يمكن إطفاؤها ببساطة. ثم نستبدل قدرة واحدة في كل مرة خلف واجهة ثابتة، والنظام القديم يواصل خدمة ما تبقى. وتنتقل البيانات مع مطابقة في كل خطوة، فترى بنفسك أن شيئاً لم يضع. ويتحسن الأمان مع الطريق، لا في وعد مؤجل إلى النهاية.",
       ),
     },
     engagement: {
       body: bi(
-        "The assessment phase takes a few weeks and produces a modernisation plan with sequencing, risks and a realistic timeline. Delivery is organised in stages, each with its own cutover and rollback plan and each leaving the business in a better state than before. We work with your existing staff and vendors, and we document the new system as if we were leaving tomorrow.",
-        "تستغرق مرحلة التقييم بضعة أسابيع وتنتج خطة تحديث بتسلسل ومخاطر وجدول زمني واقعي. ويُنظَّم التنفيذ في مراحل، لكل منها خطة انتقال وتراجع خاصة بها، وتترك كل مرحلة العمل في حال أفضل مما كان. نعمل مع موظفيك ومورّديك الحاليين، ونوثّق النظام الجديد كما لو كنا سنغادر غداً.",
+        "The assessment takes a few weeks and ends in a plan: what is replaced in what order, the risks at each step, and a timeline we believe in. Delivery is organised in stages, each with a cutover and a way back, and each leaving you better off than it found you. We work with your staff and your existing vendors, and we document the new system as if we were leaving tomorrow.",
+        "يستغرق التقييم بضعة أسابيع وينتهي بخطة: ما الذي يُستبدل وبأي ترتيب، ومخاطر كل خطوة، وجدول زمني نصدّقه. ويُنظَّم التنفيذ في مراحل، لكل مرحلة انتقال وطريق للعودة، وتترك كل مرحلة وضعك أفضل مما وجدته. ونعمل مع موظفيك ومورّديك الحاليين، ونوثّق النظام الجديد كأننا سنغادر غداً.",
       ),
     },
     deliverables: {
-      body: bi("A modern system, a clean migration and no dependence on tribal knowledge.", "نظام حديث، وترحيل نظيف، ومن دون اعتماد على معرفة محصورة في أشخاص."),
+      body: bi("A current system, a clean migration, and nothing left that only one person understands.", "نظام حديث، وترحيل نظيف، ولا شيء يبقى لا يفهمه إلا شخص واحد."),
       items: [
-        bi("Assessment report and staged modernisation plan", "تقرير تقييم وخطة تحديث مرحلية"),
-        bi("Replacement components delivered stage by stage with reconciled data", "مكونات بديلة تُسلَّم مرحلة بمرحلة مع بيانات مطابقة"),
+        bi("An assessment report and a staged modernisation plan", "تقرير تقييم وخطة تحديث على مراحل"),
+        bi("Replacement components delivered stage by stage, with the data reconciled", "مكونات بديلة تُسلَّم مرحلة بعد مرحلة، مع مطابقة البيانات"),
         bi("Documentation, tests and a supported platform your team can maintain", "وثائق واختبارات ومنصة مدعومة يستطيع فريقك صيانتها"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "The risk that has been quietly growing for years is retired in a controlled way. Operations continue, the security posture improves stage by stage, and the organisation stops depending on technology and people it cannot replace.",
-        "المخاطر التي كانت تنمو بصمت لسنوات تُنهى بطريقة مضبوطة. تستمر العمليات، ويتحسن الوضع الأمني مرحلة بعد مرحلة، وتتوقف المؤسسة عن الاعتماد على تقنيات وأشخاص لا يمكن تعويضهم.",
+        "A risk that has been growing quietly for years is closed in a controlled way. Operations carry on, the security position improves at each stage, and the organisation stops depending on technology and people it cannot replace.",
+        "خطر كان ينمو بصمت سنوات يُغلق بطريقة مضبوطة. تستمر العمليات، ويتحسن الوضع الأمني في كل مرحلة، وتكفّ المؤسسة عن الاعتماد على تقنية وأشخاص لا بديل لهم.",
       ),
     },
     related: ["infrastructure-modernisation", "internal-business-systems", "backup-resilience"],
@@ -369,48 +369,48 @@ export const digitalEngineeringServices: ServiceContent[] = [
     practice: "digital-engineering",
     pictogram: "performance",
     title: bi("Performance & Platform Architecture", "الأداء وبنية المنصات"),
-    summary: bi("Architecture reviews and performance engineering for systems that have grown past their original design.", "مراجعات للبنية وهندسة للأداء للأنظمة التي تجاوزت تصميمها الأصلي."),
-    hero: bi("Slow systems are rarely slow for mysterious reasons. We find the actual cause and fix the architecture, not the symptom.", "الأنظمة البطيئة نادراً ما تكون بطيئة لأسباب غامضة. نجد السبب الفعلي ونصلح البنية لا العَرَض."),
+    summary: bi("Architecture review and performance work for systems that have grown past the design they started with.", "مراجعة للبنية وعمل على الأداء لأنظمة تجاوزت التصميم الذي بدأت به."),
+    hero: bi("Slow systems are slow for a reason you can measure. We find the cause and fix the architecture instead of the symptom.", "الأنظمة البطيئة بطيئة لسبب يمكن قياسه. نجد السبب ونعالج البنية لا العَرَض."),
     seo: {
       title: bi("Performance and Platform Architecture", "الأداء وبنية المنصات"),
-      description: bi("Architecture review, performance diagnosis and scalability engineering by CyBarq for platforms that have outgrown their original design.", "مراجعة البنية وتشخيص الأداء وهندسة قابلية التوسع من سايبرق للمنصات التي تجاوزت تصميمها الأصلي."),
+      description: bi("Architecture review, performance diagnosis and scalability work by CyBarq for platforms that have outgrown the design they started with.", "مراجعة بنية وتشخيص أداء وعمل على قابلية التوسع من سايبرق للمنصات التي تجاوزت تصميمها الأول."),
     },
     problem: {
       body: bi(
-        "A platform designed for a hundred users behaves differently at ten thousand. Queries that were fine become the bottleneck, a shared database becomes a single point of failure, and adding servers stops helping. Teams often respond by adding caches and hardware, which hides the problem for a while and makes it harder to diagnose later.",
-        "المنصة المصممة لمئة مستخدم تتصرف بشكل مختلف مع عشرة آلاف. الاستعلامات التي كانت مقبولة تصبح عنق الزجاجة، وقاعدة البيانات المشتركة تصبح نقطة فشل واحدة، وإضافة الخوادم تتوقف عن الإفادة. وكثيراً ما ترد الفرق بإضافة ذاكرات تخزين مؤقت وعتاد، فيختفي المشكل لفترة ويصعب تشخيصه لاحقاً.",
+        "A platform built for 100 users behaves differently with 10,000. Queries that were fine become the bottleneck, one shared database becomes the point everything waits on, and adding servers stops helping. The usual answer is another cache and more hardware, which hides the problem for a while and makes it harder to find later.",
+        "منصة بُنيت لخدمة 100 مستخدم تتصرف تصرفاً آخر مع 10,000. الاستعلامات التي كانت مقبولة تصير عنق الزجاجة، وقاعدة البيانات المشتركة تصير النقطة التي ينتظرها كل شيء، وإضافة الخوادم تكفّ عن الإفادة. والجواب المعتاد ذاكرة تخزين مؤقت أخرى وعتاد أكثر، فتختفي المشكلة حيناً ويصعب العثور عليها لاحقاً.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Page loads that get slower every quarter, reports that time out, batch jobs that no longer finish overnight, outages during peak periods, and cloud costs rising faster than usage. It is common in successful products that grew faster than planned.",
-        "في صفحات تزداد بطئاً كل ربع سنة، وتقارير تنتهي مهلتها قبل اكتمالها، ومهام دفعية لم تعد تنتهي خلال الليل، وانقطاعات في أوقات الذروة، وتكاليف سحابية ترتفع أسرع من الاستخدام. وهو شائع في المنتجات الناجحة التي نمت أسرع مما كان مخططاً.",
+        "Pages that get slower every quarter, reports that time out, overnight jobs that no longer finish by morning, outages at peak hours, and a cloud bill rising faster than usage. It is common in products that succeeded faster than anyone planned for.",
+        "في صفحات تزداد بطئاً كل ربع سنة، وتقارير تنقضي مهلتها قبل أن تكتمل، ومهام ليلية لم تعد تنتهي قبل الصباح، وانقطاعات في ساعات الذروة، وفاتورة سحابية ترتفع أسرع من الاستخدام. وهذا شائع في المنتجات التي نجحت أسرع مما خُطط له.",
       ),
     },
     approach: {
       body: bi(
-        "We measure before we change anything. Profiling, load testing and a review of the architecture and data model show where time and resources actually go. Then we recommend changes in order of impact: query and index work, caching with clear invalidation, separating workloads, asynchronous processing, or structural changes where they are genuinely needed. We avoid rewrites unless the evidence demands one.",
-        "نقيس قبل أن نغيّر أي شيء. يُظهر التحليل واختبار الحمل ومراجعة البنية ونموذج البيانات أين يذهب الوقت والموارد فعلاً. ثم نوصي بالتغييرات بترتيب الأثر: تحسين الاستعلامات والفهارس، وتخزين مؤقت بقواعد إبطال واضحة، وفصل أحمال العمل، والمعالجة غير المتزامنة، أو تغييرات هيكلية حين تكون ضرورية حقاً. ونتجنب إعادة الكتابة الكاملة ما لم تفرضها الأدلة.",
+        "We measure before we change anything. Profiling, load tests and a look at the data model show where the time and the money actually go, which is often not where the team expected. Then we propose changes in order of effect: indexes and queries first, caching with a clear rule for when it expires, splitting workloads apart, moving slow work off the request. We recommend a rewrite only when the measurements leave nothing else.",
+        "نقيس قبل أن نغيّر شيئاً. يكشف التحليل واختبار الحمل ومراجعة نموذج البيانات أين يذهب الوقت والمال فعلاً، وغالباً في غير ما يتوقعه الفريق. ثم نقترح التغييرات بترتيب أثرها: الفهارس والاستعلامات أولاً، ثم تخزين مؤقت بقاعدة واضحة لانتهاء صلاحيته، ثم فصل أحمال العمل، ونقل العمل البطيء خارج الطلب. ولا نوصي بإعادة الكتابة إلا حين لا تترك القياسات خياراً آخر.",
       ),
     },
     engagement: {
       body: bi(
-        "A diagnostic phase of two to three weeks produces a findings report with measured evidence and a ranked plan. Implementation can be done by your team with our guidance or by us, in increments that each show a measurable improvement. We set up the performance monitoring that lets you see regressions before users do.",
-        "تنتج مرحلة تشخيص من أسبوعين إلى ثلاثة تقريراً بالنتائج مدعوماً بقياسات وخطة مرتبة. ويمكن أن ينفذ فريقك التغييرات بإرشادنا أو أن ننفذها نحن، على دفعات يُظهر كل منها تحسناً قابلاً للقياس. ونُعدّ مراقبة الأداء التي تتيح لك رؤية التراجع قبل أن يراه المستخدمون.",
+        "A diagnostic phase of two to three weeks produces a report with the measurements behind each finding and a plan ordered by what each step will buy you. Your team can carry out the changes with our guidance, or we can, in increments where each one shows a measurable difference. We leave behind the monitoring that lets you see a regression before your users report it.",
+        "تنتج مرحلة تشخيص من أسبوعين إلى ثلاثة تقريراً فيه القياسات وراء كل نتيجة، وخطة مرتبة بما تعود به كل خطوة عليك. ويستطيع فريقك تنفيذ التغييرات بإرشادنا، أو ننفذها نحن، على دفعات يُظهر كل منها فرقاً قابلاً للقياس. ونترك لك المراقبة التي ترى بها التراجع قبل أن يبلّغك به المستخدمون.",
       ),
     },
     deliverables: {
-      body: bi("Evidence, a plan and a faster system.", "أدلة، وخطة، ونظام أسرع."),
+      body: bi("Measurements, a plan, and a faster system.", "قياسات، وخطة، ونظام أسرع."),
       items: [
-        bi("Performance diagnostic report with measurements and root causes", "تقرير تشخيص للأداء بقياسات وأسباب جذرية"),
-        bi("Architecture recommendations ranked by impact and effort", "توصيات للبنية مرتبة حسب الأثر والجهد"),
-        bi("Implemented improvements with before and after measurements, plus monitoring", "تحسينات منفذة مع قياسات قبل وبعد، ومراقبة مستمرة"),
+        bi("A diagnostic report with measurements and root causes", "تقرير تشخيص فيه القياسات والأسباب الجذرية"),
+        bi("Architecture recommendations ordered by effect and effort", "توصيات للبنية مرتبة بحسب الأثر والجهد"),
+        bi("The improvements implemented, with numbers before and after, plus monitoring", "التحسينات منفذة، مع أرقام قبل وبعد، ومراقبة مستمرة"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "A platform that handles growth without emergencies, infrastructure spend that tracks value, and an engineering team that understands its own system again.",
-        "منصة تستوعب النمو من دون طوارئ، وإنفاق على البنية التحتية يعكس القيمة، وفريق هندسي يفهم نظامه من جديد.",
+        "Growth stops arriving as an emergency. Infrastructure spending follows what the system is actually doing, and your engineers understand their own platform again.",
+        "لم يعد النمو يصل على هيئة طارئ. وينسجم الإنفاق على البنية التحتية مع ما يقوم به النظام فعلاً، ويعود مهندسوك يفهمون منصتهم.",
       ),
     },
     related: ["technical-architecture-consulting", "observability", "cloud-architecture"],
@@ -420,48 +420,48 @@ export const digitalEngineeringServices: ServiceContent[] = [
     practice: "digital-engineering",
     pictogram: "software",
     title: bi("Custom Business Software", "برمجيات الأعمال المخصصة"),
-    summary: bi("Purpose built software for a specific business need, when nothing on the market fits well enough.", "برمجيات مبنية لغرض محدد لاحتياج عمل بعينه، حين لا يناسبك شيء مما في السوق."),
-    hero: bi("Sometimes the right tool does not exist yet. We build it, and we build it to last.", "أحياناً لا توجد الأداة المناسبة بعد. نبنيها، ونبنيها لتدوم."),
+    summary: bi("Software built for one specific need, when nothing on the market fits it well enough.", "برمجية تُبنى لحاجة واحدة بعينها، حين لا يناسبها شيء مما في السوق."),
+    hero: bi("Sometimes the tool you need does not exist. We build it, and we build it so that someone else could maintain it.", "أحياناً لا تكون الأداة التي تحتاجها موجودة. نبنيها، ونبنيها بحيث يستطيع غيرنا صيانتها."),
     seo: {
       title: bi("Custom Business Software", "برمجيات الأعمال المخصصة"),
-      description: bi("Custom software development by CyBarq for specific business needs: web and mobile applications, dashboards and tools, secure by design and delivered with source and documentation.", "تطوير برمجيات مخصصة من سايبرق لاحتياجات عمل محددة: تطبيقات ويب وهاتف، ولوحات وأدوات، آمنة بالتصميم ومسلّمة مع الشيفرة والوثائق."),
+      description: bi("Custom software development by CyBarq: web and mobile applications, dashboards and internal tools, delivered with source code, tests and documentation.", "تطوير برمجيات مخصصة من سايبرق: تطبيقات ويب وهاتف، ولوحات وأدوات داخلية، تُسلَّم مع الشيفرة المصدرية والاختبارات والوثائق."),
     },
     problem: {
       body: bi(
-        "Every organisation has a few processes that are genuinely its own. Forcing them into generic software means workarounds, exports and a growing list of things the tool cannot do. Building custom software has its own risks: unclear scope, quality that depends on who was available, and code that only the original developer can maintain.",
-        "في كل مؤسسة بضعة إجراءات تخصها وحدها. وإجبارها على العمل داخل برمجيات عامة يعني حلولاً التفافية وتصديراً للبيانات وقائمة متزايدة بما لا تستطيع الأداة فعله. ولبناء برمجيات مخصصة مخاطره أيضاً: نطاق غير واضح، وجودة تعتمد على من كان متاحاً، وشيفرة لا يستطيع صيانتها إلا من كتبها.",
+        "Every organisation has a few processes that are genuinely its own. Pushing them into generic software produces workarounds, exports to a spreadsheet, and a growing list of things the tool cannot do. Building your own has its own risks: scope that was never written down, quality that depended on who was free that month, and code only its author can change.",
+        "في كل مؤسسة إجراءات قليلة تخصها وحدها. وحشرها في برمجية عامة يُنتج حلولاً التفافية، وتصديراً إلى جدول بيانات، وقائمة تطول بما لا تستطيع الأداة فعله. وللبناء الخاص مخاطره أيضاً: نطاق لم يُكتب يوماً، وجودة تعتمد على من كان متفرغاً ذلك الشهر، وشيفرة لا يعدّلها إلا كاتبها.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Field operations apps, specialised calculators and configurators, dashboards over data from several sources, tools for a regulated process, client facing utilities, and the internal tool everyone uses that started as one person's script.",
-        "في تطبيقات العمليات الميدانية، والحاسبات والمكوّنات المتخصصة، ولوحات المتابعة فوق بيانات من عدة مصادر، وأدوات الإجراءات الخاضعة للتنظيم، والأدوات الموجهة للعملاء، والأداة الداخلية التي يستخدمها الجميع وبدأت كسكربت كتبه شخص واحد.",
+        "Apps for field teams, calculators and configurators for a specialised product, dashboards over data from several sources, tools for a process a regulator inspects, small utilities your clients use, and the internal tool everyone now depends on that began as one person's script.",
+        "في تطبيقات الفرق الميدانية، وحاسبات ومكوّنات لمنتج متخصص، ولوحات متابعة فوق بيانات من مصادر عدة، وأدوات لإجراء تفتّشه جهة تنظيمية، وأدوات صغيرة يستخدمها عملاؤك، والأداة الداخلية التي صار الجميع يعتمد عليها وقد بدأت سكربتاً كتبه شخص واحد.",
       ),
     },
     approach: {
       body: bi(
-        "We treat scope as the first deliverable: what the software must do, what it must not do, and how we will know it is done. We use proven, well supported technology so that any competent team can maintain the result. Security, testing and documentation are part of the definition of done. Mobile, web or both, the design starts from the people who will use it.",
-        "نعتبر النطاق أول المخرجات: ما الذي يجب أن تفعله البرمجية، وما الذي يجب ألا تفعله، وكيف سنعرف أنها اكتملت. نستخدم تقنيات مثبتة ومدعومة جيداً ليستطيع أي فريق كفء صيانة النتيجة. الأمان والاختبار والتوثيق جزء من تعريف الاكتمال. وسواء كان التطبيق للهاتف أو للويب أو لكليهما، يبدأ التصميم من الأشخاص الذين سيستخدمونه.",
+        "Scope is the first thing we deliver: what the software must do, what it will not do, and how we will both know it is finished. We use technology that is widely supported, so any competent team can pick the result up after us. Tests, security review and documentation are part of being finished, not extras. Whether it is web, mobile or both, the design starts from the people who will use it and the conditions they use it in.",
+        "النطاق أول ما نسلّمه: ما الذي يجب أن تفعله البرمجية، وما الذي لن تفعله، وكيف نعرف معاً أنها اكتملت. ونستخدم تقنيات واسعة الدعم ليستطيع أي فريق كفء أن يكمل من بعدنا. والاختبار والمراجعة الأمنية والتوثيق جزء من الاكتمال لا إضافة عليه. وسواء كانت على الويب أو الهاتف أو كليهما، يبدأ التصميم من الناس الذين سيستخدمونها ومن الظروف التي يستخدمونها فيها.",
       ),
     },
     engagement: {
       body: bi(
-        "A short discovery produces a written scope, a design and a fixed price or a clear estimate, depending on how well defined the need is. Delivery runs in cycles with a working version you can try after each. You receive the source, the documentation and the deployment setup, and you can choose ongoing support or take it in house.",
-        "ينتج استكشاف قصير نطاقاً مكتوباً وتصميماً وسعراً ثابتاً أو تقديراً واضحاً، بحسب مدى وضوح الاحتياج. ويسير التنفيذ في دورات تنتهي كل منها بنسخة عاملة يمكنك تجربتها. تتسلم الشيفرة والوثائق وإعدادات النشر، ويمكنك اختيار الدعم المستمر أو تولي الأمر داخلياً.",
+        "A short discovery produces a written scope, a design, and either a fixed price or a clear estimate, depending on how well defined the need is. Delivery runs in cycles, and after each one there is a working version you can try. You receive the source, the documentation and the deployment setup, and you choose between a support arrangement and taking it in house.",
+        "ينتج استكشاف قصير نطاقاً مكتوباً وتصميماً، ثم سعراً ثابتاً أو تقديراً واضحاً بحسب وضوح الحاجة. ويسير التنفيذ في دورات، وبعد كل دورة نسخة عاملة تستطيع تجربتها. وتتسلم الشيفرة والوثائق وإعدادات النشر، وتختار بين ترتيب للدعم أو تولّي الأمر داخلياً.",
       ),
     },
     deliverables: {
-      body: bi("Software that does the job, and everything needed to keep it doing the job.", "برمجية تؤدي المهمة، وكل ما يلزم لتبقى تؤديها."),
+      body: bi("Software that does the job, and everything needed to keep it doing the job.", "برمجية تؤدي المهمة، ومعها ما يلزم لتبقى تؤديها."),
       items: [
-        bi("Scope document, design and acceptance criteria", "وثيقة نطاق وتصميم ومعايير قبول"),
-        bi("Tested application with source code and deployment configuration", "تطبيق مختبر مع الشيفرة المصدرية وإعدادات النشر"),
-        bi("User and administrator documentation, and a support option", "وثائق للمستخدمين والمسؤولين، وخيار للدعم"),
+        bi("A written scope, a design and the acceptance criteria", "نطاق مكتوب وتصميم ومعايير قبول"),
+        bi("A tested application with its source code and deployment configuration", "تطبيق مختبر مع شيفرته المصدرية وإعدادات نشره"),
+        bi("Documentation for users and administrators, and the option of support", "وثائق للمستخدمين والمسؤولين، وخيار الدعم"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "A tool that fits the way you work instead of the other way round, with a cost and timeline you agreed to in advance, and no dependence on a single developer afterwards.",
-        "أداة تناسب طريقة عملك بدلاً من العكس، بتكلفة وجدول زمني اتفقت عليهما مسبقاً، ومن دون اعتماد على مطوّر واحد بعد ذلك.",
+        "A tool shaped around your work rather than the other way round, at a cost and a timeline you agreed before we started. Once it is delivered you depend on documentation and tests, not on the developer who wrote it.",
+        "أداة مصوغة على شكل عملك لا العكس، بتكلفة وجدول اتفقنا عليهما قبل البدء. وعند التسليم يكون اعتمادك على الوثائق والاختبارات، لا على المطوّر الذي كتبها.",
       ),
     },
     related: ["internal-business-systems", "apis-integrations", "ai-internal-tools"],

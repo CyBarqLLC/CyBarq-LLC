@@ -5,7 +5,7 @@ export type NavEntry = {
   href: string;
   /** Message key under platform.nav */
   labelKey: string;
-  icon: "home" | "tasks" | "clients" | "projects" | "security" | "content" | "finance" | "certificates" | "employees" | "users" | "audit" | "settings" | "bell";
+  icon: "home" | "tasks" | "clients" | "projects" | "security" | "content" | "finance" | "certificates" | "employees" | "users" | "audit" | "settings" | "documents" | "support" | "portal";
   /** Shown when the viewer holds any of these; empty = every employee. */
   anyOf?: Permission[];
 };
@@ -43,8 +43,8 @@ export const PLATFORM_NAV: { section: string; items: NavEntry[] }[] = [
 export const PORTAL_NAV: { key: string; href: string; labelKey: string; icon: NavEntry["icon"] }[] = [
   { key: "overview", href: "/portal", labelKey: "overview", icon: "home" },
   { key: "projects", href: "/portal/projects", labelKey: "projects", icon: "projects" },
-  { key: "documents", href: "/portal/documents", labelKey: "documents", icon: "content" },
+  { key: "documents", href: "/portal/documents", labelKey: "documents", icon: "documents" },
   { key: "finance", href: "/portal/finance", labelKey: "finance", icon: "finance" },
   { key: "security", href: "/portal/security", labelKey: "security", icon: "security" },
-  { key: "support", href: "/portal/support", labelKey: "support", icon: "bell" },
+  { key: "support", href: "/portal/support", labelKey: "support", icon: "support" },
 ];

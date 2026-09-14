@@ -1,17 +1,17 @@
 {
   "sections": {
     "problem": "The problem",
-    "whereItAppears": "Where it appears",
-    "approach": "How CyBarq approaches it",
-    "engagement": "How the engagement works",
-    "deliverables": "Deliverables",
-    "businessMeaning": "What it means for your business",
+    "whereItAppears": "Where it shows up",
+    "approach": "How we approach it",
+    "engagement": "How the work runs",
+    "deliverables": "What you get",
+    "businessMeaning": "What it means for you",
     "related": "Related services"
   },
   "practice": "Practice",
   "cta": {
     "title": "Talk to us about {service}",
-    "body": "Tell us about the system or the situation. We will come back with questions and a clear proposal, and we will say so if a different service fits better. Remote, on site, or both: we work the way the project calls for.",
+    "body": "Tell us about the system or the situation. We will come back with questions and a clear proposal, and we will say so if another service fits better. Remote, on site, or both: we work the way the project calls for.",
     "button": "Talk to us",
     "secondary": "All services"
   },

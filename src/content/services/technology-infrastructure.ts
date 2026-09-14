@@ -12,48 +12,48 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     pictogram: "cloud",
     featured: true,
     title: bi("Cloud Architecture", "البنية السحابية"),
-    summary: bi("Cloud environments designed for security, cost and operability from the account structure up.", "بيئات سحابية مصممة للأمان والتكلفة وسهولة التشغيل بدءاً من بنية الحسابات."),
-    hero: bi("A cloud environment is a set of decisions. We help you make them deliberately, before they are made for you.", "البيئة السحابية مجموعة من القرارات. نساعدك على اتخاذها عن قصد، قبل أن تُتخذ نيابة عنك."),
+    summary: bi("Accounts, networks and permissions laid out on purpose, so the environment stays secure, affordable and easy to run.", "حسابات وشبكات وصلاحيات مرتّبة عن قصد، لتبقى البيئة آمنة ومعقولة التكلفة وسهلة التشغيل."),
+    hero: bi("A cloud environment is a stack of decisions. Made early and on purpose, they cost very little. Left to be made by default, you pay for them for years.", "البيئة السحابية سلسلة من القرارات. إن اتُّخذت مبكراً وعن قصد كانت كلفتها زهيدة. وإن تُركت لتُتخذ تلقائياً، دفعت ثمنها سنوات."),
     seo: {
       title: bi("Cloud Architecture", "البنية السحابية"),
-      description: bi("Cloud architecture design and review by CyBarq on AWS, Azure and Google Cloud: account and network structure, identity, security baselines, landing zones, cost control and migration planning.", "تصميم ومراجعة البنية السحابية من سايبرق على AWS وAzure وGoogle Cloud: بنية الحسابات والشبكة، والهوية، وخطوط الأساس الأمنية، ومناطق الهبوط، والتحكم في التكلفة، وتخطيط الترحيل."),
+      description: bi("Cloud architecture design and review by CyBarq on AWS, Azure and Google Cloud: accounts, networks, identity, security baselines and cost planning.", "تصميم ومراجعة البنية السحابية من سايبرق على AWS وAzure وGoogle Cloud: الحسابات والشبكات والهوية وخطوط الأساس الأمنية وتخطيط التكلفة."),
     },
     problem: {
       body: bi(
-        "Most cloud environments were not designed. They started with one account for one project and grew by accretion: more projects in the same account, permissions granted to unblock someone, networks that overlap, and a bill nobody can attribute. The result is hard to secure, hard to audit and expensive to change later.",
-        "معظم البيئات السحابية لم تُصمم. بدأت بحساب واحد لمشروع واحد ونمت بالتراكم: مشاريع أكثر في الحساب نفسه، وصلاحيات مُنحت لتجاوز عائق أمام أحدهم، وشبكات متداخلة، وفاتورة لا يستطيع أحد نسبتها إلى جهة. والنتيجة صعبة التأمين والتدقيق ومكلفة التغيير لاحقاً.",
+        "Most cloud environments were never designed. One account was opened for one project, then everything else moved in beside it: more projects, permissions handed out to unblock someone, networks that overlap, and a bill nobody can split by team. Each step made sense at the time, and together they produce an estate that is hard to secure, hard to audit and expensive to rearrange.",
+        "معظم البيئات السحابية لم تُصمَّم. فُتح حساب واحد لمشروع واحد، ثم انتقل إليه كل ما تبعه: مشاريع أخرى، وصلاحيات مُنحت على عجل لإزاحة عائق، وشبكات متداخلة، وفاتورة لا يعرف أحد كيف يوزّعها على الفرق. كل خطوة كانت منطقية حين اتُّخذت، لكنها اجتمعت في بيئة يصعب تأمينها وتدقيقها ويكلّف تغييرها كثيراً.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Organisations preparing a first move to the cloud, environments that grew without a plan, multi cloud estates that arrived through acquisitions or vendor choices, workloads with data residency requirements, and cloud bills that rise faster than the business.",
-        "في المؤسسات التي تستعد لأول انتقال إلى السحابة، والبيئات التي نمت من دون خطة، والبيئات متعددة السحابات التي جاءت عبر استحواذات أو خيارات مورّدين، وأحمال العمل ذات متطلبات إقامة البيانات، والفواتير السحابية التي ترتفع أسرع من نمو العمل.",
+        "You see it before a first move to the cloud, and in environments that grew for years without a plan. You see it in estates spread across two or three providers after an acquisition or a vendor decision, and in workloads that must keep data inside a particular country. You also see it when the cloud bill grows faster than the business does.",
+        "يظهر هذا قبل أول انتقال إلى السحابة، وفي بيئات نمت سنوات بلا خطة. ويظهر في بيئات موزّعة على مزوّدَين أو ثلاثة بعد استحواذ أو قرار مورّد، وفي أحمال عمل يجب أن تبقى بياناتها داخل بلد بعينه. ويظهر أيضاً حين تنمو الفاتورة السحابية أسرع من نمو العمل نفسه.",
       ),
     },
     approach: {
       body: bi(
-        "We design the foundation first: account or subscription structure, identity and access, network layout, logging and security baselines, and the guardrails that stop drift. Everything is expressed as infrastructure code so environments can be reproduced and reviewed. Cost is modelled per workload and tagged from the start. Where a migration is involved we plan it in waves with the business, not in one weekend.",
-        "نصمم الأساس أولاً: بنية الحسابات أو الاشتراكات، والهوية والوصول، وتخطيط الشبكة، والسجلات وخطوط الأساس الأمنية، والضوابط التي تمنع الانجراف. ويُعبَّر عن كل شيء كبنية تحتية كشيفرة ليمكن إعادة إنشاء البيئات ومراجعتها. وتُنمذج التكلفة لكل حمل عمل وتُوسم من البداية. وحين يكون هناك ترحيل، نخطط له على موجات مع الأعمال، لا في عطلة نهاية أسبوع واحدة.",
+        "We settle the foundation first: how accounts or subscriptions are split, who gets access to what, how the network is laid out, what gets logged, and the guardrails that stop the whole thing drifting. All of it is written as infrastructure code, so an environment can be rebuilt and reviewed like any other file. Cost is modelled per workload and tagged from day one. Where a migration is involved we plan it in waves with the business, not over one weekend.",
+        "نبدأ بالأساس: كيف تُقسَّم الحسابات أو الاشتراكات، ومن يصل إلى ماذا، وكيف تُرسم الشبكة، وما الذي يُسجَّل، والضوابط التي تمنع انجراف البيئة. ونكتب هذا كله بنية تحتية كشيفرة، فتُبنى البيئة من جديد وتُراجع كأي ملف. ونُنمذج التكلفة لكل حمل عمل ونضع الوسوم من اليوم الأول. وإن كان هناك ترحيل، خطّطناه على موجات مع أصحاب العمل، لا في عطلة نهاية أسبوع.",
       ),
     },
     engagement: {
       body: bi(
-        "A review or design phase takes two to four weeks and produces an architecture document, a security baseline and a cost model. Implementation of the foundation follows as infrastructure code, with your team involved so that they own it. Migrations are scheduled per workload with rollback plans. We can continue as an advisory presence for architecture decisions afterwards.",
-        "تستغرق مرحلة المراجعة أو التصميم من أسبوعين إلى أربعة وتنتج وثيقة بنية وخط أساس أمني ونموذج تكلفة. ويلي ذلك تنفيذ الأساس كبنية تحتية كشيفرة، بمشاركة فريقك ليمتلكه. وتُجدول عمليات الترحيل لكل حمل عمل مع خطط تراجع. ويمكننا الاستمرار كحضور استشاري لقرارات البنية بعد ذلك.",
+        "A review or design phase runs two to four weeks and ends with three things: an architecture document, a security baseline and a cost model. We then build the foundation as infrastructure code, with your engineers working on it so that it is theirs afterwards. Migrations are scheduled one workload at a time, each with a way back. When the build is done we can stay on call for the architecture decisions that come later.",
+        "تستغرق مرحلة المراجعة أو التصميم من أسبوعين إلى أربعة، وتنتهي بثلاثة أشياء: وثيقة بنية، وخط أساس أمني، ونموذج تكلفة. ثم نبني الأساس بنية تحتية كشيفرة، ويعمل عليه مهندسوك ليكون لهم بعد انتهائنا. وتُجدول عمليات الترحيل حملاً بعد حمل، ولكل واحد طريق رجوع. ويمكننا البقاء بعد ذلك مرجعاً لقرارات البنية التي تأتي لاحقاً.",
       ),
     },
     deliverables: {
-      body: bi("A cloud foundation that is documented, reproducible and secure by default.", "أساس سحابي موثق وقابل لإعادة الإنشاء وآمن افتراضياً."),
+      body: bi("A foundation that is written down, can be rebuilt from its own code, and is safe by default.", "أساس مكتوب، يمكن إعادة بنائه من شيفرته، وآمن افتراضياً."),
       items: [
-        bi("Architecture document with account, network, identity and logging design", "وثيقة بنية بتصميم الحسابات والشبكة والهوية والسجلات"),
-        bi("Infrastructure code for the foundation and security guardrails", "شيفرة بنية تحتية للأساس والضوابط الأمنية"),
-        bi("Cost model with tagging and budgets, and a migration plan where relevant", "نموذج تكلفة بوسوم وميزانيات، وخطة ترحيل عند الحاجة"),
+        bi("Architecture document covering accounts, network, identity and logging", "وثيقة بنية تغطي الحسابات والشبكة والهوية والسجلات"),
+        bi("Infrastructure code for the foundation and the security guardrails", "شيفرة بنية تحتية للأساس وللضوابط الأمنية"),
+        bi("Cost model with tagging and budgets, plus a migration plan where one is needed", "نموذج تكلفة بالوسوم والميزانيات، وخطة ترحيل عند الحاجة"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "A cloud estate you can explain to an auditor, a bill you can attribute to products and teams, and a foundation that new projects land on safely instead of starting from scratch.",
-        "بيئة سحابية تستطيع شرحها لمدقق، وفاتورة تستطيع نسبتها إلى المنتجات والفرق، وأساس تهبط عليه المشاريع الجديدة بأمان بدلاً من البدء من الصفر.",
+        "You can walk an auditor through the environment without a week of preparation. You can tell finance which product and which team spent what. New projects start on top of something solid instead of inventing their own accounts and their own rules.",
+        "تستطيع أن تشرح البيئة لمدقق من دون أسبوع تحضير. وتستطيع أن تخبر المالية ما الذي أنفقه كل منتج وكل فريق. وتبدأ المشاريع الجديدة فوق أساس قائم، بدل أن تخترع لنفسها حسابات وقواعد جديدة.",
       ),
     },
     related: ["application-deployment-infrastructure", "identity-access-architecture", "cloud-applications"],
@@ -63,48 +63,48 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     practice: "technology-infrastructure",
     pictogram: "deployment",
     title: bi("Application & Deployment Infrastructure", "بنية التطبيقات والنشر"),
-    summary: bi("The environments, pipelines and runtime platforms that take code from a repository to production safely.", "البيئات وخطوط النشر ومنصات التشغيل التي تنقل الشيفرة من المستودع إلى الإنتاج بأمان."),
-    hero: bi("Deploying should be routine. When it is an event, the infrastructure is telling you something.", "النشر يجب أن يكون أمراً روتينياً. وحين يصبح حدثاً، فالبنية التحتية تخبرك بشيء."),
+    summary: bi("Everything between a commit and production: pipelines, environments, secrets and a way back when a release goes wrong.", "كل ما يقع بين الالتزام البرمجي والإنتاج: خطوط النشر والبيئات والأسرار وطريق للرجوع إن ساء الإصدار."),
+    hero: bi("Deploying should be boring. When a release needs a plan, a late evening and one particular person, the infrastructure is the problem.", "النشر يجب أن يكون مملاً. فإن احتاج الإصدار إلى خطة ومساء متأخر وشخص بعينه، فالمشكلة في البنية التحتية."),
     seo: {
       title: bi("Application and Deployment Infrastructure", "بنية التطبيقات والنشر"),
-      description: bi("Deployment pipelines, container platforms, environments and release infrastructure by CyBarq: CI/CD, Kubernetes or simpler runtimes where they fit, secrets management and safe rollouts.", "خطوط نشر ومنصات حاويات وبيئات وبنية إصدارات من سايبرق: CI/CD، وKubernetes أو بيئات تشغيل أبسط حيث تناسب، وإدارة الأسرار، وإطلاقات آمنة."),
+      description: bi("CyBarq builds deployment pipelines, environments and runtime platforms: CI/CD, Kubernetes where it fits, secrets management and safe rollouts.", "تبني سايبرق خطوط النشر والبيئات ومنصات التشغيل: CI/CD، وKubernetes حيث تناسب، وإدارة الأسرار، وإطلاق تدريجي آمن."),
     },
     problem: {
       body: bi(
-        "In many organisations a deployment still means one person, one evening and a checklist in their head. Environments differ from each other in ways nobody has written down, secrets live in files, and rolling back means restoring a backup. Releases get batched to reduce the pain, which makes each one larger and riskier.",
-        "في كثير من المؤسسات ما يزال النشر يعني شخصاً واحداً ومساءً واحداً وقائمة تحقق في رأسه. تختلف البيئات عن بعضها بطرق لم يدوّنها أحد، وتعيش الأسرار في ملفات، والتراجع يعني استعادة نسخة احتياطية. وتُجمَّع الإصدارات لتقليل الألم، فيصبح كل إصدار أكبر وأخطر.",
+        "In a lot of organisations a deployment is still one person, one evening and a checklist they carry in their head. The environments differ from each other in ways nobody wrote down, secrets sit in files on servers, and rolling back means restoring a backup. So releases get saved up to reduce the pain, which makes each one bigger and more dangerous than the last.",
+        "في كثير من المؤسسات ما يزال النشر يعني شخصاً واحداً ومساءً واحداً وقائمة تحقق في رأسه. تختلف البيئات عن بعضها بطرق لم يدوّنها أحد، وتبقى الأسرار في ملفات على الخوادم، والتراجع يعني استعادة نسخة احتياطية. فتُجمَّع الإصدارات تخفيفاً للألم، فيصير كل إصدار أكبر وأخطر مما قبله.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Teams shipping less often than they would like, production incidents traced to a configuration difference, applications that only one person knows how to deploy, container platforms adopted without the operations to support them, and audit questions about who changed what in production.",
-        "في الفرق التي تُصدر أقل مما تريد، والحوادث الإنتاجية التي تُعزى إلى اختلاف في الإعدادات، والتطبيقات التي لا يعرف نشرها إلا شخص واحد، ومنصات الحاويات التي اعتُمدت من دون عمليات تدعمها، وأسئلة التدقيق عمّن غيّر ماذا في الإنتاج.",
+        "Teams that ship less often than they want to. Incidents that turn out to be one setting that differed between staging and production. Applications only one person knows how to deploy, container platforms adopted without anyone to run them, and audit questions about who changed what in production and when.",
+        "فرق تُصدر أقل مما تريد. وحوادث يتبيّن أنها إعداد واحد اختلف بين بيئة الاختبار والإنتاج. وتطبيقات لا يعرف نشرها إلا شخص واحد، ومنصات حاويات اعتُمدت من دون من يشغّلها، وأسئلة تدقيق عمّن غيّر ماذا في الإنتاج ومتى.",
       ),
     },
     approach: {
       body: bi(
-        "We build the path from commit to production as code: pipelines that test, scan and build artefacts; environments that are created from the same definitions; secrets held in a proper store and injected at runtime; and deployments that roll out gradually and can be reversed in minutes. We choose the runtime to fit the team: a managed platform where that is enough, Kubernetes where the scale and the operations capacity justify it.",
-        "نبني المسار من الالتزام البرمجي إلى الإنتاج كشيفرة: خطوط تختبر وتفحص وتبني المخرجات؛ وبيئات تُنشأ من التعريفات نفسها؛ وأسرار محفوظة في مخزن مناسب وتُحقن وقت التشغيل؛ وعمليات نشر تُطرح تدريجياً ويمكن عكسها في دقائق. ونختار بيئة التشغيل بما يناسب الفريق: منصة مُدارة حين تكفي، وKubernetes حين يبرر الحجم وقدرة التشغيل ذلك.",
+        "We build the path from commit to production as code. Pipelines run the tests, scan the code and produce a versioned artefact. Every environment comes from the same definitions, so staging and production stop drifting apart, and secrets live in a store and are injected at runtime rather than committed. Releases go out gradually and can be reversed in minutes. We pick the runtime to match the team: a managed platform when that is enough, Kubernetes when the scale and the people to operate it are both there.",
+        "نبني المسار من الالتزام البرمجي إلى الإنتاج كشيفرة. تُشغّل خطوط النشر الاختبارات، وتفحص الشيفرة، وتنتج مخرجاً بإصدار محدد. وتُنشأ كل بيئة من التعريفات نفسها، فتتوقف بيئة الاختبار والإنتاج عن التباعد، وتبقى الأسرار في مخزن تُحقن منه وقت التشغيل لا في المستودع. وتخرج الإصدارات تدريجياً ويمكن عكسها خلال دقائق. ونختار بيئة التشغيل بما يناسب الفريق: منصة مُدارة حين تكفي، وKubernetes حين يتوفر الحجم ومن يشغّلها معاً.",
       ),
     },
     engagement: {
       body: bi(
-        "We start with one application and take it end to end: pipeline, environments, secrets, rollout and rollback. That becomes the template for the rest. Your engineers work alongside us so that the result is theirs. Within a few weeks releases are routine for the first application, and the pattern is applied to the others in order of value.",
-        "نبدأ بتطبيق واحد ونأخذه من البداية إلى النهاية: خط النشر، والبيئات، والأسرار، والطرح، والتراجع. ويصبح ذلك القالب للبقية. يعمل مهندسوك إلى جانبنا لتكون النتيجة ملكهم. وخلال بضعة أسابيع تصبح الإصدارات روتينية للتطبيق الأول، ويُطبَّق النمط على البقية بترتيب القيمة.",
+        "We start with one application and take it the whole way: pipeline, environments, secrets, rollout and rollback. That application becomes the template for the rest. Your engineers build it with us, so the result belongs to them. Within a few weeks releasing the first application is routine, and we apply the same pattern to the others in the order that is worth most to you.",
+        "نبدأ بتطبيق واحد ونأخذه إلى آخر الطريق: خط النشر، والبيئات، والأسرار، والطرح، والتراجع. ويصير هذا التطبيق قالباً لما بعده. ويبنيه مهندسوك معنا، فتكون النتيجة لهم. وخلال أسابيع قليلة يصبح إصدار التطبيق الأول أمراً روتينياً، ثم نطبّق النمط نفسه على البقية بترتيب ما يهمّك أكثر.",
       ),
     },
     deliverables: {
-      body: bi("A release process that does not depend on who is on shift.", "عملية إصدار لا تعتمد على من هو في المناوبة."),
+      body: bi("A release process that works the same whoever is on shift.", "عملية إصدار تسير كما هي أياً كان من في المناوبة."),
       items: [
-        bi("CI/CD pipelines with testing, scanning and artefact management", "خطوط CI/CD مع اختبار وفحص وإدارة للمخرجات"),
-        bi("Environment definitions as code, secrets management and runtime platform", "تعريفات بيئات كشيفرة وإدارة أسرار ومنصة تشغيل"),
-        bi("Gradual rollout and rollback procedures, documented and rehearsed", "إجراءات طرح تدريجي وتراجع، موثقة ومتدرَّب عليها"),
+        bi("Pipelines that test, scan and store build artefacts", "خطوط CI/CD تختبر وتفحص وتحفظ المخرجات"),
+        bi("Environment definitions as code, secrets management and a runtime platform", "تعريفات البيئات كشيفرة، وإدارة الأسرار، ومنصة تشغيل"),
+        bi("Gradual rollout and rollback procedures, written down and rehearsed", "إجراءات طرح تدريجي وتراجع، مكتوبة ومجرَّبة"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Smaller, more frequent releases with less risk in each, fewer incidents caused by environment differences, and a clear record of every change that reached production.",
-        "إصدارات أصغر وأكثر تكراراً بمخاطر أقل في كل منها، وحوادث أقل بسبب اختلاف البيئات، وسجل واضح لكل تغيير وصل إلى الإنتاج.",
+        "Releases get smaller and more frequent, so each one carries less risk. Fewer incidents start with a difference between two environments. Every change that reached production has a record showing who made it and when.",
+        "تصغر الإصدارات وتتكرر، فتقل المخاطرة في كل منها. وتقلّ الحوادث التي تبدأ باختلاف بين بيئتين. ولكل تغيير وصل إلى الإنتاج سجل يبيّن من أجراه ومتى.",
       ),
     },
     related: ["platform-reliability-devops", "cloud-architecture", "observability"],
@@ -114,48 +114,48 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     practice: "technology-infrastructure",
     pictogram: "performance",
     title: bi("Platform Reliability & DevOps", "موثوقية المنصات وDevOps"),
-    summary: bi("Keeping platforms available, measured against targets you have agreed, with the practices to sustain it.", "إبقاء المنصات متاحة، مقيسة وفق أهداف اتفقت عليها، مع الممارسات اللازمة للاستمرار."),
-    hero: bi("Reliability is a decision about how much downtime you can accept, and then the engineering to stay within it.", "الموثوقية قرار بشأن مقدار التوقف الذي يمكنك قبوله، ثم الهندسة اللازمة للبقاء ضمنه."),
+    summary: bi("Keeping platforms up against a target you chose, and building the habits that keep them there.", "إبقاء المنصات متاحة وفق هدف اخترته، وبناء العادات التي تُبقيها كذلك."),
+    hero: bi("Reliability starts as a business question: how much downtime can you live with? The engineering comes after the answer.", "تبدأ الموثوقية بسؤال عن العمل: كم من التوقف تحتمله؟ وتأتي الهندسة بعد الجواب."),
     seo: {
       title: bi("Platform Reliability and DevOps", "موثوقية المنصات وDevOps"),
-      description: bi("Reliability engineering and DevOps practices by CyBarq: service level objectives, incident process, capacity planning, on call readiness, automation and managed operations for platforms that must stay up.", "هندسة الموثوقية وممارسات DevOps من سايبرق: أهداف مستوى الخدمة، وإجراءات الحوادث، وتخطيط السعة، وجاهزية المناوبة، والأتمتة، والعمليات المُدارة للمنصات التي يجب أن تبقى متاحة."),
+      description: bi("Reliability engineering and DevOps from CyBarq: service level objectives, incident process, capacity planning, on call readiness and managed operations.", "هندسة الموثوقية وممارسات DevOps من سايبرق: أهداف مستوى الخدمة، وإجراءات الحوادث، وتخطيط السعة، وجاهزية المناوبة، والعمليات المُدارة."),
     },
     problem: {
       body: bi(
-        "Outages are expensive, but so is over engineering for an availability nobody asked for. Without agreed targets, teams either firefight constantly or gold plate everything. Operational knowledge lives with a few people, incidents are handled from memory, and the same failure happens twice because the first time was never written down.",
-        "الانقطاعات مكلفة، لكن الإفراط في الهندسة من أجل إتاحة لم يطلبها أحد مكلف أيضاً. ومن دون أهداف متفق عليها، إما أن تطفئ الفرق الحرائق باستمرار أو تبالغ في كل شيء. وتعيش المعرفة التشغيلية مع قلة من الأشخاص، وتُعالج الحوادث من الذاكرة، ويتكرر الفشل نفسه مرتين لأن المرة الأولى لم تُدوَّن.",
+        "Outages cost money. So does building for an availability nobody asked for. Without an agreed target a team swings between firefighting and gold plating, the operational knowledge sits with two or three people, incidents are handled from memory, and the same failure happens a second time because the first time was never written down.",
+        "الانقطاعات تكلّف مالاً. والبناء من أجل إتاحة لم يطلبها أحد يكلّف أيضاً. ومن دون هدف متفق عليه يتأرجح الفريق بين إطفاء الحرائق والمبالغة، وتبقى المعرفة التشغيلية عند شخصين أو ثلاثة، وتُعالَج الحوادث من الذاكرة، ويتكرر العطل نفسه لأن المرة الأولى لم تُدوَّن.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Platforms that customers or staff depend on during working hours, systems with peak periods such as payroll runs or campaigns, services with contractual availability commitments, and teams where the developers are also the operators and are stretched across both.",
-        "في المنصات التي يعتمد عليها العملاء أو الموظفون خلال ساعات العمل، والأنظمة ذات فترات الذروة مثل دورات الرواتب أو الحملات، والخدمات ذات التزامات الإتاحة التعاقدية، والفرق التي يكون فيها المطورون هم المشغّلون أيضاً ومشتّتون بين الدورين.",
+        "Platforms that customers or staff rely on through the working day. Systems with a peak, such as a payroll run or a campaign. Services with an availability commitment written into a contract, and teams where the same engineers write the code and also carry the pager.",
+        "منصات يعتمد عليها العملاء أو الموظفون طوال يوم العمل. وأنظمة لها ذروة، كدورة رواتب أو حملة. وخدمات عليها التزام إتاحة في عقد، وفرق يكتب فيها المهندسون أنفسهم الشيفرة ويتولّون المناوبة.",
       ),
     },
     approach: {
       body: bi(
-        "We agree on service level objectives that reflect the business, then engineer to meet them: redundancy where it pays off, capacity planning from measured load, health checks and alerting tied to user impact, and runbooks for the failures that will happen. Incidents get a lightweight process with blameless reviews so each one improves the system. Repetitive operational work is automated.",
-        "نتفق على أهداف مستوى خدمة تعكس الأعمال، ثم نهندس لتحقيقها: تكرار حيث يستحق، وتخطيط للسعة من الحمل المقيس، وفحوصات سلامة وتنبيهات مرتبطة بأثر المستخدم، وأدلة تشغيل للأعطال التي ستقع. وتحصل الحوادث على إجراء خفيف مع مراجعات لا تبحث عن مذنب، فيحسّن كل حادث النظام. ويُؤتمت العمل التشغيلي المتكرر.",
+        "First we agree service level objectives that mean something to the business, then we engineer to meet them. That means redundancy where it pays for itself, capacity planned from measured load rather than guesswork, health checks and alerts tied to what users actually feel, and a runbook for each failure we know will happen. Incidents get a light process and a review that looks for causes rather than culprits, so every outage leaves the system a little better. Work that gets repeated by hand gets automated.",
+        "نتفق أولاً على أهداف مستوى خدمة تعني شيئاً للعمل، ثم نهندس لتحقيقها. أي تكرار حيث يستحق كلفته، وسعة مخطط لها من حمل مقيس لا من تخمين، وفحوص سلامة وتنبيهات مرتبطة بما يشعر به المستخدم فعلاً، ودليل تشغيل لكل عطل نعرف أنه سيقع. وللحوادث إجراء خفيف ومراجعة تبحث عن السبب لا عن المذنب، فيترك كل انقطاع النظام أحسن قليلاً. وما يتكرر يدوياً نؤتمته.",
       ),
     },
     engagement: {
       body: bi(
-        "A reliability review of one to two weeks establishes current availability, the risks and the gaps against the target. We then implement the improvements in priority order alongside your team. Some clients keep us on for managed operations, with defined response times and monthly reporting against the objectives; others take the practices in house after a handover period.",
-        "تحدد مراجعة موثوقية من أسبوع إلى أسبوعين الإتاحة الحالية والمخاطر والفجوات مقابل الهدف. ثم ننفذ التحسينات بترتيب الأولوية مع فريقك. يُبقينا بعض العملاء لعمليات مُدارة بأزمنة استجابة محددة وتقارير شهرية مقابل الأهداف؛ ويتولى آخرون الممارسات داخلياً بعد فترة تسليم.",
+        "A reliability review of one to two weeks tells you where availability stands today, what threatens it and what is missing against the target. We then work through the improvements with your team in priority order. Some clients keep us on for managed operations, with agreed response times and a monthly report against the objectives. Others take the practices in house after a handover period, which is a fine outcome.",
+        "تكشف مراجعة موثوقية من أسبوع إلى أسبوعين أين تقف الإتاحة اليوم، وما الذي يهددها، وما الناقص مقابل الهدف. ثم ننفّذ التحسينات مع فريقك بترتيب الأولوية. يُبقينا بعض العملاء لعمليات مُدارة بأزمنة استجابة متفق عليها وتقرير شهري مقابل الأهداف. ويتولّى غيرهم الممارسات داخلياً بعد فترة تسليم، وهذه نتيجة جيدة أيضاً.",
       ),
     },
     deliverables: {
-      body: bi("Targets, the engineering to meet them, and the evidence that you do.", "أهداف، والهندسة اللازمة لتحقيقها، والدليل على أنك تحققها."),
+      body: bi("A number you agreed to, the engineering that meets it, and the reports that show you did.", "رقم اتفقتم عليه، وهندسة تحققه، وتقارير تُظهر أنكم حققتموه."),
       items: [
-        bi("Service level objectives and a reliability review with prioritised actions", "أهداف مستوى الخدمة ومراجعة موثوقية بإجراءات مرتبة"),
-        bi("Alerting, runbooks, incident process and capacity plan", "تنبيهات وأدلة تشغيل وإجراء للحوادث وخطة سعة"),
-        bi("Automation of routine operations and monthly availability reporting", "أتمتة للعمليات الروتينية وتقارير شهرية للإتاحة"),
+        bi("Service level objectives and a reliability review with actions in priority order", "أهداف مستوى الخدمة ومراجعة موثوقية بإجراءات مرتبة حسب الأولوية"),
+        bi("Alerting, runbooks, an incident process and a capacity plan", "تنبيهات وأدلة تشغيل وإجراء للحوادث وخطة سعة"),
+        bi("Automation of routine operations and monthly availability reporting", "أتمتة للعمليات الروتينية وتقرير شهري للإتاحة"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Availability that matches what the business actually needs, incidents that are shorter and rarer, and an operations capability that does not rest on one person's phone.",
-        "إتاحة تطابق ما تحتاجه الأعمال فعلاً، وحوادث أقصر وأندر، وقدرة تشغيلية لا تعتمد على هاتف شخص واحد.",
+        "Availability that matches what the business actually needs, rather than a number someone picked. Incidents that end sooner and happen less often. An operations capability that does not depend on one person's phone being switched on.",
+        "إتاحة تطابق ما يحتاجه العمل فعلاً، لا رقماً اختاره أحدهم. وحوادث تنتهي أسرع وتتكرر أقل. وقدرة تشغيلية لا تتوقف على هاتف شخص واحد.",
       ),
     },
     related: ["observability", "application-deployment-infrastructure", "backup-resilience"],
@@ -165,48 +165,48 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     practice: "technology-infrastructure",
     pictogram: "monitoring",
     title: bi("Observability", "المراقبة والرصد"),
-    summary: bi("Logs, metrics and traces designed so that you can answer questions about your systems, including security questions.", "سجلات ومقاييس وتتبعات مصممة لتتمكن من الإجابة عن أسئلة حول أنظمتك، بما فيها الأسئلة الأمنية."),
-    hero: bi("You cannot secure, fix or improve what you cannot see. Observability is the ability to see.", "لا يمكنك تأمين ما لا تراه ولا إصلاحه ولا تحسينه. المراقبة هي القدرة على الرؤية."),
+    summary: bi("Logs, metrics and traces chosen so that you can answer real questions later, operational ones and security ones.", "سجلات ومقاييس وتتبعات مختارة لتجيب عن أسئلة حقيقية لاحقاً، تشغيلية كانت أو أمنية."),
+    hero: bi("Most of an outage is spent finding out where to look. Observability is the work that removes that part.", "يُقضى معظم وقت الانقطاع في البحث عن مكان النظر. المراقبة هي العمل الذي يحذف هذا الجزء."),
     seo: {
       title: bi("Observability", "المراقبة والرصد"),
-      description: bi("Observability engineering by CyBarq: centralised logging, metrics, tracing, dashboards and alerting designed for both operations and security investigation, with retention that fits your obligations.", "هندسة المراقبة من سايبرق: سجلات مركزية ومقاييس وتتبع ولوحات وتنبيهات مصممة للعمليات والتحقيق الأمني معاً، مع احتفاظ يناسب التزاماتك."),
+      description: bi("Observability engineering from CyBarq: centralised logging, metrics, tracing, dashboards and alerting for operations and security investigation.", "هندسة المراقبة من سايبرق: سجلات مركزية ومقاييس وتتبع ولوحات وتنبيهات للعمليات والتحقيق الأمني معاً."),
     },
     problem: {
       body: bi(
-        "When something goes wrong, the first hour is usually spent finding out where to look. Logs are on twenty servers in twenty formats, metrics exist for the infrastructure but not for the application, and there is no way to follow one request across services. During a security incident this gap becomes critical: the evidence needed was never collected, or was overwritten last week.",
-        "حين يحدث خلل، تُقضى الساعة الأولى عادةً في معرفة أين تنظر. السجلات على عشرين خادماً بعشرين صيغة، والمقاييس موجودة للبنية التحتية لا للتطبيق، ولا سبيل لتتبع طلب واحد عبر الخدمات. وخلال حادث أمني تصبح هذه الفجوة حرجة: الأدلة المطلوبة لم تُجمع أصلاً، أو كُتب فوقها الأسبوع الماضي.",
+        "Logs sit on twenty servers in twenty formats. Metrics exist for the infrastructure but not for the application, and there is no way to follow a single request as it crosses services. In a security incident the gap turns serious: the evidence you need was never collected, or it was overwritten last week.",
+        "السجلات موزّعة على عشرين خادماً بعشرين صيغة. والمقاييس موجودة للبنية التحتية لا للتطبيق، ولا سبيل لتتبّع طلب واحد وهو يعبر الخدمات. وفي حادث أمني تصبح الفجوة خطيرة: الدليل المطلوب لم يُجمع أصلاً، أو كُتب فوقه الأسبوع الماضي.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Distributed applications and microservices, cloud environments with many managed services, systems subject to audit or regulatory logging requirements, teams that learn about outages from customers, and incident investigations that end with the phrase we cannot tell.",
-        "في التطبيقات الموزعة والخدمات المصغرة، والبيئات السحابية بخدمات مُدارة كثيرة، والأنظمة الخاضعة لمتطلبات تدقيق أو تسجيل تنظيمية، والفرق التي تعرف بالانقطاعات من العملاء، وتحقيقات الحوادث التي تنتهي بعبارة لا نستطيع الجزم.",
+        "Distributed applications and microservices. Cloud environments stitched together from many managed services. Systems with logging requirements set by an auditor or a regulator, teams who hear about an outage first from a customer, and investigations that end with the sentence we cannot tell.",
+        "التطبيقات الموزّعة والخدمات المصغّرة. والبيئات السحابية المركّبة من خدمات مُدارة كثيرة. والأنظمة التي يفرض عليها مدقق أو جهة تنظيمية متطلبات تسجيل، والفرق التي تسمع بالانقطاع من العميل أولاً، والتحقيقات التي تنتهي بعبارة لا نستطيع الجزم.",
       ),
     },
     approach: {
       body: bi(
-        "We design what to collect before choosing tools: the logs, metrics and traces that answer real operational and security questions, with consistent structure and correlation across services. Dashboards are built around user facing services, not around servers. Alerts are tied to symptoms people care about and tuned until they are trusted. Retention and access follow your legal and security obligations, and the security team gets the same data the operations team does.",
-        "نصمم ما يجب جمعه قبل اختيار الأدوات: السجلات والمقاييس والتتبعات التي تجيب عن أسئلة تشغيلية وأمنية حقيقية، ببنية متسقة وربط عبر الخدمات. وتُبنى اللوحات حول الخدمات الموجهة للمستخدم لا حول الخوادم. وتُربط التنبيهات بأعراض يهتم بها الناس وتُضبط حتى تصبح موثوقة. ويتبع الاحتفاظ والوصول التزاماتك القانونية والأمنية، ويحصل الفريق الأمني على البيانات نفسها التي يحصل عليها فريق العمليات.",
+        "We decide what to collect before we pick a tool. The logs, metrics and traces are the ones that answer questions you will really ask, written in a consistent structure so they can be correlated across services. Dashboards are built around the services users touch, not around servers, and alerts are tied to symptoms someone cares about and tuned until people trust them again. Retention and access follow your legal and security obligations, and the security team sees the same data as the operations team.",
+        "نقرر ما نجمعه قبل أن نختار الأداة. والسجلات والمقاييس والتتبعات هي التي تجيب عن أسئلة ستُطرح فعلاً، بصيغة واحدة متسقة تسمح بالربط بين الخدمات. وتُبنى اللوحات حول الخدمات التي يلمسها المستخدم لا حول الخوادم، وتُربط التنبيهات بأعراض يهتم بها أحد وتُضبط حتى يعود الناس يثقون بها. ويتبع الاحتفاظ والوصول التزاماتك القانونية والأمنية، ويرى الفريق الأمني البيانات نفسها التي يراها فريق العمليات.",
       ),
     },
     engagement: {
       body: bi(
-        "We assess current coverage against the questions you need to answer, then implement in stages: centralised logging first, then metrics and service dashboards, then tracing where the architecture warrants it. Tooling is chosen to fit your environment and budget, open source or managed. We hand over with alert runbooks and a review of the first month's signal to noise.",
-        "نقيّم التغطية الحالية مقابل الأسئلة التي تحتاج إلى إجابتها، ثم ننفذ على مراحل: السجلات المركزية أولاً، ثم المقاييس ولوحات الخدمات، ثم التتبع حيث تستدعي البنية ذلك. وتُختار الأدوات بما يناسب بيئتك وميزانيتك، مفتوحة المصدر أو مُدارة. ونسلّم مع أدلة تشغيل للتنبيهات ومراجعة لنسبة الإشارة إلى الضجيج في الشهر الأول.",
+        "We start from the questions you need answered and measure today's coverage against them. Then we build in stages: central logging first, then metrics and service dashboards, then tracing where the architecture calls for it. Tools are chosen to fit your environment and budget, open source or managed, whichever costs you less to run. We hand over with a runbook for each alert and a review of the first month, so the noisy alerts get fixed rather than ignored.",
+        "نبدأ من الأسئلة التي تحتاج إلى إجابتها، ونقيس التغطية الحالية مقابلها. ثم نبني على مراحل: السجلات المركزية أولاً، ثم المقاييس ولوحات الخدمات، ثم التتبع حيث تستدعيه البنية. وتُختار الأدوات بما يناسب بيئتك وميزانيتك، مفتوحة المصدر أو مُدارة، أيّهما أقل كلفة في التشغيل. ونسلّم مع دليل تشغيل لكل تنبيه ومراجعة للشهر الأول، فتُصلَح التنبيهات المزعجة بدل أن تُتجاهل.",
       ),
     },
     deliverables: {
-      body: bi("One place to look, and the confidence that the answer is there.", "مكان واحد تنظر إليه، وثقة بأن الإجابة موجودة فيه."),
+      body: bi("One place to look, and good reason to believe the answer is in it.", "مكان واحد تنظر فيه، وسبب وجيه للاعتقاد بأن الجواب موجود فيه."),
       items: [
-        bi("Centralised, structured logging with retention aligned to your obligations", "سجلات مركزية منظمة باحتفاظ يتوافق مع التزاماتك"),
-        bi("Service level dashboards, tracing where relevant, and tuned alerting", "لوحات على مستوى الخدمة وتتبع عند الحاجة وتنبيهات مضبوطة"),
-        bi("Alert runbooks and access for both operations and security investigation", "أدلة تشغيل للتنبيهات ووصول لكل من العمليات والتحقيق الأمني"),
+        bi("Central, structured logging with retention that matches your obligations", "سجلات مركزية منظمة باحتفاظ يطابق التزاماتك"),
+        bi("Service level dashboards, tracing where it is warranted, and tuned alerts", "لوحات على مستوى الخدمة، وتتبع حيث يلزم، وتنبيهات مضبوطة"),
+        bi("A runbook per alert, and access for operations and security investigation alike", "دليل تشغيل لكل تنبيه، ووصول للعمليات وللتحقيق الأمني على السواء"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Faster diagnosis when something breaks, earlier warning before it does, and the evidence to answer a security or audit question with facts instead of estimates.",
-        "تشخيص أسرع حين يتعطل شيء، وإنذار أبكر قبل أن يتعطل، والأدلة اللازمة للإجابة عن سؤال أمني أو تدقيقي بحقائق لا بتقديرات.",
+        "Diagnosis gets faster when something breaks, and you get warning before it does. When an auditor or an investigator asks what happened, you answer with records instead of estimates.",
+        "يصبح التشخيص أسرع حين يتعطل شيء، ويصلك إنذار قبل أن يتعطل. وحين يسأل مدقق أو محقق عمّا جرى، تجيب بسجلات لا بتقديرات.",
       ),
     },
     related: ["platform-reliability-devops", "compromise-assessment", "performance-platform-architecture"],
@@ -216,48 +216,48 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     practice: "technology-infrastructure",
     pictogram: "identity",
     title: bi("Identity & Access Architecture", "بنية الهوية والوصول"),
-    summary: bi("Who can access what, designed and enforced consistently across applications, cloud and infrastructure.", "من يستطيع الوصول إلى ماذا، مصمم ومفروض باتساق عبر التطبيقات والسحابة والبنية التحتية."),
-    hero: bi("Identity is the new perimeter. Most breaches walk in through a door that was left open on purpose and forgotten.", "الهوية هي المحيط الجديد. معظم الاختراقات تدخل من باب فُتح عمداً ثم نُسي."),
+    summary: bi("One answer to who can reach what, applied the same way across applications, cloud and infrastructure.", "جواب واحد عمّن يصل إلى ماذا، مطبَّق بالطريقة نفسها عبر التطبيقات والسحابة والبنية التحتية."),
+    hero: bi("Attackers rarely break a door down. They sign in through one that was opened for a good reason and never closed.", "نادراً ما يكسر المهاجمون باباً. بل يدخلون من باب فُتح لسبب وجيه ولم يُغلق بعده."),
     seo: {
       title: bi("Identity and Access Architecture", "بنية الهوية والوصول"),
-      description: bi("Identity and access management architecture by CyBarq: single sign on, multi factor authentication, role and permission design, privileged access, joiner and leaver processes and cloud identity governance.", "بنية إدارة الهوية والوصول من سايبرق: تسجيل دخول موحد، ومصادقة متعددة العوامل، وتصميم أدوار وصلاحيات، ووصول مميز، وإجراءات الالتحاق والمغادرة، وحوكمة الهوية السحابية."),
+      description: bi("Identity and access management from CyBarq: single sign on, MFA, role design, privileged access, joiner and leaver processes and cloud identity.", "إدارة الهوية والوصول من سايبرق: تسجيل دخول موحد، ومصادقة متعددة العوامل، وتصميم الأدوار، والوصول المميز، وحوكمة الهوية السحابية."),
     },
     problem: {
       body: bi(
-        "Access accumulates. People change roles and keep old permissions, shared accounts are created for convenience, contractors leave with credentials still valid, and cloud roles are granted broadly to make something work. Each is small; together they are how attackers move once they are in. Nobody can produce a current list of who can access what.",
-        "الوصول يتراكم. يغيّر الناس أدوارهم ويحتفظون بالصلاحيات القديمة، وتُنشأ حسابات مشتركة للراحة، ويغادر المتعاقدون وبيانات دخولهم ما تزال صالحة، وتُمنح الأدوار السحابية بشكل واسع لتشغيل شيء ما. كل منها صغير؛ ومعاً هي الطريقة التي يتحرك بها المهاجمون بعد الدخول. ولا أحد يستطيع إنتاج قائمة حالية بمن يستطيع الوصول إلى ماذا.",
+        "Access accumulates. Someone changes role and keeps the old permissions, a shared account is created because it was quicker, a contractor finishes and the credentials still work, a cloud role is widened until the job runs. Each one is small on its own, and together they are the path an attacker takes once inside. Ask for a current list of who can reach what, and nobody can produce one.",
+        "الوصول يتراكم. ينتقل موظف إلى دور جديد ويحتفظ بصلاحياته القديمة، ويُنشأ حساب مشترك لأنه أسرع، وينتهي عقد متعاقد وبيانات دخوله ما تزال تعمل، وتُوسَّع صلاحية سحابية حتى تنجح المهمة. كل واحدة صغيرة وحدها، ومجتمعةً هي الطريق الذي يسلكه المهاجم بعد الدخول. واطلب قائمة حالية بمن يصل إلى ماذا، فلن يجدها أحد.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Organisations with many applications and separate logins, cloud accounts with hand granted permissions, admin access shared by a team, systems accessed by partners and contractors, and audit findings about leaver access and privileged accounts.",
-        "في المؤسسات ذات التطبيقات الكثيرة وتسجيلات الدخول المنفصلة، والحسابات السحابية بصلاحيات مُنحت يدوياً، ووصول المسؤولين المشترك بين فريق، والأنظمة التي يصل إليها الشركاء والمتعاقدون، وملاحظات التدقيق حول وصول المغادرين والحسابات المميزة.",
+        "Organisations with many applications and as many separate logins. Cloud accounts where permissions were granted by hand, admin credentials a whole team knows, and systems that partners and contractors log into. It also shows up as an audit finding about leavers who still have access, or about privileged accounts nobody owns.",
+        "مؤسسات فيها تطبيقات كثيرة وتسجيلات دخول بعددها. وحسابات سحابية مُنحت صلاحياتها يدوياً، وبيانات دخول إدارية يعرفها فريق كامل، وأنظمة يدخلها الشركاء والمتعاقدون. ويظهر أيضاً في ملاحظة تدقيق عن مغادرين ما زال وصولهم قائماً، أو عن حسابات مميزة بلا مالك.",
       ),
     },
     approach: {
       body: bi(
-        "We design identity as one system: a central identity provider, single sign on for applications, multi factor authentication everywhere it matters, and roles defined by job rather than by request history. Privileged access is separated, time limited and logged. Joiner, mover and leaver processes are automated so access follows the person's role. Cloud identity gets the same treatment, with least privilege enforced by policy rather than by memory.",
-        "نصمم الهوية كنظام واحد: مزوّد هوية مركزي، وتسجيل دخول موحد للتطبيقات، ومصادقة متعددة العوامل في كل مكان يهم، وأدوار محددة حسب الوظيفة لا حسب تاريخ الطلبات. ويُفصل الوصول المميز ويُقيَّد زمنياً ويُسجَّل. وتُؤتمت إجراءات الالتحاق والانتقال والمغادرة بحيث يتبع الوصول دور الشخص. وتحصل الهوية السحابية على المعاملة نفسها، مع فرض الحد الأدنى من الصلاحيات بالسياسة لا بالذاكرة.",
+        "We treat identity as one system rather than a setting inside each application. That means a central identity provider, single sign on for the applications, multi factor authentication everywhere it matters, and roles defined by the job a person does instead of by the history of what they once asked for. Privileged access is kept separate, granted for a limited time and logged. Joiner, mover and leaver steps are automated so access follows the person's role, and cloud permissions get the same treatment, with least privilege enforced by policy rather than by anyone's memory.",
+        "نتعامل مع الهوية كنظام واحد، لا كإعداد داخل كل تطبيق. أي مزوّد هوية مركزي، وتسجيل دخول موحد للتطبيقات، ومصادقة متعددة العوامل في كل موضع مهم، وأدوار تُحدَّد بالوظيفة التي يؤديها الشخص لا بتاريخ ما طلبه يوماً. ويبقى الوصول المميز منفصلاً، يُمنح لوقت محدود ويُسجَّل. وتُؤتمت خطوات الالتحاق والانتقال والمغادرة ليتبع الوصول دور الشخص، وتأخذ الصلاحيات السحابية المعاملة نفسها، بحد أدنى تفرضه السياسة لا ذاكرة أحد.",
       ),
     },
     engagement: {
       body: bi(
-        "We inventory identities, applications and permissions, then design the target model with your HR and IT owners. Implementation is phased: identity provider and MFA first, then applications onto single sign on in order of risk, then privileged access and cloud policies. Each phase ends with an access review so that the clean state is verified, not assumed.",
-        "نجرد الهويات والتطبيقات والصلاحيات، ثم نصمم النموذج المستهدف مع مسؤولي الموارد البشرية وتقنية المعلومات لديك. ويُنفَّذ على مراحل: مزوّد الهوية والمصادقة متعددة العوامل أولاً، ثم نقل التطبيقات إلى تسجيل الدخول الموحد بترتيب المخاطر، ثم الوصول المميز والسياسات السحابية. وتنتهي كل مرحلة بمراجعة للوصول ليكون الوضع النظيف مُتحققاً منه لا مفترضاً.",
+        "We start with an inventory: the identities, the applications and the permissions that exist today. Then we design the target model with your HR and IT owners, because access follows employment and not only technology. Implementation is phased: identity provider and MFA first, then applications onto single sign on in order of risk, then privileged access and cloud policy. Each phase closes with an access review, so the clean state is checked rather than assumed.",
+        "نبدأ بجرد: الهويات والتطبيقات والصلاحيات الموجودة اليوم. ثم نصمم النموذج المستهدف مع مسؤولي الموارد البشرية وتقنية المعلومات، لأن الوصول يتبع علاقة العمل لا التقنية وحدها. ويُنفَّذ على مراحل: مزوّد الهوية والمصادقة متعددة العوامل أولاً، ثم نقل التطبيقات إلى تسجيل الدخول الموحد بترتيب المخاطر، ثم الوصول المميز والسياسات السحابية. وتُختم كل مرحلة بمراجعة وصول، فيُتحقَّق من الوضع النظيف بدل افتراضه.",
       ),
     },
     deliverables: {
-      body: bi("A single, current answer to who can access what, and the controls that keep it that way.", "إجابة واحدة حالية عمّن يستطيع الوصول إلى ماذا، والضوابط التي تبقيها كذلك."),
+      body: bi("One current answer to who can reach what, and the controls that keep it current.", "جواب واحد حديث عمّن يصل إلى ماذا، وضوابط تُبقيه حديثاً."),
       items: [
-        bi("Identity architecture, role model and access policies", "بنية هوية ونموذج أدوار وسياسات وصول"),
-        bi("Single sign on, MFA and privileged access implemented across applications and cloud", "تسجيل دخول موحد ومصادقة متعددة العوامل ووصول مميز منفذة عبر التطبيقات والسحابة"),
-        bi("Automated joiner, mover and leaver processes and periodic access reviews", "إجراءات مؤتمتة للالتحاق والانتقال والمغادرة ومراجعات دورية للوصول"),
+        bi("Identity architecture, a role model and written access policies", "بنية هوية ونموذج أدوار وسياسات وصول مكتوبة"),
+        bi("Single sign on, MFA and privileged access in place across applications and cloud", "تسجيل دخول موحد ومصادقة متعددة العوامل ووصول مميز عبر التطبيقات والسحابة"),
+        bi("Automated joiner, mover and leaver steps, and access reviews on a schedule", "خطوات مؤتمتة للالتحاق والانتقال والمغادرة، ومراجعات وصول وفق جدول"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Fewer ways for an attacker to move, less friction for staff who sign in once, clean answers for auditors, and no more discovering that a former contractor still has the keys.",
-        "طرق أقل يتحرك بها المهاجم، واحتكاك أقل للموظفين الذين يسجلون الدخول مرة واحدة، وإجابات نظيفة للمدققين، ولا مزيد من اكتشاف أن متعاقداً سابقاً ما يزال يملك المفاتيح.",
+        "An attacker who gets in has fewer places to go. Staff sign in once instead of managing a password for every system. Auditors get a straight answer, and you stop discovering that a contractor who left last year still has the keys.",
+        "يجد المهاجم الذي يدخل أماكن أقل يتحرك إليها. ويسجّل الموظفون الدخول مرة واحدة بدل إدارة كلمة مرور لكل نظام. ويحصل المدققون على جواب مباشر، وتتوقف عن اكتشاف أن متعاقداً غادر العام الماضي ما زال يملك المفاتيح.",
       ),
     },
     related: ["security-consulting-architecture", "cloud-architecture", "enterprise-ai-assistants"],
@@ -267,48 +267,48 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     practice: "technology-infrastructure",
     pictogram: "dataCentre",
     title: bi("Backup & Resilience", "النسخ الاحتياطي والمرونة"),
-    summary: bi("Backups that are tested, recovery that is rehearsed, and a plan for the day something is lost.", "نسخ احتياطية مختبرة، واستعادة متدرَّب عليها، وخطة لليوم الذي يُفقد فيه شيء ما."),
-    hero: bi("A backup is a hope. A tested restore is a plan. We make sure you have the second one.", "النسخة الاحتياطية أمل. والاستعادة المختبرة خطة. نتأكد من أن لديك الثانية."),
+    summary: bi("Backups that have actually been restored, recovery that has been rehearsed, and a written plan for the day data is lost.", "نسخ احتياطية جرت استعادتها فعلاً، واستعادة تُدرَّب عليها، وخطة مكتوبة ليوم تُفقد فيه البيانات."),
+    hero: bi("A backup nobody has restored is a guess. We turn it into two numbers: how much you lose, and how long you wait.", "النسخة الاحتياطية التي لم يستعدها أحد تخمين. نحوّلها إلى رقمين: كم تفقد، وكم تنتظر."),
     seo: {
       title: bi("Backup and Resilience", "النسخ الاحتياطي والمرونة"),
-      description: bi("Backup and disaster recovery engineering by CyBarq: recovery objectives, immutable and offsite backups, ransomware resilient design, restore testing and documented recovery procedures.", "هندسة النسخ الاحتياطي والتعافي من الكوارث من سايبرق: أهداف الاستعادة، ونسخ احتياطية غير قابلة للتعديل وخارج الموقع، وتصميم مقاوم لبرامج الفدية، واختبار الاستعادة، وإجراءات تعافٍ موثقة."),
+      description: bi("Backup and disaster recovery from CyBarq: recovery objectives, immutable offsite copies, ransomware resilient design and tested restore procedures.", "النسخ الاحتياطي والتعافي من الكوارث من سايبرق: أهداف الاستعادة، ونسخ غير قابلة للتعديل خارج الموقع، وتصميم يقاوم برامج الفدية، واختبار الاستعادة."),
     },
     problem: {
       body: bi(
-        "Almost everyone has backups. Far fewer have restored from them recently, know how long a full recovery would take, or have checked that the backups are out of reach of the ransomware that would make them necessary. The gap is usually discovered on the worst possible day.",
-        "الجميع تقريباً لديه نسخ احتياطية. لكن القليلين استعادوا منها مؤخراً، أو يعرفون كم ستستغرق الاستعادة الكاملة، أو تحققوا من أن النسخ بعيدة عن متناول برامج الفدية التي ستجعلها ضرورية. وتُكتشف هذه الفجوة عادةً في أسوأ يوم ممكن.",
+        "Almost every organisation has backups. Far fewer have restored from them recently, can say how long a full recovery would take, or have checked that the copies sit out of reach of the ransomware that would make them necessary. That gap is normally found on the worst possible day.",
+        "كل مؤسسة تقريباً لديها نسخ احتياطية. لكن قلة استعادت منها مؤخراً، أو تعرف كم تستغرق الاستعادة الكاملة، أو تحققت من أن النسخ بعيدة عن متناول برامج الفدية التي ستجعلها ضرورية. وتُكتشف هذه الفجوة عادةً في أسوأ يوم ممكن.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Databases and file stores that have never been restored end to end, backups reachable with the same credentials as production, cloud services assumed to be backed up by the provider, single region deployments, and recovery plans that exist as a document nobody has read since it was written.",
-        "في قواعد البيانات ومخازن الملفات التي لم تُستعد يوماً بالكامل، والنسخ الاحتياطية التي يمكن الوصول إليها ببيانات الدخول نفسها للإنتاج، والخدمات السحابية المفترض أن المزوّد يحفظ نسخاً منها، والنشر في منطقة واحدة، وخطط التعافي الموجودة كوثيقة لم يقرأها أحد منذ كتابتها.",
+        "Databases and file stores that have never been restored from end to end. Backups reachable with the same credentials as the systems they protect. Cloud services everyone assumes the provider backs up, deployments that live in one region, and a recovery plan that exists as a document nobody has opened since the day it was written.",
+        "قواعد بيانات ومخازن ملفات لم تُستعد يوماً من أولها إلى آخرها. ونسخ احتياطية يمكن الوصول إليها ببيانات الدخول نفسها للأنظمة التي تحميها. وخدمات سحابية يفترض الجميع أن المزوّد يحفظ نسخها، ونشر يعيش في منطقة واحدة، وخطة تعافٍ موجودة كوثيقة لم يفتحها أحد منذ يوم كتابتها.",
       ),
     },
     approach: {
       body: bi(
-        "We start with what the business can tolerate: how much data can be lost and how long systems can be down, per system. Then we design backups to meet those numbers: immutable copies, offsite or cross region, separated credentials, and coverage of the cloud services people forget. Restores are tested on a schedule, timed, and documented. For critical systems we design failover that has actually been exercised.",
-        "نبدأ بما تستطيع الأعمال تحمّله: كم من البيانات يمكن فقدانها، وكم من الوقت يمكن أن تتوقف الأنظمة، لكل نظام على حدة. ثم نصمم النسخ الاحتياطية لتحقيق هذه الأرقام: نسخ غير قابلة للتعديل، خارج الموقع أو عبر مناطق، ببيانات دخول منفصلة، مع تغطية للخدمات السحابية التي ينساها الناس. وتُختبر الاستعادة وفق جدول، وتُقاس زمنياً، وتُوثَّق. وللأنظمة الحرجة نصمم تحويلاً احتياطياً جرى تمرينه فعلاً.",
+        "We start with two numbers per system: how much data you can afford to lose, and how long you can be without it. Then we build backups that meet those numbers: copies that cannot be altered, kept offsite or in another region, with credentials separate from production, and covering the cloud services people forget to include. Restores are tested on a schedule, timed and written up. For the systems that cannot wait, we design a failover and then actually run it.",
+        "نبدأ برقمين لكل نظام: كم من البيانات تحتمل فقدانه، وكم من الوقت تحتمل غيابه. ثم نبني نسخاً احتياطية تحقق هذين الرقمين: نسخ لا يمكن تعديلها، محفوظة خارج الموقع أو في منطقة أخرى، ببيانات دخول منفصلة عن الإنتاج، وتشمل الخدمات السحابية التي ينسى الناس إدراجها. وتُختبر الاستعادة وفق جدول، ويُقاس زمنها وتُوثَّق. وللأنظمة التي لا تحتمل الانتظار نصمم تحويلاً احتياطياً ثم نجرّبه فعلاً.",
       ),
     },
     engagement: {
       body: bi(
-        "A resilience review of one to two weeks maps systems to recovery objectives and finds the gaps. Implementation follows in priority order. The first full restore test is done together, timed and written up. We leave you with a testing calendar, a recovery runbook per critical system, and, if you want it, a periodic test we run with you.",
-        "تربط مراجعة مرونة من أسبوع إلى أسبوعين الأنظمة بأهداف الاستعادة وتكشف الفجوات. ويلي ذلك التنفيذ بترتيب الأولوية. ويُجرى أول اختبار استعادة كامل معاً، مع قياس الزمن وتوثيق النتيجة. ونترك لديك تقويماً للاختبارات، ودليل تعافٍ لكل نظام حرج، وإن شئت اختباراً دورياً ننفذه معك.",
+        "A resilience review of one to two weeks maps each system to a recovery objective and lists the gaps. We then close them in priority order. The first full restore test is run together, with a clock on it, and written up whatever the result. You keep a testing calendar and a recovery runbook per critical system, and if you want it we come back and run the test with you periodically.",
+        "تربط مراجعة مرونة من أسبوع إلى أسبوعين كل نظام بهدف استعادة، وتُحصي الفجوات. ثم نغلقها بترتيب الأولوية. ويُجرى أول اختبار استعادة كامل معاً، بساعة تقيس الزمن، ويُوثَّق مهما كانت النتيجة. ويبقى لديك تقويم للاختبارات ودليل تعافٍ لكل نظام حرج، وإن أردت عدنا لننفّذ الاختبار معك دورياً.",
       ),
     },
     deliverables: {
-      body: bi("Recovery you have seen work, with the numbers to prove it.", "استعادة رأيتها تعمل، مع أرقام تثبت ذلك."),
+      body: bi("A recovery you have watched succeed, with the timings written down.", "استعادة رأيتها تنجح، وأزمنتها مكتوبة."),
       items: [
-        bi("Recovery objectives per system and a resilience gap assessment", "أهداف استعادة لكل نظام وتقييم لفجوات المرونة"),
-        bi("Backup implementation with immutability, separation and offsite copies", "تنفيذ نسخ احتياطي بعدم قابلية التعديل والفصل ونسخ خارج الموقع"),
+        bi("Recovery objectives per system and an assessment of the gaps", "أهداف استعادة لكل نظام وتقييم للفجوات"),
+        bi("Backups with immutability, separated credentials and offsite copies", "نسخ احتياطية غير قابلة للتعديل، ببيانات دخول منفصلة ونسخ خارج الموقع"),
         bi("Tested restore procedures, recovery runbooks and a testing calendar", "إجراءات استعادة مختبرة وأدلة تعافٍ وتقويم للاختبارات"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "A ransomware incident becomes a recovery exercise instead of a negotiation, hardware or cloud failures become a known number of hours, and leadership can state the organisation's recovery capability with confidence.",
-        "يتحول حادث برامج الفدية إلى تمرين استعادة بدلاً من مفاوضة، وتصبح أعطال العتاد أو السحابة عدداً معروفاً من الساعات، وتستطيع القيادة ذكر قدرة المؤسسة على التعافي بثقة.",
+        "A ransomware incident becomes a recovery exercise instead of a negotiation. A failed disk or a bad day at the provider becomes a known number of hours. When the board asks what would happen, leadership can answer with something it has watched work.",
+        "يتحول حادث برامج الفدية إلى تمرين استعادة بدل مفاوضة. ويصبح قرص معطّل أو يوم سيئ عند المزوّد عدداً معروفاً من الساعات. وحين يسأل المجلس ماذا سيحدث، تجيب القيادة بشيء رأته يعمل.",
       ),
     },
     related: ["platform-reliability-devops", "digital-forensics-incident-response", "infrastructure-modernisation"],
@@ -318,48 +318,48 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     practice: "technology-infrastructure",
     pictogram: "network",
     title: bi("Infrastructure Modernisation", "تحديث البنية التحتية"),
-    summary: bi("Moving from ageing servers, networks and data centres to infrastructure that is supported, secure and manageable.", "الانتقال من خوادم وشبكات ومراكز بيانات متقادمة إلى بنية تحتية مدعومة وآمنة وقابلة للإدارة."),
-    hero: bi("Old infrastructure does not fail all at once. It fails a little every month, until the month it does not.", "البنية التحتية القديمة لا تفشل دفعة واحدة. تفشل قليلاً كل شهر، حتى الشهر الذي تفشل فيه كلياً."),
+    summary: bi("Getting off ageing servers, flat networks and unsupported platforms, in stages, without stopping the business.", "الخروج من خوادم متقادمة وشبكات مسطحة ومنصات بلا دعم، على مراحل، من دون توقيف العمل."),
+    hero: bi("Old infrastructure rarely fails all at once. It fails a little every month, and the budget goes elsewhere, until the month it stops completely.", "نادراً ما تفشل البنية التحتية القديمة دفعة واحدة. تفشل قليلاً كل شهر، وتذهب الميزانية إلى غيرها، حتى يأتي الشهر الذي تتوقف فيه تماماً."),
     seo: {
       title: bi("Infrastructure Modernisation", "تحديث البنية التحتية"),
-      description: bi("Infrastructure modernisation by CyBarq: assessment of servers, networks and data centre estates, migration to cloud or modern on premises platforms, network redesign and secure, staged transition.", "تحديث البنية التحتية من سايبرق: تقييم الخوادم والشبكات ومراكز البيانات، والترحيل إلى السحابة أو منصات محلية حديثة، وإعادة تصميم الشبكة، وانتقال آمن على مراحل."),
+      description: bi("Infrastructure modernisation from CyBarq: assessing servers, networks and data centres, migrating to cloud or modern platforms, network redesign.", "تحديث البنية التحتية من سايبرق: تقييم الخوادم والشبكات ومراكز البيانات، والترحيل إلى السحابة أو منصات حديثة، وإعادة تصميم الشبكة."),
     },
     problem: {
       body: bi(
-        "Servers past their support dates, flat networks where everything can reach everything, virtualisation platforms nobody upgrades, and a data centre room that is also the store cupboard. The systems still work, which is why the budget keeps going elsewhere, and every year the eventual migration gets larger and riskier.",
-        "خوادم تجاوزت مواعيد دعمها، وشبكات مسطحة يصل فيها كل شيء إلى كل شيء، ومنصات افتراضية لا يحدّثها أحد، وغرفة مركز بيانات هي أيضاً مخزن. ما تزال الأنظمة تعمل، ولهذا تذهب الميزانية إلى غيرها، ومع كل سنة يصبح الترحيل الحتمي أكبر وأخطر.",
+        "Servers past their support date. A flat network where any machine can reach any other. A virtualisation platform nobody has upgraded in years, and a server room that doubles as the store cupboard. The systems still work, which is exactly why the budget goes somewhere else, and every year the migration you will eventually have to do gets bigger and riskier.",
+        "خوادم تجاوزت تاريخ انتهاء دعمها. وشبكة مسطحة يصل فيها أي جهاز إلى أي جهاز. ومنصة افتراضية لم يحدّثها أحد منذ سنوات، وغرفة خوادم تعمل مخزناً في الوقت نفسه. ما تزال الأنظمة تعمل، ولهذا بالذات تذهب الميزانية إلى غيرها، ومع كل سنة يكبر الترحيل الذي لا مفر منه ويزداد خطره.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "On premises estates built up over a decade, branch networks with inconsistent equipment, end of life operating systems that cannot be patched, storage that is full and unsupported, and audit or insurance findings that require remediation by a date.",
-        "في البيئات المحلية التي تراكمت على مدى عقد، وشبكات الفروع بمعدات غير متسقة، وأنظمة تشغيل انتهى دعمها ولا يمكن تحديثها أمنياً، ومخازن ممتلئة وغير مدعومة، وملاحظات تدقيق أو تأمين تتطلب معالجة قبل تاريخ محدد.",
+        "Estates that grew on premises over a decade. Branch networks where every site has different equipment. Operating systems past end of life that can no longer be patched, storage that is both full and unsupported, and an audit or insurance finding that names a date by which something must change.",
+        "بيئات محلية تراكمت على مدى عقد. وشبكات فروع لكل موقع فيها معدات مختلفة. وأنظمة تشغيل انتهى عمرها ولم تعد تقبل التحديثات الأمنية، ومخازن ممتلئة وبلا دعم، وملاحظة تدقيق أو تأمين تحدد تاريخاً يجب أن يتغير شيء قبله.",
       ),
     },
     approach: {
       body: bi(
-        "We assess the estate honestly: what each system does, what depends on it, what its real risk is, and what the right destination is, which may be cloud, a modern on premises platform, a managed service or retirement. The network is redesigned with segmentation so a compromised device cannot reach everything. Migration is staged by dependency, with each stage leaving a supported, documented state behind.",
-        "نقيّم البيئة بصدق: ماذا يفعل كل نظام، وما الذي يعتمد عليه، وما مخاطره الحقيقية، وما الوجهة الصحيحة له، والتي قد تكون السحابة أو منصة محلية حديثة أو خدمة مُدارة أو الاستغناء عنه. ويُعاد تصميم الشبكة بالتقسيم بحيث لا يصل جهاز مخترق إلى كل شيء. ويُرحَّل على مراحل حسب التبعيات، وتترك كل مرحلة وراءها حالة مدعومة وموثقة.",
+        "We assess the estate honestly: what each system does, what depends on it, what its real risk is, and where it should end up. For some systems that is the cloud, for others a modern platform in your own building, a managed service, or retirement. The network is redesigned in segments, so one compromised laptop cannot reach everything. Migration is ordered by dependency, and every stage leaves behind a state that is supported and documented, even if the programme pauses there.",
+        "نقيّم البيئة بصراحة: ماذا يفعل كل نظام، وما الذي يعتمد عليه، وما خطره الحقيقي، وأين يجب أن ينتهي به الأمر. بعض الأنظمة وجهتها السحابة، وبعضها منصة حديثة في مبناك، أو خدمة مُدارة، أو الاستغناء عنها. ونعيد تصميم الشبكة على شكل مقاطع، فلا يصل حاسوب مخترق واحد إلى كل شيء. ويُرتَّب الترحيل حسب التبعيات، وتترك كل مرحلة خلفها وضعاً مدعوماً وموثقاً، حتى لو توقف البرنامج عندها.",
       ),
     },
     engagement: {
       body: bi(
-        "The assessment takes a few weeks and produces a modernisation roadmap with costs, sequencing and risk. Implementation proceeds in stages agreed with the business, scheduled around its calendar, each with a rollback plan. We work with your existing IT staff and vendors, and we can operate the new platform for a period while your team takes it on.",
-        "يستغرق التقييم بضعة أسابيع وينتج خارطة طريق للتحديث بالتكاليف والتسلسل والمخاطر. ويسير التنفيذ على مراحل متفق عليها مع الأعمال، مجدولة حول تقويمها، ولكل مرحلة خطة تراجع. نعمل مع موظفي تقنية المعلومات ومورّديك الحاليين، ويمكننا تشغيل المنصة الجديدة لفترة ريثما يتولاها فريقك.",
+        "The assessment takes a few weeks and produces a roadmap with costs, order of work and the risk of each step. Implementation runs in stages agreed with the business and scheduled around its calendar, each stage with a way back. We work with the IT staff and the vendors you already have, not around them. If it helps, we run the new platform for a period while your team takes it over.",
+        "يستغرق التقييم بضعة أسابيع، وينتج خارطة طريق بالتكاليف وترتيب العمل ومخاطر كل خطوة. ويسير التنفيذ على مراحل متفق عليها مع أصحاب العمل ومجدولة حول تقويمهم، ولكل مرحلة طريق رجوع. ونعمل مع موظفي تقنية المعلومات والمورّدين الموجودين لديك، لا من حولهم. وإن كان ذلك مفيداً، شغّلنا المنصة الجديدة فترة ريثما يتسلّمها فريقك.",
       ),
     },
     deliverables: {
-      body: bi("A supported, segmented, documented estate, delivered without a big bang.", "بيئة مدعومة ومقسّمة وموثقة، مسلَّمة من دون انتقال دفعة واحدة."),
+      body: bi("An estate that is supported, segmented and written down, reached one stage at a time.", "بيئة مدعومة ومقسّمة وموثّقة، بُلغت مرحلةً بعد مرحلة."),
       items: [
-        bi("Infrastructure assessment and staged modernisation roadmap", "تقييم للبنية التحتية وخارطة طريق تحديث مرحلية"),
-        bi("Migrated or replaced systems, network redesign with segmentation", "أنظمة مرحّلة أو مستبدلة، وإعادة تصميم للشبكة مع تقسيم"),
-        bi("Documentation, monitoring and handover to your operations team", "وثائق ومراقبة وتسليم إلى فريق العمليات لديك"),
+        bi("Infrastructure assessment and a staged modernisation roadmap", "تقييم للبنية التحتية وخارطة طريق تحديث على مراحل"),
+        bi("Systems migrated or replaced, and a network redesigned in segments", "أنظمة مرحّلة أو مستبدلة، وشبكة أعيد تصميمها على مقاطع"),
+        bi("Documentation, monitoring and a handover to your operations team", "وثائق ومراقبة وتسليم إلى فريق العمليات لديك"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "The slow accumulation of risk is reversed in a controlled programme, security improves with every stage, and infrastructure stops being the reason a project cannot start.",
-        "يُعكس التراكم البطيء للمخاطر في برنامج مضبوط، ويتحسن الأمان مع كل مرحلة، وتتوقف البنية التحتية عن كونها السبب في تعذّر بدء مشروع ما.",
+        "Risk that built up quietly for years comes down inside a programme you control. Security improves at every stage rather than only at the end. Infrastructure stops being the reason a project cannot start this quarter.",
+        "تنخفض المخاطر التي تراكمت بهدوء لسنوات ضمن برنامج تتحكم فيه. ويتحسن الأمان في كل مرحلة لا في نهايتها وحدها. وتتوقف البنية التحتية عن كونها سبب تعذّر بدء مشروع هذا الربع.",
       ),
     },
     related: ["cloud-architecture", "legacy-modernisation", "backup-resilience"],
@@ -369,48 +369,48 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     practice: "technology-infrastructure",
     pictogram: "consulting",
     title: bi("Technical Architecture Consulting", "استشارات البنية التقنية"),
-    summary: bi("Independent architecture advice for decisions that are expensive to get wrong.", "استشارات بنية مستقلة للقرارات التي يكلّف الخطأ فيها كثيراً."),
-    hero: bi("Some decisions you make once and live with for years. Those are the ones worth a second opinion.", "بعض القرارات تتخذها مرة وتعيش معها لسنوات. تلك هي التي تستحق رأياً ثانياً."),
+    summary: bi("Independent advice on the technical decisions that are expensive to reverse.", "رأي مستقل في القرارات التقنية التي يكلّف التراجع عنها كثيراً."),
+    hero: bi("Some choices you make once and live with for years. Those are the ones worth a second opinion from someone with nothing to sell you.", "بعض الخيارات تتخذها مرة وتعيش معها سنوات. وهي التي تستحق رأياً ثانياً ممن لا يبيعك شيئاً."),
     seo: {
       title: bi("Technical Architecture Consulting", "استشارات البنية التقنية"),
-      description: bi("Independent technical architecture consulting by CyBarq: technology selection, vendor and platform evaluation, architecture reviews, build or buy decisions and technical due diligence.", "استشارات بنية تقنية مستقلة من سايبرق: اختيار التقنيات، وتقييم المورّدين والمنصات، ومراجعات البنية، وقرارات البناء أو الشراء، والعناية الواجبة التقنية."),
+      description: bi("Independent architecture consulting from CyBarq: technology and vendor selection, architecture reviews, build or buy decisions and due diligence.", "استشارات بنية تقنية مستقلة من سايبرق: اختيار التقنيات والمورّدين، ومراجعات البنية، وقرارات البناء أو الشراء، والعناية الواجبة التقنية."),
     },
     problem: {
       body: bi(
-        "Choosing a platform, a vendor, a database or an integration approach is a decision that shapes cost and risk for years. It is usually made under time pressure, with advice from the people selling the options, and without anyone whose job is to ask the uncomfortable questions. The wrong choice rarely fails immediately; it becomes the constraint every later project works around.",
-        "اختيار منصة أو مورّد أو قاعدة بيانات أو نهج تكامل قرار يشكّل التكلفة والمخاطر لسنوات. ويُتخذ عادةً تحت ضغط الوقت، بنصيحة ممن يبيعون الخيارات، ومن دون أحد مهمته طرح الأسئلة غير المريحة. والخيار الخاطئ نادراً ما يفشل فوراً؛ بل يصبح القيد الذي يلتف حوله كل مشروع لاحق.",
+        "Picking a platform, a vendor, a database or an integration approach sets your cost and your risk for years. The choice is usually made under time pressure, on advice from the people selling the options, with nobody in the room whose job is to ask the uncomfortable questions. A wrong choice rarely fails straight away. It becomes the constraint that every project after it has to work around.",
+        "اختيار منصة أو مورّد أو قاعدة بيانات أو أسلوب تكامل يحدد تكلفتك ومخاطرك لسنوات. ويُتخذ القرار عادةً تحت ضغط الوقت، بنصيحة ممّن يبيعون الخيارات، ولا أحد في الغرفة مهمته طرح الأسئلة غير المريحة. والخيار الخاطئ نادراً ما يفشل فوراً. بل يصير القيد الذي يلتف حوله كل مشروع بعده.",
       ),
     },
     whereItAppears: {
       body: bi(
-        "Platform and vendor selection, build or buy decisions, reviews of a proposal from a supplier, due diligence on a company or a system being acquired, architecture for a new product, and disagreements between teams that need an independent view.",
-        "في اختيار المنصات والمورّدين، وقرارات البناء أو الشراء، ومراجعة عرض مقدم من مورّد، والعناية الواجبة على شركة أو نظام قيد الاستحواذ، وبنية منتج جديد، والخلافات بين الفرق التي تحتاج إلى رأي مستقل.",
+        "Choosing a platform or a vendor. Deciding whether to build something or buy it. Reading a supplier's proposal before signing, checking a company or a system you are about to acquire, setting the architecture for a new product, and settling a disagreement between two teams who both have a case.",
+        "اختيار منصة أو مورّد. وقرار بناء شيء أو شرائه. وقراءة عرض مورّد قبل التوقيع، وفحص شركة أو نظام على وشك الاستحواذ عليه، ووضع بنية منتج جديد، وحسم خلاف بين فريقين لكلٍّ منهما حجة.",
       ),
     },
     approach: {
       body: bi(
-        "We have no products to sell, so the advice is about your situation. We understand the business constraints, the team's real capacity and the existing estate before recommending anything. Options are compared on total cost, risk, security, operability and exit cost, in writing, with the trade offs stated plainly. Where we recommend against something popular, we explain why.",
-        "ليست لدينا منتجات نبيعها، فالنصيحة عن وضعك أنت. نفهم قيود الأعمال، والقدرة الحقيقية للفريق، والبيئة القائمة قبل التوصية بأي شيء. وتُقارن الخيارات على أساس التكلفة الإجمالية والمخاطر والأمان وسهولة التشغيل وتكلفة الخروج، كتابةً، مع ذكر المفاضلات بوضوح. وحين نوصي بعدم اختيار شيء رائج، نشرح السبب.",
+        "We have nothing to sell you, so the advice is about your situation and not our catalogue. Before recommending anything we look at the business constraints, what your team can realistically operate, and what you already run. Options are compared in writing on total cost, risk, security, how hard each is to operate, and what it would cost to leave later. The trade offs are stated plainly, and when we advise against the popular option we explain why.",
+        "ليس لدينا ما نبيعه، فالنصيحة عن وضعك لا عن قائمة منتجاتنا. وقبل أي توصية ننظر في قيود العمل، وما يستطيع فريقك تشغيله فعلاً، وما تملكه اليوم. وتُقارن الخيارات كتابةً على أساس التكلفة الإجمالية والمخاطر والأمان وصعوبة التشغيل وكلفة الخروج لاحقاً. وتُذكر المفاضلات بوضوح، وحين ننصح بترك الخيار الرائج نشرح السبب.",
       ),
     },
     engagement: {
       body: bi(
-        "Engagements are scoped to the decision: a review of a few days, an evaluation of a few weeks, or a retained architect who joins your design discussions on a regular basis. The output is a written recommendation with the reasoning, so it can be challenged and revisited. We are happy to be in the room when it is presented to leadership.",
-        "تُحدد الارتباطات بحجم القرار: مراجعة من بضعة أيام، أو تقييم من بضعة أسابيع، أو مهندس بنية محجوز ينضم إلى نقاشات التصميم لديك بانتظام. والمخرج توصية مكتوبة مع أسبابها، ليمكن مناقشتها وإعادة النظر فيها. ويسعدنا الحضور حين تُعرض على القيادة.",
+        "The engagement is sized to the decision: a review of a few days, an evaluation of a few weeks, or a retained architect who sits in your design discussions on a regular basis. The output is a written recommendation with the reasoning behind it, so you can argue with it now and reopen it in two years. We are happy to be in the room when it goes to leadership.",
+        "يُقاس حجم العمل بحجم القرار: مراجعة من أيام، أو تقييم من أسابيع، أو مهندس بنية محجوز يجلس في نقاشات التصميم بانتظام. والمخرج توصية مكتوبة ومعها أسبابها، فتستطيع مناقشتها اليوم والعودة إليها بعد سنتين. ويسعدنا الحضور حين تُعرض على القيادة.",
       ),
     },
     deliverables: {
-      body: bi("A decision you can defend, and the reasoning to revisit it later.", "قرار تستطيع الدفاع عنه، وأسباب تعود إليها لاحقاً."),
+      body: bi("A decision you can defend now, and the reasoning to reopen it later.", "قرار تستطيع الدفاع عنه الآن، وأسباب تفتحه بها من جديد لاحقاً."),
       items: [
-        bi("Written evaluation of options with costs, risks and trade offs", "تقييم مكتوب للخيارات بالتكاليف والمخاطر والمفاضلات"),
-        bi("Architecture recommendation or review with prioritised actions", "توصية أو مراجعة للبنية بإجراءات مرتبة"),
-        bi("Presentation to leadership and support during vendor negotiation where relevant", "عرض للقيادة ودعم أثناء التفاوض مع المورّدين عند الحاجة"),
+        bi("A written comparison of the options with costs, risks and trade offs", "مقارنة مكتوبة للخيارات بالتكاليف والمخاطر والمفاضلات"),
+        bi("An architecture recommendation or review, with actions in priority order", "توصية أو مراجعة للبنية بإجراءات مرتبة حسب الأولوية"),
+        bi("A presentation to leadership, and support during vendor negotiation where useful", "عرض للقيادة، ودعم أثناء التفاوض مع المورّدين عند الحاجة"),
       ],
     },
     businessMeaning: {
       body: bi(
-        "Fewer expensive reversals, better terms with vendors because you know what you need, and technology choices that the organisation can live with for as long as it has to.",
-        "تراجعات مكلفة أقل، وشروط أفضل مع المورّدين لأنك تعرف ما تحتاجه، وخيارات تقنية تستطيع المؤسسة العيش معها طوال المدة اللازمة.",
+        "Fewer expensive reversals two years in. Better terms from vendors, because you walk into the negotiation knowing what you actually need. Technology choices the organisation can live with for as long as it has to.",
+        "تراجعات مكلفة أقل بعد سنتين. وشروط أفضل من المورّدين، لأنك تدخل التفاوض عارفاً ما تحتاجه فعلاً. وخيارات تقنية تستطيع المؤسسة العيش معها المدة المطلوبة كلها.",
       ),
     },
     related: ["performance-platform-architecture", "security-consulting-architecture", "cloud-architecture"],

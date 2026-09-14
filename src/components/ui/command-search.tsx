@@ -2,7 +2,8 @@
 
 import * as React from "react";
 import { Command } from "cmdk";
-import { Search } from "lucide-react";
+import { Icon } from "@/components/brand/icon";
+import { cn } from "@/lib/utils/cn";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "./dialog";
 
@@ -11,10 +12,11 @@ export type CommandItem = { id: string; label: string; group: string; href: stri
 type CommandSearchProps = {
   items: CommandItem[];
   labels: { placeholder: string; empty: string; title: string; open: string };
+  className?: string;
 };
 
 /** Keyboard (Ctrl/Cmd+K) and touch friendly command palette for the platform. */
-export function CommandSearch({ items, labels }: CommandSearchProps) {
+export function CommandSearch({ items, labels, className }: CommandSearchProps) {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
 
@@ -40,10 +42,10 @@ export function CommandSearch({ items, labels }: CommandSearchProps) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="touch flex items-center gap-2 border border-fog px-3 text-small text-slate hover:border-grey sm:min-w-56"
+        className={cn("touch flex items-center gap-2 border border-fog px-3 text-small text-slate transition-colors hover:border-grey hover:text-graphite sm:min-w-56", className)}
         aria-label={labels.open}
       >
-        <Search className="size-4" aria-hidden />
+        <Icon name="search" className="size-4" />
         <span className="hidden sm:inline">{labels.placeholder}</span>
         <kbd className="ms-auto hidden text-label sm:inline">⌘K</kbd>
       </button>
@@ -51,7 +53,7 @@ export function CommandSearch({ items, labels }: CommandSearchProps) {
         <DialogContent title={labels.title} className="sm:max-w-xl">
           <Command label={labels.title} className="flex flex-col">
             <div className="flex items-center gap-2 border border-fog px-3">
-              <Search className="size-4 text-slate" aria-hidden />
+              <Icon name="search" className="size-4 text-slate" />
               <Command.Input placeholder={labels.placeholder} className="h-11 w-full bg-transparent outline-none" autoFocus />
             </div>
             <Command.List className="mt-3 max-h-80 overflow-y-auto">

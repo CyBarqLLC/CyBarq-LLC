@@ -8,9 +8,9 @@ import { Reveal } from "./reveal";
 type RegistrationPanelProps = { locale: Locale; title: string; className?: string };
 
 /**
- * Official registration statement (Jordan and the United States) with the
- * Ministry of Digital Economy and Entrepreneurship mark and the emblem of the
- * Hashemite Kingdom of Jordan. Shares its parts with the footer block.
+ * The official registration statement, with the Ministry of Digital Economy
+ * and Entrepreneurship mark and the emblem of the Hashemite Kingdom of Jordan.
+ * Shares its parts with the footer block.
  */
 export async function RegistrationPanel({ locale, title, className }: RegistrationPanelProps) {
   const t = await getTranslations("site.registration");
@@ -22,7 +22,7 @@ export async function RegistrationPanel({ locale, title, className }: Registrati
             {title}
           </h2>
           <p className="mt-4 text-slate">
-            {company.registration[locale]} {t("us")}
+            {company.registration[locale]}
           </p>
           <p className="mt-4 text-small text-slate">
             {company.legalName[locale]}. <JordanLegalName label={t("legalNameLabel")} />

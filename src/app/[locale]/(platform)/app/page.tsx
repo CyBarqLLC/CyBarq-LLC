@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Status } from "@/components/ui/status";
 import { Badge } from "@/components/ui/badge";
 import { KpiTile } from "@/components/platform/kpi-tile";
+import { ActionCards, type QuickAction } from "@/components/platform/action-card";
 import { SectionCard } from "@/components/platform/section-card";
 import { ActivityList } from "@/components/platform/activity-list";
 import { greetingName } from "@/components/platform/person";
@@ -103,6 +104,13 @@ export default async function DashboardPage() {
   }
   const showApprovals = canContent || canFinance;
 
+  const actions: QuickAction[] = [];
+  if (viewer.can("projects.write")) actions.push({ key: "project", href: "/app/projects/new", title: t("actions.project.title"), description: t("actions.project.description"), icon: "projects" });
+  if (viewer.can("clients.write")) actions.push({ key: "client", href: "/app/clients/new", title: t("actions.client.title"), description: t("actions.client.description"), icon: "clients" });
+  if (viewer.can("security.write")) actions.push({ key: "engagement", href: "/app/security/new", title: t("actions.engagement.title"), description: t("actions.engagement.description"), icon: "security" });
+  if (viewer.can("finance.write")) actions.push({ key: "invoice", href: "/app/finance/invoices/new", title: t("actions.invoice.title"), description: t("actions.invoice.description"), icon: "finance" });
+  if (viewer.can("certificates.issue")) actions.push({ key: "certificate", href: "/app/certificates/new", title: t("actions.certificate.title"), description: t("actions.certificate.description"), icon: "certificates" });
+
   const firstName = greetingName(viewer.profile, locale);
 
   return (
@@ -110,17 +118,26 @@ export default async function DashboardPage() {
       <PageHeader title={firstName ? t("greeting", { name: firstName }) : t("greetingAnonymous")} description={t("description")} />
 
       <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        <KpiTile label={t("kpi.myOpenTasks")} value={formatNumber(openCount ?? 0, locale)} href="/app/tasks" />
-        <KpiTile label={t("kpi.activeProjects")} value={formatNumber(activeProjects ?? 0, locale)} href="/app/projects?status=active" />
-        <KpiTile label={t("kpi.unread")} value={formatNumber(unread ?? 0, locale)} href="/app/notifications" />
+        <KpiTile label={t("kpi.myOpenTasks")} value={formatNumber(openCount ?? 0, locale)} href="/app/tasks" icon="tasks" />
+        <KpiTile label={t("kpi.activeProjects")} value={formatNumber(activeProjects ?? 0, locale)} href="/app/projects?status=active" icon="projects" />
+        <KpiTile label={t("kpi.unread")} value={formatNumber(unread ?? 0, locale)} href="/app/notifications" icon="notifications" />
         {canFinance ? (
-          <KpiTile label={t("kpi.overdueInvoices")} value={formatNumber(gated.count ?? 0, locale)} href="/app/finance/invoices?status=overdue" />
+          <KpiTile label={t("kpi.overdueInvoices")} value={formatNumber(gated.count ?? 0, locale)} href="/app/finance/invoices?status=overdue" icon="finance" />
         ) : canClients ? (
-          <KpiTile label={t("kpi.activeClients")} value={formatNumber(gated.count ?? 0, locale)} href="/app/clients?status=active" />
+          <KpiTile label={t("kpi.activeClients")} value={formatNumber(gated.count ?? 0, locale)} href="/app/clients?status=active" icon="clients" />
         ) : null}
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[3fr_2fr]">
+      {actions.length > 0 ? (
+        <section className="mt-8" aria-labelledby="quick-actions">
+          <h2 id="quick-actions" className="mb-3 text-label font-medium text-slate">
+            {t("actions.title")}
+          </h2>
+          <ActionCards items={actions.slice(0, 3)} />
+        </section>
+      ) : null}
+
+      <div className="mt-8 grid gap-6 lg:grid-cols-[3fr_2fr]">
         <div className="flex flex-col gap-6">
           <SectionCard
             title={t("myWork.title")}
