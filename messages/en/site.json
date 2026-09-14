@@ -46,7 +46,6 @@
     "logosPause": "Pause",
     "logosPlay": "Play",
     "logosSubject": "logo animation",
-    "registrationTitle": "Official registration",
     "ctaTitle": "Tell us what you are working on.",
     "ctaBody": "A few sentences is enough. We reply with questions rather than a proposal, and we say plainly if this is not work we should take. Remote, on site, or both: we work the way the project calls for.",
     "ctaButton": "Talk to us",
@@ -57,7 +56,7 @@
       "index": "What we do",
       "approach": "How we work",
       "latest": "Latest",
-      "trust": "Partners and registration"
+      "trust": "Partners and certifications"
     }
   },
   "services": {
@@ -173,10 +172,9 @@
   },
   "registration": {
     "heading": "Official registration",
-    "jordan": "CyBarq is registered in the Hashemite Kingdom of Jordan with the Ministry of Digital Economy and Entrepreneurship.",
     "number": "Jordanian National Establishment No. {number}",
     "legalNameLabel": "Registered in Jordan as",
-    "alt": "Logo of the Ministry of Digital Economy and Entrepreneurship and the emblem of the Hashemite Kingdom of Jordan"
+    "alt": "The National Cyber Security Center mark and the emblem of the Hashemite Kingdom of Jordan"
   },
   "content": {
     "projects": {

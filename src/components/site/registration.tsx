@@ -5,13 +5,13 @@ import { cn } from "@/lib/utils/cn";
 type RegistrationMarkProps = { alt: string; sizes: string; className?: string };
 
 /**
- * The official registration artwork: the Ministry of Digital Economy and
- * Entrepreneurship mark beside the emblem of the Hashemite Kingdom of Jordan.
- * Shown small and calm; it states where the company is registered and nothing
- * more (no endorsement is implied).
+ * The official registration artwork: the National Cyber Security Center mark
+ * beside the emblem of the Hashemite Kingdom of Jordan. It appears once, in
+ * the colophon, small and quiet. It states where the company is registered and
+ * nothing more: no endorsement is implied.
  */
 export function RegistrationMark({ alt, sizes, className }: RegistrationMarkProps) {
-  return <Image src="/images/jordan-registration.png" alt={alt} width={1127} height={666} sizes={sizes} className={cn("h-auto", className)} />;
+  return <Image src="/images/registration-jordan-ncsc.png" alt={alt} width={900} height={137} sizes={sizes} className={cn("h-auto", className)} />;
 }
 
 /** The Jordan registered name, isolated so it reads correctly inside English text. */

@@ -134,15 +134,12 @@ export async function SiteFooter() {
           </div>
         </div>
 
-        <section aria-labelledby="footer-registration" className="mt-16 flex flex-col gap-6 border-t border-fog pt-8 sm:flex-row sm:items-center sm:gap-10">
+        <section aria-labelledby="footer-registration" className="mt-16 flex flex-col items-start gap-3 border-t border-fog pt-8">
           <h2 id="footer-registration" className="sr-only">
             {tr("heading")}
           </h2>
-          <RegistrationMark alt={tr("alt")} sizes="144px" className="w-32 shrink-0 sm:w-36" />
-          <div className="flex max-w-2xl flex-col gap-1 text-small text-slate">
-            <p>{tr("jordan")}</p>
-            <RegistrationNumber format={(number) => tr("number", { number })} />
-          </div>
+          <RegistrationMark alt={tr("alt")} sizes="(min-width: 640px) 320px, 260px" className="w-65 sm:w-80" />
+          <RegistrationNumber format={(number) => tr("number", { number })} className="text-small text-slate" />
         </section>
 
         <div className="mt-10 flex flex-col gap-3 border-t border-fog pt-6 text-small text-slate lg:flex-row lg:items-center lg:justify-between lg:gap-8">

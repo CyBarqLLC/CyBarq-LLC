@@ -10,7 +10,6 @@ import { PracticeGrid } from "@/components/site/practice-grid";
 import { Stats } from "@/components/site/stats";
 import { StatementPanel } from "@/components/site/statement-panel";
 import { LogoGrid, LogoMarquee } from "@/components/site/logo-strip";
-import { RegistrationPanel } from "@/components/site/registration-panel";
 import { CtaPanel } from "@/components/site/cta-panel";
 import { pageMetadata, resolveLocale } from "@/components/site/metadata";
 import { company } from "@/content/site/company";
@@ -94,7 +93,6 @@ export default async function AboutPage({ params }: Props) {
         <div className="section flex flex-col gap-20 sm:gap-24 lg:gap-28">
           <LogoMarquee id="partners" title={th("partnersTitle")} items={company.partners} labels={{ pause: th("logosPause"), play: th("logosPlay"), subject: th("logosSubject") }} />
           <LogoGrid id="certifications" title={th("certificationsTitle")} items={company.certifications} />
-          <RegistrationPanel locale={locale} title={about.registrationTitle[locale]} />
         </div>
       </div>
 

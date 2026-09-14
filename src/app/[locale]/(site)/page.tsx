@@ -10,7 +10,6 @@ import { LimeChapter } from "@/components/site/lime-chapter";
 import { SectionHeading } from "@/components/site/section-heading";
 import { LatestContent } from "@/components/site/latest-content";
 import { LogoGrid, LogoMarquee } from "@/components/site/logo-strip";
-import { RegistrationPanel } from "@/components/site/registration-panel";
 import { ClosingCta } from "@/components/site/closing-cta";
 import { JsonLd } from "@/components/site/json-ld";
 import { pageMetadata, resolveLocale, siteUrl } from "@/components/site/metadata";
@@ -157,7 +156,6 @@ export default async function HomePage({ params }: Props) {
         <div className="flex flex-col gap-20 sm:gap-24">
           <LogoMarquee id="partners" title={t("partnersTitle")} items={company.partners} labels={{ pause: t("logosPause"), play: t("logosPlay"), subject: t("logosSubject") }} />
           <LogoGrid id="certifications" title={t("certificationsTitle")} items={company.certifications} />
-          <RegistrationPanel locale={locale} title={t("registrationTitle")} />
         </div>
       </section>
 
