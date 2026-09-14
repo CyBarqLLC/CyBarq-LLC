@@ -9,8 +9,6 @@ type PageIntroProps = {
   meta?: string;
   crumbs?: Crumb[];
   crumbsLabel?: string;
-  /** The section label printed at the end of the opening rule, in the other language. */
-  mirrorLabel?: string;
   /** Rendered under the lead: buttons, links, etc. */
   children?: React.ReactNode;
   /** Rendered at the end of the row on large screens (a pictogram, a marker). */
@@ -19,23 +17,16 @@ type PageIntroProps = {
 };
 
 /**
- * The opening of an inner public page, set like a sheet of the brand book: a
- * rule carrying the breadcrumb at the start and the page's own label in the
- * other language at the end, then the title at display size with nothing above
- * it. The copy rises into place on load.
+ * The opening of an inner public page: a hairline carrying the breadcrumb,
+ * then the title with nothing above it. The copy rises into place on load.
  */
-export function PageIntro({ title, lead, meta, crumbs, crumbsLabel, mirrorLabel, children, aside, className }: PageIntroProps) {
-  const hasRule = (crumbs && crumbs.length > 0) || mirrorLabel;
+export function PageIntro({ title, lead, meta, crumbs, crumbsLabel, children, aside, className }: PageIntroProps) {
+  const hasRule = crumbs && crumbs.length > 0;
   return (
     <header className={cn("container-page pt-8 pb-12 sm:pt-10 sm:pb-16", className)}>
       {hasRule ? (
-        <div className="s-meta mb-10 flex items-baseline justify-between gap-6 border-t border-(--s-hair) pt-3.5 sm:mb-14">
-          {crumbs && crumbs.length > 0 ? <Breadcrumbs items={crumbs} label={crumbsLabel} /> : <span />}
-          {mirrorLabel ? (
-            <span aria-hidden className="hidden shrink-0 text-grey sm:inline">
-              {mirrorLabel}
-            </span>
-          ) : null}
+        <div className="s-meta mb-10 border-t border-(--s-hair) pt-3.5 sm:mb-14">
+          <Breadcrumbs items={crumbs ?? []} label={crumbsLabel} />
         </div>
       ) : null}
 

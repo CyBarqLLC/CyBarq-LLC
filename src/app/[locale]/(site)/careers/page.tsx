@@ -3,7 +3,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/site/page-intro";
-import { mirror } from "@/components/site/sheet";
 import { Reveal } from "@/components/site/reveal";
 import { pageMetadata, resolveLocale } from "@/components/site/metadata";
 import { company } from "@/content/site/company";
@@ -22,12 +21,11 @@ export default async function CareersPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("site.careers");
   const tn = await getTranslations("site.nav");
-  const tMirror = await mirror(locale, "site.nav");
   const email = company.emails.general;
 
   return (
     <>
-      <PageIntro mirrorLabel={tMirror("careers")} title={careers.title[locale]} lead={careers.lead[locale]} crumbs={[{ href: "/", label: tn("home") }, { label: tn("careers") }]} />
+      <PageIntro title={careers.title[locale]} lead={careers.lead[locale]} crumbs={[{ href: "/", label: tn("home") }, { label: tn("careers") }]} />
 
       <div className="container-page pb-4">
         {careers.sections.map((s) => (

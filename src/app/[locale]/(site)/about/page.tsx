@@ -3,7 +3,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Pictogram } from "@/components/brand/pictogram";
 import { PageIntro } from "@/components/site/page-intro";
-import { mirror } from "@/components/site/sheet";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { PracticeGrid } from "@/components/site/practice-grid";
@@ -29,13 +28,12 @@ export default async function AboutPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("site.about");
   const tn = await getTranslations("site.nav");
-  const tMirror = await mirror(locale, "site.nav");
   const th = await getTranslations("site.home");
   const ts = await getTranslations("site.services");
 
   return (
     <>
-      <PageIntro mirrorLabel={tMirror("about")} title={about.title[locale]} lead={about.lead[locale]} crumbs={[{ href: "/", label: tn("home") }, { label: tn("about") }]} />
+      <PageIntro title={about.title[locale]} lead={about.lead[locale]} crumbs={[{ href: "/", label: tn("home") }, { label: tn("about") }]} />
 
       <section className="border-t border-fog">
         <Reveal className="container-page section grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">

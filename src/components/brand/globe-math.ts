@@ -1,23 +1,34 @@
-import { bladePoints } from "./stream-math";
 import { isLand } from "./land-mask";
 
 /**
- * The CyBarq globe: the Flux Field wrapped onto a sphere.
+ * The CyBarq globe.
  *
- * Every landmass is drawn with the blade of the symbol, one blade per point of
- * an even lattice, each lying along the local east so the whole field reads as
- * one turn. A share of them let go and travel outward, which is the Stream
- * leaving the globe. Nothing here is decoration borrowed from elsewhere: it is
- * the same blade, the same apex and the same tempo as the printed pattern.
+ * The world is drawn with the company's own symbol and nothing else: one mark
+ * per point of an even lattice over the land, all in CyBarq Blue, sized and
+ * lightened by how far each one has turned away from the viewer. A few of them
+ * let go and drift outward. There is no second colour and no ornament: the
+ * mark, repeated, is the picture.
  */
 
-export type GlobeTone = "ink" | "blue" | "lime";
+/**
+ * The symbol as four triangles, taken from the master artwork and normalised
+ * so the mark is one unit across with its centre at the origin.
+ * Source: 01_Logo/LOGO2026, viewBox 117.840 136.605 31.301 32.176.
+ */
+export const SYMBOL_TRIANGLES: readonly (readonly [number, number, number, number, number, number])[] = [
+  [0.0047, 0.503, 0.0388, 0.0825, 0.2178, 0.0425],
+  [-0.0025, -0.5025, -0.0366, -0.0822, -0.2156, -0.0422],
+  [0.4891, 0.0194, 0.0716, -0.0403, 0.0428, -0.2216],
+  [-0.489, -0.0259, -0.0715, 0.0338, -0.0425, 0.215],
+];
 
-export type GlobeMark = {
-  points: [number, number, number, number, number, number];
-  alpha: number;
-  tone: GlobeTone;
-};
+/**
+ * One placed mark: centre, size in pixels, opacity, and how near the front of
+ * the sphere it sits. `shade` runs 0 at the far limb to 1 at the centre and
+ * picks a step on the blue ramp, which is how the globe gets its depth without
+ * a second colour.
+ */
+export type GlobeMark = { x: number; y: number; size: number; alpha: number; shade: number };
 
 /** One arc of the graticule, as a flat run of screen coordinates. */
 export type GlobeArc = { pts: number[]; alpha: number };
@@ -27,45 +38,37 @@ export type GlobeFrame = { marks: GlobeMark[]; arcs: GlobeArc[] };
 export type GlobeParams = {
   /** Lattice points over the whole sphere (land keeps roughly 29% of them). */
   count?: number;
-  /** Turns per second. The brand tempo is slow: one turn in about two minutes. */
+  /** Turns per second. Slow enough that the movement is felt, not watched. */
   spin?: number;
   /** Axial tilt in radians: how far the north pole leans towards the viewer. */
   tilt?: number;
-  /** Blade length as a fraction of the radius. */
-  blade?: number;
-  /** Maximum ink opacity. */
+  /** Mark size as a fraction of the radius. */
+  mark?: number;
+  /** Maximum opacity. */
   alpha?: number;
-  /** Share of land blades carrying CyBarq Blue, and the smaller lime share. */
-  blueShare?: number;
-  limeShare?: number;
-  /** Share of land blades that let go and travel outward. */
-  emitShare?: number;
-  /** How far a released blade travels, as a fraction of the radius. */
+  /** Share of marks that let go and drift outward. */
+  driftShare?: number;
+  /** How far a drifting mark travels, as a fraction of the radius. */
   reach?: number;
-  /** Flights per second for a released blade. */
-  emitRate?: number;
+  /** Journeys per second for a drifting mark. */
+  driftRate?: number;
   /** Opacity of the graticule (0 hides it). */
   graticule?: number;
-  /**
-   * How much ink the sea keeps. The sea is drawn in CyBarq Blue and the land
-   * in Graphite, so the globe reads at a glance and carries the colour.
-   */
-  ocean?: number;
+  /** How much of the mark the sea keeps, so the sphere has a body. */
+  sea?: number;
   seed?: number;
 };
 
 export const GLOBE_DEFAULTS: Required<Omit<GlobeParams, "count">> = {
-  spin: 0.0052,
+  spin: 0.0055,
   tilt: 0.34,
-  blade: 0.055,
-  alpha: 0.95,
-  blueShare: 0.085,
-  limeShare: 0.05,
-  emitShare: 0.05,
-  reach: 0.4,
-  emitRate: 0.115,
-  graticule: 0.8,
-  ocean: 0.45,
+  mark: 0.05,
+  alpha: 0.92,
+  driftShare: 0.045,
+  reach: 0.34,
+  driftRate: 0.08,
+  graticule: 0.55,
+  sea: 0.3,
   seed: 0,
 };
 
@@ -79,7 +82,7 @@ function hash(i: number, s = 0): number {
 
 /** Lattice point count for a sphere of radius `r`, kept sane on small screens. */
 export function globeCount(r: number): number {
-  return Math.round(Math.min(7000, Math.max(1700, (r * r) / 21)));
+  return Math.round(Math.min(3600, Math.max(1100, (r * r) / 38)));
 }
 
 export type GlobeLean = { x: number; y: number } | null;
@@ -94,11 +97,11 @@ export function computeGlobe(cx: number, cy: number, R: number, params: GlobePar
   const marks: GlobeMark[] = [];
   const arcs: GlobeArc[] = [];
 
-  const spinDeg = t * p.spin * 360 + (lean ? lean.x * 26 : 0);
-  const tilt = p.tilt + (lean ? lean.y * 0.22 : 0);
+  const spinDeg = t * p.spin * 360 + (lean ? lean.x * 22 : 0);
+  const tilt = p.tilt + (lean ? lean.y * 0.18 : 0);
   const cosT = Math.cos(tilt);
   const sinT = Math.sin(tilt);
-  const L = R * p.blade;
+  const S = R * p.mark;
 
   /** Rotates a point given in the globe's own frame onto the screen. */
   const place = (lat: number, lon: number) => {
@@ -108,15 +111,10 @@ export function computeGlobe(cx: number, cy: number, R: number, params: GlobePar
     const x = cl * Math.sin(lo);
     const y0 = Math.sin(la);
     const z0 = cl * Math.cos(lo);
-    const y = y0 * cosT - z0 * sinT;
-    const z = y0 * sinT + z0 * cosT;
-    /* The east tangent, already a unit vector before the tilt. */
-    const ex = Math.cos(lo);
-    const ey = Math.sin(lo) * sinT;
-    return { x, y, z, ex, ey };
+    return { x, y: y0 * cosT - z0 * sinT, z: y0 * sinT + z0 * cosT };
   };
 
-  /* ---- the graticule: meridians and parallels, a hairline apart ---------- */
+  /* ---- the graticule: the faintest hint that this is a sphere ----------- */
   if (p.graticule > 0) {
     const line = (pts: [number, number][]) => {
       let run: number[] = [];
@@ -152,7 +150,7 @@ export function computeGlobe(cx: number, cy: number, R: number, params: GlobePar
     }
   }
 
-  /* ---- the land, blade by blade ----------------------------------------- */
+  /* ---- the land, one symbol at a time ----------------------------------- */
   const count = p.count;
   for (let i = 0; i < count; i++) {
     const sinLat = 1 - (2 * i + 1) / count;
@@ -160,38 +158,30 @@ export function computeGlobe(cx: number, cy: number, R: number, params: GlobePar
     let lon = ((GOLDEN * i) % (2 * Math.PI)) * DEG;
     if (lon > 180) lon -= 360;
     const land = isLand(lon, lat);
-    if (!land && (p.ocean <= 0 || hash(i, p.seed + 41) > 0.55)) continue;
+    if (!land && (p.sea <= 0 || hash(i, p.seed + 41) > 0.5)) continue;
 
     const q = place(lat, lon);
-    if (q.z <= 0.015) continue;
+    if (q.z <= 0.02) continue;
 
-    const mag = Math.hypot(q.ex, q.ey);
-    const angle = Math.atan2(-q.ey, q.ex);
-    const edge = Math.min(1, q.z * 3.2);
-    const current = 0.84 + 0.16 * Math.sin(lon / 26 + lat / 34 + t * 0.55);
-    const len = L * (0.4 + 0.6 * mag) * (0.82 + 0.18 * current);
-    const alpha = p.alpha * (0.22 + 0.78 * Math.pow(q.z, 0.55)) * edge * current * (land ? 1 : p.ocean);
-    if (alpha <= 0.012) continue;
-
-    const h = hash(i, p.seed);
-    const facing = land && q.z > 0.34;
-    const tone: GlobeTone = !land ? "blue" : !facing ? "ink" : h < p.limeShare ? "lime" : h < p.limeShare + p.blueShare ? "blue" : "ink";
-    const lift = land && tone !== "ink" ? 0.3 : 0;
-    marks.push({ points: bladePoints(cx + q.x * R, cy - q.y * R, angle, len), alpha: Math.min(1, alpha + lift), tone });
+    const depth = Math.pow(q.z, 0.6);
+    const alpha = p.alpha * (0.2 + 0.8 * depth) * Math.min(1, q.z * 3.4) * (land ? 1 : p.sea);
+    if (alpha <= 0.02) continue;
+    marks.push({
+      x: cx + q.x * R,
+      y: cy - q.y * R,
+      size: S * (0.55 + 0.45 * depth) * (land ? 1 : 0.62),
+      alpha,
+      shade: land ? depth : depth * 0.35,
+    });
 
     /* ---- and the few that let go --------------------------------------- */
-    if (!land || hash(i, p.seed + 7) >= p.emitShare) continue;
-    const ph = (t * p.emitRate + hash(i, p.seed + 13)) % 1;
+    if (!land || hash(i, p.seed + 7) >= p.driftShare) continue;
+    const ph = (t * p.driftRate + hash(i, p.seed + 13)) % 1;
     const rr = 1 + ph * p.reach;
-    const px = cx + q.x * R * rr;
-    const py = cy - q.y * R * rr;
-    const out = Math.atan2(-q.y, q.x) + ph * 0.42;
-    const fade = Math.min(1, ph * 9) * Math.pow(1 - ph, 1.25);
-    const fa = 0.8 * fade * Math.min(1, q.z * 2.2);
+    const fade = Math.min(1, ph * 7) * Math.pow(1 - ph, 1.4);
+    const fa = 0.55 * fade * Math.min(1, q.z * 2.2);
     if (fa <= 0.02) continue;
-    const ft = hash(i, p.seed + 23);
-    const ftone: GlobeTone = ft < 0.68 ? "blue" : ft < 0.86 ? "lime" : "ink";
-    marks.push({ points: bladePoints(px, py, out, L * (0.9 + 1.5 * ph)), alpha: fa, tone: ftone });
+    marks.push({ x: cx + q.x * R * rr, y: cy - q.y * R * rr, size: S * (0.9 + 0.7 * ph), alpha: fa, shade: 0.75 });
   }
 
   return { marks, arcs };
@@ -199,11 +189,20 @@ export function computeGlobe(cx: number, cy: number, R: number, params: GlobePar
 
 const f = (v: number) => (Math.round(v * 10) / 10).toString();
 
+/** One symbol as an SVG path, centred on (x, y) at `size` across. */
+function symbolPath(x: number, y: number, size: number): string {
+  let d = "";
+  for (const tri of SYMBOL_TRIANGLES) {
+    d += `M${f(x + tri[0] * size)},${f(y + tri[1] * size)}L${f(x + tri[2] * size)},${f(y + tri[3] * size)}L${f(x + tri[4] * size)},${f(y + tri[5] * size)}Z`;
+  }
+  return d;
+}
+
 /**
  * The still frame as SVG markup (inner content), for the server rendered first
- * paint. Marks are grouped by tone and opacity step so the output stays small.
+ * paint. Marks are grouped by opacity step so the output stays small.
  */
-export function globeSvg(frame: GlobeFrame, ink: string, blue: string, lime: string, hair: string): string {
+export function globeSvg(frame: GlobeFrame, ramp: readonly string[], hair: string): string {
   let out = "";
   for (const arc of frame.arcs) {
     if (arc.alpha <= 0.02 || arc.pts.length < 4) continue;
@@ -213,14 +212,17 @@ export function globeSvg(frame: GlobeFrame, ink: string, blue: string, lime: str
   }
   const groups = new Map<string, string[]>();
   for (const m of frame.marks) {
-    const key = `${m.tone}:${Math.round(m.alpha * 16)}`;
-    const p = m.points;
-    groups.set(key, [...(groups.get(key) ?? []), `M${f(p[0])},${f(p[1])}L${f(p[2])},${f(p[3])}L${f(p[4])},${f(p[5])}Z`]);
+    const key = `${shadeIndex(m.shade, ramp.length)}:${Math.round(m.alpha * 14)}`;
+    groups.set(key, [...(groups.get(key) ?? []), symbolPath(m.x, m.y, m.size)]);
   }
-  const fill = { ink, blue, lime } as const;
   for (const [key, ds] of groups) {
     const [tone, step] = key.split(":");
-    out += `<path fill="${fill[tone as GlobeTone]}" fill-opacity="${f(Number(step) / 16)}" d="${ds.join("")}"/>`;
+    out += `<path fill="${ramp[Number(tone)] ?? ramp[0]}" fill-opacity="${f(Number(step) / 14)}" d="${ds.join("")}"/>`;
   }
   return out;
+}
+
+/** Which step of the blue ramp a mark sits on. */
+export function shadeIndex(shade: number, steps: number): number {
+  return Math.max(0, Math.min(steps - 1, Math.round(shade * (steps - 1))));
 }

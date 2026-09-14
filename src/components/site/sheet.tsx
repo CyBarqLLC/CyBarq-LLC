@@ -13,34 +13,22 @@ export async function mirror(locale: Locale, namespace: string) {
 }
 
 type SheetProps = {
-  /** Section number, printed as it appears in the brand book: 01, 02, 03. */
-  index: number;
   /** The label in the language being read. */
   label: string;
-  /** The same label in the other language, set at the end of the rule. */
-  mirrorLabel?: string;
   className?: string;
   children?: React.ReactNode;
 };
 
 /**
- * How every section of the public site opens: a hairline across the measure,
- * the section number and its label at the start, and the same label in the
- * other language at the end. No eyebrow phrases, no decoration — the rule and
- * the number carry the hierarchy, exactly as the guidelines set a sheet.
+ * How every section of the public site opens: a hairline across the measure
+ * with one quiet label on it. Nothing is numbered and nothing is repeated in
+ * the other language: the rule marks the change of subject, the label names
+ * it, and the section itself does the rest.
  */
-export function Sheet({ index, label, mirrorLabel, className, children }: SheetProps) {
+export function Sheet({ label, className, children }: SheetProps) {
   return (
     <Settle className={cn("s-sheet s-meta", className)}>
-      <span aria-hidden className="s-sheet__index">
-        {String(index).padStart(2, "0")}
-      </span>
       <span className="s-sheet__label">{label}</span>
-      {mirrorLabel ? (
-        <span aria-hidden className="s-sheet__mirror hidden sm:inline">
-          {mirrorLabel}
-        </span>
-      ) : null}
       {children}
     </Settle>
   );

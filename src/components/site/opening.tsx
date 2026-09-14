@@ -46,12 +46,9 @@ export function Opening({ title, lead, primary, secondary, ledger, ledgerLabel }
 
       <nav aria-label={ledgerLabel} className="site-opening__ledger">
         <ul className="container-page grid grid-cols-2 lg:grid-cols-4">
-          {ledger.map((item, i) => (
+          {ledger.map((item) => (
             <li key={item.href}>
               <Link href={item.href} className="site-opening__ledger-link">
-                <span aria-hidden className="s-meta text-grey">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
                 <span className="text-small">{item.label}</span>
               </Link>
             </li>

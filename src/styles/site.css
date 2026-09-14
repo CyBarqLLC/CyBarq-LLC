@@ -1623,3 +1623,75 @@ html:has(.site-header) {
     transition: none;
   }
 }
+
+/* ===========================================================================
+   17. What we do: four quiet columns
+   ---------------------------------------------------------------------------
+   The practices side by side, each on its own hairline, with its services
+   listed underneath as plain links. Nothing is numbered, nothing filters and
+   nothing has to be opened to be read.
+   =========================================================================== */
+
+@layer components {
+  .s-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.75rem clamp(1.5rem, 3vw, 3rem);
+  }
+  @media (min-width: 40rem) {
+    .s-columns {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3.25rem clamp(1.5rem, 3vw, 3rem);
+    }
+  }
+  @media (min-width: 64rem) {
+    .s-columns {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .s-column {
+    border-top: 1px solid var(--s-hair);
+    padding-top: 1.125rem;
+  }
+  .s-column__title {
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+    line-height: 1.35;
+    font-weight: 400;
+  }
+  .s-column__title a {
+    transition: color var(--s-fast) var(--s-ease);
+  }
+  .s-column__title a:hover {
+    color: var(--color-azure);
+  }
+  .s-column__lead {
+    margin-top: 0.5rem;
+    max-width: 28ch;
+    font-size: var(--text-small);
+    line-height: 1.55;
+    color: var(--s-ink-soft);
+  }
+  .s-column__list {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5625rem;
+  }
+  .s-column__link {
+    display: inline-block;
+    font-size: var(--text-small);
+    line-height: 1.5;
+    color: var(--color-graphite);
+    transition: color var(--s-fast) var(--s-ease);
+  }
+  .s-column__link:hover {
+    color: var(--color-azure);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .s-column__title a,
+  .s-column__link {
+    transition: none;
+  }
+}

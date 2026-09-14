@@ -1,4 +1,5 @@
 import { computeGlobe, globeCount, globeSvg, type GlobeParams } from "./globe-math";
+import { BLUE_RAMP } from "./globe-canvas";
 import { cn } from "@/lib/utils/cn";
 
 type GlobeStaticProps = {
@@ -10,9 +11,7 @@ type GlobeStaticProps = {
   x?: number;
   y?: number;
   size?: number;
-  ink?: string;
-  blue?: string;
-  lime?: string;
+  ramp?: readonly string[];
   hair?: string;
   className?: string;
   preserveAspectRatio?: string;
@@ -30,10 +29,8 @@ export function GlobeStatic({
   x = 0.5,
   y = 0.5,
   size = 0.46,
-  ink = "#0D0E13",
-  blue = "#74C3F2",
-  lime = "#C5E27A",
-  hair = "#C6C8CB",
+  ramp = BLUE_RAMP,
+  hair = "#DCEFFA",
   className,
   preserveAspectRatio = "xMidYMid meet",
 }: GlobeStaticProps) {
@@ -46,7 +43,7 @@ export function GlobeStatic({
       className={cn("h-full w-full", className)}
       aria-hidden
       focusable="false"
-      dangerouslySetInnerHTML={{ __html: globeSvg(frame, ink, blue, lime, hair) }}
+      dangerouslySetInnerHTML={{ __html: globeSvg(frame, ramp, hair) }}
     />
   );
 }

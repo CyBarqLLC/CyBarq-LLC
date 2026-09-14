@@ -13,8 +13,8 @@ export const cybersecurityServices: ServiceContent[] = [
     pictogram: "cybersecurity",
     featured: true,
     title: bi("Penetration Testing", "اختبار الاختراق"),
-    summary: bi("We try to break into your applications, networks, cloud and internal systems, by hand, before someone else does.", "نحاول اقتحام تطبيقاتك وشبكاتك وبيئتك السحابية وأنظمتك الداخلية يدوياً، قبل أن يفعلها غيرنا."),
-    hero: bi("We attack your systems the way a real attacker would, then hand you the list of what to fix and the order to fix it in.", "نهاجم أنظمتك كما يفعل مهاجم حقيقي، ثم نسلّمك ما يجب إصلاحه وبأي ترتيب."),
+    summary: bi("A controlled test of your applications, networks, cloud and internal systems, carried out by hand before anyone else tries.", "اختبار محكوم لتطبيقاتك وشبكاتك وبيئتك السحابية وأنظمتك الداخلية، يجري يدوياً قبل أن يحاوله غيرنا."),
+    hero: bi("We examine your systems with an attacker's method and a client's interest, then set out what to fix and in what order.", "نفحص أنظمتك بمنهج المهاجم وبمصلحة العميل، ثم نبيّن ما ينبغي إصلاحه وبأي ترتيب."),
     seo: {
       title: bi("Penetration Testing", "اختبار الاختراق"),
       description: bi("Manual penetration testing of web applications, APIs, networks, cloud and internal systems by CyBarq in Amman. Evidence, fix guidance and a retest.", "اختبار اختراق يدوي لتطبيقات الويب وواجهات البرمجة والشبكات والبيئات السحابية والأنظمة الداخلية من سايبرق في عمّان، مع الأدلة وإرشادات المعالجة وإعادة الاختبار."),
@@ -183,8 +183,8 @@ export const cybersecurityServices: ServiceContent[] = [
     practice: "cybersecurity",
     pictogram: "monitoring",
     title: bi("Compromise Assessment", "تقييم الاختراق"),
-    summary: bi("A focused search for evidence that someone is already inside your environment.", "بحث مركّز عن دليل على وجود من هو داخل بيئتك بالفعل."),
-    hero: bi("Some intrusions make no noise. This answers one question: is anyone in your environment who should not be?", "بعض الاختراقات لا تصدر صوتاً. وهذا يجيب عن سؤال واحد: هل في بيئتك من لا ينبغي أن يكون فيها؟"),
+    summary: bi("A careful check for signs that someone has already reached inside your environment.", "فحص دقيق بحثاً عن إشارات إلى أن أحداً وصل إلى داخل بيئتك."),
+    hero: bi("Some intrusions leave no noise behind. This work answers one question calmly: is there anyone in your environment who should not be?", "بعض الاختراقات لا تترك ضجيجاً. وهذا العمل يجيب بهدوء عن سؤال واحد: هل في بيئتك من لا ينبغي أن يكون فيها؟"),
     seo: {
       title: bi("Compromise Assessment", "تقييم الاختراق"),
       description: bi("Threat hunting across endpoints, servers and network evidence by CyBarq: a clear answer on whether your environment is compromised, and what to do next.", "اصطياد تهديدات في الأجهزة والخوادم وأدلة الشبكة من سايبرق: إجابة واضحة عن كون بيئتك مخترقة أم لا، وما الخطوة التالية."),
@@ -286,7 +286,7 @@ export const cybersecurityServices: ServiceContent[] = [
     pictogram: "protection",
     title: bi("Professional Security Services", "خدمات الأمن المهنية"),
     summary: bi("Security leadership, governance and day to day support for teams that have no security department.", "قيادة أمنية وحوكمة ودعم يومي لفرق لا تملك إدارة أمن."),
-    hero: bi("Tools do not run themselves. We sit with your team and build the routines that make the tools worth what you paid for them.", "الأدوات لا تشغّل نفسها. نجلس مع فريقك ونبني الإجراءات التي تجعل ما دفعته فيها ذا قيمة."),
+    hero: bi("Tools do not run themselves. We sit with your team and build the routines that let the tools do what they were bought for.", "الأدوات لا تشغّل نفسها. نجلس مع فريقك ونبني الإجراءات التي تجعل الأدوات تؤدي ما اشتُريت من أجله."),
     seo: {
       title: bi("Professional Security Services", "خدمات الأمن المهنية"),
       description: bi("Maturity assessment, governance, policies, virtual CISO support and operations guidance from CyBarq for teams with no security department.", "تقييم النضج الأمني والحوكمة والسياسات ودعم مدير أمن معلومات افتراضي وإرشاد للعمليات من سايبرق، للمؤسسات التي لا تملك إدارة أمن."),

@@ -64,7 +64,7 @@ export const digitalEngineeringServices: ServiceContent[] = [
     pictogram: "platform",
     title: bi("Internal Business Systems", "أنظمة الأعمال الداخلية"),
     summary: bi("The systems your teams use every day: records, approvals, operations and reporting, built around how the work is really done.", "الأنظمة التي تستخدمها فرقك كل يوم: السجلات والموافقات والعمليات والتقارير، مبنية على طريقة العمل الفعلية."),
-    hero: bi("Ready made software is built for the average company. Where your work differs from the average is where it starts to break.", "البرمجيات الجاهزة مصنوعة للشركة المتوسطة. وحيث يختلف عملك عن المتوسط تبدأ الحلول الالتفافية."),
+    hero: bi("Ready made software is built for the average company. Where your work differs from the average is where the workarounds begin.", "البرمجيات الجاهزة مصنوعة للشركة المتوسطة. وحيث يختلف عملك عن المتوسط تبدأ الحلول الالتفافية."),
     seo: {
       title: bi("Internal Business Systems", "أنظمة الأعمال الداخلية"),
       description: bi("Custom internal systems by CyBarq for operations, records, approvals, HR, finance and reporting: one system in place of spreadsheets and scattered tools.", "أنظمة داخلية مخصصة من سايبرق للعمليات والسجلات والموافقات والموارد البشرية والمالية والتقارير: نظام واحد بدل جداول البيانات والأدوات المتفرقة."),

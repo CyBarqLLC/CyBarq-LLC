@@ -13,7 +13,7 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     featured: true,
     title: bi("Cloud Architecture", "البنية السحابية"),
     summary: bi("Accounts, networks and permissions laid out on purpose, so the environment stays secure, affordable and easy to run.", "حسابات وشبكات وصلاحيات مرتّبة عن قصد، لتبقى البيئة آمنة ومعقولة التكلفة وسهلة التشغيل."),
-    hero: bi("A cloud environment is a stack of decisions. Made early and on purpose, they cost very little. Left to be made by default, you pay for them for years.", "البيئة السحابية سلسلة من القرارات. إن اتُّخذت مبكراً وعن قصد كانت كلفتها زهيدة. وإن تُركت لتُتخذ تلقائياً، دفعت ثمنها سنوات."),
+    hero: bi("A cloud environment is a stack of decisions. Made early and on purpose they cost very little, and left to happen by themselves they are paid for over years.", "البيئة السحابية سلسلة قرارات. إن اتُّخذت مبكراً وعن قصد كانت كلفتها زهيدة، وإن تُركت لتحدث وحدها دُفع ثمنها سنوات."),
     seo: {
       title: bi("Cloud Architecture", "البنية السحابية"),
       description: bi("Cloud architecture design and review by CyBarq on AWS, Azure and Google Cloud: accounts, networks, identity, security baselines and cost planning.", "تصميم ومراجعة البنية السحابية من سايبرق على AWS وAzure وGoogle Cloud: الحسابات والشبكات والهوية وخطوط الأساس الأمنية وتخطيط التكلفة."),
@@ -64,7 +64,7 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     pictogram: "deployment",
     title: bi("Application & Deployment Infrastructure", "بنية التطبيقات والنشر"),
     summary: bi("Everything between a commit and production: pipelines, environments, secrets and a way back when a release goes wrong.", "كل ما يقع بين الالتزام البرمجي والإنتاج: خطوط النشر والبيئات والأسرار وطريق للرجوع إن ساء الإصدار."),
-    hero: bi("Deploying should be boring. When a release needs a plan, a late evening and one particular person, the infrastructure is the problem.", "النشر يجب أن يكون مملاً. فإن احتاج الإصدار إلى خطة ومساء متأخر وشخص بعينه، فالمشكلة في البنية التحتية."),
+    hero: bi("Deploying should be uneventful. When a release needs a plan, a late evening and one particular person, the infrastructure is what needs attention.", "النشر ينبغي أن يمرّ بلا أحداث. فإن احتاج الإصدار إلى خطة ومساء متأخر وشخص بعينه، فالبنية التحتية هي ما يحتاج إلى عناية."),
     seo: {
       title: bi("Application and Deployment Infrastructure", "بنية التطبيقات والنشر"),
       description: bi("CyBarq builds deployment pipelines, environments and runtime platforms: CI/CD, Kubernetes where it fits, secrets management and safe rollouts.", "تبني سايبرق خطوط النشر والبيئات ومنصات التشغيل: CI/CD، وKubernetes حيث تناسب، وإدارة الأسرار، وإطلاق تدريجي آمن."),
@@ -217,7 +217,7 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     pictogram: "identity",
     title: bi("Identity & Access Architecture", "بنية الهوية والوصول"),
     summary: bi("One answer to who can reach what, applied the same way across applications, cloud and infrastructure.", "جواب واحد عمّن يصل إلى ماذا، مطبَّق بالطريقة نفسها عبر التطبيقات والسحابة والبنية التحتية."),
-    hero: bi("Attackers rarely break a door down. They sign in through one that was opened for a good reason and never closed.", "نادراً ما يكسر المهاجمون باباً. بل يدخلون من باب فُتح لسبب وجيه ولم يُغلق بعده."),
+    hero: bi("Most unwanted access arrives through a door that was opened for a good reason and never closed again.", "معظم الوصول غير المرغوب يأتي من باب فُتح لسبب وجيه ولم يُغلق بعده."),
     seo: {
       title: bi("Identity and Access Architecture", "بنية الهوية والوصول"),
       description: bi("Identity and access management from CyBarq: single sign on, MFA, role design, privileged access, joiner and leaver processes and cloud identity.", "إدارة الهوية والوصول من سايبرق: تسجيل دخول موحد، ومصادقة متعددة العوامل، وتصميم الأدوار، والوصول المميز، وحوكمة الهوية السحابية."),
@@ -319,7 +319,7 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     pictogram: "network",
     title: bi("Infrastructure Modernisation", "تحديث البنية التحتية"),
     summary: bi("Getting off ageing servers, flat networks and unsupported platforms, in stages, without stopping the business.", "الخروج من خوادم متقادمة وشبكات مسطحة ومنصات بلا دعم، على مراحل، من دون توقيف العمل."),
-    hero: bi("Old infrastructure rarely fails all at once. It fails a little every month, and the budget goes elsewhere, until the month it stops completely.", "نادراً ما تفشل البنية التحتية القديمة دفعة واحدة. تفشل قليلاً كل شهر، وتذهب الميزانية إلى غيرها، حتى يأتي الشهر الذي تتوقف فيه تماماً."),
+    hero: bi("Old infrastructure rarely fails all at once. It fails a little each month, until the month it stops.", "نادراً ما تفشل البنية التحتية القديمة دفعة واحدة. تفشل قليلاً كل شهر، حتى يأتي الشهر الذي تتوقف فيه."),
     seo: {
       title: bi("Infrastructure Modernisation", "تحديث البنية التحتية"),
       description: bi("Infrastructure modernisation from CyBarq: assessing servers, networks and data centres, migrating to cloud or modern platforms, network redesign.", "تحديث البنية التحتية من سايبرق: تقييم الخوادم والشبكات ومراكز البيانات، والترحيل إلى السحابة أو منصات حديثة، وإعادة تصميم الشبكة."),
@@ -370,7 +370,7 @@ export const technologyInfrastructureServices: ServiceContent[] = [
     pictogram: "consulting",
     title: bi("Technical Architecture Consulting", "استشارات البنية التقنية"),
     summary: bi("Independent advice on the technical decisions that are expensive to reverse.", "رأي مستقل في القرارات التقنية التي يكلّف التراجع عنها كثيراً."),
-    hero: bi("Some choices you make once and live with for years. Those are the ones worth a second opinion from someone with nothing to sell you.", "بعض الخيارات تتخذها مرة وتعيش معها سنوات. وهي التي تستحق رأياً ثانياً ممن لا يبيعك شيئاً."),
+    hero: bi("Some choices are made once and lived with for years. Those are the ones worth a second opinion before they are made.", "بعض الخيارات تُتخذ مرة ويُعاش معها سنوات. وهي التي تستحق رأياً ثانياً قبل اتخاذها."),
     seo: {
       title: bi("Technical Architecture Consulting", "استشارات البنية التقنية"),
       description: bi("Independent architecture consulting from CyBarq: technology and vendor selection, architecture reviews, build or buy decisions and due diligence.", "استشارات بنية تقنية مستقلة من سايبرق: اختيار التقنيات والمورّدين، ومراجعات البنية، وقرارات البناء أو الشراء، والعناية الواجبة التقنية."),

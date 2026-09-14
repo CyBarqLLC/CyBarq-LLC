@@ -3,7 +3,6 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { Pictogram } from "@/components/brand/pictogram";
 import { PageIntro } from "@/components/site/page-intro";
-import { mirror } from "@/components/site/sheet";
 import { Reveal } from "@/components/site/reveal";
 import { ServiceCard, ServiceGrid } from "@/components/site/service-card";
 import { CtaPanel } from "@/components/site/cta-panel";
@@ -24,7 +23,6 @@ export default async function ServicesPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("site.services");
   const tn = await getTranslations("site.nav");
-  const tMirror = await mirror(locale, "site.nav");
   const th = await getTranslations("site.home");
 
   const breadcrumbs = {
@@ -39,7 +37,7 @@ export default async function ServicesPage({ params }: Props) {
   return (
     <>
       <JsonLd data={breadcrumbs} />
-      <PageIntro mirrorLabel={tMirror("services")} title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: t("title") }]}>
+      <PageIntro title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: t("title") }]}>
         <nav aria-label={t("title")} className="flex flex-wrap gap-x-6 gap-y-2 text-small">
           {practices.map((p) => (
             <a key={p.slug} href={`#${p.slug}`} className="site-link text-azure">

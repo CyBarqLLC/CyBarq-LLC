@@ -8,7 +8,6 @@ import { formatDate, formatNumber } from "@/lib/utils/format";
 import { label, CERTIFICATE_TYPE_LABELS } from "@/lib/labels";
 import { Button } from "@/components/ui/button";
 import { PageIntro } from "@/components/site/page-intro";
-import { mirror } from "@/components/site/sheet";
 import { VerifyForm, normaliseCode } from "@/components/site/verify-form";
 import { pageMetadata, resolveLocale } from "@/components/site/metadata";
 import { cn } from "@/lib/utils/cn";
@@ -31,7 +30,6 @@ export default async function VerifyCodePage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("site.verify");
   const tn = await getTranslations("site.nav");
-  const tMirror = await mirror(locale, "site.nav");
   const code = normaliseCode(decodeURIComponent(rawCode));
 
   const ip = await requestIp();
@@ -65,7 +63,7 @@ export default async function VerifyCodePage({ params }: Props) {
 
   return (
     <>
-      <PageIntro mirrorLabel={tMirror("verify")} title={t("title")} crumbs={[{ href: "/", label: tn("home") }, { href: "/verify", label: tn("verify") }, { label: code || "" }]} />
+      <PageIntro title={t("title")} crumbs={[{ href: "/", label: tn("home") }, { href: "/verify", label: tn("verify") }, { label: code || "" }]} />
 
       <section className="border-t border-fog">
         <div className="container-page grid gap-10 py-14 sm:py-20 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-16">

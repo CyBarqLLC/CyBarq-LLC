@@ -8,9 +8,7 @@ import { cn } from "@/lib/utils/cn";
 type GlobeProps = {
   params?: GlobeParams;
   placement?: GlobePlacement;
-  ink?: string;
-  blue?: string;
-  lime?: string;
+  ramp?: readonly string[];
   hair?: string;
   mirror?: boolean;
   interactive?: boolean;

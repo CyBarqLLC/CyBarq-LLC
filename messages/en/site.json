@@ -19,24 +19,15 @@
     "breadcrumb": "Breadcrumb"
   },
   "home": {
-    "title": "We build the systems a business runs on, keep them running, and test them before anyone else does.",
-    "lead": "CyBarq is a Jordanian technology company. One team builds your platforms and internal systems, runs the infrastructure under them, and tests both the way an attacker would. We use AI where it genuinely helps, and leave it out where it does not.",
+    "title": "We build the systems your work depends on, and we look after them.",
+    "lead": "CyBarq is a Jordanian technology company. We design and build software, run the infrastructure beneath it, and keep both secure.",
     "primaryCta": "Talk to us",
-    "secondaryCta": "See what we do",
+    "secondaryCta": "What we do",
     "ledgerLabel": "Practices",
-    "indexIntro": "Everything we do, on one page: four practices, 33 services. Narrow the list by practice, or type what you are looking for.",
-    "index": {
-      "region": "Index of services",
-      "search": "Search services",
-      "searchLabel": "Search services",
-      "all": "All",
-      "count": "{shown} of {total}",
-      "empty": "Nothing matches that word. Try another one, or write to us and describe the problem in your own words.",
-      "filterLabel": "Filter by practice"
-    },
-    "statementBody": "Done properly means the unglamorous parts are done too: the scope agreed in writing before anyone touches anything, the permission enforced in the database and not only on the screen, and a handover that leaves you able to work without us.",
+    "indexIntro": "Four practices. Choose the one closest to what you need, or write to us and we will point you to it.",
+    "statementBody": "Doing it properly means agreeing the scope in writing, explaining what we find in plain words, and leaving you able to work without us.",
     "approachTitle": "How we work",
-    "approachIntro": "Four things we hold to in every engagement, whether it runs for two weeks or two years.",
+    "approachIntro": "A few things we hold to, whatever the project.",
     "latestTitle": "Recent writing and work",
     "viewAllNews": "All news",
     "viewAllArticles": "All articles",
@@ -46,12 +37,11 @@
     "logosPause": "Pause",
     "logosPlay": "Play",
     "logosSubject": "logo animation",
-    "ctaTitle": "Tell us what you are working on.",
-    "ctaBody": "A few sentences is enough. We reply with questions rather than a proposal, and we say plainly if this is not work we should take. Remote, on site, or both: we work the way the project calls for.",
+    "ctaTitle": "We would be glad to hear from you.",
+    "ctaBody": "A few sentences about what you are working on is enough. We will read it and reply.",
     "ctaButton": "Talk to us",
     "seoTitle": "CyBarq Technology LLC. Technology, done properly.",
-    "seoDescription": "CyBarq is a Jordanian technology company. Software, infrastructure, cybersecurity and AI from one team, working remotely and on site.",
-    "railLabel": "Page sections",
+    "seoDescription": "CyBarq is a Jordanian technology company. Software, infrastructure, cybersecurity and AI from one team in Amman.",
     "sheets": {
       "index": "What we do",
       "approach": "How we work",
@@ -61,7 +51,7 @@
   },
   "services": {
     "title": "Services",
-    "lead": "33 services across four practices. Every page answers the same four questions: what the problem is, where it shows up, how we would approach it, and what you end up holding at the end.",
+    "lead": "Four practices. Each service page says what the problem is, how we would approach it, and what you receive at the end.",
     "seoDescription": "All CyBarq services: cybersecurity, digital engineering, artificial intelligence and technology infrastructure. Penetration testing, DFIR, platforms, AI agents and assistants, cloud architecture, observability and more.",
     "inPractice": "Services in this practice",
     "count": "{count, plural, one {# service} other {# services}}",
@@ -166,7 +156,7 @@
     "termsSeo": "Terms of use for cybarq.com and the CyBarq platform and client portal operated by CyBarq Technology LLC."
   },
   "footer": {
-    "tagline": "A Jordanian technology company. One team that builds systems, runs them, and tests them before anyone else does.",
+    "tagline": "A Jordanian technology company. We build software, run the infrastructure beneath it, and keep both secure.",
     "social": "CyBarq on social media",
     "newTab": "(opens in a new tab)"
   },

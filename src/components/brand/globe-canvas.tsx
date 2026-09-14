@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { computeGlobe, globeCount, type GlobeLean, type GlobeParams } from "./globe-math";
+import { computeGlobe, globeCount, shadeIndex, SYMBOL_TRIANGLES, type GlobeLean, type GlobeParams } from "./globe-math";
+
+export const BLUE_RAMP = ["#A9DCF7", "#74C3F2", "#3E9BDD", "#2E86CF"] as const;
 
 export type GlobePlacement = {
   /** Centre of the sphere as a fraction of the surface. */
@@ -14,9 +16,8 @@ export type GlobePlacement = {
 type GlobeCanvasProps = {
   params?: GlobeParams;
   placement?: GlobePlacement;
-  ink?: string;
-  blue?: string;
-  lime?: string;
+  /** The blue ramp, palest first. Depth is the only shading the globe uses. */
+  ramp?: readonly string[];
   hair?: string;
   /** Mirror the placement (not the geography) for right to left pages. */
   mirror?: boolean;
@@ -31,18 +32,7 @@ type GlobeCanvasProps = {
  * screen or the tab is hidden, and settles into a single still frame for
  * anyone who has asked for less motion.
  */
-export function GlobeCanvas({
-  params,
-  placement,
-  ink = "#0D0E13",
-  blue = "#74C3F2",
-  lime = "#C5E27A",
-  hair = "#C6C8CB",
-  mirror = false,
-  interactive = true,
-  className,
-  onReady,
-}: GlobeCanvasProps) {
+export function GlobeCanvas({ params, placement, ramp = BLUE_RAMP, hair = "#DCEFFA", mirror = false, interactive = true, className, onReady }: GlobeCanvasProps) {
   const ref = React.useRef<HTMLCanvasElement>(null);
   const readyRef = React.useRef(false);
 
@@ -109,18 +99,19 @@ export function GlobeCanvas({
         ctx.stroke();
       }
 
-      /* Then the blades, one colour at a time to keep state changes low. */
-      for (const [tone, colour] of [["ink", ink], ["blue", blue], ["lime", lime]] as const) {
-        ctx.fillStyle = colour;
+      /* Then the symbol, once per point, one step of the blue ramp at a time. */
+      for (let tone = 0; tone < ramp.length; tone++) {
+        ctx.fillStyle = ramp[tone] ?? "#74C3F2";
         for (const m of frame.marks) {
-          if (m.tone !== tone) continue;
+          if (shadeIndex(m.shade, ramp.length) !== tone) continue;
           ctx.globalAlpha = m.alpha;
-          const p = m.points;
           ctx.beginPath();
-          ctx.moveTo(p[0], p[1]);
-          ctx.lineTo(p[2], p[3]);
-          ctx.lineTo(p[4], p[5]);
-          ctx.closePath();
+          for (const tri of SYMBOL_TRIANGLES) {
+            ctx.moveTo(m.x + tri[0] * m.size, m.y + tri[1] * m.size);
+            ctx.lineTo(m.x + tri[2] * m.size, m.y + tri[3] * m.size);
+            ctx.lineTo(m.x + tri[4] * m.size, m.y + tri[5] * m.size);
+            ctx.closePath();
+          }
           ctx.fill();
         }
       }
@@ -215,7 +206,7 @@ export function GlobeCanvas({
         host.removeEventListener("touchend", onLeave);
       }
     };
-  }, [params, placement, ink, blue, lime, hair, mirror, interactive, onReady]);
+  }, [params, placement, ramp, hair, mirror, interactive, onReady]);
 
   return <canvas ref={ref} className={className} aria-hidden />;
 }

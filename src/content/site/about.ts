@@ -8,17 +8,17 @@ import type { Bilingual } from "@/i18n/bilingual";
 export const about = {
   title: { en: "A Jordanian technology company, built around one team", ar: "شركة تقنية أردنية، مبنية حول فريق واحد" } satisfies Bilingual,
   lead: {
-    en: "CyBarq is registered in Amman and works with clients here and across the region. We are a small team: we build software, run the infrastructure under it, secure both, and use AI where it genuinely helps. We work remotely, and we come into the room when the work is better done there.",
-    ar: "سايبرق مسجّلة في عمّان، وتعمل مع عملائها هنا وفي المنطقة. نحن فريق صغير: نبني البرمجيات، ونشغّل البنية التي تقوم عليها، ونؤمّن الاثنين، ونستخدم الذكاء الاصطناعي حيث ينفع فعلاً. نعمل عن بُعد، ونحضر إلى الغرفة حين يكون العمل أجدى بالحضور.",
+    en: "CyBarq is registered in Amman and works with clients here and across the region. We are a small team: we build software, run the infrastructure beneath it, keep both secure, and use AI where it genuinely helps.",
+    ar: "سايبرق مسجّلة في عمّان، وتعمل مع عملائها هنا وفي المنطقة. نحن فريق صغير: نبني البرمجيات، ونشغّل البنية التي تقوم عليها، ونحافظ على أمن الاثنين، ونستخدم الذكاء الاصطناعي حيث ينفع فعلاً.",
   } satisfies Bilingual,
   story: [
     {
-      en: "We began in 2024, with a team that had already spent more than ten years between cybersecurity, software and technical infrastructure. The idea was not complicated: most organisations do not need three suppliers who blame each other when something breaks. They need one team that can build the thing and defend it.",
-      ar: "بدأنا عام 2024 بفريق كان قد أمضى أكثر من عشر سنوات بين الأمن السيبراني والبرمجيات والبنية التقنية. ولم تكن الفكرة معقدة: معظم المؤسسات لا تحتاج إلى ثلاثة موردين يتبادلون اللوم حين يتعطل شيء، بل إلى فريق واحد يستطيع أن يبني الشيء وأن يدافع عنه.",
+      en: "We began in 2024, with a team that had already spent more than ten years between cybersecurity, software and technical infrastructure. The idea was simple: one team that can build a system and look after it, rather than three that each hold a part of it.",
+      ar: "بدأنا عام 2024 بفريق أمضى أكثر من عشر سنوات بين الأمن السيبراني والبرمجيات والبنية التقنية. والفكرة بسيطة: فريق واحد يبني النظام ويعتني به، بدل ثلاثة يحمل كل منهم جزءاً منه.",
     },
     {
-      en: "Some of our clients are a few streets away, others are in another city. What does not change is how the work is done: agreed in writing before it starts, built carefully, looked at by someone whose job is to find the weak point, and handed over in full.",
-      ar: "بعض عملائنا على بعد شارعين، وبعضهم في مدينة أخرى. وما لا يتغير هو طريقة العمل: اتفاق مكتوب قبل أن يبدأ، وبناء متأنٍّ، ومراجعة من شخص مهمته أن يجد نقطة الضعف، وتسليم كامل.",
+      en: "Some of our clients are a few streets away, others are in another city. What does not change is how the work is done: agreed in writing before it starts, built carefully, reviewed by someone whose job is to find what was missed, and handed over in full.",
+      ar: "بعض عملائنا على بعد شارعين، وبعضهم في مدينة أخرى. وما لا يتغير هو طريقة العمل: اتفاق مكتوب قبل أن يبدأ، وبناء متأنٍّ، ومراجعة من شخص مهمته أن يجد ما فات، وتسليم كامل.",
     },
     {
       en: "Today the work sits in four practices: Cybersecurity, Digital Engineering, Artificial Intelligence, and Technology and Infrastructure. Some clients come for a single penetration test. Others ask us to design, build and run the platform their business depends on. Both are welcome, and both get the same care.",

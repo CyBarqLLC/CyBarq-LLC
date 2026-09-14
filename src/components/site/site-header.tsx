@@ -43,12 +43,9 @@ export async function SiteHeader() {
   const menu = (
     <nav aria-label={t("mobileLabel")} className="container-page flex h-full flex-col">
       <ul className="flex flex-col">
-        {[...items, { href: "/contact", label: t("contact") } as NavItem].map((item, i) => (
+        {[...items, { href: "/contact", label: t("contact") } as NavItem].map((item) => (
           <li key={item.href} className="border-b border-fog">
             <NavLink href={item.href} className="flex items-baseline gap-4 py-4 text-graphite transition-colors duration-(--s-fast) hover:text-azure" activeClassName="text-azure">
-              <span aria-hidden className="s-meta text-grey">
-                {String(i + 1).padStart(2, "0")}
-              </span>
               <span className="s-sub">{item.label}</span>
             </NavLink>
             {item.children ? (
@@ -103,16 +100,13 @@ export async function SiteHeader() {
                   </NavLink>
                   <div className="invisible absolute start-0 top-full pt-2 opacity-0 transition-opacity duration-(--s-fast) group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
                     <ul className="site-panel-menu grid w-[34rem] grid-cols-2 gap-px bg-fog p-px">
-                      {item.children.map((c, i) => (
+                      {item.children.map((c) => (
                         <li key={c.href} className="bg-white">
                           <NavLink
                             href={c.href}
                             className="flex h-full flex-col gap-1 px-4 py-4 transition-colors duration-(--s-fast) hover:bg-ice/70 focus-visible:bg-ice/70"
                             activeClassName="bg-ice/50"
                           >
-                            <span aria-hidden className="s-meta text-grey">
-                              {String(i + 1).padStart(2, "0")}
-                            </span>
                             <span className="text-body font-medium text-graphite">{c.label}</span>
                             <span className="text-small text-slate">{c.short}</span>
                           </NavLink>

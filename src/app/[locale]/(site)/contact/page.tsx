@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageIntro } from "@/components/site/page-intro";
-import { mirror } from "@/components/site/sheet";
 import { Reveal } from "@/components/site/reveal";
 import { ContactForm, type ServiceOptionGroup } from "@/components/site/contact-form";
 import { JsonLd } from "@/components/site/json-ld";
@@ -23,7 +22,6 @@ export default async function ContactPage({ params, searchParams }: Props) {
   const { service } = await searchParams;
   const t = await getTranslations("site.contact");
   const tn = await getTranslations("site.nav");
-  const tMirror = await mirror(locale, "site.nav");
 
   const requested = Array.isArray(service) ? service[0] : service;
   const defaultService = requested && getServiceBySlug(requested) ? requested : undefined;
@@ -55,7 +53,7 @@ export default async function ContactPage({ params, searchParams }: Props) {
   return (
     <>
       <JsonLd data={contactPage} />
-      <PageIntro mirrorLabel={tMirror("contact")} title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: tn("contact") }]} />
+      <PageIntro title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: tn("contact") }]} />
 
       <div className="border-t border-fog">
         <div className="container-page section grid gap-14 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-20">
