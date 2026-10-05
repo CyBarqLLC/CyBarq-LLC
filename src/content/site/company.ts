@@ -25,10 +25,10 @@ export const company = {
     support: "support@cybarq.com",
   },
   social: {
-    linkedin: "https://www.linkedin.com/company/cybarqllc/",
-    instagram: "https://www.instagram.com/cybarqllc",
-    facebook: "https://www.facebook.com/cybarqllc",
-    x: "https://x.com/cybarqllc",
+    linkedin: "https://www.linkedin.com/company/cybarqtech/",
+    instagram: "https://www.instagram.com/cybarqtech",
+    facebook: "https://www.facebook.com/cybarqtech",
+    x: "https://x.com/cybarqtech",
   },
   /**
    * Issuer details for invoices and quotations only (`src/lib/pdf`). These are
