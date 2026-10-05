@@ -17,7 +17,7 @@ export const cybersecurityServices: ServiceContent[] = [
     hero: bi("We examine your systems with an attacker's method and a client's interest, then set out what to fix and in what order.", "نفحص أنظمتك بمنهج المهاجم وبمصلحة العميل، ثم نبيّن ما ينبغي إصلاحه وبأي ترتيب."),
     seo: {
       title: bi("Penetration Testing", "اختبار الاختراق"),
-      description: bi("Manual penetration testing of web applications, APIs, networks, cloud and internal systems by CyBarq in Amman. Evidence, fix guidance and a retest.", "اختبار اختراق يدوي لتطبيقات الويب وواجهات البرمجة والشبكات والبيئات السحابية والأنظمة الداخلية من سايبرق في عمّان، مع الأدلة وإرشادات المعالجة وإعادة الاختبار."),
+      description: bi("Manual penetration testing of web applications, APIs, networks, cloud and internal systems by CyBarq. Evidence, fix guidance and a retest.", "اختبار اختراق يدوي لتطبيقات الويب وواجهات البرمجة والشبكات والبيئات السحابية والأنظمة الداخلية من سايبرق، مع الأدلة وإرشادات المعالجة وإعادة الاختبار."),
     },
     problem: {
       body: bi(
@@ -158,8 +158,8 @@ export const cybersecurityServices: ServiceContent[] = [
     },
     engagement: {
       body: bi(
-        "We start with a baseline: one simulation and a conversation with the people who carry the risk. Then we agree the programme: which departments get which sessions, how often simulations run, and who sees the results. Sessions run on site in Amman or remotely, in Arabic or English. Briefings for leadership are short and tied to the decisions they actually make.",
-        "نبدأ بقياس أولي: محاكاة واحدة وحوار مع من يتحملون المخاطر. ثم نتفق على البرنامج: أي إدارة تأخذ أي جلسة، وكم مرة تتكرر المحاكاة، ومن يطّلع على النتائج. تُعقد الجلسات حضورياً في عمّان أو عن بُعد، بالعربية أو الإنجليزية. أما إحاطات القيادة فقصيرة ومرتبطة بالقرارات التي تتخذها فعلاً.",
+        "We start with a baseline: one simulation and a conversation with the people who carry the risk. Then we agree the programme: which departments get which sessions, how often simulations run, and who sees the results. Sessions run on site or remotely, in Arabic or English. Briefings for leadership are short and tied to the decisions they actually make.",
+        "نبدأ بقياس أولي: محاكاة واحدة وحوار مع من يتحملون المخاطر. ثم نتفق على البرنامج: أي إدارة تأخذ أي جلسة، وكم مرة تتكرر المحاكاة، ومن يطّلع على النتائج. تُعقد الجلسات حضورياً أو عن بُعد، بالعربية أو الإنجليزية. أما إحاطات القيادة فقصيرة ومرتبطة بالقرارات التي تتخذها فعلاً.",
       ),
     },
     deliverables: {

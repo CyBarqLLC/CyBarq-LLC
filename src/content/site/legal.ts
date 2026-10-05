@@ -5,24 +5,25 @@ export type LegalDocument = { title: Bilingual; updated: string; intro: Bilingua
 
 /**
  * Privacy notice and terms of use for cybarq.com and the CyBarq platform.
- * Written for CyBarq Technology LLC, a limited liability company registered in
- * the Hashemite Kingdom of Jordan. No legal citations are invented here; the
- * text describes what the company actually does with data.
+ * Written for CyBarq Technology. No legal citations are invented here; the
+ * text describes what the company actually does with data. The documents name
+ * the company and how to reach it, and say nothing about where it is
+ * registered.
  */
 export const privacy: LegalDocument = {
   title: { en: "Privacy notice", ar: "إشعار الخصوصية" },
-  updated: "2026-09-01",
+  updated: "2026-10-05",
   intro: {
-    en: "This notice explains what personal data CyBarq Technology LLC collects through cybarq.com and the CyBarq platform, why we collect it, where it is stored, how long we keep it, and how to contact us about it. We have tried to write it plainly.",
-    ar: "يوضح هذا الإشعار البيانات الشخصية التي تجمعها شركة سايبرق للتكنولوجيا عبر موقع cybarq.com ومنصة سايبرق، ولماذا نجمعها، وأين تُخزَّن، وكم نحتفظ بها، وكيف تتواصل معنا بشأنها. حاولنا كتابته بلغة واضحة.",
+    en: "This notice explains what personal data CyBarq Technology collects through cybarq.com and the CyBarq platform, why we collect it, where it is stored, how long we keep it, and how to contact us about it. We have tried to write it plainly.",
+    ar: "يوضح هذا الإشعار البيانات الشخصية التي تجمعها سايبرق لتكنولوجيا المعلومات عبر موقع cybarq.com ومنصة سايبرق، ولماذا نجمعها، وأين تُخزَّن، وكم نحتفظ بها، وكيف تتواصل معنا بشأنها. حاولنا كتابته بلغة واضحة.",
   },
   sections: [
     {
       title: { en: "Who we are", ar: "من نحن" },
       paragraphs: [
         {
-          en: "CyBarq Technology LLC is a technology company registered in the Hashemite Kingdom of Jordan and based in Amman. For the purposes of this notice, CyBarq is the party responsible for the personal data described here. You can reach us at info@cybarq.com.",
-          ar: "سايبرق للتكنولوجيا شركة تقنية مسجلة في المملكة الأردنية الهاشمية ومقرها عمّان. ولأغراض هذا الإشعار، سايبرق هي الجهة المسؤولة عن البيانات الشخصية الموصوفة هنا. يمكنك التواصل معنا على info@cybarq.com.",
+          en: "CyBarq Technology operates cybarq.com and the CyBarq platform. For the purposes of this notice, CyBarq is the party responsible for the personal data described here. You can reach us at info@cybarq.com.",
+          ar: "سايبرق لتكنولوجيا المعلومات هي الجهة التي تشغّل موقع cybarq.com ومنصة سايبرق. ولأغراض هذا الإشعار، سايبرق هي الجهة المسؤولة عن البيانات الشخصية الموصوفة هنا. يمكنك التواصل معنا على info@cybarq.com.",
         },
       ],
     },
@@ -78,8 +79,8 @@ export const privacy: LegalDocument = {
       title: { en: "Where data is stored and who processes it", ar: "أين تُخزَّن البيانات ومن يعالجها" },
       paragraphs: [
         {
-          en: "The website and platform are hosted on Vercel, and the database, authentication and file storage are provided by Supabase. Both are established infrastructure providers with published security practices, and data is stored in their data centres outside Jordan. Transactional email, such as contact confirmations and account invitations, is sent through Resend. These providers process data on our behalf and under our instructions; they do not use it for their own purposes.",
-          ar: "يُستضاف الموقع والمنصة على Vercel، وتُقدَّم قاعدة البيانات والمصادقة وتخزين الملفات عبر Supabase. وكلاهما مزوّدا بنية تحتية راسخان لهما ممارسات أمنية منشورة، وتُخزَّن البيانات في مراكز بياناتهما خارج الأردن. أما رسائل البريد الإلكتروني التشغيلية، مثل تأكيدات التواصل ودعوات الحسابات، فتُرسل عبر Resend. يعالج هؤلاء المزوّدون البيانات نيابة عنا ووفق تعليماتنا، ولا يستخدمونها لأغراضهم الخاصة.",
+          en: "The website and platform are hosted on Vercel, and the database, authentication and file storage are provided by Supabase. Both are established infrastructure providers with published security practices, and data is stored in their data centres. Transactional email, such as contact confirmations and account invitations, is sent through Resend. These providers process data on our behalf and under our instructions; they do not use it for their own purposes.",
+          ar: "يُستضاف الموقع والمنصة على Vercel، وتُقدَّم قاعدة البيانات والمصادقة وتخزين الملفات عبر Supabase. وكلاهما مزوّدا بنية تحتية راسخان لهما ممارسات أمنية منشورة، وتُخزَّن البيانات في مراكز بياناتهما. أما رسائل البريد الإلكتروني التشغيلية، مثل تأكيدات التواصل ودعوات الحسابات، فتُرسل عبر Resend. يعالج هؤلاء المزوّدون البيانات نيابة عنا ووفق تعليماتنا، ولا يستخدمونها لأغراضهم الخاصة.",
         },
         {
           en: "Within CyBarq, access to personal data is limited to the employees who need it for their role and is enforced by permissions in the platform itself.",
@@ -119,10 +120,10 @@ export const privacy: LegalDocument = {
 
 export const terms: LegalDocument = {
   title: { en: "Terms of use", ar: "شروط الاستخدام" },
-  updated: "2026-09-01",
+  updated: "2026-10-05",
   intro: {
-    en: "These terms govern the use of cybarq.com and of the CyBarq platform and client portal operated by CyBarq Technology LLC. Services we deliver to clients are governed by the written agreement for each engagement; where these terms and that agreement differ, the agreement applies.",
-    ar: "تحكم هذه الشروط استخدام موقع cybarq.com ومنصة سايبرق وبوابة العملاء التي تشغّلها شركة سايبرق للتكنولوجيا. أما الخدمات التي نقدمها للعملاء فيحكمها الاتفاق المكتوب لكل ارتباط؛ وحين تختلف هذه الشروط عن ذلك الاتفاق، يسري الاتفاق.",
+    en: "These terms govern the use of cybarq.com and of the CyBarq platform and client portal operated by CyBarq Technology. Services we deliver to clients are governed by the written agreement for each engagement; where these terms and that agreement differ, the agreement applies.",
+    ar: "تحكم هذه الشروط استخدام موقع cybarq.com ومنصة سايبرق وبوابة العملاء التي تشغّلها سايبرق لتكنولوجيا المعلومات. أما الخدمات التي نقدمها للعملاء فيحكمها الاتفاق المكتوب لكل ارتباط؛ وحين تختلف هذه الشروط عن ذلك الاتفاق، يسري الاتفاق.",
   },
   sections: [
     {
@@ -133,8 +134,8 @@ export const terms: LegalDocument = {
           ar: "يُقدَّم محتوى موقع cybarq.com لأغراض التعريف العام بسايبرق وخدماتها. نحرص على دقته، لكنه لا يشكّل استشارة مهنية لأي حالة بعينها، ولا يُعدّ عرضاً قابلاً للقبول. ولا يبدأ أي ارتباط إلا باتفاق مكتوب.",
         },
         {
-          en: "The CyBarq name, logo, symbol, pictograms and the written content of this site belong to CyBarq Technology LLC. You may quote or link to the site; you may not reproduce our brand assets or present our content as your own. Partner and certification logos belong to their respective owners and are shown to indicate a relationship, not endorsement of any third party.",
-          ar: "اسم سايبرق وشعارها ورمزها ورموزها التصويرية والمحتوى المكتوب لهذا الموقع ملك لشركة سايبرق للتكنولوجيا. يجوز لك الاقتباس من الموقع أو الربط إليه؛ ولا يجوز لك إعادة إنتاج أصول علامتنا أو تقديم محتوانا على أنه محتواك. وتعود شعارات الشركاء والشهادات إلى أصحابها وتُعرض للدلالة على علاقة، لا على تأييد أي طرف ثالث.",
+          en: "The CyBarq name, logo, symbol, pictograms and the written content of this site belong to CyBarq Technology. You may quote or link to the site; you may not reproduce our brand assets or present our content as your own. Partner and credential logos belong to their respective owners and are shown to indicate a relationship, not endorsement of any third party.",
+          ar: "اسم سايبرق وشعارها ورمزها ورموزها التصويرية والمحتوى المكتوب لهذا الموقع ملك لسايبرق لتكنولوجيا المعلومات. يجوز لك الاقتباس من الموقع أو الربط إليه؛ ولا يجوز لك إعادة إنتاج أصول علامتنا أو تقديم محتوانا على أنه محتواك. وتعود شعارات الشركاء والشهادات إلى أصحابها وتُعرض للدلالة على علاقة، لا على تأييد أي طرف ثالث.",
         },
       ],
     },
@@ -174,11 +175,11 @@ export const terms: LegalDocument = {
       ],
     },
     {
-      title: { en: "Governing law", ar: "القانون الواجب التطبيق" },
+      title: { en: "Questions and disagreements", ar: "الأسئلة والخلافات" },
       paragraphs: [
         {
-          en: "These terms are governed by the laws of the Hashemite Kingdom of Jordan, and the courts of Amman have jurisdiction over any dispute arising from them, unless a client agreement provides otherwise.",
-          ar: "تخضع هذه الشروط لقوانين المملكة الأردنية الهاشمية، وتختص محاكم عمّان بالنظر في أي نزاع ينشأ عنها، ما لم ينص اتفاق مع العميل على خلاف ذلك.",
+          en: "If you have a concern about the website or the platform, write to us first and we will work to resolve it directly. Where a client agreement covers the matter, including the law that applies to it and how disputes are settled, that agreement governs.",
+          ar: "إن كان لديك اعتراض يتعلق بالموقع أو المنصة، راسلنا أولاً وسنعمل على حلّه معك مباشرة. وحين يغطي اتفاق مع العميل المسألة، بما في ذلك القانون الذي يسري عليها وطريقة تسوية النزاعات، يسري ذلك الاتفاق.",
         },
       ],
     },

@@ -55,8 +55,8 @@ export default async function NewsPostPage({ params }: Props) {
     dateModified: post.updated_at,
     inLanguage: locale,
     mainEntityOfPage: absoluteUrl(locale, `/news/${post.slug}`),
-    author: authorName ? { "@type": "Person", name: authorName } : { "@type": "Organization", name: company.legalName.en },
-    publisher: { "@type": "Organization", name: company.legalName.en, logo: { "@type": "ImageObject", url: `${siteUrl()}/brand/logo/primary-graphite.png` } },
+    author: authorName ? { "@type": "Person", name: authorName } : { "@type": "Organization", name: company.fullName.en },
+    publisher: { "@type": "Organization", name: company.fullName.en, logo: { "@type": "ImageObject", url: `${siteUrl()}/brand/logo/primary-graphite.png` } },
   };
 
   return (

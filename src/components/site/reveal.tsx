@@ -48,14 +48,16 @@ type RevealProps = {
   id?: string;
   "aria-labelledby"?: string;
   "aria-hidden"?: boolean;
+  "data-split"?: string;
+  "data-columns"?: number;
 };
 
 function makeReveal(base: string, group: string) {
-  return function RevealBlock({ children, className, delay, stagger = false, as: Element = "div", id, "aria-labelledby": labelledBy, "aria-hidden": hidden }: RevealProps) {
+  return function RevealBlock({ children, className, delay, stagger = false, as: Element = "div", id, "aria-labelledby": labelledBy, "aria-hidden": hidden, "data-split": split, "data-columns": columns }: RevealProps) {
     const ref = useReveal();
     const style = delay ? ({ transitionDelay: `${delay}ms` } as React.CSSProperties) : undefined;
     return (
-      <Element ref={ref as never} id={id} aria-labelledby={labelledBy} aria-hidden={hidden} className={cn(stagger ? group : base, className)} style={style}>
+      <Element ref={ref as never} id={id} aria-labelledby={labelledBy} aria-hidden={hidden} data-split={split} data-columns={columns} className={cn(stagger ? group : base, className)} style={style}>
         {children}
       </Element>
     );
@@ -63,23 +65,7 @@ function makeReveal(base: string, group: string) {
 }
 
 /**
- * Type that rises from behind its own baseline, clipped rather than faded —
- * the way a line of metal type comes up into the bed. For headings, statements
- * and leads. Never for a block that carries a mark outside its box.
+ * A block that arrives once as it comes into view: a short lift and a fade.
+ * With `stagger`, its direct children follow one another.
  */
-export const Rise = makeReveal("s-rise", "s-rise-group");
-
-/**
- * A block that settles into place: a short lift and a fade, no clipping. For
- * panels, grids, cards and anything with a mark or a shadow outside its box.
- */
-export const Settle = makeReveal("s-settle", "s-settle-group");
-
-/** A hairline that draws itself from the start side. */
-export const Draw = makeReveal("s-draw", "s-draw");
-
-/**
- * The original wrapper, kept so pages that have not moved to Rise or Settle
- * keep behaving. New work should use Rise for type and Settle for blocks.
- */
-export const Reveal = makeReveal("site-reveal", "site-reveal-stagger");
+export const Reveal = makeReveal("s-reveal", "s-reveal-group");

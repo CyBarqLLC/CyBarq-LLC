@@ -56,8 +56,8 @@ export type EmailContent = {
 };
 
 const FOOTER = {
-  en: "CyBarq Technology LLC · cybarq.com",
-  ar: "سايبرق للتكنولوجيا · cybarq.com",
+  en: "CyBarq Technology · cybarq.com",
+  ar: "سايبرق لتكنولوجيا المعلومات · cybarq.com",
 };
 const AUTOMATED = {
   en: "This message was sent automatically. Replies to this address are not monitored.",

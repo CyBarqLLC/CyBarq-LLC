@@ -33,10 +33,10 @@ export default async function VerifyPage({ params, searchParams }: Props) {
         title={t("title")}
         lead={t("lead")}
         crumbs={[{ href: "/", label: tn("home") }, { label: tn("verify") }]}
-        aside={<Pictogram name="certification" className="size-20 text-graphite lg:size-28" />}
+        aside={<Pictogram name="certification" className="size-20 lg:size-28" />}
       />
-      <section className="border-t border-fog">
-        <div className="container-page grid gap-10 py-14 sm:py-20 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-16">
+      <section className="s-section">
+        <div className="container-page grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-16">
           <VerifyForm action={`/${locale}/verify`} label={t("codeLabel")} hint={t("codeHint")} submit={t("submit")} />
           <p className="max-w-prose text-small text-slate">{t("note")}</p>
         </div>

@@ -11,7 +11,6 @@ export type MaintenanceCopy = {
   rateLimited: string;
   unavailable: string;
   company: string;
-  city: string;
   metaTitle: string;
 };
 
@@ -26,8 +25,7 @@ export const MAINTENANCE_COPY: Record<MaintenanceLang, MaintenanceCopy> = {
     invalid: "That password is not correct.",
     rateLimited: "Too many attempts. Try again in a few minutes.",
     unavailable: "Something went wrong. Please try again.",
-    company: "CyBarq Technology LLC",
-    city: "Amman",
+    company: "CyBarq Technology",
     metaTitle: "CyBarq",
   },
   ar: {
@@ -40,8 +38,7 @@ export const MAINTENANCE_COPY: Record<MaintenanceLang, MaintenanceCopy> = {
     invalid: "كلمة المرور غير صحيحة.",
     rateLimited: "محاولات كثيرة. حاول مجدداً بعد دقائق.",
     unavailable: "حدث خطأ ما. حاول مرة أخرى.",
-    company: "سايبرق للتكنولوجيا",
-    city: "عمّان",
+    company: "سايبرق لتكنولوجيا المعلومات",
     metaTitle: "سايبرق",
   },
 };

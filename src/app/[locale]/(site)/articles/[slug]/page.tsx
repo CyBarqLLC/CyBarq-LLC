@@ -57,8 +57,8 @@ export default async function ArticlePage({ params }: Props) {
     dateModified: article.updated_at,
     inLanguage: locale,
     mainEntityOfPage: absoluteUrl(locale, `/articles/${article.slug}`),
-    author: authorName ? { "@type": "Person", name: authorName, jobTitle: authorTitle || undefined } : { "@type": "Organization", name: company.legalName.en },
-    publisher: { "@type": "Organization", name: company.legalName.en, logo: { "@type": "ImageObject", url: `${siteUrl()}/brand/logo/primary-graphite.png` } },
+    author: authorName ? { "@type": "Person", name: authorName, jobTitle: authorTitle || undefined } : { "@type": "Organization", name: company.fullName.en },
+    publisher: { "@type": "Organization", name: company.fullName.en, logo: { "@type": "ImageObject", url: `${siteUrl()}/brand/logo/primary-graphite.png` } },
   };
 
   return (

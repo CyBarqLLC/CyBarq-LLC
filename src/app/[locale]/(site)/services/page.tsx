@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import { Arrow } from "@/components/site/action";
 import { Pictogram } from "@/components/brand/pictogram";
 import { PageIntro } from "@/components/site/page-intro";
 import { Reveal } from "@/components/site/reveal";
@@ -38,33 +39,38 @@ export default async function ServicesPage({ params }: Props) {
     <>
       <JsonLd data={breadcrumbs} />
       <PageIntro title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: t("title") }]}>
-        <nav aria-label={t("title")} className="flex flex-wrap gap-x-6 gap-y-2 text-small">
-          {practices.map((p) => (
-            <a key={p.slug} href={`#${p.slug}`} className="site-link text-azure">
-              {p.title[locale]}
-            </a>
-          ))}
+        <nav aria-label={t("title")}>
+          <ul className="flex flex-wrap gap-2">
+            {practices.map((p) => (
+              <li key={p.slug}>
+                <a href={`#${p.slug}`} className="s-chip hover:border-white">
+                  {p.title[locale]}
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
       </PageIntro>
 
-      {practices.map((p) => {
+      {practices.map((p, index) => {
         const list = servicesByPractice(p.slug);
         return (
-          <section key={p.slug} id={p.slug} className="border-t border-fog" aria-labelledby={`${p.slug}-title`}>
-            <div className="container-page section">
-              <Reveal className="mb-10 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-end">
-                <div className="flex gap-5">
-                  <Pictogram name={p.pictogram} className="size-12 shrink-0 text-graphite" />
-                  <div>
-                    <h2 id={`${p.slug}-title`} className="s-title">
-                      <Link href={`/services/${p.slug}`} className="transition-colors duration-(--duration-state) hover:text-azure">
-                        {p.title[locale]}
-                      </Link>
-                    </h2>
-                    <p className="mt-3 max-w-2xl text-slate">{p.intro[locale]}</p>
-                  </div>
+          <section key={p.slug} id={p.slug} className={index % 2 === 1 ? "s-section s-field-surface" : "s-section"} aria-labelledby={`${p.slug}-title`}>
+            <div className="container-page">
+              <Reveal stagger className="s-head" data-split="">
+                <div className="flex flex-col gap-5">
+                  <Pictogram name={p.pictogram} className="size-12 text-azure" />
+                  <h2 id={`${p.slug}-title`} className="s-title">
+                    {p.title[locale]}
+                  </h2>
                 </div>
-                <p className="text-small tabular-nums text-slate lg:text-end">{t("count", { count: list.length })}</p>
+                <div>
+                  <p className="s-lede s-head__lead">{p.intro[locale]}</p>
+                  <Link href={`/services/${p.slug}`} className="s-head__aside inline-flex min-h-11 items-center gap-3 font-medium text-azure hover:text-graphite">
+                    <span className="tabular-nums">{t("count", { count: list.length })}</span>
+                    <Arrow />
+                  </Link>
+                </div>
               </Reveal>
               <ServiceGrid columns={3}>
                 {list.map((s) => (

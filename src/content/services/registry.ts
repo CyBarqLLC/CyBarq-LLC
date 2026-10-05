@@ -66,7 +66,7 @@ export const practices: PracticeContent[] = [
     },
     seo: {
       title: { en: "Cybersecurity services", ar: "خدمات الأمن السيبراني" },
-      description: { en: "Penetration testing, digital forensics and incident response, compromise assessment, security assessments, training and consulting from CyBarq in Amman.", ar: "اختبار الاختراق، التحقيق الرقمي والاستجابة للحوادث، تقييم الاختراق، التقييمات الأمنية، التدريب والاستشارات من سايبرق في عمّان." },
+      description: { en: "Penetration testing, digital forensics and incident response, compromise assessment, security assessments, training and consulting from CyBarq.", ar: "اختبار الاختراق، التحقيق الرقمي والاستجابة للحوادث، تقييم الاختراق، التقييمات الأمنية، التدريب والاستشارات من سايبرق." },
     },
   },
   {

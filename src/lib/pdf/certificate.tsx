@@ -13,7 +13,7 @@ const EN = {
   certify: "This is to certify that",
   completed: "has successfully completed",
   attended: "has completed",
-  worked: "has worked with CyBarq Technology LLC as",
+  worked: "has worked with CyBarq Technology as",
   awarded: "is recognised for",
   period: "From {start} to {end}",
   since: "Since {start}",
@@ -34,7 +34,7 @@ const AR: Record<keyof typeof EN, string> = {
   certify: "نشهد بأن",
   completed: "قد أتمّ بنجاح",
   attended: "قد أكمل",
-  worked: "قد عمل لدى شركة سايبرق للتكنولوجيا بصفة",
+  worked: "قد عمل لدى سايبرق لتكنولوجيا المعلومات بصفة",
   awarded: "تقديراً لـ",
   period: "من {start} إلى {end}",
   since: "منذ {start}",
@@ -143,7 +143,7 @@ export function CertificateDocument({ data }: { data: CertificateDocumentData })
   if (hoursText) facts.push({ label: t.hoursLabel, value: hoursText });
 
   return (
-    <Document title={`${typeLabel} ${data.certificateNo ?? ""}`.trim()} author={company.legalName.en} creator="CyBarq Platform" producer="CyBarq Platform">
+    <Document title={`${typeLabel} ${data.certificateNo ?? ""}`.trim()} author={company.fullName.en} creator="CyBarq Platform" producer="CyBarq Platform">
       <Page size="A4" orientation="landscape" style={s.page}>
         {/* Header: logo at the start, certificate number and status at the end */}
         <View style={sx(s.header, { flexDirection: dir })}>
@@ -200,15 +200,14 @@ export function CertificateDocument({ data }: { data: CertificateDocumentData })
                 <View style={s.signLine}>
                   <Text style={sx(s.strong, { textAlign: start })}>{data.signatoryName}</Text>
                   {data.signatoryTitle ? <Text style={sx(s.small, { textAlign: start })}>{data.signatoryTitle}</Text> : null}
-                  <Text style={sx(s.small, { textAlign: start })}>{company.legalName[locale]}</Text>
+                  <Text style={sx(s.small, { textAlign: start })}>{company.fullName[locale]}</Text>
                 </View>
               ) : (
                 <View>
                   <Label locale={locale} marginBottom={3}>
                     {t.issuedBy}
                   </Label>
-                  <Text style={sx(s.strong, { textAlign: start })}>{company.legalName[locale]}</Text>
-                  <Text style={sx(s.small, { textAlign: start })}>{company.city[locale]}</Text>
+                  <Text style={sx(s.strong, { textAlign: start })}>{company.fullName[locale]}</Text>
                 </View>
               )}
             </View>

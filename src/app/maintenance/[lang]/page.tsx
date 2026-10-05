@@ -70,7 +70,7 @@ export default async function MaintenancePage({ params, searchParams }: Props) {
       <footer className="safe-px safe-pb">
         <div className="mx-auto flex w-full max-w-6xl flex-wrap items-center justify-between gap-2 border-t border-fog py-6 text-small text-slate">
           <span>
-            {copy.company}, {copy.city}
+            {copy.company}
           </span>
           <span>© {year}</span>
         </div>

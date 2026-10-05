@@ -18,15 +18,11 @@ const DESKTOP = "(min-width: 64rem)";
 
 /**
  * The only client part of the public header. It watches a 1px sentinel with an
- * IntersectionObserver (no scroll handler) to condense the bar once the page
- * has moved, and it runs the menu disclosure: aria-expanded and aria-controls,
+ * IntersectionObserver (no scroll handler) to mark the bar once the page has
+ * moved, and it runs the menu disclosure: aria-expanded and aria-controls,
  * focus moved into the sheet and kept inside the header while it is open,
  * Escape and outside clicks close it, and the page does not scroll behind it.
- *
- * The bar is flush with the page and square, as the identity is: it sits on a
- * hairline rather than floating as a rounded pill, and the hairline under it
- * reports how far down the page the visitor has read. Styling lives in
- * styles/site.css.
+ * Styling lives in styles/site.css.
  */
 export function SiteHeaderShell({ children, menu, menuLabel }: SiteHeaderShellProps) {
   const [floating, setFloating] = React.useState(false);
@@ -128,21 +124,14 @@ export function SiteHeaderShell({ children, menu, menuLabel }: SiteHeaderShellPr
 
   return (
     <>
-      <header ref={headerRef} className="site-header" data-floating={floating || open ? "" : undefined} data-open={open ? "" : undefined}>
-        <span aria-hidden className="site-header__ground" />
-        <span aria-hidden className="site-header__progress" />
-        <div className="site-header__bar container-page">
+      <div aria-hidden className="relative">
+        <div ref={sentinelRef} className="site-header-sentinel" />
+      </div>
+      <header ref={headerRef} className="site-header" data-scrolled={floating ? "" : undefined} data-open={open ? "" : undefined}>
+        <div className="container-page">
           <div className="site-header__row">
             {children}
-            <button
-              ref={toggleRef}
-              type="button"
-              className="site-menu-toggle touch lg:hidden"
-              aria-expanded={open}
-              aria-controls={panelId}
-              aria-label={menuLabel}
-              onClick={() => setOpen((value) => !value)}
-            >
+            <button ref={toggleRef} type="button" className="site-menu-toggle" aria-expanded={open} aria-controls={panelId} aria-label={menuLabel} onClick={() => setOpen((value) => !value)}>
               <span aria-hidden className="site-menu-toggle__lines" />
             </button>
           </div>
@@ -151,9 +140,6 @@ export function SiteHeaderShell({ children, menu, menuLabel }: SiteHeaderShellPr
           {menu}
         </div>
       </header>
-      <div aria-hidden className="site-header-spacer">
-        <div ref={sentinelRef} className="site-header-sentinel" />
-      </div>
     </>
   );
 }

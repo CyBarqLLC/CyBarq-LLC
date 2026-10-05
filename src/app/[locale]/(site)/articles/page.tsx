@@ -28,7 +28,7 @@ export default async function ArticlesPage({ params }: Props) {
   return (
     <>
       <PageIntro title={t("articles.title")} lead={t("articles.lead")} crumbs={[{ href: "/", label: tn("home") }, { label: tn("articles") }]} />
-      <div className="container-page pb-16 sm:pb-24">
+      <div className="container-page py-14 sm:py-20">
         {articles.length === 0 ? (
           <EmptyState title={t("articles.empty")} />
         ) : (

@@ -1,6 +1,6 @@
 # CyBarq Platform
 
-Public website, internal company platform and client portal for CyBarq Technology LLC (سايبرق للتكنولوجيا). Bilingual (Arabic and English), built on Next.js, TypeScript, Tailwind, Supabase and Vercel.
+Public website, internal company platform and client portal for CyBarq Technology (سايبرق لتكنولوجيا المعلومات). Bilingual (Arabic and English), built on Next.js, TypeScript, Tailwind, Supabase and Vercel.
 
 - `docs/IMPLEMENTATION_PLAN.md`: architecture, entities, role model, RLS and storage strategy.
 - `docs/CONVENTIONS.md`: how to add a module (actions, forms, pages, i18n, security checklist).

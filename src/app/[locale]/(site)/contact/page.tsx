@@ -44,7 +44,7 @@ export default async function ContactPage({ params, searchParams }: Props) {
     url: absoluteUrl(locale, "/contact"),
     mainEntity: {
       "@type": "Organization",
-      name: company.legalName.en,
+      name: company.fullName.en,
       email: company.emails.general,
       contactPoint: channels.map((c) => ({ "@type": "ContactPoint", email: c.email, contactType: c.key === "support" ? "technical support" : c.key === "sales" ? "sales" : "customer service", availableLanguage: ["en", "ar"] })),
     },
@@ -55,31 +55,33 @@ export default async function ContactPage({ params, searchParams }: Props) {
       <JsonLd data={contactPage} />
       <PageIntro title={t("title")} lead={t("lead")} crumbs={[{ href: "/", label: tn("home") }, { label: tn("contact") }]} />
 
-      <div className="border-t border-fog">
-        <div className="container-page section grid gap-14 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-20">
-          <Reveal as="section" aria-labelledby="channels-heading" className="flex flex-col gap-8">
+      <div className="s-section">
+        <div className="container-page grid gap-14 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-20">
+          <Reveal as="section" aria-labelledby="form-heading" className="s-card">
+            <div className="s-card__body gap-8 lg:p-10">
+              <h2 id="form-heading" className="s-title">
+                {t("form.title")}
+              </h2>
+              <ContactForm serviceGroups={serviceGroups} defaultService={defaultService} />
+            </div>
+          </Reveal>
+
+          <Reveal as="section" delay={100} aria-labelledby="channels-heading" className="flex flex-col gap-8">
             <h2 id="channels-heading" className="s-sub">
               {t("channelsTitle")}
             </h2>
-            <ul className="flex flex-col divide-y divide-fog border-y border-fog">
+            <ul className="s-rows">
               {channels.map((c) => (
-                <li key={c.key} className="flex flex-col gap-1 py-5">
+                <li key={c.key} className="flex flex-col gap-1.5 border-b border-(--s-hair) py-6">
                   <h3 className="s-h3">{t(`channels.${c.key}.title`)}</h3>
-                  <a href={`mailto:${c.email}`} className="site-link self-start text-azure">
+                  <a href={`mailto:${c.email}`} className="site-link self-start text-lg font-medium text-azure">
                     {c.email}
                   </a>
                   <p className="text-small text-slate">{t(`channels.${c.key}.description`)}</p>
                 </li>
               ))}
             </ul>
-            <p className="max-w-sm text-small text-slate">{t("location")}</p>
-          </Reveal>
-
-          <Reveal as="section" delay={100} aria-labelledby="form-heading">
-            <h2 id="form-heading" className="mb-8 s-sub">
-              {t("form.title")}
-            </h2>
-            <ContactForm serviceGroups={serviceGroups} defaultService={defaultService} />
+            <p className="max-w-sm text-slate">{t("reach")}</p>
           </Reveal>
         </div>
       </div>

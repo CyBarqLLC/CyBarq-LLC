@@ -55,14 +55,12 @@ export default async function PracticePage({ params }: Props) {
         title={practice.title[locale]}
         lead={practice.intro[locale]}
         crumbs={[{ href: "/", label: tn("home") }, { href: "/services", label: tn("services") }, { label: practice.title[locale] }]}
-        aside={<Pictogram name={practice.pictogram} className="size-20 text-graphite lg:size-28" />}
+        aside={<Pictogram name={practice.pictogram} className="size-20 lg:size-28" />}
       />
 
-      <section className="border-t border-fog">
-        <div className="container-page section">
-          <SectionHeading title={t("inPractice")} className="mb-8">
-            <p className="text-small tabular-nums text-slate">{t("count", { count: list.length })}</p>
-          </SectionHeading>
+      <section className="s-section" aria-labelledby="in-practice-title">
+        <div className="container-page">
+          <SectionHeading id="in-practice-title" title={t("inPractice")} aside={<p className="s-soft tabular-nums">{t("count", { count: list.length })}</p>} />
           <ServiceGrid columns={3}>
             {list.map((s) => (
               <ServiceCard key={s.slug} service={s} locale={locale} />
@@ -71,10 +69,10 @@ export default async function PracticePage({ params }: Props) {
         </div>
       </section>
 
-      <section className="border-t border-fog">
-        <div className="container-page section">
-          <SectionHeading title={t("morePractices")} className="mb-8" />
-          <PracticeGrid locale={locale} linkLabel={t("explore")} exclude={practice.slug} />
+      <section className="s-section s-field-surface" aria-labelledby="more-practices-title">
+        <div className="container-page">
+          <SectionHeading id="more-practices-title" title={t("morePractices")} />
+          <PracticeGrid locale={locale} countLabel={(count) => t("count", { count })} exclude={practice.slug} services={0} />
         </div>
       </section>
 

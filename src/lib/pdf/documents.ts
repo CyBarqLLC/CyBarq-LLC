@@ -19,7 +19,7 @@ export type CommercialRefs = {
   projectCode?: string | null;
 };
 
-/** The company facts the footer prints. Defaults to the site's company file. */
+/** The company facts the footer prints. */
 export type CompanyFacts = {
   url: string;
   domain: string;
@@ -28,6 +28,19 @@ export type CompanyFacts = {
   jordanLegalName: string;
   nationalNumber: string | null;
 };
+
+/** Issuer details for commercial documents (invoices and quotations). */
+const COMMERCIAL_FACTS: CompanyFacts = {
+  url: company.url,
+  domain: company.domain,
+  emails: company.emails,
+  legalName: company.documents.legalName,
+  jordanLegalName: company.documents.registeredName,
+  nationalNumber: company.documents.nationalNumber,
+};
+
+/** Certificates are public: they carry the company name and nothing else. */
+const PUBLIC_FACTS: CompanyFacts = { ...COMMERCIAL_FACTS, legalName: company.fullName, nationalNumber: null };
 
 const NATIONAL_NUMBER_LABEL: Record<Locale, string> = { en: "Jordanian National Establishment No.", ar: "الرقم الوطني الأردني للمنشأة" };
 
@@ -40,12 +53,12 @@ const NATIONAL_NUMBER_LABEL: Record<Locale, string> = { en: "Jordanian National 
  */
 const ISSUANCE: Record<"invoice" | "quote", { en: string; ar: string }> = {
   invoice: {
-    en: `This invoice was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp`,
-    ar: `صدرت هذه الفاتورة إلكترونياً عن شركة ${company.jordanLegalName}، وهي معتمدة دون توقيع أو ختم`,
+    en: `This invoice was issued electronically by ${company.documents.legalName.en} and is valid without a signature or a stamp`,
+    ar: `صدرت هذه الفاتورة إلكترونياً عن شركة ${company.documents.registeredName}، وهي معتمدة دون توقيع أو ختم`,
   },
   quote: {
-    en: `This quotation was issued electronically by ${company.legalName.en} and is valid without a signature or a stamp`,
-    ar: `صدر عرض السعر هذا إلكترونياً عن شركة ${company.jordanLegalName}، وهو معتمد دون توقيع أو ختم`,
+    en: `This quotation was issued electronically by ${company.documents.legalName.en} and is valid without a signature or a stamp`,
+    ar: `صدر عرض السعر هذا إلكترونياً عن شركة ${company.documents.registeredName}، وهو معتمد دون توقيع أو ختم`,
   },
 };
 
@@ -69,7 +82,7 @@ function websiteQrDataUrl(url: string): Promise<string> {
  * the English legal name, the Arabic registered name and the national
  * establishment number under both labels — one script per line.
  */
-export async function documentFooterData(locale: Locale, options: { jordanLegalName: boolean; bilingual?: boolean; issuance?: { en: string; ar: string } | null }, facts: CompanyFacts = company): Promise<DocumentFooterData> {
+export async function documentFooterData(locale: Locale, options: { jordanLegalName: boolean; bilingual?: boolean; issuance?: { en: string; ar: string } | null }, facts: CompanyFacts = COMMERCIAL_FACTS): Promise<DocumentFooterData> {
   const legalLines = options.bilingual ? [facts.legalName.en] : [facts.legalName[locale]];
   if (options.jordanLegalName) legalLines.push(facts.jordanLegalName);
   if (facts.nationalNumber) {
@@ -194,7 +207,7 @@ export function certificateVerificationUrl(certificate: Pick<Tables<"certificate
 export async function certificateDocumentData(certificate: Tables<"certificates">): Promise<CertificateDocumentData> {
   const language = certificate.language;
   const verificationUrl = certificateVerificationUrl(certificate);
-  const [qr, footer] = await Promise.all([qrDataUrl(verificationUrl), documentFooterData(language, { jordanLegalName: false })]);
+  const [qr, footer] = await Promise.all([qrDataUrl(verificationUrl), documentFooterData(language, { jordanLegalName: false }, PUBLIC_FACTS)]);
   return {
     language,
     type: certificate.type,

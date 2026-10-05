@@ -11,24 +11,23 @@ type NarrativeSectionProps = {
 };
 
 /**
- * One section of the service narrative: a heading in the start column and the
- * prose in the end column on large screens, stacked on small screens. Lists are
- * rendered only when the content carries `items`, as plain rows separated by
- * hairline rules (no markers).
+ * One section of the service narrative: a heading that stays in the start
+ * column while the prose runs beside it on large screens, stacked on small
+ * ones. Lists appear only when the content carries `items`.
  */
 export function NarrativeSection({ id, heading, section, locale, className }: NarrativeSectionProps) {
   const title = section.heading ? section.heading[locale] : heading;
   return (
-    <section id={id} aria-labelledby={`${id}-heading`} className={cn("grid gap-4 border-t border-fog py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12", className)}>
-      <h2 id={`${id}-heading`} className="s-sub lg:sticky lg:top-[calc(var(--site-header-offset)+1.5rem)] lg:self-start">{title}</h2>
-      <div className="max-w-prose">
-        <p className="s-lede text-graphite">{section.body[locale]}</p>
+    <section id={id} aria-labelledby={`${id}-heading`} className={cn("s-narrative", className)}>
+      <h2 id={`${id}-heading`} className="s-sub">
+        {title}
+      </h2>
+      <div className="s-prose">
+        <p>{section.body[locale]}</p>
         {section.items && section.items.length > 0 ? (
-          <ul className="mt-6 border-t border-fog">
+          <ul className="s-list text-body">
             {section.items.map((item, i) => (
-              <li key={i} className="border-b border-fog py-3 text-graphite">
-                {item[locale]}
-              </li>
+              <li key={i}>{item[locale]}</li>
             ))}
           </ul>
         ) : null}

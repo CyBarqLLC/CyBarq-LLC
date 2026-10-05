@@ -29,7 +29,7 @@ export async function AppFooter() {
             </Link>
           ))}
         </nav>
-        <p className="s-num">{t("copyright", { year, company: company.legalName.en })}</p>
+        <p className="s-num">{t("copyright", { year, company: company.fullName.en })}</p>
       </div>
     </footer>
   );

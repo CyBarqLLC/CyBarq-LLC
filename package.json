@@ -2,7 +2,7 @@
   "name": "cybarq-platform",
   "version": "1.0.0",
   "private": true,
-  "description": "CyBarq Technology LLC. Public website, internal platform and client portal.",
+  "description": "CyBarq Technology. Public website, internal platform and client portal.",
   "engines": {
     "node": ">=20.9"
   },

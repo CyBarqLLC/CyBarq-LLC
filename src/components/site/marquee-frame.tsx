@@ -26,13 +26,13 @@ export function MarqueeFrame({ headingId, title, labels, children }: MarqueeFram
   return (
     <div className="site-marquee-root" data-paused={paused ? "" : undefined} data-playing={mode === "playing" ? "" : undefined}>
       <div className="mb-6 flex min-h-11 items-center justify-between gap-4">
-        <h2 id={headingId} className="text-label text-slate">
+        <h2 id={headingId} className="s-meta s-soft">
           {title}
         </h2>
         <button
           type="button"
           onClick={() => setMode(paused ? "playing" : "paused")}
-          className="site-marquee__control touch -me-2 inline-flex items-center px-2 text-small text-slate transition-colors duration-(--duration-state) hover:text-graphite motion-reduce:hidden"
+          className="site-marquee__control touch -me-2 inline-flex items-center px-2 text-small text-slate transition-colors hover:text-graphite motion-reduce:hidden"
         >
           {paused ? labels.play : labels.pause}
           <span className="sr-only"> {labels.subject}</span>

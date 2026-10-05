@@ -28,7 +28,7 @@ export function Symbol({ className, title }: LogoProps) {
 }
 
 /** Corporate bilingual lockup: formal documents only. */
-export function CorporateLogo({ className, title = "CyBarq Technology LLC" }: LogoProps) {
+export function CorporateLogo({ className, title = "CyBarq Technology" }: LogoProps) {
   return (
     <svg viewBox={CORPORATE_BILINGUAL_VIEWBOX} className={cn("h-10 w-auto fill-current", className)} role="img" aria-label={title}>
       <title>{title}</title>

@@ -7,8 +7,8 @@ import type { Bilingual } from "@/i18n/bilingual";
 export const careers = {
   title: { en: "Working at CyBarq", ar: "العمل في سايبرق" } satisfies Bilingual,
   lead: {
-    en: "A small, local team that builds and secures systems for organisations that depend on them. We work in a hybrid way, remotely and on site. We hire carefully and rarely, and we are always glad to hear from people who do good work.",
-    ar: "فريق محلي صغير يبني الأنظمة ويؤمّنها لمؤسسات تعتمد عليها. نعمل بنموذج هجين يجمع بين العمل عن بُعد والحضور المباشر. نوظّف بعناية وعلى فترات متباعدة، ويسعدنا دائماً أن نسمع ممن يتقنون عملهم.",
+    en: "A focused team that builds and secures systems for organisations that depend on them. We work in a hybrid way, remotely and on site. We hire carefully and rarely, and we are always glad to hear from people who do good work.",
+    ar: "فريق مركّز يبني الأنظمة ويؤمّنها لمؤسسات تعتمد عليها. نعمل بنموذج هجين يجمع بين العمل عن بُعد والحضور المباشر. نوظّف بعناية وعلى فترات متباعدة، ويسعدنا دائماً أن نسمع ممن يتقنون عملهم.",
   } satisfies Bilingual,
   sections: [
     {

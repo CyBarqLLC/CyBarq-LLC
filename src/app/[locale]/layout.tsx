@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
+import { publicMessages } from "@/i18n/messages";
 import { routing, dirOf, type Locale } from "@/i18n/routing";
 import { thmanyah } from "@/lib/fonts";
 import { Toaster } from "@/components/ui/toaster";
@@ -22,11 +23,11 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const base = siteUrl();
   return {
     metadataBase: new URL(base),
-    title: { default: company.legalName[l], template: `%s | ${company.name[l]}` },
+    title: { default: company.fullName[l], template: `%s | ${company.name[l]}` },
     description: company.description[l],
     applicationName: company.name.en,
     icons: { icon: "/brand/logo/symbol-graphite.svg", apple: "/apple-touch-icon.png" },
-    openGraph: { siteName: company.legalName[l], type: "website", locale: l === "ar" ? "ar_JO" : "en_US" },
+    openGraph: { siteName: company.fullName[l], type: "website", locale: l === "ar" ? "ar_AR" : "en_US" },
     twitter: { card: "summary_large_image" },
     robots: { index: true, follow: true },
   };
@@ -41,10 +42,12 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
   const dir = dirOf(locale);
+  // Public pages get the public namespaces and a neutral clock; the platform and portal layouts add theirs.
+  const messages = publicMessages(await getMessages());
   return (
     <html lang={locale} dir={dir} className={thmanyah.variable}>
       <body className="font-sans">
-        <NextIntlClientProvider>
+        <NextIntlClientProvider messages={messages} timeZone="UTC">
           {children}
           <Toaster dir={dir} />
         </NextIntlClientProvider>

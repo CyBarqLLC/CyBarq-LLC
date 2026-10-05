@@ -1,19 +1,18 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Link } from "@/i18n/navigation";
 import { Pictogram } from "@/components/brand/pictogram";
+import { Action } from "@/components/site/action";
 import { PageIntro } from "@/components/site/page-intro";
 import { SectionHeading } from "@/components/site/section-heading";
 import { Reveal } from "@/components/site/reveal";
 import { PracticeGrid } from "@/components/site/practice-grid";
-import { Stats } from "@/components/site/stats";
-import { StatementPanel } from "@/components/site/statement-panel";
 import { LogoGrid, LogoMarquee } from "@/components/site/logo-strip";
 import { CtaPanel } from "@/components/site/cta-panel";
 import { pageMetadata, resolveLocale } from "@/components/site/metadata";
 import { company } from "@/content/site/company";
 import { about } from "@/content/site/about";
 import { principles } from "@/content/site/principles";
+import { practices, services } from "@/content/services";
 
 type Props = { params: Promise<{ locale: string }> };
 
@@ -31,68 +30,81 @@ export default async function AboutPage({ params }: Props) {
   const th = await getTranslations("site.home");
   const ts = await getTranslations("site.services");
 
+  const figures = [
+    { value: String(practices.length), label: th("figures.practices") },
+    { value: String(services.length), label: th("figures.services") },
+    ...company.stats.map((stat) => ({ value: stat.value, label: stat.label[locale] })),
+  ];
+
   return (
     <>
       <PageIntro title={about.title[locale]} lead={about.lead[locale]} crumbs={[{ href: "/", label: tn("home") }, { label: tn("about") }]} />
 
-      <section className="border-t border-fog">
-        <Reveal className="container-page section grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
-          <h2 className="s-sub">{t("storyTitle")}</h2>
-          <div className="flex max-w-prose flex-col gap-6 s-lede text-graphite">
-            {about.story.map((p, i) => (
-              <p key={i}>{p[locale]}</p>
-            ))}
+      <section className="s-section">
+        <div className="container-page">
+          <div className="s-narrative">
+            <h2 className="s-title">{t("storyTitle")}</h2>
+            <Reveal className="s-prose">
+              {about.story.map((p, i) => (
+                <p key={i}>{p[locale]}</p>
+              ))}
+            </Reveal>
           </div>
-        </Reveal>
+        </div>
       </section>
 
-      <section className="border-t border-fog">
-        <div className="container-page section">
-          <SectionHeading title={company.legalName[locale]} className="mb-8 sm:mb-10" />
-          <Reveal>
-            <Stats locale={locale} />
+      <section className="s-section s-field-lime text-graphite" aria-labelledby="numbers-title">
+        <div className="container-page">
+          <Reveal stagger className="mb-16 flex flex-col gap-6 lg:mb-20">
+            <h2 id="numbers-title" className="s-display max-w-4xl">
+              {company.slogan[locale]}
+            </h2>
+            <p className="s-lede max-w-2xl">{th("statementBody")}</p>
           </Reveal>
-        </div>
-      </section>
-
-      <section className="border-t border-fog">
-        <div className="container-page section">
-          <SectionHeading
-            title={about.practicesTitle[locale]}
-            lead={about.practicesLead[locale]}
-            aside={
-              <Link href="/services" className="site-link text-azure">
-                {t("practicesLink")}
-              </Link>
-            }
-          />
-          <PracticeGrid locale={locale} linkLabel={ts("explore")} />
-        </div>
-      </section>
-
-      <StatementPanel tone="ice" statement={company.slogan[locale]} body={th("statementBody")} />
-
-      <section>
-        <div className="container-page section">
-          <SectionHeading title={about.howTitle[locale]} />
-          <Reveal stagger className="grid gap-px border border-fog bg-fog sm:grid-cols-2">
-            {principles.map((p) => (
-              <article key={p.key} className="flex flex-col gap-4 bg-white p-6 sm:p-10">
-                <Pictogram name={p.pictogram} className="size-10 text-graphite" />
-                <h3 className="s-h3">{p.title[locale]}</h3>
-                <p className="text-slate">{p.body[locale]}</p>
-              </article>
+          <Reveal as="dl" stagger className="s-figures">
+            {figures.map((f) => (
+              <div key={f.label}>
+                <dt>{f.label}</dt>
+                <dd className="s-figure">{f.value}</dd>
+              </div>
             ))}
           </Reveal>
         </div>
       </section>
 
-      <div className="border-t border-fog">
-        <div className="section flex flex-col gap-20 sm:gap-24 lg:gap-28">
-          <LogoMarquee id="partners" title={th("partnersTitle")} items={company.partners} labels={{ pause: th("logosPause"), play: th("logosPlay"), subject: th("logosSubject") }} />
-          <LogoGrid id="certifications" title={th("certificationsTitle")} items={company.certifications} />
+      <section className="s-section" aria-labelledby="practices-title">
+        <div className="container-page">
+          <SectionHeading id="practices-title" title={about.practicesTitle[locale]} lead={about.practicesLead[locale]} />
+          <PracticeGrid locale={locale} countLabel={(count) => ts("count", { count })} />
+          <Reveal className="mt-10 flex">
+            <Action href="/services" variant="line" arrow>
+              {t("practicesLink")}
+            </Action>
+          </Reveal>
         </div>
-      </div>
+      </section>
+
+      <section className="s-section s-field-surface" aria-labelledby="how-title">
+        <div className="container-page">
+          <SectionHeading id="how-title" title={about.howTitle[locale]} lead={th("approachLead")} />
+          <ul className="s-rows">
+            {principles.map((p) => (
+              <Reveal as="li" key={p.key} className="s-row">
+                <Pictogram name={p.pictogram} className="size-10 text-azure" />
+                <h3 className="s-sub">{p.title[locale]}</h3>
+                <p className="s-row__body">{p.body[locale]}</p>
+              </Reveal>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="s-section" aria-label={th("partnersTitle")}>
+        <div className="container-page flex flex-col gap-20 lg:gap-24">
+          <LogoMarquee id="partners" title={th("partnersTitle")} items={company.partners} labels={{ pause: th("logosPause"), play: th("logosPlay"), subject: th("logosSubject") }} />
+          <LogoGrid id="credentials" title={t("credentialsTitle")} items={company.certifications} />
+        </div>
+      </section>
 
       <CtaPanel title={th("ctaTitle")} body={th("ctaBody")} primary={{ href: "/contact", label: th("ctaButton") }} secondary={{ href: "/careers", label: tn("careers") }} />
     </>

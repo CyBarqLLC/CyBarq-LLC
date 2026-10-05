@@ -122,7 +122,7 @@ export function CommercialDocument({ data }: { data: CommercialDocumentData }) {
   }
 
   return (
-    <Document title={`${docName.en} ${number}`} author={company.legalName.en} creator="CyBarq Platform" producer="CyBarq Platform">
+    <Document title={`${docName.en} ${number}`} author={company.documents.legalName.en} creator="CyBarq Platform" producer="CyBarq Platform">
       <Page size="A4" style={s.page}>
         {/* Header: logo at the start, document type and number at the end */}
         <View style={s.header}>

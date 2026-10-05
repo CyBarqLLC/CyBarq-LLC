@@ -43,7 +43,7 @@ export function LatestContent({ locale, news, articles, caseStudies, labels }: L
       {links.length > 0 ? (
         <Reveal className="mt-8 flex flex-wrap gap-x-8 gap-y-2 text-small">
           {links.map((l) => (
-            <Link key={l.href} href={l.href} className="site-link text-azure">
+            <Link key={l.href} href={l.href} className="site-link font-medium text-azure">
               {l.label}
             </Link>
           ))}

@@ -1,6 +1,6 @@
 {
   "brand": "CyBarq",
-  "company": "CyBarq Technology LLC",
+  "company": "CyBarq Technology",
   "slogan": "Technology, done properly.",
   "skipToContent": "Skip to content",
   "switchLanguage": "العربية",
@@ -98,7 +98,6 @@
     "contact": "Contact",
     "legal": "Legal",
     "rights": "All rights reserved.",
-    "registered": "Registered in the Hashemite Kingdom of Jordan.",
     "privacy": "Privacy",
     "terms": "Terms",
     "verify": "Verify a certificate",

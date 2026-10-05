@@ -1,20 +1,21 @@
 /**
- * Company facts carried over from the existing cybarq.com and the 2026 brand
- * guidelines. Single source for contact, legal and social details.
+ * Company facts for the public site and the platform. Single source for the
+ * name, contact and social details.
+ *
+ * The public identity is the name and nothing else: CyBarq Technology in
+ * English, سايبرق لتكنولوجيا المعلومات in Arabic. No page, header, footer or
+ * metadata says where or how the company is registered or licensed.
  */
 export const company = {
   name: { en: "CyBarq", ar: "سايبرق" },
-  legalName: { en: "CyBarq Technology LLC", ar: "سايبرق للتكنولوجيا" },
-  /** Jordan registered name. Legal, tax and government use only. */
-  jordanLegalName: "برق الفضاء لتكنولوجيا وأمن المعلومات ذ.م.م",
+  /** The full company name, as it appears in footers, titles and structured data. */
+  fullName: { en: "CyBarq Technology", ar: "سايبرق لتكنولوجيا المعلومات" },
   slogan: { en: "Technology, done properly.", ar: "التقنية كما ينبغي." },
   /** Default meta description and the Organization description in structured data. */
   description: {
-    en: "CyBarq is a Jordanian technology company based in Amman. One team builds software, runs the infrastructure under it and secures both, working remotely and on site as each project calls for.",
-    ar: "سايبرق شركة تقنية أردنية مقرها عمّان. فريق واحد يبني البرمجيات، ويشغّل البنية التي تقوم عليها، ويؤمّن الاثنين، عن بُعد وفي الموقع بحسب ما يحتاجه كل مشروع.",
+    en: "CyBarq Technology builds software, runs the infrastructure beneath it and keeps both secure. One team across cybersecurity, digital engineering, AI and infrastructure, working with people and businesses around the world.",
+    ar: "سايبرق لتكنولوجيا المعلومات تبني البرمجيات، وتشغّل البنية التي تقوم عليها، وتحافظ على أمن الاثنين. فريق واحد في الأمن السيبراني والهندسة الرقمية والذكاء الاصطناعي والبنية التحتية، يعمل مع الأفراد والشركات حول العالم.",
   },
-  /** Registered office city. Used on documents (PDF headers and certificates). */
-  city: { en: "Amman, Jordan", ar: "عمّان، الأردن" },
   foundedYear: 2024,
   domain: "cybarq.com",
   url: "https://cybarq.com",
@@ -29,21 +30,19 @@ export const company = {
     facebook: "https://www.facebook.com/cybarqllc",
     x: "https://x.com/cybarqllc",
   },
-  registration: {
-    en: "CyBarq is registered with the Companies Control Department in the Hashemite Kingdom of Jordan. Licensing was completed following the required regulatory approvals from the Ministry of Digital Economy and Entrepreneurship and the National Cyber Security Center.",
-    ar: "سايبرق شركة مسجلة رسمياً لدى دائرة مراقبة الشركات في المملكة الأردنية الهاشمية، واستكملت إجراءات الترخيص وفق الموافقات النظامية الصادرة عن وزارة الاقتصاد الرقمي والريادة والمركز الوطني للأمن السيبراني.",
-  },
   /**
-   * Jordanian national establishment number (الرقم الوطني الأردني للمنشأة). It
-   * identifies the company in official and tax records, so it is printed on
-   * the site and in the footer of every document. `null` renders nothing.
+   * Issuer details for invoices and quotations only (`src/lib/pdf`). These are
+   * commercial and tax documents sent to a client, not part of the website,
+   * and nothing under this key may be rendered on a public page.
    */
-  nationalNumber: "200201310" as string | null,
-  /** Figures carried over from the existing site. Update here only. */
+  documents: {
+    legalName: { en: "CyBarq Technology LLC", ar: "سايبرق للتكنولوجيا" },
+    registeredName: "برق الفضاء لتكنولوجيا وأمن المعلومات ذ.م.م",
+    nationalNumber: "200201310" as string | null,
+  },
+  /** Figures shown on the site. Update here only. */
   stats: [
-    { value: "2024", label: { en: "Officially registered", ar: "تاريخ التسجيل الرسمي" } },
     { value: "10+", label: { en: "Years of combined team experience", ar: "سنوات من الخبرة المجمّعة للفريق" } },
-    { value: "8+", label: { en: "Specialists on the team", ar: "متخصصون في الفريق" } },
     { value: "300+", label: { en: "Cases handled", ar: "حالة تم التعامل معها" } },
   ],
   /**
@@ -61,7 +60,8 @@ export const company = {
     { name: "Splunk", logo: "/images/partners/partner8.svg", ratio: 358.72 / 106.41 },
   ],
   /**
-   * Certification badges as supplied (PNG). `name` repeats what each badge
+   * Professional credentials held by the team (vendor and industry exams, as
+   * badges supplied in PNG). `name` repeats what each badge
    * reads and is used as its alternative text; `ratio` is the image's pixel
    * width to height.
    */

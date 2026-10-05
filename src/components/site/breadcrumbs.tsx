@@ -4,28 +4,25 @@ import { cn } from "@/lib/utils/cn";
 
 export type Crumb = { href?: string; label: string };
 
-/** Small breadcrumb trail. The last item is the current page and is not a link. */
+/** Small breadcrumb trail in the inks of its ground. The last item is the current page and is not a link. */
 export function Breadcrumbs({ items, className, label }: { items: Crumb[]; className?: string; label?: string }) {
   const t = useTranslations("site.nav");
   return (
-    <nav aria-label={label ?? t("breadcrumb")} className={cn("text-slate", className)}>
-      {/* The size sits on the list: cn() would read text-small as a colour and drop it next to text-slate. */}
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-small">
+    <nav aria-label={label ?? t("breadcrumb")} className={cn("s-crumbs", className)}>
+      <ol className="flex flex-wrap items-center gap-x-2.5 gap-y-1">
         {items.map((item, i) => {
           const last = i === items.length - 1;
           return (
-            <li key={`${item.label}-${i}`} className="flex min-w-0 items-center gap-2">
+            <li key={`${item.label}-${i}`} className="flex min-w-0 items-center gap-2.5">
               {item.href && !last ? (
-                <Link href={item.href} className="transition-colors duration-(--duration-state) hover:text-azure">
-                  {item.label}
-                </Link>
+                <Link href={item.href}>{item.label}</Link>
               ) : (
-                <span aria-current={last ? "page" : undefined} className={cn("truncate", last && "text-graphite")}>
+                <span aria-current={last ? "page" : undefined} className="truncate">
                   {item.label}
                 </span>
               )}
               {!last ? (
-                <span aria-hidden className="text-grey">
+                <span aria-hidden className="opacity-50">
                   /
                 </span>
               ) : null}

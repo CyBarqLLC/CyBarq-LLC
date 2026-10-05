@@ -12,10 +12,10 @@ export function LegalDocumentView({ document, locale, updatedLabel, crumbs }: Le
   return (
     <>
       <PageIntro title={document.title[locale]} lead={document.intro[locale]} meta={updatedLabel(formatDate(document.updated, locale, "long"))} crumbs={crumbs} />
-      <div className="container-page pb-16 sm:pb-24">
+      <div className="container-page pb-(--s-rhythm)">
         {document.sections.map((section) => (
-          <section key={section.title.en} className="grid gap-4 border-t border-fog py-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
-            <h2 className="s-sub lg:sticky lg:top-[calc(var(--site-header-offset)+1.5rem)] lg:self-start">{section.title[locale]}</h2>
+          <section key={section.title.en} className="s-narrative">
+            <h2 className="s-sub">{section.title[locale]}</h2>
             <Reveal className="flex max-w-prose flex-col gap-4 leading-relaxed">
               {section.paragraphs.map((p, i) => (
                 <p key={i}>{p[locale]}</p>

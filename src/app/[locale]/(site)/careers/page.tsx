@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { Button } from "@/components/ui/button";
+import { Action } from "@/components/site/action";
 import { PageIntro } from "@/components/site/page-intro";
 import { Reveal } from "@/components/site/reveal";
 import { pageMetadata, resolveLocale } from "@/components/site/metadata";
@@ -27,32 +27,30 @@ export default async function CareersPage({ params }: Props) {
     <>
       <PageIntro title={careers.title[locale]} lead={careers.lead[locale]} crumbs={[{ href: "/", label: tn("home") }, { label: tn("careers") }]} />
 
-      <div className="container-page pb-4">
+      <div className="container-page py-6 sm:py-10">
         {careers.sections.map((s) => (
-          <Reveal as="section" key={s.title.en} className="grid gap-4 border-t border-fog py-10 sm:py-14 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
+          <Reveal as="section" key={s.title.en} className="s-narrative">
             <h2 className="s-sub">{s.title[locale]}</h2>
-            <p className="max-w-prose s-lede text-graphite">{s.body[locale]}</p>
+            <p className="s-prose">{s.body[locale]}</p>
           </Reveal>
         ))}
       </div>
 
-      <section className="border-t border-fog bg-ice">
-        <Reveal className="container-page section grid gap-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
-          <div>
+      <section className="s-field-blue text-graphite">
+        <Reveal className="container-page flex flex-col gap-10 py-20 sm:py-24 lg:flex-row lg:items-end lg:justify-between lg:gap-16 lg:py-28">
+          <div className="max-w-3xl">
             <h2 className="s-title">{careers.applyTitle[locale]}</h2>
-            <p className="s-lede mt-5 max-w-prose">{careers.applyBody[locale]}</p>
-            <p className="mt-5 text-small text-slate">
+            <p className="s-lede mt-5 max-w-2xl">{careers.applyBody[locale]}</p>
+            <p className="mt-5 text-small text-graphite/80">
               {t("verifyNote")}{" "}
-              <Link href="/verify" className="text-azure underline underline-offset-4">
+              <Link href="/verify" className="font-medium text-graphite underline underline-offset-4">
                 {tn("verify")}
               </Link>
             </p>
           </div>
-          <div className="lg:justify-self-end">
-            <Button asChild size="lg" className="h-auto min-h-12 whitespace-normal py-3 text-start">
-              <a href={`mailto:${email}?subject=${encodeURIComponent(t("mailSubject"))}`}>{t("applyButton", { email })}</a>
-            </Button>
-          </div>
+          <Action href={`mailto:${email}?subject=${encodeURIComponent(t("mailSubject"))}`} arrow className="shrink-0">
+            {t("applyButton", { email })}
+          </Action>
         </Reveal>
       </section>
     </>

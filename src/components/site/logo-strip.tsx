@@ -61,7 +61,7 @@ export function LogoMarquee({ id, title, items, labels, className }: LogoMarquee
   };
 
   return (
-    <Reveal as="section" aria-labelledby={headingId} className={cn("container-page", className)}>
+    <Reveal as="section" aria-labelledby={headingId} className={className}>
       <MarqueeFrame headingId={headingId} title={title} labels={labels}>
         <div className="site-marquee">
           <div className="site-marquee__track" style={{ animationDuration: duration }}>
@@ -88,9 +88,9 @@ export function LogoGrid({ id, title, items, className }: LogoGridProps) {
   if (items.length === 0) return null;
   const headingId = `${id}-title`;
   return (
-    <section aria-labelledby={headingId} className={cn("container-page", className)}>
+    <section aria-labelledby={headingId} className={className}>
       <Reveal>
-        <h2 id={headingId} className="mb-6 flex min-h-11 items-center text-label text-slate">
+        <h2 id={headingId} className="s-meta s-soft mb-6 flex min-h-11 items-center">
           {title}
         </h2>
       </Reveal>

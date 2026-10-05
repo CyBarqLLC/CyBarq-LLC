@@ -140,7 +140,7 @@ const facts = {
 
 /** The national establishment number lines the real company facts add to every footer. */
 const nationalLines = (locale: "en" | "ar") =>
-  company.nationalNumber ? [`${locale === "ar" ? "الرقم الوطني الأردني للمنشأة" : "Jordanian National Establishment No."} ${company.nationalNumber}`] : [];
+  company.documents.nationalNumber ? [`${locale === "ar" ? "الرقم الوطني الأردني للمنشأة" : "Jordanian National Establishment No."} ${company.documents.nationalNumber}`] : [];
 
 describe("document footer data", () => {
   beforeEach(() => {
@@ -215,9 +215,9 @@ describe("invoice document data", () => {
 
   it("carries the footer with the Jordan legal name", async () => {
     const data = await invoiceDocumentData(invoiceRow(), [], null);
-    expect(data.footer.legalLines[0]).toBe(company.legalName.en);
-    expect(data.footer.legalLines).toContain(company.jordanLegalName);
-    expect(data.footer.legalLines).toEqual([company.legalName.en, company.jordanLegalName, ...nationalLines("en"), ...nationalLines("ar")]);
+    expect(data.footer.legalLines[0]).toBe(company.documents.legalName.en);
+    expect(data.footer.legalLines).toContain(company.documents.registeredName);
+    expect(data.footer.legalLines).toEqual([company.documents.legalName.en, company.documents.registeredName, ...nationalLines("en"), ...nationalLines("ar")]);
     expect(data.footer.websiteQrDataUrl).toMatch(DATA_URL);
     expect(data.client).toEqual({ name: { en: "", ar: null } });
   });
@@ -232,7 +232,7 @@ describe("invoice document data", () => {
     expect(data.terms).toEqual({ en: "Net 30.", ar: "30 يوماً." });
     expect(data.items.map((i) => i.description)).toEqual([{ en: "Consulting day", ar: "يوم استشاري" }, { en: "Report", ar: null }]);
     /* The footer of a bilingual document always leads with the English name. */
-    expect(data.footer.legalLines[0]).toBe(company.legalName.en);
+    expect(data.footer.legalLines[0]).toBe(company.documents.legalName.en);
   });
 
   it("keeps drafts unnumbered and exposes the void reason only when void", async () => {
@@ -260,7 +260,7 @@ describe("quote document data", () => {
     expect(data.title).toEqual({ en: "Penetration test", ar: null });
     expect(data.terms).toEqual({ en: "Valid for 30 days.", ar: null });
     expect(data.notes).toBeNull();
-    expect(data.footer.legalLines).toEqual([company.legalName.en, company.jordanLegalName, ...nationalLines("en"), ...nationalLines("ar")]);
+    expect(data.footer.legalLines).toEqual([company.documents.legalName.en, company.documents.registeredName, ...nationalLines("en"), ...nationalLines("ar")]);
   });
 });
 
@@ -286,7 +286,7 @@ describe("certificate document data", () => {
     expect(Buffer.from(data.qrDataUrl.split(",")[1] ?? "", "base64").toString("utf8")).toBe(data.verificationUrl);
     expect(data.footer.websiteQrDataUrl).toMatch(DATA_URL);
     expect(data.footer.websiteQrDataUrl).not.toBe(data.qrDataUrl);
-    expect(data.footer.legalLines).toEqual([company.legalName.en, ...nationalLines("en")]);
+    expect(data.footer.legalLines).toEqual([company.fullName.en]);
   });
 
   it("localises to Arabic with the English fallback", async () => {
@@ -296,6 +296,6 @@ describe("certificate document data", () => {
     expect(data.title).toBe("أساسيات الاستجابة للحوادث");
     expect(data.programName).toBe("Blue team programme");
     expect(data.hours).toBeNull();
-    expect(data.footer.legalLines).toEqual([company.legalName.ar, ...nationalLines("ar")]);
+    expect(data.footer.legalLines).toEqual([company.fullName.ar]);
   });
 });

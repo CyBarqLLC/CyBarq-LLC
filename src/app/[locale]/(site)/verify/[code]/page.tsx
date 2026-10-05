@@ -65,8 +65,8 @@ export default async function VerifyCodePage({ params }: Props) {
     <>
       <PageIntro title={t("title")} crumbs={[{ href: "/", label: tn("home") }, { href: "/verify", label: tn("verify") }, { label: code || "" }]} />
 
-      <section className="border-t border-fog">
-        <div className="container-page grid gap-10 py-14 sm:py-20 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-16">
+      <section className="s-section">
+        <div className="container-page grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:gap-16">
           <div>
             {!allowed ? (
               <ResultPanel tone="warning" title={t("rateLimitedTitle")} body={t("rateLimitedBody")} />

@@ -69,10 +69,21 @@ export async function createThing(_prev: ActionResult<{ id: string }> | null, fo
 - Links: `Link`, `redirect`, `usePathname`, `useRouter` from `@/i18n/navigation` (locale aware). Never hardcode `/en/` in `href`s.
 - Public pages: `generateMetadata` with title, description, `alternates.canonical` and `alternates.languages` (`en`, `ar`, `x-default`), Open Graph.
 
+## Public identity
+
+- The company appears publicly as **CyBarq Technology** (Arabic: **سايبرق لتكنولوجيا المعلومات**) and nothing else: `company.fullName`. Never "LLC" or any other legal designation.
+- No public page, header, footer, metadata or structured data mentions registration, licensing, establishment numbers, government bodies, a registered office, a country of incorporation or a governing jurisdiction. Do not add any.
+- `company.documents` (legal name, registered name, national number) exists for invoices and quotations only (`src/lib/pdf`). Nothing under it may be rendered on a page or on a certificate.
+- Positioning is global: write about what we build, who it is for and how we work. Do not tie the company to a city or a country, and do not claim coverage we have not been told about ("in every country").
+- Public pages send only the public message namespaces to the browser (`PUBLIC_NAMESPACES` in `src/i18n/messages.ts`); the platform and portal layouts add the rest.
+
 ## Design
 
-- Brand palette only (`blue`, `sky`, `ice`, `lime`, `lime-tint`, `graphite`, `slate`, `grey`, `fog`, `white`, `azure` for links). Square corners. 1px Fog rules. No dashed or dotted lines, no gradients in UI, no shadows beyond the two soft panel shadows already used by menus.
-- Public site: white ground, generous whitespace, light weight display type, one field of colour per section at most, Lime rarely (a quiet background tint). Graphite sections only when they carry one clear statement.
+- Brand palette only (`blue`, `sky`, `ice`, `lime`, `lime-tint`, `graphite`, `slate`, `grey`, `fog`, `white`, `azure` for links). Square corners. No gradients, no shadows beyond the two soft panel shadows already used by menus.
+- Public site (`src/styles/site.css`): two grounds, white and night (`s-night`, Graphite), and three fields used one at a time (`s-field-surface`, `s-field-lime`, `s-field-blue`). Every page opens on the night ground (`Hero` on the home page, `PageIntro` elsewhere) and closes on the blue `CtaPanel` above the night footer.
+- Type: Thmanyah Sans, medium for headings (`s-display`, `s-title`, `s-sub`, `s-h3`), regular for text (`s-lede`). A section opens with `SectionHeading` (title at the start, lead at the end); nothing sits above a title.
+- Actions: `Action` (`solid` on white, `bright` on night and coloured fields, `line` anywhere). Cards: `s-card` in an `s-cards` grid (`ServiceCard`, `ContentCard`, `PracticeGrid`).
+- Component styles live in `@layer components`, so a utility on the element always wins.
 - Icons: `Pictogram` (brand set) on the public site for services and values; `lucide-react` (thin) inside the platform for UI actions.
 - Touch targets 44px (`touch` utility). Mobile first; test 320 to 1920. Safe areas via `safe-px` / `safe-pb`.
 

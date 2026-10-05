@@ -19,35 +19,67 @@
     "breadcrumb": "Breadcrumb"
   },
   "home": {
-    "title": "We build the systems your work depends on, and we look after them.",
-    "lead": "CyBarq is a Jordanian technology company. We design and build software, run the infrastructure beneath it, and keep both secure.",
-    "primaryCta": "Talk to us",
-    "secondaryCta": "What we do",
-    "ledgerLabel": "Practices",
-    "indexIntro": "Four practices. Choose the one closest to what you need, or write to us and we will point you to it.",
-    "statementBody": "Doing it properly means agreeing the scope in writing, explaining what we find in plain words, and leaving you able to work without us.",
+    "title": "Technology you can rely on, wherever you are.",
+    "lead": "CyBarq Technology designs and builds software, runs the infrastructure beneath it, and keeps both secure. One team, working with people and businesses around the world.",
+    "primaryCta": "Start a conversation",
+    "secondaryCta": "Explore our services",
+    "factsLabel": "How we work, in short",
+    "facts": {
+      "team": {
+        "title": "One team, four practices",
+        "body": "Security, engineering, AI and infrastructure, working as one."
+      },
+      "languages": {
+        "title": "Arabic and English",
+        "body": "We work and write in both."
+      },
+      "reach": {
+        "title": "Remote and on site",
+        "body": "Wherever the project is, in the way it calls for."
+      },
+      "written": {
+        "title": "Written and handed over",
+        "body": "Scope, findings and documentation are yours to keep."
+      }
+    },
+    "buildTitle": "What we build and look after",
+    "buildLead": "Four practices that work as one. Start with the one closest to what you need; the others are there when the work calls for them.",
+    "serveTitle": "Who we work with",
+    "serveLead": "Organisations of different sizes come to us at different moments. Most arrive through one of these three doors.",
+    "serve": {
+      "build": {
+        "title": "Teams building something new",
+        "body": "A product, a platform or an internal system that has to work from the first day. We design it, build it, and stay until your team can run it."
+      },
+      "run": {
+        "title": "Organisations running critical systems",
+        "body": "Systems that cannot go down and data that cannot leak. We test them, harden them, watch them, and respond when something goes wrong."
+      },
+      "ai": {
+        "title": "Businesses putting AI to work",
+        "body": "Assistants, agents and automation inside the systems you already use, built with the same care for security and cost as everything else."
+      }
+    },
     "approachTitle": "How we work",
-    "approachIntro": "A few things we hold to, whatever the project.",
+    "approachLead": "A few things we hold to, whatever the project and wherever it is.",
+    "statementBody": "Doing it properly means agreeing the scope in writing, explaining what we find in plain words, and leaving you able to work without us.",
+    "figures": {
+      "practices": "Practices under one team",
+      "services": "Services, each with a defined deliverable"
+    },
+    "partnersTitle": "Technology partners",
     "latestTitle": "Recent writing and work",
     "viewAllNews": "All news",
     "viewAllArticles": "All articles",
     "viewAllCaseStudies": "All case studies",
-    "partnersTitle": "Partners",
-    "certificationsTitle": "Certifications",
     "logosPause": "Pause",
     "logosPlay": "Play",
     "logosSubject": "logo animation",
-    "ctaTitle": "We would be glad to hear from you.",
-    "ctaBody": "A few sentences about what you are working on is enough. We will read it and reply.",
-    "ctaButton": "Talk to us",
-    "seoTitle": "CyBarq Technology LLC. Technology, done properly.",
-    "seoDescription": "CyBarq is a Jordanian technology company. Software, infrastructure, cybersecurity and AI from one team in Amman.",
-    "sheets": {
-      "index": "What we do",
-      "approach": "How we work",
-      "latest": "Latest",
-      "trust": "Partners and certifications"
-    }
+    "ctaTitle": "Tell us what you are working on.",
+    "ctaBody": "A few sentences are enough. A person reads every message, and you will hear back.",
+    "ctaButton": "Start a conversation",
+    "seoTitle": "CyBarq Technology. Technology, done properly.",
+    "seoDescription": "CyBarq Technology builds software, runs the infrastructure beneath it and keeps both secure. Cybersecurity, digital engineering, AI and infrastructure from one team, for businesses around the world."
   },
   "services": {
     "title": "Services",
@@ -61,13 +93,15 @@
   },
   "about": {
     "title": "About CyBarq",
-    "seoDescription": "CyBarq officially began in 2024. A Jordanian technology company whose work spans software engineering, infrastructure, cybersecurity and AI.",
+    "seoDescription": "CyBarq Technology began in 2024. One team whose work spans software engineering, infrastructure, cybersecurity and AI, for clients across borders.",
     "storyTitle": "How we got here",
-    "practicesLink": "See the services"
+    "practicesLink": "See the services",
+    "numbersTitle": "CyBarq in numbers",
+    "credentialsTitle": "Professional credentials held by our team"
   },
   "careers": {
     "seoTitle": "Careers",
-    "seoDescription": "Working at CyBarq: a small team in Amman with a hybrid way of working. How the team works, what we look for, and how to get in touch.",
+    "seoDescription": "Working at CyBarq: a focused team with a hybrid way of working. How the team works, what we look for, and how to get in touch.",
     "applyButton": "Write to {email}",
     "mailSubject": "Careers at CyBarq",
     "verifyNote": "Certificates issued by CyBarq can be checked on the verification page."
@@ -75,7 +109,7 @@
   "contact": {
     "title": "Contact",
     "lead": "Write to whichever address fits, or use the form. A person reads every message, and you will hear back.",
-    "seoDescription": "Contact CyBarq about new work, support on an active engagement, partnerships or general questions. A Jordanian technology company based in Amman.",
+    "seoDescription": "Contact CyBarq Technology about new work, support on an active engagement, partnerships or general questions.",
     "channelsTitle": "Channels",
     "channels": {
       "general": {
@@ -91,7 +125,6 @@
         "description": "For active engagements, technical questions, and incidents."
       }
     },
-    "location": "A Jordanian company, based in Amman. We work with clients here and in the region, remotely and on site.",
     "form": {
       "title": "Tell us what you need",
       "name": "Name",
@@ -116,7 +149,8 @@
         "rateLimited": "Too many messages from this connection. Please try again in a few minutes or email us directly.",
         "generic": "We could not send your message. Please try again or email us directly."
       }
-    }
+    },
+    "reach": "We work with clients across time zones, remotely and on site, in Arabic and English."
   },
   "verify": {
     "title": "Verify a certificate",
@@ -127,8 +161,8 @@
     "submit": "Verify",
     "statusValid": "Valid",
     "statusRevoked": "Revoked",
-    "validBody": "This certificate was issued by CyBarq Technology LLC and is valid.",
-    "revokedBody": "This certificate was issued by CyBarq Technology LLC but has since been revoked and is no longer valid.",
+    "validBody": "This certificate was issued by CyBarq Technology and is valid.",
+    "revokedBody": "This certificate was issued by CyBarq Technology but has since been revoked and is no longer valid.",
     "notFoundTitle": "No certificate found",
     "notFoundBody": "We could not find a certificate with this code. Check the code for typing mistakes and try again. If you believe this is an error, contact info@cybarq.com.",
     "rateLimitedTitle": "Too many attempts",
@@ -152,19 +186,14 @@
   },
   "legal": {
     "updated": "Last updated {date}",
-    "privacySeo": "How CyBarq Technology LLC collects, uses, stores and retains personal data through cybarq.com and the CyBarq platform.",
-    "termsSeo": "Terms of use for cybarq.com and the CyBarq platform and client portal operated by CyBarq Technology LLC."
+    "privacySeo": "How CyBarq Technology collects, uses, stores and retains personal data through cybarq.com and the CyBarq platform.",
+    "termsSeo": "Terms of use for cybarq.com and the CyBarq platform and client portal operated by CyBarq Technology."
   },
   "footer": {
-    "tagline": "A Jordanian technology company. We build software, run the infrastructure beneath it, and keep both secure.",
+    "tagline": "We build software, run the infrastructure beneath it, and keep both secure, for people and businesses around the world.",
     "social": "CyBarq on social media",
-    "newTab": "(opens in a new tab)"
-  },
-  "registration": {
-    "heading": "Official registration",
-    "number": "National establishment number with the Companies Control Department and the National Cyber Security Center {number}",
-    "legalNameLabel": "Registered in Jordan as",
-    "alt": "The National Cyber Security Center and Companies Control Department marks"
+    "newTab": "(opens in a new tab)",
+    "allServices": "All services"
   },
   "content": {
     "projects": {

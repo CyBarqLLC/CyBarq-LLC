@@ -32,7 +32,7 @@ export function pageMetadata({ locale, path, title, description, type = "website
     title,
     description,
     url: canonical,
-    locale: locale === "ar" ? "ar_JO" : "en_US",
+    locale: locale === "ar" ? "ar_AR" : "en_US",
     images: image ? [{ url: image }] : undefined,
   };
   const openGraph: Metadata["openGraph"] =

@@ -1,39 +1,62 @@
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/routing";
 import { Pictogram } from "@/components/brand/pictogram";
-import { practices, type PracticeSlug } from "@/content/services/registry";
+import { practices, servicesByPractice, servicePath, type PracticeSlug } from "@/content/services";
 import { cn } from "@/lib/utils/cn";
+import { Arrow } from "./action";
 import { Reveal } from "./reveal";
 
 type PracticeGridProps = {
   locale: Locale;
-  /** Label of the link at the end of each card ("Explore"). */
-  linkLabel: string;
-  /** Hide one practice (used on practice pages for the "other practices" strip). */
+  /** "7 services", already translated, for each practice. */
+  countLabel: (count: number) => string;
+  /** Hide one practice (the "other practices" strip of a practice page). */
   exclude?: PracticeSlug;
+  /** How many services each panel names. 0 hides the list (compact panels). */
+  services?: number;
   className?: string;
 };
 
-/** The practices as a grid of calm panels separated by 1px Fog rules (the inner pages; the home page uses PracticePanels). */
-export function PracticeGrid({ locale, linkLabel, exclude, className }: PracticeGridProps) {
+/**
+ * The practices as panels: the pictogram, the name, one line, a handful of
+ * the services inside as links of their own, and the count. The whole panel
+ * opens the practice; each chip opens its service.
+ */
+export function PracticeGrid({ locale, countLabel, exclude, services = 4, className }: PracticeGridProps) {
   const items = practices.filter((p) => p.slug !== exclude);
   return (
-    <Reveal as="ul" stagger className={cn("grid gap-px border border-fog bg-fog sm:grid-cols-2", items.length === 4 && "lg:grid-cols-4", items.length === 3 && "lg:grid-cols-3", className)}>
-      {items.map((p) => (
-        <li key={p.slug} className="bg-white">
-          <Link
-            href={`/services/${p.slug}`}
-            className="group flex h-full flex-col gap-5 p-6 transition-[background-color,box-shadow] duration-(--duration-state) hover:bg-ice/60 hover:shadow-[inset_0_0_0_1px_var(--color-graphite)] focus-visible:bg-ice/60 focus-visible:-outline-offset-2 sm:p-8"
-          >
-            <Pictogram name={p.pictogram} className="size-12 text-graphite" />
-            <div className="flex flex-1 flex-col gap-2">
-              <h3 className="s-h3">{p.title[locale]}</h3>
-              <p className="text-slate">{p.short[locale]}</p>
-            </div>
-            <span className="text-small text-azure underline-offset-4 group-hover:underline">{linkLabel}</span>
-          </Link>
-        </li>
-      ))}
+    <Reveal as="ul" stagger className={cn("s-cards", className)} data-columns={services === 0 ? items.length : 2}>
+      {items.map((p) => {
+        const list = servicesByPractice(p.slug);
+        return (
+          <li key={p.slug}>
+            <article className="s-card s-practice">
+              <div className="s-practice__top">
+                <h3 className="s-practice__title">
+                  <Link href={`/services/${p.slug}`}>{p.title[locale]}</Link>
+                </h3>
+                <Pictogram name={p.pictogram} className="size-11 shrink-0 text-azure lg:size-12" />
+              </div>
+              <p className="s-card__text max-w-md">{p.short[locale]}</p>
+              {services > 0 ? (
+                <ul className="s-practice__list">
+                  {list.slice(0, services).map((s) => (
+                    <li key={s.slug}>
+                      <Link href={servicePath(s)} className="s-chip">
+                        {s.title[locale]}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+              <p className="s-card__foot">
+                <span className="tabular-nums">{countLabel(list.length)}</span>
+                <Arrow />
+              </p>
+            </article>
+          </li>
+        );
+      })}
     </Reveal>
   );
 }
